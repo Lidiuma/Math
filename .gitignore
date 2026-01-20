@@ -10,6 +10,9 @@ lib/runtime/
 lib/standalone/
 lib/test/
 
+# Visual Studio Code ignores
+.vscode/
+
 # IDEA ignores
 
 # User-specific
