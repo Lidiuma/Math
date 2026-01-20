@@ -205,7 +205,7 @@ public value record Matrix4F32(
         );
     }
 
-    /// Creates an orthographic projection matrix, equivalent to OpenGL's glOrtho.
+    /// Creates an orthographic projection matrix, equivalent to OpenGL's glOrtho ([docs](https://registry.khronos.org/OpenGL-Refpages/gl2.1/xhtml/glOrtho.xml)).
     /// @param left   The left clipping plane (x-coordinate)
     /// @param right  The right clipping plane (x-coordinate)
     /// @param bottom The bottom clipping plane (y-coordinate)
@@ -213,7 +213,6 @@ public value record Matrix4F32(
     /// @param near   The near clipping plane (z-coordinate, must be less than far)
     /// @param far    The far clipping plane (z-coordinate, must be greater than near)
     /// @return       the new matrix representing the orthographic projection.
-    /// @see <a href="https://registry.khronos.org/OpenGL-Refpages/gl2.1/xhtml/glOrtho.xml">glOrtho documentation</a>
     public static Matrix4F32 fromOrtho(float left, float right, float bottom, float top, float near, float far) {
 
         final float xOrtho =  2f / (right - left);
