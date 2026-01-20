@@ -16,7 +16,7 @@
 
 package org.lidiuma.math.vector;
 
-import java.util.function.Function;
+import java.util.function.UnaryOperator;
 
 public interface Vector<T extends Vector<T, N>, N> {
 
@@ -105,7 +105,7 @@ public interface Vector<T extends Vector<T, N>, N> {
 
         T lerp(T target, N alpha);
 
-        T interpolate(T target, N alpha, Function<N, N> interpolator);
+        T interpolate(T target, N alpha, UnaryOperator<N> interpolator);
 
         boolean isUnit(N margin);
 

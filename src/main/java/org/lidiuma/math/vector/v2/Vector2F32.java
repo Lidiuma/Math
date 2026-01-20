@@ -22,7 +22,7 @@ import org.lidiuma.math.vector.v1.Vector1F32;
 import org.lidiuma.math.vector.v3.Vector3F32;
 import jdk.internal.vm.annotation.LooselyConsistentValue;
 import jdk.internal.vm.annotation.NullRestricted;
-import java.util.function.Function;
+import java.util.function.UnaryOperator;
 import static org.lidiuma.math.vector.Vectors.v2;
 
 @LooselyConsistentValue
@@ -240,7 +240,7 @@ public value record Vector2F32(@NullRestricted Float x,
     }
 
     @Override
-    public Vector2F32 interpolate(Vector2F32 target, Float alpha, Function<Float, Float> interpolator) {
+    public Vector2F32 interpolate(Vector2F32 target, Float alpha, UnaryOperator<Float> interpolator) {
         return lerp(target, interpolator.apply(alpha));
     }
 
