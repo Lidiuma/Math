@@ -16,6 +16,7 @@
 
 package org.lidiuma.math.matrix;
 
+import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.rotation.Quaternion;
 import org.lidiuma.math.rotation.Radians;
 import org.lidiuma.math.vector.v2.Vector2F32;
@@ -31,10 +32,10 @@ import static org.lidiuma.math.FloatingUtil.EPSILON;
 @LooselyConsistentValue
 public value record Matrix4F32(
         // I'm not using an array because it's an identity object, and this reads and feels better to work with.
-        float m00, float m01, float m02, float m03,
-        float m10, float m11, float m12, float m13,
-        float m20, float m21, float m22, float m23,
-        float m30, float m31, float m32, float m33
+        @NullRestricted Float m00, @NullRestricted Float m01, @NullRestricted Float m02, @NullRestricted Float m03,
+        @NullRestricted Float m10, @NullRestricted Float m11, @NullRestricted Float m12, @NullRestricted Float m13,
+        @NullRestricted Float m20, @NullRestricted Float m21, @NullRestricted Float m22, @NullRestricted Float m23,
+        @NullRestricted Float m30, @NullRestricted Float m31, @NullRestricted Float m32, @NullRestricted Float m33
 ) implements Matrix4<Matrix4F32, Float, Vector3F32> {
 
     public static final int M00 = 0, M01 = 4, M02 =  8, M03 = 12;
@@ -158,7 +159,7 @@ public value record Matrix4F32(
                 xAxis.x(), xAxis.y(), xAxis.z(), translation.x(),
                 yAxis.x(), yAxis.y(), yAxis.z(), translation.y(),
                 zAxis.x(), zAxis.y(), zAxis.z(), translation.z(),
-                0, 0, 0, 1
+                0f, 0f, 0f, 1f
         );
     }
 
@@ -174,10 +175,10 @@ public value record Matrix4F32(
         final float m22 = (far + near) / (near - far);
         final float m33 = (2f * far * near) / (near - far);
         return new Matrix4F32(
-                m00, 0, 0, 0,
-                0, focalLen, 0, 0,
-                0, 0, m22, m33,
-                0, 0, -1, 0
+                m00, 0f, 0f, 0f,
+                0f, focalLen, 0f, 0f,
+                0f, 0f, m22, m33,
+                0f, 0f, -1f, 0f
         );
     }
 
@@ -198,10 +199,10 @@ public value record Matrix4F32(
         float m22 = (far + near) / (near - far);
         float m23 = (2f * far * near) / (near - far);
         return new Matrix4F32(
-                m00, 0, m02, 0,
-                0, m11, m12, 0,
-                0, 0, m22, m23,
-                0, 0, -1, 0
+                m00, 0f, m02, 0f,
+                0f, m11, m12, 0f,
+                0f, 0f, m22, m23,
+                0f, 0f, -1f, 0f
         );
     }
 
@@ -224,10 +225,10 @@ public value record Matrix4F32(
         final float tz = -(far + near) / (far - near);
 
         return new Matrix4F32(
-                xOrtho, 0, 0, tx,
-                0, yOrtho, 0, ty,
-                0, 0, zOrtho, tz,
-                0, 0, 0, 1
+                xOrtho, 0f, 0f, tx,
+                0f, yOrtho, 0f, ty,
+                0f, 0f, zOrtho, tz,
+                0f, 0f, 0f, 1f
         );
     }
 
@@ -256,10 +257,10 @@ public value record Matrix4F32(
     /// @return creates an identity matrix having the 4th column set to the translation vector.
     public static Matrix4F32 fromTranslation(Vector3F32 translation) {
         return new Matrix4F32(
-                1, 0, 0, translation.x(),
-                0, 1, 0, translation.y(),
-                0, 0, 1, translation.z(),
-                0, 0, 0, 1
+                1f, 0f, 0f, translation.x(),
+                0f, 1f, 0f, translation.y(),
+                0f, 0f, 1f, translation.z(),
+                0f, 0f, 0f, 1f
         );
     }
 
@@ -325,10 +326,10 @@ public value record Matrix4F32(
     /// Creates a new Matrix from the 3x3 matrix, with the missing elements copied from the identity matrix.
     public static Matrix4F32 fromMatrix3(Matrix3F32 matrix) {
         return new Matrix4F32(
-                matrix.m00(), matrix.m01(), matrix.m02(), 0,
-                matrix.m10(), matrix.m11(), matrix.m12(), 0,
-                matrix.m20(), matrix.m21(), matrix.m22(), 0,
-                0, 0, 0, 1
+                matrix.m00(), matrix.m01(), matrix.m02(), 0f,
+                matrix.m10(), matrix.m11(), matrix.m12(), 0f,
+                matrix.m20(), matrix.m21(), matrix.m22(), 0f,
+                0f, 0f, 0f, 1f
         );
     }
 
@@ -674,10 +675,10 @@ public value record Matrix4F32(
 
     public Matrix4F64 asF64() {
         return new Matrix4F64(
-                m00, m01, m02, m03,
-                m10, m11, m12, m13,
-                m20, m21, m22, m23,
-                m30, m31, m32, m33
+                (double) m00, (double) m01, (double) m02, (double) m03,
+                (double) m10, (double) m11, (double) m12, (double) m13,
+                (double) m20, (double) m21, (double) m22, (double) m23,
+                (double) m30, (double) m31, (double) m32, (double) m33
         );
     }
 }

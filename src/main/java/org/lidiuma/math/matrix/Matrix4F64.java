@@ -16,6 +16,7 @@
 
 package org.lidiuma.math.matrix;
 
+import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.rotation.Quaternion;
 import org.lidiuma.math.rotation.Radians;
 import org.lidiuma.math.vector.v2.Vector2F32;
@@ -31,10 +32,10 @@ import static org.lidiuma.math.FloatingUtil.EPSILON;
 @LooselyConsistentValue
 public value record Matrix4F64(
         // I'm not using an array because it's an identity object, and this reads and feels better to work with.
-        double m00, double m01, double m02, double m03,
-        double m10, double m11, double m12, double m13,
-        double m20, double m21, double m22, double m23,
-        double m30, double m31, double m32, double m33
+        @NullRestricted Double m00, @NullRestricted Double m01, @NullRestricted Double m02, @NullRestricted Double m03,
+        @NullRestricted Double m10, @NullRestricted Double m11, @NullRestricted Double m12, @NullRestricted Double m13,
+        @NullRestricted Double m20, @NullRestricted Double m21, @NullRestricted Double m22, @NullRestricted Double m23,
+        @NullRestricted Double m30, @NullRestricted Double m31, @NullRestricted Double m32, @NullRestricted Double m33
 ) implements Matrix4<Matrix4F64, Double, Vector3F64> {
 
     public static final int M00 = 0, M01 = 4, M02 =  8, M03 = 12;
@@ -324,12 +325,12 @@ public value record Matrix4F64(
 
     /// Creates a view rotation matrix from a view direction and an up vector.
     /// This matrix contains rotation only; combine with a translation to form a full view matrix.
-    public static Matrix4F64 fromMatrix3(Matrix3F32 matrix) {
+    public static Matrix4F64 fromMatrix3(Matrix3F64 matrix) {
         return new Matrix4F64(
-                matrix.m00(), matrix.m01(), matrix.m02(), 0,
-                matrix.m10(), matrix.m11(), matrix.m12(), 0,
-                matrix.m20(), matrix.m21(), matrix.m22(), 0,
-                0, 0, 0, 1
+                matrix.m00(), matrix.m01(), matrix.m02(), 0d,
+                matrix.m10(), matrix.m11(), matrix.m12(), 0d,
+                matrix.m20(), matrix.m21(), matrix.m22(), 0d,
+                0d, 0d, 0d, 1d
         );
     }
 
@@ -675,10 +676,10 @@ public value record Matrix4F64(
 
     public Matrix4F32 asF32() {
         return new Matrix4F32(
-                (float) m00, (float) m01, (float) m02, (float) m03,
-                (float) m10, (float) m11, (float) m12, (float) m13,
-                (float) m20, (float) m21, (float) m22, (float) m23,
-                (float) m30, (float) m31, (float) m32, (float) m33
+                (float)(double) m00, (float)(double) m01, (float)(double) m02, (float)(double) m03,
+                (float)(double) m10, (float)(double) m11, (float)(double) m12, (float)(double) m13,
+                (float)(double) m20, (float)(double) m21, (float)(double) m22, (float)(double) m23,
+                (float)(double) m30, (float)(double) m31, (float)(double) m32, (float)(double) m33
         );
     }
 }

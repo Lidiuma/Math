@@ -53,6 +53,18 @@ public interface Matrix3<M extends Matrix3<M, N, V2, V3>, N, V2 extends Vector2<
         return 3;
     }
 
+    N m00();
+    N m01();
+    N m02();
+
+    N m10();
+    N m11();
+    N m12();
+
+    N m20();
+    N m21();
+    N m22();
+
     /// Transforms a 3D position vector using this matrix.
     /// @return the transformed vector.
     V3 transform(V3 vector);

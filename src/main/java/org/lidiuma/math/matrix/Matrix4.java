@@ -46,6 +46,26 @@ public interface Matrix4<M extends Matrix4<M, N, V>, N, V extends Vector3<V, N>>
         return 4;
     }
 
+    N m00();
+    N m01();
+    N m02();
+    N m03();
+
+    N m10();
+    N m11();
+    N m12();
+    N m13();
+
+    N m20();
+    N m21();
+    N m22();
+    N m23();
+
+    N m30();
+    N m31();
+    N m32();
+    N m33();
+
     /// Linearly interpolates between this matrix and the other matrix mixing by alpha.
     /// @param alpha the alpha value in the range `[0,1]`.
     M lerp(M other, N alpha);

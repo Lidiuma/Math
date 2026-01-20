@@ -16,6 +16,7 @@
 
 package org.lidiuma.math.matrix;
 
+import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.rotation.Quaternion;
 import org.lidiuma.math.rotation.Radians;
 import org.lidiuma.math.vector.v2.Vector2F32;
@@ -30,9 +31,9 @@ import static org.lidiuma.math.FloatingUtil.EPSILON;
 @LooselyConsistentValue
 @SuppressWarnings("unused")
 public value record Matrix3F32(
-        float m00, float m01, float m02,
-        float m10, float m11, float m12,
-        float m20, float m21, float m22
+        @NullRestricted Float m00, @NullRestricted Float m01, @NullRestricted Float m02,
+        @NullRestricted Float m10, @NullRestricted Float m11, @NullRestricted Float m12,
+        @NullRestricted Float m20, @NullRestricted Float m21, @NullRestricted Float m22
 ) implements Matrix3<Matrix3F32, Float, Vector2F32, Vector3F32> {
 
     public static Matrix3F32 identity() {
@@ -413,9 +414,9 @@ public value record Matrix3F32(
 
     public Matrix3F64 asF64() {
         return new Matrix3F64(
-                m00, m01, m02,
-                m10, m11, m12,
-                m20, m21, m22
+                (double) m00, (double) m01, (double) m02,
+                (double) m10, (double) m11, (double) m12,
+                (double) m20, (double) m21, (double) m22
         );
     }
 }
