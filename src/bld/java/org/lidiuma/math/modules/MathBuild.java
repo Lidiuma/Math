@@ -14,45 +14,41 @@
  * limitations under the License.
  */
 
-package org.lidiuma.math;
+package org.lidiuma.math.modules;
 
+import org.lidiuma.math.MainBuild;
 import rife.bld.NamedFile;
 import rife.bld.Project;
 import rife.bld.operations.CompileOperation;
 import rife.bld.operations.JarOperation;
 import rife.bld.operations.JavadocOperation;
-import rife.bld.operations.RunOperation;
+import rife.bld.operations.PublishOperation;
 import rife.bld.publish.*;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Clock;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.jar.Attributes;
-import static java.lang.String.format;
+import static org.lidiuma.math.MainBuild.GROUP_ID;
 import static rife.bld.dependencies.Repository.*;
 import static rife.bld.dependencies.Scope.*;
 
 public final class MathBuild extends Project {
 
-    private static final String JAVA_VERSION_NAME = "java-version.txt";
-    private final String groupId;
+    private final MainBuild build;
 
-    public MathBuild() throws IOException {
+    public MathBuild(MainBuild build) throws Exception {
 
-        final var projectPath = workDirectory().toPath();
+        this.build = build;
 
-        groupId = "org.lidiuma";
         name = "math";
-        pkg = groupId + "." + name();
+        pkg = GROUP_ID + "." + name();
         module = "lidiuma.math";
         version = version(0, 2, 0);
 
-        javaTool = Files.readString(projectPath.resolve(JAVA_VERSION_NAME)) + "/bin/java";
+        javaTool = build.retrieveJavaTool();
         downloadSources = true;
         repositories = List.of(MAVEN_CENTRAL, RIFE2_RELEASES);
 
@@ -64,52 +60,18 @@ public final class MathBuild extends Project {
                 .include(module("org.junit.platform", "junit-platform-console-standalone", junitVersion))
                 .include(module("org.junit.platform", "junit-platform-launcher", junitVersion));
 
-        configureMavenPublishing();
         addAttributesToJar(jarOperation());
         addAttributesToJar(jarSourcesOperation());
     }
 
-    private void configureMavenPublishing() {
-
-        final String org = "lidiuma";
-        final String artifactId = name();
-        final String github = "https://github.com";
-        final String project = format("%s/%s/%s", github, org, artifactId);
-
-        final var license = new PublishLicense()
-                .name("The Apache License, Version 2.0")
-                .url("https://www.apache.org/licenses/LICENSE-2.0.txt");
-
-        final String devName = "Xasmedy";
-        final var developer = new PublishDeveloper()
-                .id(devName.toLowerCase())
-                .name(devName)
-                .email("xasmedy@pm.me")
-                .url(format("%s/%s", github, devName));
-
-        final var scm = new PublishScm()
-                .connection(format("scm:git:%s.git", project))
-                .developerConnection(format("scm:git:git@github.com:%s/%s.git", org, artifactId))
-                .url(project);
-
-        final var publishInfo = new PublishInfo()
-                .groupId(groupId)
-                .artifactId(artifactId)
-                .version(version())
-                .name("Math")
-                .description("Valhalla-based Math Library")
-                .url(project)
-                .developer(developer)
-                .license(license)
-                .scm(scm)
-                .signKey(property("sign.key"))
-                .signPassphrase(property("sign.passphrase"));
-
-        publishOperation()
-                .repositories(CENTRAL_RELEASES.withCredentials(
-                        property("sonatype.username"),
-                        property("sonatype.password")
-                )).info(publishInfo);
+    @Override
+    public PublishOperation publishOperation() {
+        final var op = super.publishOperation();
+        op.repositories(CENTRAL_RELEASES.withCredentials(
+                property("sonatype.username"),
+                property("sonatype.password")
+        )).info(build.publishInfo());
+        return op;
     }
 
     private void patchPublishJSpecify() {
@@ -151,41 +113,25 @@ public final class MathBuild extends Project {
     }
 
     @Override
-    public RunOperation runOperation() {
-        final var operation = super.runOperation();
-        // I need to provide the path of where the module resides.
-        operation.modulePath().add(buildMainDirectory().getAbsolutePath());
-        operation.runOptions().add("--source=26");
-        return operation;
-    }
-
-    private void addCompilationOptions(ArrayList<String> options) {
-        options.add("--source=26");
-        options.add("--enable-preview");
-        options.add("--add-exports=java.base/jdk.internal.value=" + module());
-        options.add("--add-exports=java.base/jdk.internal.vm.annotation=" + module());
-    }
-
-    @Override
     public CompileOperation compileOperation() {
         final var operation = super.compileOperation();
         final var options = operation.compileOptions();
-        options.add("--target=26");
-        addCompilationOptions(options);
+        build.commonBuildOption(options, module());
         return operation;
     }
 
     @Override
     public JavadocOperation javadocOperation() {
+
         final var operation = super.javadocOperation();
         final var options = operation.javadocOptions();
-        addCompilationOptions(options);
+
+        options.add("--source=26");
+        options.add("--enable-preview");
+        options.add("--add-exports=java.base/jdk.internal.value=" + module());
+        options.add("--add-exports=java.base/jdk.internal.vm.annotation=" + module());
         options.tag("apiNote", "a", "API Note:");
         options.tag("implNote", "a", "Implementation Note:");
         return operation;
-    }
-
-    void main(String[] args) {
-        start(args);
     }
 }

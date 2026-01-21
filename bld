@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 value=`cat java-version.txt`
 binary="${value}/bin/java"
-${binary} -jar "$(dirname "$0")/lib/bld/bld-wrapper.jar" "$0" --build org.lidiuma.math.MathBuild "$@"
+${binary} -jar "$(dirname "$0")/lib/bld/bld-wrapper.jar" "$0" --build org.lidiuma.math.MainBuild "$@"
