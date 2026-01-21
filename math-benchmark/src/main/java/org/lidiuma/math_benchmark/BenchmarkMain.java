@@ -51,7 +51,7 @@ public class BenchmarkMain {
     @Benchmark
     @Warmup(iterations = 5,  time = 1)
     @Measurement(iterations = 2,  time = 2)
-    public Vector3F32 rotationInlined() {
+    public Vector3F32 rotation() {
         final var yAxis = new Vector3F32(0f, 1f, 0f);
         final var v3 = new Vector3F32(x, y, z);
         return v3.rotate(yAxis, Radians.radians(angle));
@@ -71,7 +71,7 @@ public class BenchmarkMain {
     @Benchmark
     @Warmup(iterations = 5,  time = 1)
     @Measurement(iterations = 2,  time = 2)
-    public Vector3F32 operationsInlined() {
+    public Vector3F32 operations() {
         return new Vector3F32(x, y, z)
                 .add(new Vector3F32(z, y, z))
                 .mul(z)
