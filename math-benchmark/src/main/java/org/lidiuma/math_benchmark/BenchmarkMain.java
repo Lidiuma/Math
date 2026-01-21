@@ -49,7 +49,6 @@ public class BenchmarkMain {
     }
 
     @Benchmark
-    @CompilerControl(CompilerControl.Mode.INLINE)
     @Warmup(iterations = 5,  time = 1)
     @Measurement(iterations = 2,  time = 2)
     public Vector3F32 rotationInlined() {
@@ -59,17 +58,17 @@ public class BenchmarkMain {
     }
 
     @Benchmark
-    @CompilerControl(CompilerControl.Mode.DONT_INLINE) // I don't understand why this removes allocations...
+    @CompilerControl(CompilerControl.Mode.DONT_INLINE)
     @Warmup(iterations = 5,  time = 1)
     @Measurement(iterations = 2,  time = 2)
     public Vector3F32 rotationNoInline() {
+        // I don't understand why not inlining removes allocations in this case...
         final var yAxis = new Vector3F32(0f, 1f, 0f);
         final var v3 = new Vector3F32(x, y, z);
         return v3.rotate(yAxis, Radians.radians(angle));
     }
 
     @Benchmark
-    @CompilerControl(CompilerControl.Mode.INLINE)
     @Warmup(iterations = 5,  time = 1)
     @Measurement(iterations = 2,  time = 2)
     public Vector3F32 operationsInlined() {
@@ -81,7 +80,7 @@ public class BenchmarkMain {
     }
 
     @Benchmark
-    @CompilerControl(CompilerControl.Mode.DONT_INLINE) // I don't understand why this removes allocations...
+    @CompilerControl(CompilerControl.Mode.DONT_INLINE)
     @Warmup(iterations = 5,  time = 1)
     @Measurement(iterations = 2,  time = 2)
     public Vector3F32 operationsNoInline() {

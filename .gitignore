@@ -58,6 +58,12 @@ atlassian-ide-plugin.xml
 # Editor-based Rest Client
 .idea/httpRequests
 
+# This should help other people be able to clone and use the project with idea.
+!.idea/bld.iml
+!.idea/math.iml
+!.idea/math-benchmark.iml
+!.idea/modules.xml
+
 # Local properties file
 /java-version.txt
 /local.properties
