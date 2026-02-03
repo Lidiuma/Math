@@ -17,6 +17,8 @@
 package org.lidiuma.math_benchmark;
 
 import org.jspecify.annotations.NullMarked;
+import org.lidiuma.math.matrix.Matrix3F32;
+import org.lidiuma.math.matrix.Matrix4F32;
 import org.lidiuma.math.rotation.Radians;
 import org.lidiuma.math.vector.v3.Vector3F32;
 import org.openjdk.jmh.Main;
@@ -38,6 +40,8 @@ public class BenchmarkMain {
     private float x;
     private float y;
     private float z;
+    private Matrix3F32 matrix = Matrix3F32.identity();      // Default value, not actually used.
+    private Vector3F32 vector = new Vector3F32(0f, 0f, 0f); // Default value, not actually used.
 
     @Setup
     public void setup() {
@@ -46,6 +50,15 @@ public class BenchmarkMain {
         x = random.nextFloat();
         y = random.nextFloat();
         z = random.nextFloat();
+        matrix = Matrix4F32.fromAxisAngle(new Vector3F32(0f, 1f, 0f), new Radians(angle)).asMatrix3();
+        vector = new Vector3F32(x, y, z);
+    }
+
+    @Benchmark
+    @Warmup(iterations = 5,  time = 1)
+    @Measurement(iterations = 2,  time = 2)
+    public Vector3F32 rotationCached() {
+        return matrix.transform(vector);
     }
 
     @Benchmark
