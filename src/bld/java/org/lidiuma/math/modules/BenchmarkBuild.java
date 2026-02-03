@@ -19,6 +19,7 @@ package org.lidiuma.math.modules;
 import org.lidiuma.math.MainBuild;
 import rife.bld.BaseProject;
 import rife.bld.operations.CompileOperation;
+import rife.bld.operations.JavacOptions;
 import rife.bld.operations.RunOperation;
 import java.io.File;
 import java.nio.file.Files;
@@ -52,7 +53,7 @@ public final class BenchmarkBuild extends BaseProject {
 
         scope(compile)
                 .include(local( name + "/lib"))
-                .include(module("org.jspecify", "jspecify", version(1, 0, 0)))
+                .include(dependency("org.jspecify", "jspecify", version(1, 0, 0)))
                 .include(dependency("org.openjdk.jmh", "jmh-core", JMH_VERSION))
                 .include(dependency("org.openjdk.jmh", "jmh-generator-annprocess", JMH_VERSION));
     }
@@ -73,14 +74,9 @@ public final class BenchmarkBuild extends BaseProject {
     public CompileOperation compileOperation() {
         final var operation = super.compileOperation();
         final var options = operation.compileOptions();
-        options.processorPath(processorPath());
+        options.process(JavacOptions.Processing.FULL);
         build.commonBuildOption(options, build.module());
         return operation;
-    }
-
-    private String processorPath() {
-        final var lib = libCompileDirectory().getPath();
-        return String.format("%s/jmh-generator-annprocess-%s.jar:%s/jmh-core-%s.jar", lib, JMH_VERSION, lib, JMH_VERSION);
     }
 
     @Override
