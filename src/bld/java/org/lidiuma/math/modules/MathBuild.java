@@ -50,8 +50,9 @@ public final class MathBuild extends Project {
 
         javaTool = build.retrieveJavaTool();
         downloadSources = true;
-        repositories = List.of(MAVEN_CENTRAL, RIFE2_RELEASES);
+        repositories = List.of(MAVEN_CENTRAL, CENTRAL_SNAPSHOTS, RIFE2_RELEASES);
 
+        scope(compile).include(module("org.lidiuma.math", "math-api", snapshot(1, 0, 0)));
         scope(compile).include(module("org.jspecify", "jspecify", version(1, 0, 0)));
 
         final var junitVersion = version(6,0,1);
