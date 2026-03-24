@@ -25,6 +25,10 @@ public value record Float2(
         @Override @NullRestricted Float y
 ) implements UnaryTuple2<Float> {
 
+    public Float2(Float1 float1, float y) {
+        this(float1.x(), y);
+    }
+
     @Override
     public Float1 withoutY() {
         return float1(x);

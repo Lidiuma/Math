@@ -25,6 +25,10 @@ public value record Double2(
         @Override @NullRestricted Double y
 ) implements UnaryTuple2<Double> {
 
+    public Double2(Double1 double1, double y) {
+        this(double1.x(), y);
+    }
+
     @Override
     public Double1 withoutY() {
         return double1(x);

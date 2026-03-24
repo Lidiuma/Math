@@ -16,6 +16,7 @@
 
 package org.lidiuma.math.tuple;
 
+/// Aliases class for Tuples.
 public value final class Tuples {
 
     private Tuples() {}
@@ -39,7 +40,11 @@ public value final class Tuples {
     }
 
     public static Float2 float2(float value) {
-        return float2(value, value);
+        return new Float2(value, value);
+    }
+
+    public static Float2 float2(Float1 float1, float y) {
+        return new Float2(float1, y);
     }
 
     public static Float3 float3(float x, float y, float z) {
@@ -47,7 +52,11 @@ public value final class Tuples {
     }
 
     public static Float3 float3(float value) {
-        return float3(value, value, value);
+        return new Float3(value, value, value);
+    }
+
+    public static Float3 float3(Float2 float2, float z) {
+        return new Float3(float2, z);
     }
 
     public static Float4 float4(float x, float y, float z, float w) {
@@ -55,7 +64,11 @@ public value final class Tuples {
     }
 
     public static Float4 float4(float value) {
-        return float4(value, value, value, value);
+        return new Float4(value, value, value, value);
+    }
+
+    public static Float4 float4(Float3 float3, float w) {
+        return new Float4(float3, w);
     }
 
     public static Double1 double1(double x) {
@@ -67,7 +80,11 @@ public value final class Tuples {
     }
 
     public static Double2 double2(double value) {
-        return double2(value, value);
+        return new Double2(value, value);
+    }
+
+    public static Double2 double2(Double1 double1, double y) {
+        return new Double2(double1, y);
     }
 
     public static Double3 double3(double x, double y, double z) {
@@ -75,7 +92,11 @@ public value final class Tuples {
     }
 
     public static Double3 double3(double value) {
-        return double3(value, value, value);
+        return new Double3(value, value, value);
+    }
+
+    public static Double3 double3(Double2 double2, double z) {
+        return new Double3(double2, z);
     }
 
     public static Double4 double4(double x, double y, double z, double w) {
@@ -83,6 +104,10 @@ public value final class Tuples {
     }
 
     public static Double4 double4(double value) {
-        return double4(value, value, value, value);
+        return new Double4(value, value, value, value);
+    }
+
+    public static Double4 double4(Double3 double3, double w) {
+        return new Double4(double3, w);
     }
 }
