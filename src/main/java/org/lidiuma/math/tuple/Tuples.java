@@ -31,6 +31,8 @@ public value final class Tuples {
         return Math.abs(value1 - value2) <= epsilon;
     }
 
+    // TODO Add aliases from higher-dimension to lower-dimension. Float4 -> Float3, Float2, Float1
+
     public static Float1 float1(float x) {
         return new Float1(x);
     }

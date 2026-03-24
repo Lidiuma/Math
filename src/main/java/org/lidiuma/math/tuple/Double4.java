@@ -16,10 +16,12 @@
 
 package org.lidiuma.math.tuple;
 
+import jdk.internal.vm.annotation.LooselyConsistentValue;
 import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.tuple.UnaryTuple4;
 import static org.lidiuma.math.tuple.Tuples.*;
 
+@LooselyConsistentValue
 public value record Double4(
         @Override @NullRestricted Double x,
         @Override @NullRestricted Double y,
