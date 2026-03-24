@@ -19,6 +19,10 @@ import org.jspecify.annotations.NullMarked;
 @NullMarked // Makes the whole codebase non-null by default.
 module lidiuma.math {
     requires org.jspecify;
+    requires lidiuma.math.api;
+
+    exports org.lidiuma.math.tuple;
+
     exports org.lidiuma.math.rotation;
     exports org.lidiuma.math.matrix;
 
