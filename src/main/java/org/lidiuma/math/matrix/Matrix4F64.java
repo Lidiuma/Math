@@ -25,7 +25,7 @@ import jdk.internal.vm.annotation.LooselyConsistentValue;
 import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
 import java.lang.foreign.ValueLayout;
-import static org.lidiuma.math.FloatingUtil.EPSILON;
+import static org.lidiuma.math.FloatingUtil.EPSILON_F32;
 
 /// @see Matrix4
 @SuppressWarnings("unused")
@@ -428,14 +428,14 @@ public value record Matrix4F64(
 
     @Override
     public boolean isSingular() {
-        return Math.abs(determinant()) < EPSILON;
+        return Math.abs(determinant()) < EPSILON_F32;
     }
 
     @Override
     public Matrix4F64 invert() {
 
         final double det = determinant();
-        if (Math.abs(det) < EPSILON) throw new ArithmeticException("The matrix cannot be inverted since singular.");
+        if (Math.abs(det) < EPSILON_F32) throw new ArithmeticException("The matrix cannot be inverted since singular.");
 
         final double invDet = 1d / det;
 

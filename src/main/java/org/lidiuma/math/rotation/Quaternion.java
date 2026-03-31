@@ -21,7 +21,7 @@ import org.lidiuma.math.matrix.Matrix4F64;
 import org.lidiuma.math.vector.v3.Vector3F64;
 import org.lidiuma.math.vector.v4.Vector4F64;
 import jdk.internal.vm.annotation.LooselyConsistentValue;
-import static org.lidiuma.math.FloatingUtil.EPSILON;
+import static org.lidiuma.math.FloatingUtil.EPSILON_F32;
 
 @LooselyConsistentValue
 public value record Quaternion(double x, double y, double z, double w) {
@@ -100,7 +100,7 @@ public value record Quaternion(double x, double y, double z, double w) {
         final var cross = v1.cross(v2);
 
         // I check if the vectors are not parallel.
-        if (cross.length2() >= EPSILON) {
+        if (cross.length2() >= EPSILON_F32) {
             final Radians angle = Radians.radians(Math.acos(dot));
             return fromAxisAngle(cross, angle);
         }
@@ -348,7 +348,7 @@ public value record Quaternion(double x, double y, double z, double w) {
      * @return If this quaternion is an identity Quaternion
      */
     public boolean isIdentity() {
-        return isIdentity(EPSILON);
+        return isIdentity(EPSILON_F32);
     }
 
     /**
@@ -416,7 +416,7 @@ public value record Quaternion(double x, double y, double z, double w) {
         final double sinTheta = Math.sin(theta);
 
         // To avoid numerical instability at low angles, I approximate the coefficient.
-        final double coefficient = Math.abs(theta) < EPSILON ?
+        final double coefficient = Math.abs(theta) < EPSILON_F32 ?
                 normExp * alpha / norm :
                 normExp * Math.sin(alpha * theta) / (norm * sinTheta);
 
@@ -458,7 +458,7 @@ public value record Quaternion(double x, double y, double z, double w) {
         final double sqrt = Math.sqrt(1d - quat.w * quat.w);
 
         // I avoid dividing by 0 if the sqrt is small enough.
-        final Vector3F64 newAxis = sqrt < EPSILON ?
+        final Vector3F64 newAxis = sqrt < EPSILON_F32 ?
                 new Vector3F64(quat.x, quat.y, quat.z).normalize() : // I re-normalize because without w the length might no longer be 1.
                 new Vector3F64(quat.x / sqrt, quat.y / sqrt, quat.z / sqrt);
 
@@ -507,7 +507,7 @@ public value record Quaternion(double x, double y, double z, double w) {
         final var qAxis = new Quaternion(axis.x() * dot, axis.y() * dot, axis.z() * dot, w);
         final double l2 = qAxis.length2();
 
-        if (l2 < EPSILON * EPSILON) return Radians.radians(0.0);
+        if (l2 < EPSILON_F32 * EPSILON_F32) return Radians.radians(0.0);
 
         final double fixedW = dot < 0 ? -w : w;
         final double clamped = Math.clamp(fixedW / Math.sqrt(l2), -1.0, 1.0);

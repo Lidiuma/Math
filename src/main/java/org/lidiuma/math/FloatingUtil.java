@@ -18,5 +18,5 @@ package org.lidiuma.math;
 
 public value class FloatingUtil {
     /// Default tolerance when checking values close to 0.
-    public static final float EPSILON = 1e-6f;
+    public static final float EPSILON_F32 = 1e-6f;
 }

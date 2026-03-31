@@ -25,7 +25,7 @@ import jdk.internal.vm.annotation.LooselyConsistentValue;
 import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
 import java.lang.foreign.ValueLayout;
-import static org.lidiuma.math.FloatingUtil.EPSILON;
+import static org.lidiuma.math.FloatingUtil.EPSILON_F32;
 
 /// @see Matrix3
 @LooselyConsistentValue
@@ -252,7 +252,7 @@ public value record Matrix3F64(
 
     @Override
     public boolean isSingular() {
-        return Math.abs(determinant()) < EPSILON;
+        return Math.abs(determinant()) < EPSILON_F32;
     }
 
     @Override
@@ -264,7 +264,7 @@ public value record Matrix3F64(
     public Matrix3F64 invert() {
 
         final double det = determinant();
-        if (Math.abs(det) < EPSILON) throw new ArithmeticException("The matrix cannot be inverted since singular.");
+        if (Math.abs(det) < EPSILON_F32) throw new ArithmeticException("The matrix cannot be inverted since singular.");
 
         final double inv_det = 1d / det;
 
@@ -327,7 +327,7 @@ public value record Matrix3F64(
     public Matrix3F64 affineInvert() {
 
         final double det = affineDeterminant();
-        if (Math.abs(det) < EPSILON) throw new ArithmeticException("The matrix cannot be inverted since singular.");
+        if (Math.abs(det) < EPSILON_F32) throw new ArithmeticException("The matrix cannot be inverted since singular.");
 
         final double invDet = 1d / det;
 
@@ -346,7 +346,7 @@ public value record Matrix3F64(
 
     @Override
     public boolean isAffineSingular() {
-        return Math.abs(affineDeterminant()) < EPSILON;
+        return Math.abs(affineDeterminant()) < EPSILON_F32;
     }
 
     @Override
