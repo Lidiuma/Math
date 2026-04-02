@@ -88,6 +88,11 @@ public value record Vector1F(
     }
 
     @Override
+    public Vector1F signum() {
+        return new Vector1F(Math.signum(x()));
+    }
+
+    @Override
     public Vector1F max(Vector1<Float> other) {
         return new Vector1F(Math.max(x(), other.x()));
     }
@@ -103,13 +108,18 @@ public value record Vector1F(
     }
 
     @Override
-    public Vector1F signum() {
-        return new Vector1F(Math.signum(x()));
+    public Vector1F clamp(UnaryTuple1<Float> min, UnaryTuple1<Float> max) {
+        return new Vector1F(Math.clamp(x(), min.x(), max.x()));
     }
 
     @Override
-    public Vector1F clamp(UnaryTuple1<Float> min, UnaryTuple1<Float> max) {
-        return new Vector1F(Math.clamp(x(), min.x(), max.x()));
+    public Vector1F ceil() {
+        return new Vector1F((float) Math.ceil(x()));
+    }
+
+    @Override
+    public Vector1F floor() {
+        return new Vector1F((float) Math.floor(x()));
     }
 
     @Override
@@ -133,42 +143,32 @@ public value record Vector1F(
         return x() * x();
     }
 
-    private Vector1F withMagnitudeSquared(float wanted, float current) {
-        final float scalar = (float) Math.sqrt(wanted / current);
-        return multiply(scalar);
-    }
-
-    private Vector1F withMagnitude(float wanted, float current) {
-        final float scalar = wanted / current;
-        return multiply(scalar);
-    }
-
     @Override
     public Vector1F withLength(Float length) {
         final float current = length();
         if (current == 0 || current == length) return this;
-        return withMagnitude(length, current);
+        return signum().multiply(length);
     }
 
     @Override
     public Vector1F withLengthSquared(Float lengthSquared) {
         final float current = lengthSquared();
         if (current == 0 || current == lengthSquared) return this;
-        return withMagnitudeSquared(lengthSquared, current);
+        return signum().multiply((float) Math.sqrt(lengthSquared));
     }
 
     @Override
     public Vector1F withLimit(Float limit) {
         final float current = length();
         if (current == 0 || current <= limit) return this;
-        return withMagnitude(limit, current);
+        return signum().multiply(limit);
     }
 
     @Override
     public Vector1F withLimitSquared(Float limitSquared) {
         final float current = lengthSquared();
         if (current == 0 || current <= limitSquared) return this;
-        return withMagnitudeSquared(limitSquared, current);
+        return signum().multiply((float) Math.sqrt(limitSquared));
     }
 
     @Override
@@ -178,33 +178,20 @@ public value record Vector1F(
 
     @Override
     public Vector1F normalized() {
-        return withMagnitude(1f, length());
+        return signum();
     }
 
     @Override
     public Vector1F normalized(Vector1<Float> orElse) {
         final float current = lengthSquared();
         if (current <= EPSILON_F32 * EPSILON_F32) return new Vector1F(orElse);
-        return withMagnitudeSquared(1f, current);
-    }
-
-    @Override
-    public Vector1F ceil() {
-        final float x = (float) Math.ceil(x());
-        return new Vector1F(x);
-    }
-
-    @Override
-    public Vector1F floor() {
-        final float x = (float) Math.floor(x());
-        return new Vector1F(x);
+        return signum();
     }
 
     @Override
     public Vector1F interpolate(Vector1<Float> target, Float alpha, UnaryOperator<Float> easing) {
         final float eased = easing.apply(alpha);
-        final float invAlpha = 1 - eased;
-        final float x = x() * invAlpha + target.x() * eased;
+        final float x = x() * (1f - eased) + target.x() * eased;
         return new Vector1F(x);
     }
 

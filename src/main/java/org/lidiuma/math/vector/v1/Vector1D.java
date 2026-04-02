@@ -88,6 +88,11 @@ public value record Vector1D(
     }
 
     @Override
+    public Vector1D signum() {
+        return new Vector1D(Math.signum(x()));
+    }
+
+    @Override
     public Vector1D max(Vector1<Double> other) {
         return new Vector1D(Math.max(x(), other.x()));
     }
@@ -103,13 +108,18 @@ public value record Vector1D(
     }
 
     @Override
-    public Vector1D signum() {
-        return new Vector1D(Math.signum(x()));
+    public Vector1D clamp(UnaryTuple1<Double> min, UnaryTuple1<Double> max) {
+        return new Vector1D(Math.clamp(x(), min.x(), max.x()));
     }
 
     @Override
-    public Vector1D clamp(UnaryTuple1<Double> min, UnaryTuple1<Double> max) {
-        return new Vector1D(Math.clamp(x(), min.x(), max.x()));
+    public Vector1D ceil() {
+        return new Vector1D(Math.ceil(x()));
+    }
+
+    @Override
+    public Vector1D floor() {
+        return new Vector1D(Math.floor(x()));
     }
 
     @Override
@@ -133,42 +143,32 @@ public value record Vector1D(
         return x() * x();
     }
 
-    private Vector1D withMagnitudeSquared(double wanted, double current) {
-        final double scalar = Math.sqrt(wanted / current);
-        return multiply(scalar);
-    }
-
-    private Vector1D withMagnitude(double wanted, double current) {
-        final double scalar = wanted / current;
-        return multiply(scalar);
-    }
-
     @Override
     public Vector1D withLength(Double length) {
         final double current = length();
         if (current == 0 || current == length) return this;
-        return withMagnitude(length, current);
+        return signum().multiply(length);
     }
 
     @Override
     public Vector1D withLengthSquared(Double lengthSquared) {
         final double current = lengthSquared();
         if (current == 0 || current == lengthSquared) return this;
-        return withMagnitudeSquared(lengthSquared, current);
+        return signum().multiply(Math.sqrt(lengthSquared));
     }
 
     @Override
     public Vector1D withLimit(Double limit) {
         final double current = length();
         if (current == 0 || current <= limit) return this;
-        return withMagnitude(limit, current);
+        return signum().multiply(limit);
     }
 
     @Override
     public Vector1D withLimitSquared(Double limitSquared) {
         final double current = lengthSquared();
         if (current == 0 || current <= limitSquared) return this;
-        return withMagnitudeSquared(limitSquared, current);
+        return signum().multiply(Math.sqrt(limitSquared));
     }
 
     @Override
@@ -178,33 +178,20 @@ public value record Vector1D(
 
     @Override
     public Vector1D normalized() {
-        return withMagnitude(1f, length());
+        return signum();
     }
 
     @Override
     public Vector1D normalized(Vector1<Double> orElse) {
         final double current = lengthSquared();
         if (current <= EPSILON_F32 * EPSILON_F32) return new Vector1D(orElse);
-        return withMagnitudeSquared(1f, current);
-    }
-
-    @Override
-    public Vector1D ceil() {
-        final double x = Math.ceil(x());
-        return new Vector1D(x);
-    }
-
-    @Override
-    public Vector1D floor() {
-        final double x = Math.floor(x());
-        return new Vector1D(x);
+        return signum();
     }
 
     @Override
     public Vector1D interpolate(Vector1<Double> target, Double alpha, UnaryOperator<Double> easing) {
         final double eased = easing.apply(alpha);
-        final double invAlpha = 1 - eased;
-        final double x = x() * invAlpha + target.x() * eased;
+        final double x = x() * (1d - eased) + target.x() * eased;
         return new Vector1D(x);
     }
 

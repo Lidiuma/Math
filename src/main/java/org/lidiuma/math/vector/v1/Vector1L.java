@@ -87,6 +87,11 @@ public value record Vector1L(
     }
 
     @Override
+    public Vector1L signum() {
+        return new Vector1L((long) Long.signum(x()));
+    }
+
+    @Override
     public Vector1L max(Vector1<Long> other) {
         return new Vector1L(Math.max(x(), other.x()));
     }
@@ -102,13 +107,18 @@ public value record Vector1L(
     }
 
     @Override
-    public Vector1L signum() {
-        return new Vector1L((long) Long.signum(x()));
+    public Vector1L clamp(UnaryTuple1<Long> min, UnaryTuple1<Long> max) {
+        return new Vector1L(Math.clamp(x(), min.x(), max.x()));
     }
 
     @Override
-    public Vector1L clamp(UnaryTuple1<Long> min, UnaryTuple1<Long> max) {
-        return new Vector1L(Math.clamp(x(), min.x(), max.x()));
+    public Vector1L ceil() {
+        return this;
+    }
+
+    @Override
+    public Vector1L floor() {
+        return this;
     }
 
     @Override
@@ -132,44 +142,56 @@ public value record Vector1L(
         return x() * x();
     }
 
-    private Vector1L withMagnitudeSquared(long wanted, long current) {
-        // TODO Need to check that the length is actually the one wanted after the round.
-        final double scalar = Math.sqrt((double) wanted / current);
-        return multiply(Math.round(scalar));
-    }
-
-    private Vector1L withMagnitude(long wanted, long current) {
-        // TODO Need to check that the length is actually the one wanted after the round.
-        final double scalar = (double) wanted / current;
-        return multiply(Math.round(scalar));
-    }
-
     @Override
     public Vector1L withLength(Long length) {
         final long current = length();
         if (current == 0 || current == length) return this;
-        return withMagnitude(length, current);
+        return signum().multiply(length);
     }
 
+    /// This operation is lossy, use [#withLengthSquaredD(long)] instead for full precision.
     @Override
     public Vector1L withLengthSquared(Long lengthSquared) {
         final long current = lengthSquared();
         if (current == 0 || current == lengthSquared) return this;
-        return withMagnitudeSquared(lengthSquared, current);
+        return signum().multiply((long) Math.sqrt(lengthSquared));
+    }
+
+    public Vector1D withLengthSquaredD(long lengthSquared) {
+
+        final long current = lengthSquared();
+        final double x = Double.valueOf(x());
+
+        if (current == 0 || current == lengthSquared) return new Vector1D(x);
+        return new Vector1D(x)
+                .signum()
+                .multiply(Math.sqrt(lengthSquared));
     }
 
     @Override
     public Vector1L withLimit(Long limit) {
         final long current = length();
         if (current == 0 || current <= limit) return this;
-        return withMagnitude(limit, current);
+        return signum().multiply(limit);
     }
 
+    /// This operation is lossy, use [#withLimitSquaredD(long)] instead for full precision.
     @Override
     public Vector1L withLimitSquared(Long limitSquared) {
         final long current = lengthSquared();
         if (current == 0 || current <= limitSquared) return this;
-        return withMagnitudeSquared(limitSquared, current);
+        return signum().multiply((long) Math.sqrt(limitSquared));
+    }
+
+    public Vector1D withLimitSquaredD(long limitSquared) {
+
+        final long current = lengthSquared();
+        final double x = Double.valueOf(x());
+
+        if (current == 0 || current <= limitSquared) return new Vector1D(x);
+        return new Vector1D(x)
+                .signum()
+                .multiply(Math.sqrt(limitSquared));
     }
 
     @Override
@@ -179,24 +201,14 @@ public value record Vector1L(
 
     @Override
     public Vector1L normalized() {
-        return withMagnitude(1, length());
+        return signum();
     }
 
     @Override
     public Vector1L normalized(Vector1<Long> orElse) {
         final long current = lengthSquared();
         if (current == 0) return new Vector1L(orElse);
-        return withMagnitudeSquared(1, current);
-    }
-
-    @Override
-    public Vector1L ceil() {
-        return this;
-    }
-
-    @Override
-    public Vector1L floor() {
-        return this;
+        return signum();
     }
 
     /// Interpolates `this` and the `other` vector with a range `[0,maxAlpha]`.
