@@ -207,16 +207,6 @@ public value record Vector3F(
         return multiply(this).sum();
     }
 
-    private Vector3F withMagnitudeSquared(float wanted, float current) {
-        final float scalar = (float) Math.sqrt(wanted / current);
-        return multiply(scalar);
-    }
-
-    private Vector3F withMagnitude(float wanted, float current) {
-        final float scalar = wanted / current;
-        return multiply(scalar);
-    }
-
     @Override
     public Vector3F withLength(Float length) {
         final float current = length();
@@ -309,5 +299,15 @@ public value record Vector3F(
     /// @return all this vector components added together.
     private float sum() {
         return x() + y() + z();
+    }
+
+    private Vector3F withMagnitudeSquared(float wanted, float current) {
+        final float scalar = (float) Math.sqrt(wanted / current);
+        return multiply(scalar);
+    }
+
+    private Vector3F withMagnitude(float wanted, float current) {
+        final float scalar = wanted / current;
+        return multiply(scalar);
     }
 }

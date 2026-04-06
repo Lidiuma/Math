@@ -207,16 +207,6 @@ public value record Vector3D(
         return multiply(this).sum();
     }
 
-    private Vector3D withMagnitudeSquared(double wanted, double current) {
-        final double scalar = Math.sqrt(wanted / current);
-        return multiply(scalar);
-    }
-
-    private Vector3D withMagnitude(double wanted, double current) {
-        final double scalar = wanted / current;
-        return multiply(scalar);
-    }
-
     @Override
     public Vector3D withLength(Double length) {
         final double current = length();
@@ -309,5 +299,15 @@ public value record Vector3D(
     /// @return all this vector components added together.
     private double sum() {
         return x() + y() + z();
+    }
+
+    private Vector3D withMagnitudeSquared(double wanted, double current) {
+        final double scalar = Math.sqrt(wanted / current);
+        return multiply(scalar);
+    }
+
+    private Vector3D withMagnitude(double wanted, double current) {
+        final double scalar = wanted / current;
+        return multiply(scalar);
     }
 }

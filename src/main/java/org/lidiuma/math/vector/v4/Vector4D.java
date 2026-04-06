@@ -224,16 +224,6 @@ public value record Vector4D(
         return multiply(this).sum();
     }
 
-    private Vector4D withMagnitudeSquared(double wanted, double current) {
-        final double scalar = Math.sqrt(wanted / current);
-        return multiply(scalar);
-    }
-
-    private Vector4D withMagnitude(double wanted, double current) {
-        final double scalar = wanted / current;
-        return multiply(scalar);
-    }
-
     @Override
     public Vector4D withLength(Double length) {
         final double current = length();
@@ -314,5 +304,15 @@ public value record Vector4D(
     /// @return all this vector components added together.
     private double sum() {
         return x() + y() + z() + w();
+    }
+
+    private Vector4D withMagnitudeSquared(double wanted, double current) {
+        final double scalar = Math.sqrt(wanted / current);
+        return multiply(scalar);
+    }
+
+    private Vector4D withMagnitude(double wanted, double current) {
+        final double scalar = wanted / current;
+        return multiply(scalar);
     }
 }

@@ -186,16 +186,6 @@ public value record Vector2D(
         return multiply(this).sum();
     }
 
-    private Vector2D withMagnitudeSquared(double wanted, double current) {
-        final double scalar = Math.sqrt(wanted / current);
-        return multiply(scalar);
-    }
-
-    private Vector2D withMagnitude(double wanted, double current) {
-        final double scalar = wanted / current;
-        return multiply(scalar);
-    }
-
     @Override
     public Vector2D withLength(Double length) {
         final double current = length();
@@ -298,5 +288,15 @@ public value record Vector2D(
     /// @return all this vector components added together.
     private double sum() {
         return x() + y();
+    }
+
+    private Vector2D withMagnitudeSquared(double wanted, double current) {
+        final double scalar = Math.sqrt(wanted / current);
+        return multiply(scalar);
+    }
+
+    private Vector2D withMagnitude(double wanted, double current) {
+        final double scalar = wanted / current;
+        return multiply(scalar);
     }
 }

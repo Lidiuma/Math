@@ -224,16 +224,6 @@ public value record Vector4F(
         return multiply(this).sum();
     }
 
-    private Vector4F withMagnitudeSquared(float wanted, float current) {
-        final float scalar = (float) Math.sqrt(wanted / current);
-        return multiply(scalar);
-    }
-
-    private Vector4F withMagnitude(float wanted, float current) {
-        final float scalar = wanted / current;
-        return multiply(scalar);
-    }
-
     @Override
     public Vector4F withLength(Float length) {
         final float current = length();
@@ -314,5 +304,15 @@ public value record Vector4F(
     /// @return all this vector components added together.
     private float sum() {
         return x() + y() + z() + w();
+    }
+
+    private Vector4F withMagnitudeSquared(float wanted, float current) {
+        final float scalar = (float) Math.sqrt(wanted / current);
+        return multiply(scalar);
+    }
+
+    private Vector4F withMagnitude(float wanted, float current) {
+        final float scalar = wanted / current;
+        return multiply(scalar);
     }
 }
