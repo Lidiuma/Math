@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.lidiuma.math.vector.v2;
+package org.lidiuma.math.vector;
 
 import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.rotation.Angle;
@@ -22,7 +22,7 @@ import org.lidiuma.math.api.tuple.UnaryTuple2;
 import org.lidiuma.math.api.vector.Vector2;
 import org.lidiuma.math.rotation.AngleD;
 import org.lidiuma.math.tuple.Tuples;
-import org.lidiuma.math.vector.v1.Vector1D;
+
 import java.util.function.UnaryOperator;
 import static org.lidiuma.math.FloatingUtil.EPSILON_F32;
 

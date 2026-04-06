@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.lidiuma.math.vector.v1;
+package org.lidiuma.math.vector;
 
 import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.tuple.UnaryTuple1;

@@ -16,8 +16,6 @@
 
 package org.lidiuma.math.vector;
 
-import org.lidiuma.math.vector.v1.*;
-
 public value class Vectors {
 
     private Vectors() {}

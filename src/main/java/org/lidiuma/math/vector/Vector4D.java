@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package org.lidiuma.math.vector.v4;
+package org.lidiuma.math.vector;
 
 import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.tuple.UnaryTuple4;
 import org.lidiuma.math.api.vector.Vector4;
 import org.lidiuma.math.tuple.Tuples;
-import org.lidiuma.math.vector.v3.Vector3D;
+
 import java.util.function.UnaryOperator;
 import static org.lidiuma.math.FloatingUtil.EPSILON_F32;
 
