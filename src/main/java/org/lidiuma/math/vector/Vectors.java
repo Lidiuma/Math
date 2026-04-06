@@ -20,19 +20,35 @@ public value class Vectors {
 
     private Vectors() {}
 
-    public static Vector1F vec1F(float x) {
+    public static Vector1F vec1(float x) {
         return new Vector1F(x);
     }
 
-    public static Vector1D vec1D(double x) {
+    public static Vector1D vec1(double x) {
         return new Vector1D(x);
     }
 
-    public static Vector1I vec1I(int x) {
-        return new Vector1I(x);
+    public static Vector2F vec2(float x, float y) {
+        return new Vector2F(x, y);
     }
 
-    public static Vector1L vec1D(long x) {
-        return new Vector1L(x);
+    public static Vector2D vec2(double x, double y) {
+        return new Vector2D(x, y);
+    }
+
+    public static Vector3F vec3(float x, float y, float z) {
+        return new Vector3F(x, y, z);
+    }
+
+    public static Vector3D vec3(double x, double y, double z) {
+        return new Vector3D(x, y, z);
+    }
+
+    public static Vector4F vec3(float x, float y, float z, float w) {
+        return new Vector4F(x, y, z, w);
+    }
+
+    public static Vector4D vec3(double x, double y, double z, double w) {
+        return new Vector4D(x, y, z, w);
     }
 }
