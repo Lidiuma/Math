@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.lidiuma.math.vector.nv2;
+package org.lidiuma.math.vector.v2;
 
 import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.rotation.Angle;
