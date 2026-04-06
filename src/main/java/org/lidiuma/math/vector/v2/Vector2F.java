@@ -31,8 +31,8 @@ public value record Vector2F(
         @Override @NullRestricted Float y
 ) implements Vector2<Float> {
 
-    public Vector2F(Vector2<Float> vector2) {
-        this(vector2.x(), vector2.y());
+    public Vector2F(Vector2<Float> vec) {
+        this(vec.x(), vec.y());
     }
 
     @Override
@@ -164,11 +164,6 @@ public value record Vector2F(
         );
     }
 
-    /// @return all this vector components added together.
-    private float sum() {
-        return x() + y();
-    }
-
     @Override
     public Float distance(Vector2<Float> other) {
         return (float) Math.sqrt(distanceSquared(other));
@@ -298,5 +293,10 @@ public value record Vector2F(
     public boolean componentEquals(Float value, Float epsilon) {
         final var vector2 = new Vector2F(value, value);
         return equals(vector2, epsilon);
+    }
+
+    /// @return all this vector components added together.
+    private float sum() {
+        return x() + y();
     }
 }

@@ -28,8 +28,8 @@ public value record Vector1D(
 ) implements Vector1<Double> {
 
     /// A constructor creating a specialized vector from a generic vector.
-    public Vector1D(Vector1<Double> vector1) {
-        this(vector1.x());
+    public Vector1D(Vector1<Double> vec) {
+        this(vec.x());
     }
 
     @Override

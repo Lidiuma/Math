@@ -31,8 +31,8 @@ public value record Vector2D(
         @Override @NullRestricted Double y
 ) implements Vector2<Double> {
 
-    public Vector2D(Vector2<Double> vector2) {
-        this(vector2.x(), vector2.y());
+    public Vector2D(Vector2<Double> vec) {
+        this(vec.x(), vec.y());
     }
 
     @Override
@@ -164,11 +164,6 @@ public value record Vector2D(
         );
     }
 
-    /// @return all this vector components added together.
-    private double sum() {
-        return x() + y();
-    }
-
     @Override
     public Double distance(Vector2<Double> other) {
         return Math.sqrt(distanceSquared(other));
@@ -298,5 +293,10 @@ public value record Vector2D(
     public boolean componentEquals(Double value, Double epsilon) {
         final var vector2 = new Vector2D(value, value);
         return equals(vector2, epsilon);
+    }
+
+    /// @return all this vector components added together.
+    private double sum() {
+        return x() + y();
     }
 }

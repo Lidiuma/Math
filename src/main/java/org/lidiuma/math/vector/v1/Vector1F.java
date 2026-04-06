@@ -28,8 +28,8 @@ public value record Vector1F(
 ) implements Vector1<Float> {
 
     /// A constructor creating a specialized vector from a generic vector.
-    public Vector1F(Vector1<Float> vector1) {
-        this(vector1.x());
+    public Vector1F(Vector1<Float> vec) {
+        this(vec.x());
     }
 
     @Override
