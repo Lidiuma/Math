@@ -16,22 +16,28 @@
 
 package org.lidiuma.math.vector;
 
-import jdk.internal.vm.annotation.NullRestricted;
-import org.lidiuma.math.api.vector.Vector4;
+import org.lidiuma.math.api.vector.FloatingVector1Ops;
+import org.lidiuma.math.numerics.FloatNumeric;
+import org.lidiuma.math.rotation.AngleF;
 
-public value record Vector4F(
-        @Override @NullRestricted Float x,
-        @Override @NullRestricted Float y,
-        @Override @NullRestricted Float z,
-        @Override @NullRestricted Float w
-) implements Vector4<Float> {
+public value class Vector1FOps implements FloatingVector1Ops<Vector1F, AngleF, Float> {
 
-    public Vector4F(Vector4<Float> vec) {
-        this(vec.x(), vec.y(), vec.z(), vec.w());
+    public static final Vector1FOps WITNESS = new Vector1FOps();
+
+    private Vector1FOps() {}
+
+    @Override
+    public Vector1F of(Float x) {
+        return new Vector1F(x);
     }
 
     @Override
-    public Vector3F withoutW() {
-        return new Vector3F(x(), y(), z());
+    public AngleF angle(Vector1F v1, Vector1F v2) {
+        return AngleF.radians(0f);
+    }
+
+    @Override
+    public FloatNumeric scalarWitness() {
+        return FloatNumeric.WITNESS;
     }
 }

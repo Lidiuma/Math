@@ -22,6 +22,7 @@ module lidiuma.math {
     requires lidiuma.math.api;
 
     exports org.lidiuma.math.tuple;
+    exports org.lidiuma.math.numerics;
 
     exports org.lidiuma.math.rotation;
     exports org.lidiuma.math.matrix;
@@ -35,8 +36,4 @@ module lidiuma.math {
     exports org.lidiuma.math.shape;
 
     exports org.lidiuma.math.vector;
-    exports org.lidiuma.math.vector.v1;
-    exports org.lidiuma.math.vector.v2;
-    exports org.lidiuma.math.vector.v3;
-    exports org.lidiuma.math.vector.v4;
 }
