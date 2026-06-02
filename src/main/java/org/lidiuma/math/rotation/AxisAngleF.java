@@ -16,9 +16,12 @@
 
 package org.lidiuma.math.rotation;
 
-import jdk.internal.vm.annotation.LooselyConsistentValue;
 import jdk.internal.vm.annotation.NullRestricted;
+import org.lidiuma.math.api.rotation.AxisAngle;
+import org.lidiuma.math.vector.Vector3F;
 
-@LooselyConsistentValue
-public value record SwingTwist(@NullRestricted QuaternionF swing, @NullRestricted QuaternionF twist) {
+public value record AxisAngleF(
+        @Override @NullRestricted Vector3F axis,
+        @Override @NullRestricted AngleF angle
+) implements AxisAngle<Vector3F, AngleF, Float> {
 }

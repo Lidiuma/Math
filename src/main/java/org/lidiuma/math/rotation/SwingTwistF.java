@@ -16,15 +16,11 @@
 
 package org.lidiuma.math.rotation;
 
-public enum GimbalPole {
+import jdk.internal.vm.annotation.NullRestricted;
+import org.lidiuma.math.api.rotation.SwingTwist;
 
-    NORTH(1),
-    SOUTH(-1),
-    NONE(0);
-
-    public final int sign;
-
-    GimbalPole(int sign) {
-        this.sign = sign;
-    }
+public value record SwingTwistF(
+        @Override @NullRestricted QuaternionF swing,
+        @Override @NullRestricted QuaternionF twist
+) implements SwingTwist<QuaternionF, Float> {
 }

@@ -16,9 +16,26 @@
 
 package org.lidiuma.math.rotation;
 
-import jdk.internal.vm.annotation.LooselyConsistentValue;
 import jdk.internal.vm.annotation.NullRestricted;
+import org.lidiuma.math.api.rotation.Quaternion;
+import org.lidiuma.math.api.vector.Vector4;
+import org.lidiuma.math.tuple.Float3;
+import jdk.internal.vm.annotation.LooselyConsistentValue;
 
 @LooselyConsistentValue
-public value record SwingTwist(@NullRestricted QuaternionF swing, @NullRestricted QuaternionF twist) {
+public value record QuaternionF(
+        @Override @NullRestricted Float x,
+        @Override @NullRestricted Float y,
+        @Override @NullRestricted Float z,
+        @Override @NullRestricted Float w
+) implements Quaternion<Float> {
+
+    public QuaternionF(Vector4<Float> v4) {
+        this(v4.x(), v4.y(), v4.z(), v4.w());
+    }
+
+    @Override
+    public Float3 withoutW() {
+        return new Float3(x(), y(), z());
+    }
 }
