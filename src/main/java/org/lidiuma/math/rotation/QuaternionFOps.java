@@ -21,15 +21,15 @@ import org.lidiuma.math.numerics.FloatNumeric;
 import org.lidiuma.math.vector.Vec3F32;
 import static org.lidiuma.math.FloatingUtil.EPSILON_F32;
 
-public value class QuaternionFOps implements QuaternionOps<QuaternionF, Vec3F32, AngleF, Float> {
+public value class QuaternionFOps implements QuaternionOps<QuatF32, Vec3F32, AngleF32, Float> {
 
     @Override
-    public QuaternionF of(Float x, Float y, Float z, Float w) {
-        return new QuaternionF(x, y, z, w);
+    public QuatF32 of(Float x, Float y, Float z, Float w) {
+        return new QuatF32(x, y, z, w);
     }
 
     @Override
-    public QuaternionF fromAxisAngle(Vec3F32 axis, AngleF angle) {
+    public QuatF32 fromAxisAngle(Vec3F32 axis, AngleF32 angle) {
         final float half = angle.radian() * .5f;
         final float sin = (float) Math.sin(half);
         final float cos = (float) Math.cos(half);
@@ -42,7 +42,7 @@ public value class QuaternionFOps implements QuaternionOps<QuaternionF, Vec3F32,
     }
 
     @Override
-    public QuaternionF fromEulerAngle(AngleF yaw, AngleF pitch, AngleF roll) {
+    public QuatF32 fromEulerAngle(AngleF32 yaw, AngleF32 pitch, AngleF32 roll) {
         final float hr = roll.radian() * 0.5f;
         final float shr = (float) Math.sin(hr);
         final float chr = (float) Math.cos(hr);
@@ -64,11 +64,11 @@ public value class QuaternionFOps implements QuaternionOps<QuaternionF, Vec3F32,
         final float newY = (shyChp * chr) - (chyShp * shr); // sin(yaw/2) * cos(pitch/2) * cos(roll/2) - cos(yaw/2) * sin(pitch/2) * sin(roll/2)
         final float newZ = (chyChp * shr) - (shyShp * chr); // cos(yaw/2) * cos(pitch/2) * sin(roll/2) - sin(yaw/2) * sin(pitch/2) * cos(roll/2)
         final float newW = (chyChp * chr) + (shyShp * shr); // cos(yaw/2) * cos(pitch/2) * cos(roll/2) + sin(yaw/2) * sin(pitch/2) * sin(roll/2)
-        return new QuaternionF(newX, newY, newZ, newW);
+        return new QuatF32(newX, newY, newZ, newW);
     }
 
     @Override
-    public QuaternionF exp(QuaternionF quaternion) {
+    public QuatF32 exp(QuatF32 quaternion) {
 
         final var witness = Vec3F32.WITNESS;
         final var vectorQuat = new Vec3F32(quaternion.x(), quaternion.y(), quaternion.z());
@@ -89,7 +89,7 @@ public value class QuaternionFOps implements QuaternionOps<QuaternionF, Vec3F32,
     }
 
     @Override
-    public QuaternionF log(QuaternionF quaternion) {
+    public QuatF32 log(QuatF32 quaternion) {
 
         final float w = Math.clamp(quaternion.w(), -1f, 1f);
         final float angle = (float) Math.acos(w);
@@ -107,12 +107,12 @@ public value class QuaternionFOps implements QuaternionOps<QuaternionF, Vec3F32,
     }
 
     @Override
-    public QuaternionF pow(QuaternionF quaternion, Float exponent) {
+    public QuatF32 pow(QuatF32 quaternion, Float exponent) {
         return exp(multiply(log(quaternion), exponent));
     }
 
     @Override
-    public QuaternionF slerp(QuaternionF start, QuaternionF end, Float alpha) {
+    public QuatF32 slerp(QuatF32 start, QuatF32 end, Float alpha) {
 
         final float dot = dot(start, end);
         final float absDot = Math.abs(dot);
@@ -130,7 +130,7 @@ public value class QuaternionFOps implements QuaternionOps<QuaternionF, Vec3F32,
     }
 
     @Override
-    public Vec3F32 rotate(QuaternionF quaternion, Vec3F32 vector) {
+    public Vec3F32 rotate(QuatF32 quaternion, Vec3F32 vector) {
         final var conjugate = conjugate(quaternion);
         final var vectorQuat = of(vector.x(), vector.y(), vector.z(), 0f);
         final var rotated = multiply(multiply(quaternion, vectorQuat), conjugate);
@@ -138,7 +138,7 @@ public value class QuaternionFOps implements QuaternionOps<QuaternionF, Vec3F32,
     }
 
     @Override
-    public Vec3F32 unrotate(QuaternionF quaternion, Vec3F32 vector) {
+    public Vec3F32 unrotate(QuatF32 quaternion, Vec3F32 vector) {
         final var conjugate = conjugate(quaternion);
         final var vectorQuat = of(vector.x(), vector.y(), vector.z(), 0f);
         final var unrotated = multiply(multiply(conjugate, vectorQuat), quaternion);
@@ -146,7 +146,7 @@ public value class QuaternionFOps implements QuaternionOps<QuaternionF, Vec3F32,
     }
 
     @Override
-    public AxisAngleF axisAngle(QuaternionF quaternion, Float epsilon) {
+    public AxisAngleF32 axisAngle(QuatF32 quaternion, Float epsilon) {
 
         final float sqrt = (float) Math.sqrt(1f - quaternion.w() * quaternion.w());
         final var angle = angle(quaternion);
@@ -156,7 +156,7 @@ public value class QuaternionFOps implements QuaternionOps<QuaternionF, Vec3F32,
             // I re-normalize because without w the length might no longer be 1.
             final var ws = Vec3F32.WITNESS;
             final var axis = ws.normalize(new Vec3F32(quaternion.x(), quaternion.y(), quaternion.z()));
-            return new AxisAngleF(axis, angle);
+            return new AxisAngleF32(axis, angle);
         }
 
         final var axis = new Vec3F32(
@@ -164,24 +164,24 @@ public value class QuaternionFOps implements QuaternionOps<QuaternionF, Vec3F32,
                 quaternion.y() / sqrt,
                 quaternion.z() / sqrt
         );
-        return new AxisAngleF(axis, angle);
+        return new AxisAngleF32(axis, angle);
     }
 
     @Override
-    public AngleF angle(QuaternionF quaternion) {
+    public AngleF32 angle(QuatF32 quaternion) {
         final float w = Math.clamp(quaternion.w(), -1f, 1f);
-        return AngleF.radians((float) (2f * Math.acos(w)));
+        return AngleF32.radians((float) (2f * Math.acos(w)));
     }
 
     @Override
-    public SwingTwistF swingTwist(QuaternionF quaternion, Vec3F32 axis) {
+    public SwingTwistF32 swingTwist(QuatF32 quaternion, Vec3F32 axis) {
         final var twist = twist(quaternion, axis);
         final var swing = multiply(quaternion, conjugate(twist));
-        return new SwingTwistF(swing, twist);
+        return new SwingTwistF32(swing, twist);
     }
 
     @Override
-    public AngleF angleAround(QuaternionF quaternion, Vec3F32 axis) {
+    public AngleF32 angleAround(QuatF32 quaternion, Vec3F32 axis) {
         return angle(twist(quaternion, axis));
     }
 
@@ -190,7 +190,7 @@ public value class QuaternionFOps implements QuaternionOps<QuaternionF, Vec3F32,
         return FloatNumeric.WITNESS;
     }
 
-    private QuaternionF twist(QuaternionF quaternion, Vec3F32 axis) {
+    private QuatF32 twist(QuatF32 quaternion, Vec3F32 axis) {
 
         final var witness = Vec3F32.WITNESS;
         final var vectorQuat = new Vec3F32(quaternion.x(), quaternion.y(), quaternion.z());

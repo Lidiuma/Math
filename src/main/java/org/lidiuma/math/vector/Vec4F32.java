@@ -20,7 +20,7 @@ import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.vector.FloatingVector4Ops;
 import org.lidiuma.math.api.vector.Vector4;
 import org.lidiuma.math.numerics.FloatNumeric;
-import org.lidiuma.math.rotation.AngleF;
+import org.lidiuma.math.rotation.AngleF32;
 
 public value record Vec4F32(
         @Override @NullRestricted Float x,
@@ -29,7 +29,7 @@ public value record Vec4F32(
         @Override @NullRestricted Float w
 ) implements Vector4<Float> {
 
-    public static final FloatingVector4Ops<Vec4F32, AngleF, Float> WITNESS = new FloatingVector4Ops<>() {
+    public static final FloatingVector4Ops<Vec4F32, AngleF32, Float> WITNESS = new FloatingVector4Ops<>() {
 
         @Override
         public Vec4F32 of(Float x, Float y, Float z, Float w) {
@@ -37,12 +37,12 @@ public value record Vec4F32(
         }
 
         @Override
-        public AngleF angle(Vec4F32 v1, Vec4F32 v2) {
+        public AngleF32 angle(Vec4F32 v1, Vec4F32 v2) {
             final var dot = dot(v1, v2);
             final float length1 = lengthSquared(v1);
             final float length2 = lengthSquared(v2);
             final float theta = (float) (dot / Math.sqrt(length1 * length2));
-            return AngleF.radians((float) Math.acos(theta));
+            return AngleF32.radians((float) Math.acos(theta));
         }
 
         @Override

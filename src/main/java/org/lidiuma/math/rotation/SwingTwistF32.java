@@ -17,31 +17,10 @@
 package org.lidiuma.math.rotation;
 
 import jdk.internal.vm.annotation.NullRestricted;
-import org.lidiuma.math.api.rotation.Angle;
+import org.lidiuma.math.api.rotation.SwingTwist;
 
-public value record AngleD(
-        @Override @NullRestricted Double radian
-) implements Angle<Double> {
-
-    public static AngleD radians(double radians) {
-        return new AngleD(radians);
-    }
-
-    public static AngleD degrees(double degrees) {
-        return new AngleD(Math.toRadians(degrees));
-    }
-
-    public static AngleD turns(double turns) {
-        return new AngleD(turns * Math.TAU);
-    }
-
-    @Override
-    public Double degree() {
-        return Math.toDegrees(radian);
-    }
-
-    @Override
-    public Double turn() {
-        return radian / Math.TAU;
-    }
+public value record SwingTwistF32(
+        @Override @NullRestricted QuatF32 swing,
+        @Override @NullRestricted QuatF32 twist
+) implements SwingTwist<QuatF32, Float> {
 }

@@ -17,31 +17,11 @@
 package org.lidiuma.math.rotation;
 
 import jdk.internal.vm.annotation.NullRestricted;
-import org.lidiuma.math.api.rotation.Angle;
+import org.lidiuma.math.api.rotation.AxisAngle;
+import org.lidiuma.math.vector.Vec3F32;
 
-public value record AngleF(
-        @Override @NullRestricted Float radian
-) implements Angle<Float> {
-
-    public static AngleF radians(float radians) {
-        return new AngleF(radians);
-    }
-
-    public static AngleF degrees(float degrees) {
-        return new AngleF((float) Math.toRadians(degrees));
-    }
-
-    public static AngleF turns(float turns) {
-        return new AngleF((float) (turns * Math.TAU));
-    }
-
-    @Override
-    public Float degree() {
-        return (float) Math.toDegrees(radian);
-    }
-
-    @Override
-    public Float turn() {
-        return (float) (radian / Math.TAU);
-    }
+public value record AxisAngleF32(
+        @Override @NullRestricted Vec3F32 axis,
+        @Override @NullRestricted AngleF32 angle
+) implements AxisAngle<Vec3F32, AngleF32, Float> {
 }

@@ -20,11 +20,11 @@ import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.vector.FloatingVector1Ops;
 import org.lidiuma.math.api.vector.Vector1;
 import org.lidiuma.math.numerics.FloatNumeric;
-import org.lidiuma.math.rotation.AngleF;
+import org.lidiuma.math.rotation.AngleF32;
 
 public value record Vec1F32(@Override @NullRestricted Float x) implements Vector1<Float> {
 
-    public static final FloatingVector1Ops<Vec1F32, AngleF, Float> WITNESS = new FloatingVector1Ops<>() {
+    public static final FloatingVector1Ops<Vec1F32, AngleF32, Float> WITNESS = new FloatingVector1Ops<>() {
 
         @Override
         public Vec1F32 of(Float x) {
@@ -32,8 +32,8 @@ public value record Vec1F32(@Override @NullRestricted Float x) implements Vector
         }
 
         @Override
-        public AngleF angle(Vec1F32 v1, Vec1F32 v2) {
-            return AngleF.radians(0f);
+        public AngleF32 angle(Vec1F32 v1, Vec1F32 v2) {
+            return AngleF32.radians(0f);
         }
 
         @Override
