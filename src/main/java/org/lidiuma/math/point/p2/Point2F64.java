@@ -18,8 +18,17 @@ package org.lidiuma.math.point.p2;
 
 import jdk.internal.vm.annotation.LooselyConsistentValue;
 import jdk.internal.vm.annotation.NullRestricted;
+import org.lidiuma.math.api.geometry.point.Point2;
+import org.lidiuma.math.point.p1.Point1F64;
 
 @LooselyConsistentValue
-public value record Point2F64(@NullRestricted Double x,
-                              @NullRestricted Double y) implements Point2.F64 {
+public value record Point2F64(
+        @NullRestricted Double x,
+        @NullRestricted Double y
+) implements Point2<Double> {
+
+    @Override
+    public Point1F64 withoutY() {
+        return new Point1F64(x());
+    }
 }

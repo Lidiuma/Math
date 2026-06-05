@@ -18,7 +18,8 @@ package org.lidiuma.math.point.p1;
 
 import jdk.internal.vm.annotation.LooselyConsistentValue;
 import jdk.internal.vm.annotation.NullRestricted;
+import org.lidiuma.math.api.geometry.point.Point1;
 
 @LooselyConsistentValue
-public value record Point1I64(@NullRestricted Long x) implements Point1.I64 {
+public value record Point1I64(@NullRestricted Long x) implements Point1<Long> {
 }

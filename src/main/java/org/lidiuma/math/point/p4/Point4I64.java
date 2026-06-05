@@ -18,10 +18,19 @@ package org.lidiuma.math.point.p4;
 
 import jdk.internal.vm.annotation.LooselyConsistentValue;
 import jdk.internal.vm.annotation.NullRestricted;
+import org.lidiuma.math.api.geometry.point.Point4;
+import org.lidiuma.math.point.p3.Point3I64;
 
 @LooselyConsistentValue
-public value record Point4I64(@NullRestricted Long x,
-                              @NullRestricted Long y,
-                              @NullRestricted Long z,
-                              @NullRestricted Long w) implements Point4.I64 {
+public value record Point4I64(
+        @NullRestricted Long x,
+        @NullRestricted Long y,
+        @NullRestricted Long z,
+        @NullRestricted Long w
+) implements Point4<Long> {
+
+    @Override
+    public Point3I64 withoutW() {
+        return new Point3I64(x(), y(), z());
+    }
 }

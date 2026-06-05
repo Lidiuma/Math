@@ -18,7 +18,8 @@ package org.lidiuma.math.point.p1;
 
 import jdk.internal.vm.annotation.LooselyConsistentValue;
 import jdk.internal.vm.annotation.NullRestricted;
+import org.lidiuma.math.api.geometry.point.Point1;
 
 @LooselyConsistentValue
-public value record Point1F32(@NullRestricted Float x) implements Point1.F32 {
+public value record Point1F32(@NullRestricted Float x) implements Point1<Float> {
 }
