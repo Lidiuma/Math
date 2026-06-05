@@ -17,7 +17,7 @@
 package org.lidiuma.math.matrix;
 
 import jdk.internal.vm.annotation.NullRestricted;
-import org.lidiuma.math.rotation.Quaternion;
+import org.lidiuma.math.rotation.QuaternionF;
 import org.lidiuma.math.rotation.Radians;
 import org.lidiuma.math.vector.v2.Vector2F32;
 import org.lidiuma.math.vector.v3.Vector3F64;
@@ -93,7 +93,7 @@ public value record Matrix4F64(
     /// Creates a transformation matrix from a translation and rotation.
     /// @return The transformation matrix.
     /// @apiNote The rotation quaternion is normalized internally.
-    public static Matrix4F64 fromTR(Vector3F64 translation, Quaternion rotation) {
+    public static Matrix4F64 fromTR(Vector3F64 translation, QuaternionF rotation) {
 
         final var rot = rotation.normalize();
 
@@ -117,31 +117,31 @@ public value record Matrix4F64(
     /// @return a new rotation matrix around the given axis.
     public static Matrix4F64 fromAxisAngle(Vector3F64 axis, Radians angle) {
         if (angle.value() == 0) return identity();
-        final var quat = Quaternion.fromAxisAngle(axis, angle);
+        final var quat = QuaternionF.fromAxisAngle(axis, angle);
         return fromRotation(quat);
     }
 
     /// @return a pure rotation matrix from the quaternion.
-    public static Matrix4F64 fromRotation(Quaternion quaternion) {
+    public static Matrix4F64 fromRotation(QuaternionF quaternion) {
         return fromTR(new Vector3F64(0d, 0d, 0d), quaternion);
     }
 
     /// @return a new rotation matrix that aligns `v1` direction with `v2` direction.
     public static Matrix4F64 fromRotationBetween(Vector3F64 v1, Vector3F64 v2) {
-        final var quat = Quaternion.fromRotationBetween(v1, v2);
+        final var quat = QuaternionF.fromRotationBetween(v1, v2);
         return fromRotation(quat);
     }
 
     /// @return a new rotation matrix from the given Euler angles.
     public static Matrix4F64 fromEulerAngles(Radians yaw, Radians pitch, Radians roll) {
-        final var quat = Quaternion.fromEulerAngles(yaw, pitch, roll);
+        final var quat = QuaternionF.fromEulerAngles(yaw, pitch, roll);
         return fromRotation(quat);
     }
 
     /// Creates a transformation matrix from translation, rotation, and scale.
     /// @return The transformation matrix.
     /// @apiNote The rotation quaternion is normalized internally.
-    public static Matrix4F64 fromTRS(Vector3F64 translation, Quaternion rotation, Vector3F64 scale) {
+    public static Matrix4F64 fromTRS(Vector3F64 translation, QuaternionF rotation, Vector3F64 scale) {
         return fromTR(translation, rotation).scale(scale);
     }
 
@@ -496,7 +496,7 @@ public value record Matrix4F64(
 
         final double otherWeight = 1d - weight;
         final Vector3F64 scaling = scale().lerp(other.scale(), otherWeight);
-        final Quaternion rotation = rotation().slerp(other.rotation(), otherWeight);
+        final QuaternionF rotation = rotation().slerp(other.rotation(), otherWeight);
         final Vector3F64 translation = translation().lerp(other.translation(), otherWeight);
 
         return fromTRS(translation, rotation, scaling);
@@ -548,8 +548,8 @@ public value record Matrix4F64(
     }
 
     @Override
-    public Quaternion rotation() {
-        return Quaternion.fromMatrix4(this);
+    public QuaternionF rotation() {
+        return QuaternionF.fromMatrix4(this);
     }
 
     @Override
@@ -626,7 +626,7 @@ public value record Matrix4F64(
     }
 
     @Override
-    public Matrix4F64 rotate(Quaternion rotation) {
+    public Matrix4F64 rotate(QuaternionF rotation) {
         return mul(fromRotation(rotation));
     }
 

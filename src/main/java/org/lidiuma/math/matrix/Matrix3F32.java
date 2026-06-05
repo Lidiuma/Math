@@ -17,7 +17,7 @@
 package org.lidiuma.math.matrix;
 
 import jdk.internal.vm.annotation.NullRestricted;
-import org.lidiuma.math.rotation.Quaternion;
+import org.lidiuma.math.rotation.QuaternionF;
 import org.lidiuma.math.rotation.Radians;
 import org.lidiuma.math.vector.v2.Vector2F32;
 import org.lidiuma.math.vector.v3.Vector3F32;
@@ -95,7 +95,7 @@ public value record Matrix3F32(
     }
 
     /// @return a pure rotation matrix from the provided quaternion.
-    public static Matrix3F32 fromRotation(Quaternion rotation) {
+    public static Matrix3F32 fromRotation(QuaternionF rotation) {
 
         final var rot = rotation.normalize();
 
@@ -147,7 +147,7 @@ public value record Matrix3F32(
     /// Creates a transformation matrix from translation, rotation, and scale.
     /// @return The transformation matrix.
     /// @apiNote The rotation quaternion is normalized internally.
-    public static Matrix3F32 fromTRS(Vector2F32 translation, Quaternion rotation, Vector2F32 scale) {
+    public static Matrix3F32 fromTRS(Vector2F32 translation, QuaternionF rotation, Vector2F32 scale) {
         final var rot = fromRotation(rotation);
         final var scl = fromScale(scale);
         final var rotScl = rot.mul(scl);
@@ -295,7 +295,7 @@ public value record Matrix3F32(
     }
 
     @Override
-    public Matrix3F32 rotate(Quaternion quaternion) {
+    public Matrix3F32 rotate(QuaternionF quaternion) {
         return mul(fromRotation(quaternion));
     }
 
