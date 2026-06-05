@@ -17,19 +17,38 @@
 package org.lidiuma.math.vector;
 
 import jdk.internal.vm.annotation.NullRestricted;
-import org.lidiuma.math.api.rotation.Angle;
-import org.lidiuma.math.api.tuple.UnaryTuple3;
+import org.lidiuma.math.api.vector.FloatingVector3Ops;
 import org.lidiuma.math.api.vector.Vector3;
-import org.lidiuma.math.tuple.Tuples;
-
-import java.util.function.UnaryOperator;
-import static org.lidiuma.math.FloatingUtil.EPSILON_F32;
+import org.lidiuma.math.numerics.FloatNumeric;
+import org.lidiuma.math.rotation.AngleF;
 
 public value record Vector3F(
         @Override @NullRestricted Float x,
         @Override @NullRestricted Float y,
         @Override @NullRestricted Float z
 ) implements Vector3<Float> {
+
+    public static final FloatingVector3Ops<Vector3F, AngleF, Float> WITNESS = new FloatingVector3Ops<>() {
+
+        @Override
+        public Vector3F of(Float x, Float y, Float z) {
+            return new Vector3F(x, y, z);
+        }
+
+        @Override
+        public AngleF angle(Vector3F v1, Vector3F v2) {
+            final var dot = dot(v1, v2);
+            final float length1 = lengthSquared(v1);
+            final float length2 = lengthSquared(v2);
+            final float theta = (float) (dot / Math.sqrt(length1 * length2));
+            return AngleF.radians((float) Math.acos(theta));
+        }
+
+        @Override
+        public FloatNumeric scalarWitness() {
+            return FloatNumeric.WITNESS;
+        }
+    };
 
     public Vector3F(Vector3<Float> vec) {
         this(vec.x(), vec.y(), vec.z());

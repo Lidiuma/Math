@@ -17,7 +17,10 @@
 package org.lidiuma.math.vector;
 
 import jdk.internal.vm.annotation.NullRestricted;
+import org.lidiuma.math.api.vector.FloatingVector4Ops;
 import org.lidiuma.math.api.vector.Vector4;
+import org.lidiuma.math.numerics.FloatNumeric;
+import org.lidiuma.math.rotation.AngleF;
 
 public value record Vector4F(
         @Override @NullRestricted Float x,
@@ -25,6 +28,28 @@ public value record Vector4F(
         @Override @NullRestricted Float z,
         @Override @NullRestricted Float w
 ) implements Vector4<Float> {
+
+    public static final FloatingVector4Ops<Vector4F, AngleF, Float> WITNESS = new FloatingVector4Ops<>() {
+
+        @Override
+        public Vector4F of(Float x, Float y, Float z, Float w) {
+            return new Vector4F(x, y, z, w);
+        }
+
+        @Override
+        public AngleF angle(Vector4F v1, Vector4F v2) {
+            final var dot = dot(v1, v2);
+            final float length1 = lengthSquared(v1);
+            final float length2 = lengthSquared(v2);
+            final float theta = (float) (dot / Math.sqrt(length1 * length2));
+            return AngleF.radians((float) Math.acos(theta));
+        }
+
+        @Override
+        public FloatNumeric scalarWitness() {
+            return FloatNumeric.WITNESS;
+        }
+    };
 
     public Vector4F(Vector4<Float> vec) {
         this(vec.x(), vec.y(), vec.z(), vec.w());

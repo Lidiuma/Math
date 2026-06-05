@@ -19,7 +19,6 @@ package org.lidiuma.math.rotation;
 import org.lidiuma.math.api.rotation.*;
 import org.lidiuma.math.numerics.FloatNumeric;
 import org.lidiuma.math.vector.Vector3F;
-import org.lidiuma.math.vector.Vector3FOps;
 import static org.lidiuma.math.FloatingUtil.EPSILON_F32;
 
 public value class QuaternionFOps implements QuaternionOps<QuaternionF, Vector3F, AngleF, Float> {
@@ -71,7 +70,7 @@ public value class QuaternionFOps implements QuaternionOps<QuaternionF, Vector3F
     @Override
     public QuaternionF exp(QuaternionF quaternion) {
 
-        final var witness = Vector3FOps.WITNESS;
+        final var witness = Vector3F.WITNESS;
         final var vectorQuat = new Vector3F(quaternion.x(), quaternion.y(), quaternion.z());
         final float angle = witness.length(vectorQuat); // The math is the same.
 
@@ -155,7 +154,7 @@ public value class QuaternionFOps implements QuaternionOps<QuaternionF, Vector3F
         // I avoid dividing by 0 if the sqrt is small enough.
         if (sqrt < epsilon) {
             // I re-normalize because without w the length might no longer be 1.
-            final var ws = Vector3FOps.WITNESS;
+            final var ws = Vector3F.WITNESS;
             final var axis = ws.normalize(new Vector3F(quaternion.x(), quaternion.y(), quaternion.z()));
             return new AxisAngleF(axis, angle);
         }
@@ -193,7 +192,7 @@ public value class QuaternionFOps implements QuaternionOps<QuaternionF, Vector3F
 
     private QuaternionF twist(QuaternionF quaternion, Vector3F axis) {
 
-        final var witness = Vector3FOps.WITNESS;
+        final var witness = Vector3F.WITNESS;
         final var vectorQuat = new Vector3F(quaternion.x(), quaternion.y(), quaternion.z());
         final float dot = witness.dot(vectorQuat, axis);
 

@@ -17,12 +17,37 @@
 package org.lidiuma.math.vector;
 
 import jdk.internal.vm.annotation.NullRestricted;
+import org.lidiuma.math.api.vector.FloatingVector2Ops;
 import org.lidiuma.math.api.vector.Vector2;
+import org.lidiuma.math.numerics.FloatNumeric;
+import org.lidiuma.math.rotation.AngleF;
 
 public value record Vector2F(
         @Override @NullRestricted Float x,
         @Override @NullRestricted Float y
 ) implements Vector2<Float> {
+
+    public static final FloatingVector2Ops<Vector2F, AngleF, Float> WITNESS = new FloatingVector2Ops<>() {
+
+        @Override
+        public Vector2F of(Float x, Float y) {
+            return new Vector2F(x, y);
+        }
+
+        @Override
+        public AngleF angle(Vector2F v1, Vector2F v2) {
+            final var dot = dot(v1, v2);
+            final float length1 = lengthSquared(v1);
+            final float length2 = lengthSquared(v2);
+            final float theta = (float) (dot / Math.sqrt(length1 * length2));
+            return AngleF.radians((float) Math.acos(theta));
+        }
+
+        @Override
+        public FloatNumeric scalarWitness() {
+            return FloatNumeric.WITNESS;
+        }
+    };
 
     public Vector2F(Vector2<Float> vec) {
         this(vec.x(), vec.y());

@@ -17,9 +17,30 @@
 package org.lidiuma.math.vector;
 
 import jdk.internal.vm.annotation.NullRestricted;
+import org.lidiuma.math.api.vector.FloatingVector1Ops;
 import org.lidiuma.math.api.vector.Vector1;
+import org.lidiuma.math.numerics.FloatNumeric;
+import org.lidiuma.math.rotation.AngleF;
 
 public value record Vector1F(@Override @NullRestricted Float x) implements Vector1<Float> {
+
+    public static final FloatingVector1Ops<Vector1F, AngleF, Float> WITNESS = new FloatingVector1Ops<>() {
+
+        @Override
+        public Vector1F of(Float x) {
+            return new Vector1F(x);
+        }
+
+        @Override
+        public AngleF angle(Vector1F v1, Vector1F v2) {
+            return AngleF.radians(0f);
+        }
+
+        @Override
+        public FloatNumeric scalarWitness() {
+            return FloatNumeric.WITNESS;
+        }
+    };
 
     /// A constructor creating a specialized vector from a generic vector.
     @SuppressWarnings("unused")
