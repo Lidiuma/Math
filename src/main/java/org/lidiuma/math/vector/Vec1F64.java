@@ -17,20 +17,12 @@
 package org.lidiuma.math.vector;
 
 import jdk.internal.vm.annotation.NullRestricted;
-import org.lidiuma.math.api.vector.Vector3;
+import org.lidiuma.math.api.vector.Vector1;
 
-public value record Vector3D(
-        @Override @NullRestricted Double x,
-        @Override @NullRestricted Double y,
-        @Override @NullRestricted Double z
-) implements Vector3<Double> {
+public value record Vec1F64(@Override @NullRestricted Double x) implements Vector1<Double> {
 
-    public Vector3D(Vector3<Double> vec) {
-        this(vec.x(), vec.y(), vec.z());
-    }
-
-    @Override
-    public Vector2D withoutZ() {
-        return new Vector2D(x(), y());
+    /// A constructor creating a specialized vector from a generic vector.
+    public Vec1F64(Vector1<Double> vec) {
+        this(vec.x());
     }
 }

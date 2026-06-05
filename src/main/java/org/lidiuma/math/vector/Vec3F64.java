@@ -17,26 +17,20 @@
 package org.lidiuma.math.vector;
 
 import jdk.internal.vm.annotation.NullRestricted;
-import org.lidiuma.math.api.tuple.UnaryTuple4;
-import org.lidiuma.math.api.vector.Vector4;
-import org.lidiuma.math.tuple.Tuples;
+import org.lidiuma.math.api.vector.Vector3;
 
-import java.util.function.UnaryOperator;
-import static org.lidiuma.math.FloatingUtil.EPSILON_F32;
-
-public value record Vector4D(
+public value record Vec3F64(
         @Override @NullRestricted Double x,
         @Override @NullRestricted Double y,
-        @Override @NullRestricted Double z,
-        @Override @NullRestricted Double w
-) implements Vector4<Double> {
+        @Override @NullRestricted Double z
+) implements Vector3<Double> {
 
-    public Vector4D(Vector4<Double> vec) {
-        this(vec.x(), vec.y(), vec.z(), vec.w());
+    public Vec3F64(Vector3<Double> vec) {
+        this(vec.x(), vec.y(), vec.z());
     }
 
     @Override
-    public Vector3D withoutW() {
-        return new Vector3D(x(), y(), z());
+    public Vec2F64 withoutZ() {
+        return new Vec2F64(x(), y());
     }
 }

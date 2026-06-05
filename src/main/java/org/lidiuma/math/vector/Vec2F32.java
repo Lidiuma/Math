@@ -17,26 +17,25 @@
 package org.lidiuma.math.vector;
 
 import jdk.internal.vm.annotation.NullRestricted;
-import org.lidiuma.math.api.vector.FloatingVector3Ops;
-import org.lidiuma.math.api.vector.Vector3;
+import org.lidiuma.math.api.vector.FloatingVector2Ops;
+import org.lidiuma.math.api.vector.Vector2;
 import org.lidiuma.math.numerics.FloatNumeric;
 import org.lidiuma.math.rotation.AngleF;
 
-public value record Vector3F(
+public value record Vec2F32(
         @Override @NullRestricted Float x,
-        @Override @NullRestricted Float y,
-        @Override @NullRestricted Float z
-) implements Vector3<Float> {
+        @Override @NullRestricted Float y
+) implements Vector2<Float> {
 
-    public static final FloatingVector3Ops<Vector3F, AngleF, Float> WITNESS = new FloatingVector3Ops<>() {
+    public static final FloatingVector2Ops<Vec2F32, AngleF, Float> WITNESS = new FloatingVector2Ops<>() {
 
         @Override
-        public Vector3F of(Float x, Float y, Float z) {
-            return new Vector3F(x, y, z);
+        public Vec2F32 of(Float x, Float y) {
+            return new Vec2F32(x, y);
         }
 
         @Override
-        public AngleF angle(Vector3F v1, Vector3F v2) {
+        public AngleF angle(Vec2F32 v1, Vec2F32 v2) {
             final var dot = dot(v1, v2);
             final float length1 = lengthSquared(v1);
             final float length2 = lengthSquared(v2);
@@ -50,12 +49,12 @@ public value record Vector3F(
         }
     };
 
-    public Vector3F(Vector3<Float> vec) {
-        this(vec.x(), vec.y(), vec.z());
+    public Vec2F32(Vector2<Float> vec) {
+        this(vec.x(), vec.y());
     }
 
     @Override
-    public Vector2F withoutZ() {
-        return new Vector2F(x(), y());
+    public Vec1F32 withoutY() {
+        return new Vec1F32(x());
     }
 }

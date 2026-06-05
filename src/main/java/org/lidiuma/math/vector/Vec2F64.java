@@ -19,17 +19,17 @@ package org.lidiuma.math.vector;
 import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.vector.Vector2;
 
-public value record Vector2D(
+public value record Vec2F64(
         @Override @NullRestricted Double x,
         @Override @NullRestricted Double y
 ) implements Vector2<Double> {
 
-    public Vector2D(Vector2<Double> vec) {
+    public Vec2F64(Vector2<Double> vec) {
         this(vec.x(), vec.y());
     }
 
     @Override
-    public Vector1D withoutY() {
-        return new Vector1D(x());
+    public Vec1F64 withoutY() {
+        return new Vec1F64(x());
     }
 }

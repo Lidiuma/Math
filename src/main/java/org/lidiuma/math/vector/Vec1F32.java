@@ -22,17 +22,17 @@ import org.lidiuma.math.api.vector.Vector1;
 import org.lidiuma.math.numerics.FloatNumeric;
 import org.lidiuma.math.rotation.AngleF;
 
-public value record Vector1F(@Override @NullRestricted Float x) implements Vector1<Float> {
+public value record Vec1F32(@Override @NullRestricted Float x) implements Vector1<Float> {
 
-    public static final FloatingVector1Ops<Vector1F, AngleF, Float> WITNESS = new FloatingVector1Ops<>() {
+    public static final FloatingVector1Ops<Vec1F32, AngleF, Float> WITNESS = new FloatingVector1Ops<>() {
 
         @Override
-        public Vector1F of(Float x) {
-            return new Vector1F(x);
+        public Vec1F32 of(Float x) {
+            return new Vec1F32(x);
         }
 
         @Override
-        public AngleF angle(Vector1F v1, Vector1F v2) {
+        public AngleF angle(Vec1F32 v1, Vec1F32 v2) {
             return AngleF.radians(0f);
         }
 
@@ -44,7 +44,7 @@ public value record Vector1F(@Override @NullRestricted Float x) implements Vecto
 
     /// A constructor creating a specialized vector from a generic vector.
     @SuppressWarnings("unused")
-    public Vector1F(Vector1<Float> vec) {
+    public Vec1F32(Vector1<Float> vec) {
         this(vec.x());
     }
 }

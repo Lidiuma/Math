@@ -17,25 +17,27 @@
 package org.lidiuma.math.vector;
 
 import jdk.internal.vm.annotation.NullRestricted;
-import org.lidiuma.math.api.vector.FloatingVector2Ops;
-import org.lidiuma.math.api.vector.Vector2;
+import org.lidiuma.math.api.vector.FloatingVector4Ops;
+import org.lidiuma.math.api.vector.Vector4;
 import org.lidiuma.math.numerics.FloatNumeric;
 import org.lidiuma.math.rotation.AngleF;
 
-public value record Vector2F(
+public value record Vec4F32(
         @Override @NullRestricted Float x,
-        @Override @NullRestricted Float y
-) implements Vector2<Float> {
+        @Override @NullRestricted Float y,
+        @Override @NullRestricted Float z,
+        @Override @NullRestricted Float w
+) implements Vector4<Float> {
 
-    public static final FloatingVector2Ops<Vector2F, AngleF, Float> WITNESS = new FloatingVector2Ops<>() {
+    public static final FloatingVector4Ops<Vec4F32, AngleF, Float> WITNESS = new FloatingVector4Ops<>() {
 
         @Override
-        public Vector2F of(Float x, Float y) {
-            return new Vector2F(x, y);
+        public Vec4F32 of(Float x, Float y, Float z, Float w) {
+            return new Vec4F32(x, y, z, w);
         }
 
         @Override
-        public AngleF angle(Vector2F v1, Vector2F v2) {
+        public AngleF angle(Vec4F32 v1, Vec4F32 v2) {
             final var dot = dot(v1, v2);
             final float length1 = lengthSquared(v1);
             final float length2 = lengthSquared(v2);
@@ -49,12 +51,12 @@ public value record Vector2F(
         }
     };
 
-    public Vector2F(Vector2<Float> vec) {
-        this(vec.x(), vec.y());
+    public Vec4F32(Vector4<Float> vec) {
+        this(vec.x(), vec.y(), vec.z(), vec.w());
     }
 
     @Override
-    public Vector1F withoutY() {
-        return new Vector1F(x());
+    public Vec3F32 withoutW() {
+        return new Vec3F32(x(), y(), z());
     }
 }
