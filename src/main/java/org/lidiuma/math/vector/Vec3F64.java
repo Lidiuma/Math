@@ -17,13 +17,38 @@
 package org.lidiuma.math.vector;
 
 import jdk.internal.vm.annotation.NullRestricted;
+import org.lidiuma.math.api.vector.FloatingVector3Ops;
 import org.lidiuma.math.api.vector.Vector3;
+import org.lidiuma.math.numerics.DoubleNumeric;
+import org.lidiuma.math.rotation.AngleF64;
 
 public value record Vec3F64(
         @Override @NullRestricted Double x,
         @Override @NullRestricted Double y,
         @Override @NullRestricted Double z
 ) implements Vector3<Double> {
+
+    public static final FloatingVector3Ops<Vec3F64, AngleF64, Double> WITNESS = new FloatingVector3Ops<>() {
+
+        @Override
+        public Vec3F64 of(Double x, Double y, Double z) {
+            return new Vec3F64(x, y, z);
+        }
+
+        @Override
+        public AngleF64 angle(Vec3F64 v1, Vec3F64 v2) {
+            final double dot = dot(v1, v2);
+            final double length1 = lengthSquared(v1);
+            final double length2 = lengthSquared(v2);
+            final double theta = dot / Math.sqrt(length1 * length2);
+            return AngleF64.radians(Math.acos(theta));
+        }
+
+        @Override
+        public DoubleNumeric scalarWitness() {
+            return DoubleNumeric.WITNESS;
+        }
+    };
 
     public Vec3F64(Vector3<Double> vec) {
         this(vec.x(), vec.y(), vec.z());

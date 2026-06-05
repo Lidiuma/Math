@@ -17,9 +17,30 @@
 package org.lidiuma.math.vector;
 
 import jdk.internal.vm.annotation.NullRestricted;
+import org.lidiuma.math.api.vector.FloatingVector1Ops;
 import org.lidiuma.math.api.vector.Vector1;
+import org.lidiuma.math.numerics.DoubleNumeric;
+import org.lidiuma.math.rotation.AngleF64;
 
 public value record Vec1F64(@Override @NullRestricted Double x) implements Vector1<Double> {
+
+    public static final FloatingVector1Ops<Vec1F64, AngleF64, Double> WITNESS = new FloatingVector1Ops<>() {
+
+        @Override
+        public Vec1F64 of(Double x) {
+            return new Vec1F64(x);
+        }
+
+        @Override
+        public AngleF64 angle(Vec1F64 v1, Vec1F64 v2) {
+            return AngleF64.radians(0f);
+        }
+
+        @Override
+        public DoubleNumeric scalarWitness() {
+            return DoubleNumeric.WITNESS;
+        }
+    };
 
     /// A constructor creating a specialized vector from a generic vector.
     public Vec1F64(Vector1<Double> vec) {

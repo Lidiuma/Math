@@ -36,7 +36,7 @@ public value record Vec2F32(
 
         @Override
         public AngleF32 angle(Vec2F32 v1, Vec2F32 v2) {
-            final var dot = dot(v1, v2);
+            final float dot = dot(v1, v2);
             final float length1 = lengthSquared(v1);
             final float length2 = lengthSquared(v2);
             final float theta = (float) (dot / Math.sqrt(length1 * length2));
