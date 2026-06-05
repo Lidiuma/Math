@@ -16,23 +16,6 @@
 
 package org.lidiuma.math.point;
 
-import org.lidiuma.math.point.p1.Point1F32;
-import org.lidiuma.math.point.p1.Point1F64;
-import org.lidiuma.math.point.p1.Point1I32;
-import org.lidiuma.math.point.p1.Point1I64;
-import org.lidiuma.math.point.p2.Point2F32;
-import org.lidiuma.math.point.p2.Point2F64;
-import org.lidiuma.math.point.p2.Point2I32;
-import org.lidiuma.math.point.p2.Point2I64;
-import org.lidiuma.math.point.p3.Point3F32;
-import org.lidiuma.math.point.p3.Point3F64;
-import org.lidiuma.math.point.p3.Point3I32;
-import org.lidiuma.math.point.p3.Point3I64;
-import org.lidiuma.math.point.p4.Point4F32;
-import org.lidiuma.math.point.p4.Point4F64;
-import org.lidiuma.math.point.p4.Point4I32;
-import org.lidiuma.math.point.p4.Point4I64;
-
 /// A class to import statically to have a short way to initialize all the library points.
 public value class Points {
 
