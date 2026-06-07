@@ -45,7 +45,7 @@ public value record Vec3F32(
         }
 
         @Override
-        public FloatNumeric scalarWitness() {
+        public FloatNumeric scalarOps() {
             return FloatNumeric.WITNESS;
         }
     };

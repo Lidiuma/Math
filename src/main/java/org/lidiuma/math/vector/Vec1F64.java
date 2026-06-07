@@ -37,7 +37,7 @@ public value record Vec1F64(@Override @NullRestricted Double x) implements Vecto
         }
 
         @Override
-        public DoubleNumeric scalarWitness() {
+        public DoubleNumeric scalarOps() {
             return DoubleNumeric.WITNESS;
         }
     };

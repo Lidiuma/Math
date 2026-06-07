@@ -46,7 +46,7 @@ public value record Vec4F64(
         }
 
         @Override
-        public DoubleNumeric scalarWitness() {
+        public DoubleNumeric scalarOps() {
             return DoubleNumeric.WITNESS;
         }
     };

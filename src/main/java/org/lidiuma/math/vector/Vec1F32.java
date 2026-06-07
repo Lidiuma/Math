@@ -37,7 +37,7 @@ public value record Vec1F32(@Override @NullRestricted Float x) implements Vector
         }
 
         @Override
-        public FloatNumeric scalarWitness() {
+        public FloatNumeric scalarOps() {
             return FloatNumeric.WITNESS;
         }
     };
