@@ -54,9 +54,4 @@ public value record Vec4F32(
     public Vec4F32(Vector4<Float> vec) {
         this(vec.x(), vec.y(), vec.z(), vec.w());
     }
-
-    @Override
-    public Vec3F32 withoutW() {
-        return new Vec3F32(x(), y(), z());
-    }
 }

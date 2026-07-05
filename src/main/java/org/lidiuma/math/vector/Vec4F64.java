@@ -54,9 +54,4 @@ public value record Vec4F64(
     public Vec4F64(Vector4<Double> vec) {
         this(vec.x(), vec.y(), vec.z(), vec.w());
     }
-
-    @Override
-    public Vec3F64 withoutW() {
-        return new Vec3F64(x(), y(), z());
-    }
 }

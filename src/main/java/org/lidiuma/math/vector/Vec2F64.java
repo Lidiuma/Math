@@ -52,9 +52,4 @@ public value record Vec2F64(
     public Vec2F64(Vector2<Double> vec) {
         this(vec.x(), vec.y());
     }
-
-    @Override
-    public Vec1F64 withoutY() {
-        return new Vec1F64(x());
-    }
 }
