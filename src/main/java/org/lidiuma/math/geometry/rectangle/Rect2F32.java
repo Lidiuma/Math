@@ -14,13 +14,17 @@
  * limitations under the License.
  */
 
-package org.lidiuma.math.geometry;
+package org.lidiuma.math.geometry.rectangle;
 
 import jdk.internal.vm.annotation.LooselyConsistentValue;
 import jdk.internal.vm.annotation.NullRestricted;
+import org.lidiuma.math.api.geometry.rectangle.Rectangle2;
+import org.lidiuma.math.vector.Vec2F32;
 
 @LooselyConsistentValue
-public value record Cuboid<T, P>(@NullRestricted P pos,
-                                 @NullRestricted T width,
-                                 @NullRestricted T height,
-                                 @NullRestricted T length) implements Shape.Cuboid<T, P> {}
+public value record Rect2F32(@NullRestricted Vec2F32 size) implements Rectangle2<Float> {
+
+    public Rect2F32(float width, float height) {
+        this(new Vec2F32(width, height));
+    }
+}

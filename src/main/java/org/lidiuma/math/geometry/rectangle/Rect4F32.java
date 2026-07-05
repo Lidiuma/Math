@@ -14,18 +14,17 @@
  * limitations under the License.
  */
 
-import org.jspecify.annotations.NullMarked;
+package org.lidiuma.math.geometry.rectangle;
 
-@NullMarked // Makes the whole codebase non-null by default.
-module lidiuma.math {
-    requires org.jspecify;
-    requires lidiuma.math.api;
-    exports org.lidiuma.math.tuple;
-    exports org.lidiuma.math.numerics;
-    exports org.lidiuma.math.rotation;
-    exports org.lidiuma.math.matrix;
-    exports org.lidiuma.math.point;
-    exports org.lidiuma.math.vector;
-    exports org.lidiuma.math.geometry;
-    exports org.lidiuma.math.geometry.rectangle;
+import jdk.internal.vm.annotation.LooselyConsistentValue;
+import jdk.internal.vm.annotation.NullRestricted;
+import org.lidiuma.math.api.geometry.rectangle.Rectangle4;
+import org.lidiuma.math.vector.Vec4F32;
+
+@LooselyConsistentValue
+public value record Rect4F32(@NullRestricted Vec4F32 size) implements Rectangle4<Float> {
+
+    public Rect4F32(float width, float height, float length, float depth) {
+        this(new Vec4F32(width, height, length, depth));
+    }
 }

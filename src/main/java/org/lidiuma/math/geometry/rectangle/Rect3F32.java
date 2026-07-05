@@ -14,12 +14,17 @@
  * limitations under the License.
  */
 
-package org.lidiuma.math.geometry;
+package org.lidiuma.math.geometry.rectangle;
 
 import jdk.internal.vm.annotation.LooselyConsistentValue;
 import jdk.internal.vm.annotation.NullRestricted;
+import org.lidiuma.math.api.geometry.rectangle.Rectangle3;
+import org.lidiuma.math.vector.Vec3F32;
 
 @LooselyConsistentValue
-public value record Rectangle<T, P>(@NullRestricted P pos,
-                                    @NullRestricted T width,
-                                    @NullRestricted T height) implements Shape.Rectangle<T, P> {}
+public value record Rect3F32(@NullRestricted Vec3F32 size) implements Rectangle3<Float> {
+
+    public Rect3F32(float width, float height, float length) {
+        this(new Vec3F32(width, height, length));
+    }
+}
