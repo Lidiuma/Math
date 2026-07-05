@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
-package org.lidiuma.math.geometry;
+package org.lidiuma.math.geometry.sphere;
 
 import jdk.internal.vm.annotation.LooselyConsistentValue;
 import jdk.internal.vm.annotation.NullRestricted;
+import org.lidiuma.math.api.geometry.sphere.Radius;
 
 @LooselyConsistentValue
-public value record Sphere<T, P>(@NullRestricted P center,
-                                 @NullRestricted T radius) implements Shape.Sphere<T, P> {}
+public value record RadiusF32(@NullRestricted Float radius) implements Radius<Float> {
+}
