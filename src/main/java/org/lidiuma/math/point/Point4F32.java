@@ -27,9 +27,4 @@ public value record Point4F32(
         @NullRestricted Float z,
         @NullRestricted Float w
 ) implements Point4<Float> {
-
-    @Override
-    public Point3F32 withoutW() {
-        return new Point3F32(x(), y(), z());
-    }
 }

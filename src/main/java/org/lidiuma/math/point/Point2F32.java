@@ -25,9 +25,4 @@ public value record Point2F32(
         @NullRestricted Float x,
         @NullRestricted Float y
 ) implements Point2<Float> {
-
-    @Override
-    public Point1F32 withoutY() {
-        return new Point1F32(x());
-    }
 }

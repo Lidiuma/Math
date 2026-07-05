@@ -27,9 +27,4 @@ public value record Point4F64(
         @NullRestricted Double z,
         @NullRestricted Double w
 ) implements Point4<Double> {
-
-    @Override
-    public Point3F64 withoutW() {
-        return new Point3F64(x(), y(), z());
-    }
 }

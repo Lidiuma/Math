@@ -27,9 +27,4 @@ public value record Point4I64(
         @NullRestricted Long z,
         @NullRestricted Long w
 ) implements Point4<Long> {
-
-    @Override
-    public Point3I64 withoutW() {
-        return new Point3I64(x(), y(), z());
-    }
 }

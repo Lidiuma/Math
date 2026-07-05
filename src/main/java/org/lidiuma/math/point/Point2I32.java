@@ -25,9 +25,4 @@ public value record Point2I32(
         @NullRestricted Integer x,
         @NullRestricted Integer y
 ) implements Point2<Integer> {
-
-    @Override
-    public Point1I32 withoutY() {
-        return new Point1I32(x());
-    }
 }
