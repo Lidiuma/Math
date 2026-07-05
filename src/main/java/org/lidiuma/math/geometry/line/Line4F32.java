@@ -14,18 +14,13 @@
  * limitations under the License.
  */
 
-import org.jspecify.annotations.NullMarked;
+package org.lidiuma.math.geometry.line;
 
-@NullMarked // Makes the whole codebase non-null by default.
-module lidiuma.math {
-    requires org.jspecify;
-    requires lidiuma.math.api;
-    exports org.lidiuma.math.tuple;
-    exports org.lidiuma.math.numerics;
-    exports org.lidiuma.math.rotation;
-    exports org.lidiuma.math.matrix;
-    exports org.lidiuma.math.vector;
-    exports org.lidiuma.math.geometry.point;
-    exports org.lidiuma.math.geometry.rectangle;
-    exports org.lidiuma.math.geometry.line;
+import jdk.internal.vm.annotation.LooselyConsistentValue;
+import jdk.internal.vm.annotation.NullRestricted;
+import org.lidiuma.math.api.geometry.line.Line4;
+import org.lidiuma.math.geometry.point.Point4F32;
+
+@LooselyConsistentValue
+public value record Line4F32(@NullRestricted Point4F32 start, @NullRestricted Point4F32 end) implements Line4<Float> {
 }

@@ -14,11 +14,13 @@
  * limitations under the License.
  */
 
-package org.lidiuma.math.geometry;
+package org.lidiuma.math.geometry.line;
 
 import jdk.internal.vm.annotation.LooselyConsistentValue;
 import jdk.internal.vm.annotation.NullRestricted;
+import org.lidiuma.math.api.geometry.line.Line3;
+import org.lidiuma.math.geometry.point.Point3F32;
 
 @LooselyConsistentValue
-public value record Line<P>(@NullRestricted P start,
-                            @NullRestricted P end) implements Shape.Line<P> {}
+public value record Line3F32(@NullRestricted Point3F32 start, @NullRestricted Point3F32 end) implements Line3<Float> {
+}
