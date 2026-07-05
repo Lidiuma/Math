@@ -19,6 +19,7 @@ package org.lidiuma.math.matrix;
 import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.matrix.Affine3;
 import org.lidiuma.math.api.matrix.Affine3Ops;
+import org.lidiuma.math.api.vector.Vector3Ops;
 import org.lidiuma.math.numerics.FloatNumeric;
 import org.lidiuma.math.vector.Vec3F32;
 
@@ -42,11 +43,8 @@ public value record Affine3F32(
         }
 
         @Override
-        public Vec3F32 multiply(Affine3F32 matrix, Vec3F32 vector) {
-            final var x = matrix.m00() * vector.x() + matrix.m01() * vector.y() + matrix.m02() * vector.z() + matrix.m03();
-            final var y = matrix.m10() * vector.x() + matrix.m11() * vector.y() + matrix.m12() * vector.z() + matrix.m13();
-            final var z = matrix.m20() * vector.x() + matrix.m21() * vector.y() + matrix.m22() * vector.z() + matrix.m23();
-            return new Vec3F32(x, y, z);
+        public Vector3Ops<Vec3F32, Float> vectorOps() {
+            return Vec3F32.WITNESS;
         }
 
         @Override

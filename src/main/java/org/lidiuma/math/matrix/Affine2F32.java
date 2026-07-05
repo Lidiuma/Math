@@ -19,6 +19,7 @@ package org.lidiuma.math.matrix;
 import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.matrix.Affine2;
 import org.lidiuma.math.api.matrix.Affine2Ops;
+import org.lidiuma.math.api.vector.Vector2Ops;
 import org.lidiuma.math.numerics.FloatNumeric;
 import org.lidiuma.math.vector.Vec2F32;
 
@@ -38,10 +39,8 @@ public value record Affine2F32(
         }
 
         @Override
-        public Vec2F32 multiply(Affine2F32 matrix, Vec2F32 vector) {
-            final var x = matrix.m00() * vector.x() + matrix.m01() * vector.y() + matrix.m02();
-            final var y = matrix.m10() * vector.x() + matrix.m11() * vector.y() + matrix.m12();
-            return new Vec2F32(x, y);
+        public Vector2Ops<Vec2F32, Float> vectorOps() {
+            return Vec2F32.WITNESS;
         }
 
         @Override
