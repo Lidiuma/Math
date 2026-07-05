@@ -16,11 +16,8 @@
 
 package io.github.xasmedy.math;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-import static org.lidiuma.math.rotation.Radians.degrees;
-import static org.lidiuma.math.vector.Vectors.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public value class MathTest {

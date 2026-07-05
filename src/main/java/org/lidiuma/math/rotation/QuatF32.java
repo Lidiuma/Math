@@ -21,10 +21,8 @@ import org.lidiuma.math.api.rotation.Quaternion;
 import org.lidiuma.math.api.rotation.QuaternionOps;
 import org.lidiuma.math.api.vector.Vector4;
 import org.lidiuma.math.numerics.FloatNumeric;
-import org.lidiuma.math.tuple.Float3;
 import jdk.internal.vm.annotation.LooselyConsistentValue;
 import org.lidiuma.math.vector.Vec3F32;
-
 import static org.lidiuma.math.FloatingUtil.EPSILON_F32;
 
 @LooselyConsistentValue
@@ -221,10 +219,5 @@ public value record QuatF32(
 
     public QuatF32(Vector4<Float> v4) {
         this(v4.x(), v4.y(), v4.z(), v4.w());
-    }
-
-    @Override
-    public Float3 withoutW() {
-        return new Float3(x(), y(), z());
     }
 }
