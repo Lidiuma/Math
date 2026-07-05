@@ -14,13 +14,11 @@
  * limitations under the License.
  */
 
-package org.lidiuma.math.shape;
+package org.lidiuma.math.geometry;
 
 import jdk.internal.vm.annotation.LooselyConsistentValue;
 import jdk.internal.vm.annotation.NullRestricted;
 
 @LooselyConsistentValue
-public value record Cuboid<T, P>(@NullRestricted P pos,
-                                 @NullRestricted T width,
-                                 @NullRestricted T height,
-                                 @NullRestricted T length) implements Shape.Cuboid<T, P> {}
+public value record Sphere<T, P>(@NullRestricted P center,
+                                 @NullRestricted T radius) implements Shape.Sphere<T, P> {}

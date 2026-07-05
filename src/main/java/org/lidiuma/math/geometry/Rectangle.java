@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
-package org.lidiuma.math.shape;
+package org.lidiuma.math.geometry;
 
 import jdk.internal.vm.annotation.LooselyConsistentValue;
 import jdk.internal.vm.annotation.NullRestricted;
 
 @LooselyConsistentValue
-public value record Line<P>(@NullRestricted P start,
-                            @NullRestricted P end) implements Shape.Line<P> {}
+public value record Rectangle<T, P>(@NullRestricted P pos,
+                                    @NullRestricted T width,
+                                    @NullRestricted T height) implements Shape.Rectangle<T, P> {}
