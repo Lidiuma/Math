@@ -19,7 +19,6 @@ package org.lidiuma.math.tuple;
 import jdk.internal.vm.annotation.LooselyConsistentValue;
 import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.tuple.UnaryTuple2;
-import static org.lidiuma.math.tuple.Tuples.*;
 
 @LooselyConsistentValue
 public value record Double2(
@@ -29,21 +28,5 @@ public value record Double2(
 
     public Double2(Double1 double1, double y) {
         this(double1.x(), y);
-    }
-
-    @Override
-    public Double1 withoutY() {
-        return double1(x);
-    }
-
-    @Override
-    public boolean equals(UnaryTuple2<Double> other, Double epsilon) {
-        return epsilonEquals(x, other.x(), epsilon) &&
-               epsilonEquals(y, other.y(), epsilon);
-    }
-
-    @Override
-    public boolean componentEquals(Double value, Double epsilon) {
-        return equals(double2(value), epsilon);
     }
 }

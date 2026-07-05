@@ -19,20 +19,9 @@ package org.lidiuma.math.tuple;
 import jdk.internal.vm.annotation.LooselyConsistentValue;
 import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.tuple.UnaryTuple1;
-import static org.lidiuma.math.tuple.Tuples.*;
 
 @LooselyConsistentValue
 public value record Double1(
         @Override @NullRestricted Double x
 ) implements UnaryTuple1<Double> {
-
-    @Override
-    public boolean equals(UnaryTuple1<Double> other, Double epsilon) {
-        return epsilonEquals(x, other.x(), epsilon);
-    }
-
-    @Override
-    public boolean componentEquals(Double value, Double epsilon) {
-        return equals(double1(value), epsilon);
-    }
 }

@@ -32,22 +32,4 @@ public value record Float4(
     public Float4(Float3 float3, float w) {
         this(float3.x(), float3.y(), float3.z(), w);
     }
-
-    @Override
-    public Float3 withoutW() {
-        return float3(x, y, z);
-    }
-
-    @Override
-    public boolean equals(UnaryTuple4<Float> other, Float epsilon) {
-        return epsilonEquals(x, other.x(), epsilon) &&
-               epsilonEquals(y, other.y(), epsilon) &&
-               epsilonEquals(z, other.z(), epsilon) &&
-               epsilonEquals(w, other.w(), epsilon);
-    }
-
-    @Override
-    public boolean componentEquals(Float value, Float epsilon) {
-        return equals(float4(value), epsilon);
-    }
 }
