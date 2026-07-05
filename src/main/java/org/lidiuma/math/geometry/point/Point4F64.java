@@ -14,16 +14,17 @@
  * limitations under the License.
  */
 
-package org.lidiuma.math.point;
+package org.lidiuma.math.geometry.point;
 
 import jdk.internal.vm.annotation.LooselyConsistentValue;
 import jdk.internal.vm.annotation.NullRestricted;
-import org.lidiuma.math.api.geometry.point.Point3;
+import org.lidiuma.math.api.geometry.point.Point4;
 
 @LooselyConsistentValue
-public value record Point3I32(
-        @NullRestricted Integer x,
-        @NullRestricted Integer y,
-        @NullRestricted Integer z
-) implements Point3<Integer> {
+public value record Point4F64(
+        @NullRestricted Double x,
+        @NullRestricted Double y,
+        @NullRestricted Double z,
+        @NullRestricted Double w
+) implements Point4<Double> {
 }

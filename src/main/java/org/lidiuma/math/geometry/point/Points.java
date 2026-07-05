@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.lidiuma.math.point;
+package org.lidiuma.math.geometry.point;
 
 /// A class to import statically to have a short way to initialize all the library points.
 public value class Points {
