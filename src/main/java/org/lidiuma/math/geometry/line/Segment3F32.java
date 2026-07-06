@@ -18,9 +18,9 @@ package org.lidiuma.math.geometry.line;
 
 import jdk.internal.vm.annotation.LooselyConsistentValue;
 import jdk.internal.vm.annotation.NullRestricted;
-import org.lidiuma.math.api.geometry.line.Line4;
-import org.lidiuma.math.geometry.point.Point4F32;
+import org.lidiuma.math.api.geometry.segment.Segment3;
+import org.lidiuma.math.vector.Vec3F32;
 
 @LooselyConsistentValue
-public value record Line4F32(@NullRestricted Point4F32 start, @NullRestricted Point4F32 end) implements Line4<Float> {
+public value record Segment3F32(@NullRestricted Vec3F32 span) implements Segment3<Float> {
 }
