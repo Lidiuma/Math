@@ -14,16 +14,12 @@
  * limitations under the License.
  */
 
-package org.lidiuma.math.geometry.point;
+package org.lidiuma.math.shape.sphere;
 
 import jdk.internal.vm.annotation.LooselyConsistentValue;
 import jdk.internal.vm.annotation.NullRestricted;
-import org.lidiuma.math.api.geometry.point.Point3;
+import org.lidiuma.math.api.shape.sphere.Radius;
 
 @LooselyConsistentValue
-public value record Point3I32(
-        @NullRestricted Integer x,
-        @NullRestricted Integer y,
-        @NullRestricted Integer z
-) implements Point3<Integer> {
+public value record RadiusF32(@NullRestricted Float radius) implements Radius<Float> {
 }

@@ -25,7 +25,7 @@ module lidiuma.math {
     exports org.lidiuma.math.rotation;
     exports org.lidiuma.math.matrix;
     exports org.lidiuma.math.vector;
-    exports org.lidiuma.math.geometry.point;
-    exports org.lidiuma.math.geometry.rectangle;
-    exports org.lidiuma.math.geometry.line;
+    exports org.lidiuma.math.point;
+    exports org.lidiuma.math.shape.rectangle;
+    exports org.lidiuma.math.shape.segment;
 }

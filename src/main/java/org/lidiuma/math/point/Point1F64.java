@@ -14,17 +14,12 @@
  * limitations under the License.
  */
 
-package org.lidiuma.math.geometry.rectangle;
+package org.lidiuma.math.point;
 
 import jdk.internal.vm.annotation.LooselyConsistentValue;
 import jdk.internal.vm.annotation.NullRestricted;
-import org.lidiuma.math.api.geometry.rectangle.Rectangle2;
-import org.lidiuma.math.vector.Vec2F32;
+import org.lidiuma.math.api.point.Point1;
 
 @LooselyConsistentValue
-public value record Rect2F32(@NullRestricted Vec2F32 size) implements Rectangle2<Float> {
-
-    public Rect2F32(float width, float height) {
-        this(new Vec2F32(width, height));
-    }
+public value record Point1F64(@NullRestricted Double x) implements Point1<Double> {
 }

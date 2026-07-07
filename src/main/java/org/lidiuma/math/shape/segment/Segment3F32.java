@@ -14,17 +14,13 @@
  * limitations under the License.
  */
 
-package org.lidiuma.math.geometry.rectangle;
+package org.lidiuma.math.shape.segment;
 
 import jdk.internal.vm.annotation.LooselyConsistentValue;
 import jdk.internal.vm.annotation.NullRestricted;
-import org.lidiuma.math.api.geometry.rectangle.Rectangle3;
+import org.lidiuma.math.api.shape.segment.Segment3;
 import org.lidiuma.math.vector.Vec3F32;
 
 @LooselyConsistentValue
-public value record Rect3F32(@NullRestricted Vec3F32 size) implements Rectangle3<Float> {
-
-    public Rect3F32(float width, float height, float length) {
-        this(new Vec3F32(width, height, length));
-    }
+public value record Segment3F32(@NullRestricted Vec3F32 span) implements Segment3<Float> {
 }
