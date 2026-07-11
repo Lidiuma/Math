@@ -17,7 +17,7 @@
 package org.lidiuma.math.vector;
 
 import jdk.internal.vm.annotation.NullRestricted;
-import org.lidiuma.math.api.vector.FloatingVector2Ops;
+import org.lidiuma.math.api.traits.vector.FloatingVector2Ops;
 import org.lidiuma.math.api.vector.Vector2;
 import org.lidiuma.math.numerics.DoubleNumeric;
 import org.lidiuma.math.rotation.AngleF64;

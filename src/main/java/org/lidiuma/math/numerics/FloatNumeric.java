@@ -16,7 +16,7 @@
 
 package org.lidiuma.math.numerics;
 
-import org.lidiuma.math.api.FloatingNumerical;
+import org.lidiuma.math.api.traits.FloatingNumerical;
 
 public class FloatNumeric implements FloatingNumerical<Float> {
 

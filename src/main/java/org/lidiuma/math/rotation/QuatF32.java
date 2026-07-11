@@ -18,7 +18,7 @@ package org.lidiuma.math.rotation;
 
 import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.rotation.Quaternion;
-import org.lidiuma.math.api.rotation.QuaternionOps;
+import org.lidiuma.math.api.traits.rotation.QuaternionOps;
 import org.lidiuma.math.api.vector.Vector4;
 import org.lidiuma.math.numerics.FloatNumeric;
 import jdk.internal.vm.annotation.LooselyConsistentValue;

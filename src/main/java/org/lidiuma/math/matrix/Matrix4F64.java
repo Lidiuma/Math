@@ -18,8 +18,8 @@ package org.lidiuma.math.matrix;
 
 import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.matrix.Matrix4;
-import org.lidiuma.math.api.matrix.Matrix4Ops;
-import org.lidiuma.math.api.vector.Vector4Ops;
+import org.lidiuma.math.api.traits.matrix.Matrix4Ops;
+import org.lidiuma.math.api.traits.vector.Vector4Ops;
 import org.lidiuma.math.numerics.DoubleNumeric;
 import org.lidiuma.math.vector.Vec4F64;
 import jdk.internal.vm.annotation.LooselyConsistentValue;

@@ -18,7 +18,7 @@ package org.lidiuma.math.shape.sphere;
 
 import jdk.internal.vm.annotation.LooselyConsistentValue;
 import jdk.internal.vm.annotation.NullRestricted;
-import org.lidiuma.math.api.shape.sphere.Radius;
+import org.lidiuma.math.api.shapes.sphere.Radius;
 
 @LooselyConsistentValue
 public value record RadiusF64(@NullRestricted Double radius) implements Radius<Double> {

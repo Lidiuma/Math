@@ -52,8 +52,10 @@ public final class MathBuild extends Project {
         downloadSources = true;
         repositories = List.of(MAVEN_CENTRAL, CENTRAL_SNAPSHOTS, RIFE2_RELEASES);
 
-        scope(compile).include(module("org.lidiuma.math", "math-api", snapshot(1, 0, 0)));
-        scope(compile).include(module("org.jspecify", "jspecify", version(1, 0, 0)));
+        scope(compile)
+                .include(module("org.jspecify", "jspecify", version(1, 0, 0)))
+                .include(module("org.lidiuma.math", "math-api", snapshot(1, 0, 0)))
+                .include(module("org.lidiuma.math", "math-traits", snapshot(0, 1, 0)));
 
         final var junitVersion = version(6,0,1);
         scope(test)

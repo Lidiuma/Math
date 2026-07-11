@@ -20,6 +20,7 @@ import org.jspecify.annotations.NullMarked;
 module lidiuma.math {
     requires org.jspecify;
     requires lidiuma.math.api;
+    requires lidiuma.math.api.traits;
     exports org.lidiuma.math.tuple;
     exports org.lidiuma.math.numerics;
     exports org.lidiuma.math.rotation;

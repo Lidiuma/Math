@@ -18,7 +18,7 @@ package org.lidiuma.math.shape.rectangle;
 
 import jdk.internal.vm.annotation.LooselyConsistentValue;
 import jdk.internal.vm.annotation.NullRestricted;
-import org.lidiuma.math.api.shape.rectangle.Rectangle3;
+import org.lidiuma.math.api.shapes.rectangle.Rectangle3;
 import org.lidiuma.math.vector.Vec3F32;
 
 @LooselyConsistentValue

@@ -18,8 +18,8 @@ package org.lidiuma.math.matrix;
 
 import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.matrix.Affine3;
-import org.lidiuma.math.api.matrix.Affine3Ops;
-import org.lidiuma.math.api.vector.Vector3Ops;
+import org.lidiuma.math.api.traits.matrix.Affine3Ops;
+import org.lidiuma.math.api.traits.vector.Vector3Ops;
 import org.lidiuma.math.numerics.FloatNumeric;
 import org.lidiuma.math.vector.Vec3F32;
 

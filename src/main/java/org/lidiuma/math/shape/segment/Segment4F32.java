@@ -18,7 +18,7 @@ package org.lidiuma.math.shape.segment;
 
 import jdk.internal.vm.annotation.LooselyConsistentValue;
 import jdk.internal.vm.annotation.NullRestricted;
-import org.lidiuma.math.api.shape.segment.Segment4;
+import org.lidiuma.math.api.shapes.segment.Segment4;
 import org.lidiuma.math.vector.Vec4F32;
 
 @LooselyConsistentValue

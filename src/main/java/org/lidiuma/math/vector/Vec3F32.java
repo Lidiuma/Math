@@ -17,7 +17,7 @@
 package org.lidiuma.math.vector;
 
 import jdk.internal.vm.annotation.NullRestricted;
-import org.lidiuma.math.api.vector.FloatingVector3Ops;
+import org.lidiuma.math.api.traits.vector.FloatingVector3Ops;
 import org.lidiuma.math.api.vector.Vector3;
 import org.lidiuma.math.numerics.FloatNumeric;
 import org.lidiuma.math.rotation.AngleF32;
