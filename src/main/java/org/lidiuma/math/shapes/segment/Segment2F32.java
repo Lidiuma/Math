@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.lidiuma.math.shape.segment;
+package org.lidiuma.math.shapes.segment;
 
 import jdk.internal.vm.annotation.LooselyConsistentValue;
 import jdk.internal.vm.annotation.NullRestricted;

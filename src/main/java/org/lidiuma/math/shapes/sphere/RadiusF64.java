@@ -14,17 +14,12 @@
  * limitations under the License.
  */
 
-package org.lidiuma.math.shape.rectangle;
+package org.lidiuma.math.shapes.sphere;
 
 import jdk.internal.vm.annotation.LooselyConsistentValue;
 import jdk.internal.vm.annotation.NullRestricted;
-import org.lidiuma.math.api.shapes.rectangle.Rectangle2;
-import org.lidiuma.math.vector.Vec2F32;
+import org.lidiuma.math.api.shapes.sphere.Radius;
 
 @LooselyConsistentValue
-public value record Rect2F32(@NullRestricted Vec2F32 dimensions) implements Rectangle2<Float> {
-
-    public Rect2F32(float width, float height) {
-        this(new Vec2F32(width, height));
-    }
+public value record RadiusF64(@NullRestricted Double radius) implements Radius<Double> {
 }

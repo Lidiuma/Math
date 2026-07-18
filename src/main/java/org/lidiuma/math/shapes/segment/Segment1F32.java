@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package org.lidiuma.math.shape.segment;
+package org.lidiuma.math.shapes.segment;
 
 import jdk.internal.vm.annotation.LooselyConsistentValue;
 import jdk.internal.vm.annotation.NullRestricted;
-import org.lidiuma.math.api.shapes.segment.Segment3;
-import org.lidiuma.math.vector.Vec3F32;
+import org.lidiuma.math.api.shapes.segment.Segment1;
+import org.lidiuma.math.vector.Vec1F32;
 
 @LooselyConsistentValue
-public value record Segment3F32(@NullRestricted Vec3F32 span) implements Segment3<Float> {
+public value record Segment1F32(@NullRestricted Vec1F32 span) implements Segment1<Float> {
 }

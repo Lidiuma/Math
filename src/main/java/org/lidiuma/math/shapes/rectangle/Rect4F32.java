@@ -14,13 +14,17 @@
  * limitations under the License.
  */
 
-package org.lidiuma.math.shape.segment;
+package org.lidiuma.math.shapes.rectangle;
 
 import jdk.internal.vm.annotation.LooselyConsistentValue;
 import jdk.internal.vm.annotation.NullRestricted;
-import org.lidiuma.math.api.shapes.segment.Segment4;
+import org.lidiuma.math.api.shapes.rectangle.Rectangle4;
 import org.lidiuma.math.vector.Vec4F32;
 
 @LooselyConsistentValue
-public value record Segment4F32(@NullRestricted Vec4F32 span) implements Segment4<Float> {
+public value record Rect4F32(@NullRestricted Vec4F32 dimensions) implements Rectangle4<Float> {
+
+    public Rect4F32(float width, float height, float length, float depth) {
+        this(new Vec4F32(width, height, length, depth));
+    }
 }

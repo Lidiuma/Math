@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
-package org.lidiuma.math.shape.sphere;
+package org.lidiuma.math.shapes.segment;
 
 import jdk.internal.vm.annotation.LooselyConsistentValue;
 import jdk.internal.vm.annotation.NullRestricted;
-import org.lidiuma.math.api.shapes.sphere.Radius;
+import org.lidiuma.math.api.shapes.segment.Segment4;
+import org.lidiuma.math.vector.Vec4F32;
 
 @LooselyConsistentValue
-public value record RadiusF64(@NullRestricted Double radius) implements Radius<Double> {
+public value record Segment4F32(@NullRestricted Vec4F32 span) implements Segment4<Float> {
 }
