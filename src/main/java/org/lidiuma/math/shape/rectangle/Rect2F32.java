@@ -22,7 +22,7 @@ import org.lidiuma.math.api.shapes.rectangle.Rectangle2;
 import org.lidiuma.math.vector.Vec2F32;
 
 @LooselyConsistentValue
-public value record Rect2F32(@NullRestricted Vec2F32 size) implements Rectangle2<Float> {
+public value record Rect2F32(@NullRestricted Vec2F32 dimensions) implements Rectangle2<Float> {
 
     public Rect2F32(float width, float height) {
         this(new Vec2F32(width, height));
