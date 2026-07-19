@@ -2,7 +2,7 @@
 <project version="4">
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="app" options="--add-exports java.base/jdk.internal.value=xasmedy.math --add-exports java.base/jdk.internal.vm.annotation=xasmedy.math,lidiuma.math" />
+      <module name="math" options="--add-exports java.base/jdk.internal.value=xasmedy.math --add-exports java.base/jdk.internal.vm.annotation=xasmedy.math,lidiuma.math" />
     </option>
   </component>
 </project>
