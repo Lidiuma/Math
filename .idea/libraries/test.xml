@@ -1,0 +1,18 @@
+<component name="libraryTable">
+  <library name="test">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/lib/test" />
+      <root url="file://$PROJECT_DIR$/lib/provided" />
+      <root url="file://$PROJECT_DIR$/src/math/test/resources" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/lib/test" />
+      <root url="file://$PROJECT_DIR$/lib/provided" />
+    </SOURCES>
+    <jarDirectory url="file://$PROJECT_DIR$/lib/provided" recursive="true" />
+    <jarDirectory url="file://$PROJECT_DIR$/lib/test" recursive="true" />
+    <jarDirectory url="file://$PROJECT_DIR$/lib/provided" recursive="true" type="SOURCES" />
+    <jarDirectory url="file://$PROJECT_DIR$/lib/test" recursive="true" type="SOURCES" />
+  </library>
+</component>

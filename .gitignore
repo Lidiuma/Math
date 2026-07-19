@@ -60,7 +60,7 @@ atlassian-ide-plugin.xml
 
 # This should help other people be able to clone and use the project with idea.
 !.idea/bld.iml
-!.idea/math.iml
+!.idea/app.iml
 !.idea/math-benchmark.iml
 !.idea/modules.xml
 
