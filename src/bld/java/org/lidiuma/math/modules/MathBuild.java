@@ -17,13 +17,12 @@
 package org.lidiuma.math.modules;
 
 import org.lidiuma.math.MainBuild;
+import org.lidiuma.math.MathModule;
 import rife.bld.NamedFile;
-import rife.bld.Project;
 import rife.bld.operations.CompileOperation;
 import rife.bld.operations.JarOperation;
 import rife.bld.operations.JavadocOperation;
 import rife.bld.operations.PublishOperation;
-import rife.bld.publish.*;
 import java.nio.file.Path;
 import java.time.Clock;
 import java.time.ZonedDateTime;
@@ -35,7 +34,7 @@ import static org.lidiuma.math.MainBuild.GROUP_ID;
 import static rife.bld.dependencies.Repository.*;
 import static rife.bld.dependencies.Scope.*;
 
-public final class MathBuild extends Project {
+public final class MathBuild extends MathModule {
 
     private final MainBuild build;
 
@@ -51,6 +50,7 @@ public final class MathBuild extends Project {
         javaTool = build.retrieveJavaTool();
         downloadSources = true;
         repositories = List.of(MAVEN_CENTRAL, CENTRAL_SNAPSHOTS, RIFE2_RELEASES);
+        assignModuleDirectories("math");
 
         scope(compile)
                 .include(module("org.jspecify", "jspecify", version(1, 0, 0)))

@@ -17,7 +17,7 @@
 package org.lidiuma.math.modules;
 
 import org.lidiuma.math.MainBuild;
-import rife.bld.BaseProject;
+import org.lidiuma.math.MathModule;
 import rife.bld.operations.CompileOperation;
 import rife.bld.operations.JavacOptions;
 import rife.bld.operations.RunOperation;
@@ -30,7 +30,7 @@ import static rife.bld.dependencies.Repository.MAVEN_CENTRAL;
 import static rife.bld.dependencies.Repository.RIFE2_RELEASES;
 import static rife.bld.dependencies.Scope.compile;
 
-public final class BenchmarkBuild extends BaseProject {
+public final class BenchmarkBuild extends MathModule {
 
     private static final String JMH_VERSION = "1.37";
     private final MainBuild build;
@@ -50,6 +50,7 @@ public final class BenchmarkBuild extends BaseProject {
         downloadSources = true;
         repositories = List.of(MAVEN_CENTRAL, RIFE2_RELEASES);
         version = version(0, 2, 0);
+        assignModuleDirectories("math-benchmark");
 
         scope(compile)
                 .include(local( name + "/lib"))

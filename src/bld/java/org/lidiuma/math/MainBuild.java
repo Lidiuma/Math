@@ -110,7 +110,7 @@ public final class MainBuild extends Project {
     @Override
     public void compile() throws Exception {
         math.compile();
-        benchmark.compile();
+//        benchmark.compile(); TODO Add back when fixed
     }
 
     @Override
