@@ -4,11 +4,11 @@
     <output url="file://$MODULE_DIR$/build/main" />
     <output-test url="file://$MODULE_DIR$/build/test" />
     <exclude-output />
-    <content url="file://$MODULE_DIR$/src/math-benchmark">
-      <sourceFolder url="file://$MODULE_DIR$/src/math-benchmark/main/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/math-benchmark/main/resources" type="java-resource" relativeOutputPath="resources" />
-      <sourceFolder url="file://$MODULE_DIR$/src/math-benchmark/test/java" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/math-benchmark/test/resources" type="java-test-resource" />
+    <content url="file://$MODULE_DIR$/src/benchmark">
+      <sourceFolder url="file://$MODULE_DIR$/src/benchmark/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/benchmark/main/resources" type="java-resource" relativeOutputPath="resources" />
+      <sourceFolder url="file://$MODULE_DIR$/src/benchmark/test/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/benchmark/test/resources" type="java-test-resource" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

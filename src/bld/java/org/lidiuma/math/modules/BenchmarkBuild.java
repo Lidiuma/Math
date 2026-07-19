@@ -50,7 +50,7 @@ public final class BenchmarkBuild extends MathModule {
         downloadSources = true;
         repositories = List.of(MAVEN_CENTRAL, RIFE2_RELEASES);
         version = version(0, 2, 0);
-        assignModuleDirectories("math-benchmark");
+        assignModuleDirectories("benchmark");
 
         scope(compile)
                 .include(local( name + "/lib"))

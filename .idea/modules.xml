@@ -3,9 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/app.iml" filepath="$PROJECT_DIR$/.idea/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/benchmark.iml" filepath="$PROJECT_DIR$/.idea/benchmark.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/bld.iml" filepath="$PROJECT_DIR$/.idea/bld.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/math.iml" filepath="$PROJECT_DIR$/.idea/math.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/math-benchmark.iml" filepath="$PROJECT_DIR$/.idea/math-benchmark.iml" />
     </modules>
   </component>
 </project>
