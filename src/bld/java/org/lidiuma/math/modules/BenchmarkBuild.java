@@ -16,7 +16,6 @@
 
 package org.lidiuma.math.modules;
 
-import org.lidiuma.math.MainBuild;
 import org.lidiuma.math.MathModule;
 import rife.bld.operations.CompileOperation;
 import rife.bld.operations.JavacOptions;
@@ -25,7 +24,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
-import static org.lidiuma.math.MainBuild.GROUP_ID;
+import static org.lidiuma.math.MainBuild.*;
 import static rife.bld.dependencies.Repository.MAVEN_CENTRAL;
 import static rife.bld.dependencies.Repository.RIFE2_RELEASES;
 import static rife.bld.dependencies.Scope.compile;
@@ -33,11 +32,8 @@ import static rife.bld.dependencies.Scope.compile;
 public final class BenchmarkBuild extends MathModule {
 
     private static final String JMH_VERSION = "1.37";
-    private final MainBuild build;
 
-    public BenchmarkBuild(MainBuild build) throws Exception {
-
-        this.build = build;
+    public BenchmarkBuild() {
 
         name = "math-benchmark";
         pkg = GROUP_ID + "." + name();
@@ -46,7 +42,7 @@ public final class BenchmarkBuild extends MathModule {
         srcDirectory = new File(name, "src");
         buildMainDirectory = new File(buildDirectory(), "benchmark");
 
-        javaTool = build.retrieveJavaTool();
+        javaTool = javaToolPath();
         downloadSources = true;
         repositories = List.of(MAVEN_CENTRAL, RIFE2_RELEASES);
         version = version(0, 2, 0);
@@ -76,7 +72,7 @@ public final class BenchmarkBuild extends MathModule {
         final var operation = super.compileOperation();
         final var options = operation.compileOptions();
         options.process(JavacOptions.Processing.FULL);
-        build.commonBuildOption(options, build.module());
+        commonBuildOption(options, MATH.module());
         return operation;
     }
 
@@ -84,9 +80,9 @@ public final class BenchmarkBuild extends MathModule {
     public void compile() throws Exception {
 
         // I create the math jar to be imported by the benchmark, and move it under its temporary lib path.
-        build.math.jar();
+        MATH.jar();
 
-        final var jarName = build.math.jarFileName();
+        final var jarName = MATH.jarFileName();
         final var jarPath = buildDistDirectory().toPath().resolve(jarName);
         final var target = workDirectory().toPath().resolve(name(), "lib");
 

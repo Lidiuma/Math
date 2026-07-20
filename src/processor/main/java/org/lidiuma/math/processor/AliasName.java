@@ -14,20 +14,13 @@
  * limitations under the License.
  */
 
-import org.jspecify.annotations.NullMarked;
+package org.lidiuma.math.processor;
 
-@NullMarked // Makes the whole codebase non-null by default.
-module lidiuma.math {
-    requires org.jspecify;
-    requires lidiuma.math.api;
-    requires lidiuma.math.api.traits;
-    requires lidiuma.math.processor;
-    exports org.lidiuma.math.tuple;
-    exports org.lidiuma.math.numerics;
-    exports org.lidiuma.math.rotation;
-    exports org.lidiuma.math.matrix;
-    exports org.lidiuma.math.vector;
-    exports org.lidiuma.math.point;
-    exports org.lidiuma.math.shapes.rectangle;
-    exports org.lidiuma.math.shapes.segment;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Target;
+
+@Target(ElementType.METHOD)
+public @interface AliasName {
+
+    String name();
 }

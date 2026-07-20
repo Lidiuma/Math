@@ -16,13 +16,13 @@
 
 package org.lidiuma.math.modules;
 
-import org.lidiuma.math.MainBuild;
 import org.lidiuma.math.MathModule;
 import rife.bld.NamedFile;
-import rife.bld.operations.CompileOperation;
-import rife.bld.operations.JarOperation;
-import rife.bld.operations.JavadocOperation;
-import rife.bld.operations.PublishOperation;
+import rife.bld.operations.*;
+import rife.bld.publish.PublishDeveloper;
+import rife.bld.publish.PublishInfo;
+import rife.bld.publish.PublishLicense;
+import rife.bld.publish.PublishScm;
 import java.nio.file.Path;
 import java.time.Clock;
 import java.time.ZonedDateTime;
@@ -30,24 +30,21 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.jar.Attributes;
-import static org.lidiuma.math.MainBuild.GROUP_ID;
+import static java.lang.String.format;
+import static org.lidiuma.math.MainBuild.*;
 import static rife.bld.dependencies.Repository.*;
 import static rife.bld.dependencies.Scope.*;
 
 public final class MathBuild extends MathModule {
 
-    private final MainBuild build;
-
-    public MathBuild(MainBuild build) throws Exception {
-
-        this.build = build;
+    public MathBuild() {
 
         name = "math";
         pkg = GROUP_ID + "." + name();
         module = "lidiuma.math";
         version = version(0, 2, 0);
 
-        javaTool = build.retrieveJavaTool();
+        javaTool = javaToolPath();
         downloadSources = true;
         repositories = List.of(MAVEN_CENTRAL, CENTRAL_SNAPSHOTS, RIFE2_RELEASES);
         assignModuleDirectories("math");
@@ -57,6 +54,11 @@ public final class MathBuild extends MathModule {
                 .include(module("org.lidiuma.math", "math-api", version(1, 0, 0, "rc1")))
                 .include(module("org.lidiuma.math", "math-traits", snapshot(0, 1, 0)));
 
+        final var apiDir = workDirectory()
+                .toPath()
+                .relativize(PROCESSOR.buildDistDirectory().toPath()); // Use absolute when bld 2.3.1 releases.
+        scope(provided).include(localModule(apiDir.toString()));
+
         final var junitVersion = version(6,0,1);
         scope(test)
                 .include(module("org.junit.jupiter", "junit-jupiter", junitVersion))
@@ -65,6 +67,49 @@ public final class MathBuild extends MathModule {
 
         addAttributesToJar(jarOperation());
         addAttributesToJar(jarSourcesOperation());
+
+        compileOperation().compileOptions().parameters();
+        compileOperation().compileOptions().process(JavacOptions.Processing.FULL);
+        compileOperation()
+                .compileOptions()
+                .processorModulePath(PROCESSOR.buildDistDirectory().toPath());
+    }
+
+    public PublishInfo publishInfo() {
+
+        final String org = "lidiuma";
+        final String artifactId = name();
+        final String github = "https://github.com";
+        final String project = format("%s/%s/%s", github, org, artifactId);
+
+        final var license = new PublishLicense()
+                .name("The Apache License, Version 2.0")
+                .url("https://www.apache.org/licenses/LICENSE-2.0.txt");
+
+        final String devName = "Xasmedy";
+        final var developer = new PublishDeveloper()
+                .id(devName.toLowerCase())
+                .name(devName)
+                .email("xasmedy@pm.me")
+                .url(format("%s/%s", github, devName));
+
+        final var scm = new PublishScm()
+                .connection(format("scm:git:%s.git", project))
+                .developerConnection(format("scm:git:git@github.com:%s/%s.git", org, artifactId))
+                .url(project);
+
+        return new PublishInfo()
+                .groupId(GROUP_ID)
+                .artifactId(artifactId)
+                .version(version())
+                .name("Math")
+                .description("Valhalla-based Math Library")
+                .url(project)
+                .developer(developer)
+                .license(license)
+                .scm(scm)
+                .signKey(property("sign.key"))
+                .signPassphrase(property("sign.passphrase"));
     }
 
     @Override
@@ -73,7 +118,7 @@ public final class MathBuild extends MathModule {
         op.repositories(CENTRAL_RELEASES.withCredentials(
                 property("sonatype.username"),
                 property("sonatype.password")
-        )).info(build.publishInfo());
+        )).info(publishInfo());
         return op;
     }
 
@@ -119,7 +164,7 @@ public final class MathBuild extends MathModule {
     public CompileOperation compileOperation() {
         final var operation = super.compileOperation();
         final var options = operation.compileOptions();
-        build.commonBuildOption(options, module());
+        commonBuildOption(options, module());
         return operation;
     }
 
@@ -136,5 +181,11 @@ public final class MathBuild extends MathModule {
         options.tag("apiNote", "a", "API Note:");
         options.tag("implNote", "a", "Implementation Note:");
         return operation;
+    }
+
+    @Override
+    public void compile() throws Exception {
+        PROCESSOR.jar(); // Dependency.
+        super.compile();
     }
 }
