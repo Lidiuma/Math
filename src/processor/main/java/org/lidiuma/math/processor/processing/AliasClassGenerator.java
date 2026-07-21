@@ -17,9 +17,11 @@
 package org.lidiuma.math.processor.processing;
 
 import javax.lang.model.element.ExecutableElement;
+import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
 import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.TypeKind;
+import javax.lang.model.type.TypeMirror;
 import javax.tools.JavaFileObject;
 import java.io.IOException;
 import java.util.LinkedHashSet;
@@ -99,7 +101,7 @@ public final class AliasClassGenerator {
         final StringBuilder argumentsLong = new StringBuilder();
         final StringBuilder argumentsShort = new StringBuilder();
         for (var argument : arguments) {
-            final String type = util.specializedOfGeneric(annotatedDeclared, argument.asType()).toString();
+            final String type = requiredName(util.specializedOfGeneric(annotatedDeclared, argument.asType()), util);
             argumentsLong.append(String.format("%s %s, ", type, argument.getSimpleName()));
             argumentsShort.append(argument.getSimpleName()).append(", ");
         }
@@ -117,9 +119,27 @@ public final class AliasClassGenerator {
                 argumentsShort);
 
         return String.format(METHOD_SOURCE,
-                util.specializedOfGeneric(annotatedDeclared, returnType),
+                requiredName(util.specializedOfGeneric(annotatedDeclared, returnType), util),
                 method.getSimpleName(),
                 argumentsLong,
                 methodCall);
+    }
+
+    /// Retrieves the shortest name that can be used for compilation.
+    private String requiredName(TypeMirror type, Utility util) {
+
+        if (type.getKind() != TypeKind.DECLARED) return type.toString();
+
+        final var elements = util.processingEnv().getElementUtils();
+
+        final var element = (TypeElement) ((DeclaredType) type).asElement();
+        final String elementPackage = elements.getPackageOf(element).toString();
+
+        // Same package, I don't need the full qualified name.
+        if (elementPackage.equals(package_)) return element.getSimpleName().toString();
+        // Java lang classes are always imported.
+        if (elementPackage.equals("java.lang")) return element.getSimpleName().toString();
+
+        return element.toString();
     }
 }
