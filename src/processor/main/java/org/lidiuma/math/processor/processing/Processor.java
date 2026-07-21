@@ -20,7 +20,6 @@ import org.lidiuma.math.processor.GenerateAlias;
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.element.*;
-import javax.lang.model.type.*;
 import java.io.IOException;
 import java.util.*;
 
@@ -37,21 +36,15 @@ public final class Processor extends AbstractProcessor {
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         util = new Utility(processingEnv);
         if (roundEnv.processingOver()) return false;
-        roundEnv.getElementsAnnotatedWith(GenerateAlias.class).forEach(this::hangleGenerateAlis);
+        roundEnv.getElementsAnnotatedWith(GenerateAlias.class).forEach(this::hangleGenerateAlias);
         return true;
     }
 
-    private void hangleGenerateAlis(Element element) {
+    private void hangleGenerateAlias(Element element) {
 
         final String className = Objects.requireNonNull(element.getAnnotation(GenerateAlias.class)).className();
         if (className.isBlank()) throw new IllegalArgumentException("Class name cannot be empty. (GenerateAlias: " + className + ")");
-
         if (!(element instanceof VariableElement ve)) return;
-
-        if (!(processingEnv.getTypeUtils().asElement(ve.asType()) instanceof TypeElement te)) return;
-
-        final var types = util.interfacesOfType(te);
-        types.add(te); // I also get the methods of the top class.
 
         final PackageElement packageElem = processingEnv.getElementUtils().getPackageOf(element);
         final String packageName = packageElem.getQualifiedName().toString();
@@ -60,7 +53,7 @@ public final class Processor extends AbstractProcessor {
             AliasClassGenerator.new_()
                     .packageName(packageName)
                     .className(className)
-                    .methods(util.fieldMethods(ve))
+                    .methods(util.methodsOfField(ve))
                     .build(ve, util);
         } catch (IOException e) {
             throw new RuntimeException(e);

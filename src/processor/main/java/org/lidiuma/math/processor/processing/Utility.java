@@ -20,17 +20,20 @@ import org.lidiuma.math.processor.AliasExclude;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.*;
 import javax.lang.model.type.*;
-import javax.lang.model.util.ElementFilter;
-import javax.lang.model.util.Elements;
+import javax.lang.model.util.Types;
 import java.util.*;
+import java.util.function.BiPredicate;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public record Utility(ProcessingEnvironment processingEnv) {
 
     /// @return All interfaces, direct or not, of the provided type.
-    public SequencedSet<TypeElement> interfacesOfType(TypeElement typeElement) {
+    public SequencedSet<TypeElement> typeHierarchy(TypeElement typeElement) {
 
         final var result = new LinkedHashSet<TypeElement>();
         final var next = new LinkedHashSet<TypeElement>();
+        result.add(typeElement);
         next.add(typeElement);
 
         while (!next.isEmpty()) {
@@ -46,42 +49,109 @@ public record Utility(ProcessingEnvironment processingEnv) {
         return result;
     }
 
-    /// @return the unique non-abstract methods from the static field provided.
-    public SequencedSet<ExecutableElement> fieldMethods(VariableElement element) {
+    /// Collects the methods from the types provided.
+    /// @param types the types to retrieve the methods from.
+    /// @param filter the predicate, returns true to not put the method into the final result.
+    /// @return the filtered methods.
+    public SequencedMap<TypeElement, SequencedSet<ExecutableElement>> methods(SequencedSet<TypeElement> types, BiPredicate<TypeElement, ExecutableElement> filter) {
+
+        final var result = new LinkedHashMap<TypeElement, SequencedSet<ExecutableElement>>();
+        for (var type : types) {
+
+            final var methods = type.getEnclosedElements();
+            for (var method : methods) {
+                if (method.getKind() != ElementKind.METHOD) continue;
+                final var executable = (ExecutableElement) method;
+
+                if (filter.test(type, executable)) continue;
+                result.computeIfAbsent(type, _ -> new LinkedHashSet<>()).add(executable);
+            }
+        }
+        return result.reversed();
+    }
+
+    /// @return all the methods of the types.
+    @SuppressWarnings("unused")
+    public SequencedMap<TypeElement, SequencedSet<ExecutableElement>> allMethods(SequencedSet<TypeElement> types) {
+        return methods(types, (_, _) -> false);
+    }
+
+    /// @return all the base methods, the overwritten methods are removed.
+    public SequencedMap<TypeElement, SequencedSet<ExecutableElement>> baseMethods(TypeElement typeElement) {
+
+        final var visited = new LinkedHashSet<String>();
+        final var types = typeHierarchy(typeElement).reversed();
+
+        return methods(types, (_, method) -> {
+            final var signature = methodSignature((DeclaredType) typeElement.asType(), method);
+            if (visited.contains(signature)) return true; // I filter it.
+            visited.add(signature);
+            return false;
+        });
+    }
+
+    /// @return the most specialized methods if it overrides a base method, otherwise the base method.
+    public SequencedMap<TypeElement, SequencedSet<ExecutableElement>> specializedMethods(TypeElement typeElement) {
+
+        final var visited = new LinkedHashSet<String>();
+        final var types = typeHierarchy(typeElement);
+
+        return methods(types, (_, method) -> {
+            final var signature = methodSignature((DeclaredType) typeElement.asType(), method);
+            if (visited.contains(signature)) return true; // I filter it.
+            visited.add(signature);
+            return false;
+        }).reversed();
+    }
+
+    public SequencedSet<ExecutableElement> methodsOfField(VariableElement element) {
 
         if (!element.getModifiers().contains(Modifier.STATIC)) throw new IllegalArgumentException("The field \"" + element.getSimpleName() + "\" must be static to generate aliases");
+        final TypeElement type = Objects.requireNonNull(findInitializerType(element));
+        final DeclaredType declared = (DeclaredType) type.asType();
 
-        final TypeElement type = findInitializerType(element);
+        final Predicate<ExecutableElement> filter = method -> {
+            if (!method.getModifiers().contains(Modifier.PUBLIC)) return false;
+            return method.getAnnotation(AliasExclude.class) == null;
+        };
 
-        final TypeElement objectElement = processingEnv.getElementUtils().getTypeElement(Object.class.getName());
-        final Elements elements = processingEnv.getElementUtils();
+        final var order = baseMethods(type)
+                .values()
+                .stream()
+                .flatMap(Collection::stream)
+                .filter(filter)
+                .map(method -> methodSignature(declared, method))
+                .collect(Collectors.toCollection(LinkedHashSet::new));
 
-        // Normal order goes from the bottom of the hierarchy to the top, top to bottom gives a better method ordering.
-        final var methods = ElementFilter.methodsIn(elements.getAllMembers(type)).reversed();
-        final var ignored = new HashSet<String>();
+        final var methods = specializedMethods(type)
+                .values()
+                .stream()
+                .flatMap(Collection::stream)
+                .filter(filter)
+                .collect(Collectors.toMap(method -> methodSignature(declared, method), method -> method));
 
         final var result = new LinkedHashSet<ExecutableElement>();
-        for (var method : methods) {
+        for (var signature : order) {
 
-            // I remove methods from Object.
-            if (method.getEnclosingElement().equals(objectElement)) continue;
-            if (!method.getModifiers().contains(Modifier.PUBLIC)) continue;
-            // Default are not considered as ABSTRACT.
-            if (method.getModifiers().contains(Modifier.ABSTRACT)) continue;
-
-            final var signature = methodSignature((DeclaredType) element.asType(), method);
-            if (method.getAnnotation(AliasExclude.class) != null) {
-                // This way even in case of default methods, the method is gone for good.
-                ignored.add(signature);
-                continue;
-            }
-
-            final boolean present = ignored.contains(signature);
-            ignored.add(signature); // I now ignore it since already added.
-            if (present) continue;
+            final var method = methods.get(signature);
+            // Some methods might have gotten filtered, so I check if the association exist.
+            if (method == null) continue;
             result.add(method);
         }
         return result;
+    }
+
+    /// @return the method signature while retaining as much information as the compiler has.
+    @SuppressWarnings("unused")
+    public String erasedMethodSignature(ExecutableElement method) {
+
+        final Types types = processingEnv.getTypeUtils();
+        final String parameters = method.getParameters()
+                .stream()
+                .map(p -> types.erasure(p.asType()).toString())
+                .collect(Collectors.joining(","));
+
+        return method.getSimpleName() + "(" + parameters + ")";
     }
 
     /// @param declaredType original type to figure out generics.
