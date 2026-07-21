@@ -68,10 +68,10 @@ public final class MathBuild extends MathModule {
         addAttributesToJar(jarOperation());
         addAttributesToJar(jarSourcesOperation());
 
-        compileOperation().compileOptions().parameters();
-        compileOperation().compileOptions().process(JavacOptions.Processing.FULL);
-        compileOperation()
-                .compileOptions()
+        compileOperation().compileOptions()
+                .parameters()
+                .process(JavacOptions.Processing.FULL)
+                .sourceOutput(buildDirectory().toPath().resolve("annotation-source"))
                 .processorModulePath(PROCESSOR.buildDistDirectory().toPath());
     }
 
