@@ -21,6 +21,7 @@ import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.element.*;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.*;
 
 public final class Processor extends AbstractProcessor {
@@ -36,27 +37,37 @@ public final class Processor extends AbstractProcessor {
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         util = new Utility(processingEnv);
         if (roundEnv.processingOver()) return false;
-        roundEnv.getElementsAnnotatedWith(GenerateAlias.class).forEach(this::hangleGenerateAlias);
-        return true;
-    }
 
-    private void hangleGenerateAlias(Element element) {
-
-        final String className = Objects.requireNonNull(element.getAnnotation(GenerateAlias.class)).className();
-        if (className.isBlank()) throw new IllegalArgumentException("Class name cannot be empty. (GenerateAlias: " + className + ")");
-        if (!(element instanceof VariableElement ve)) return;
-
-        final PackageElement packageElem = processingEnv.getElementUtils().getPackageOf(element);
-        final String packageName = packageElem.getQualifiedName().toString();
-
-        try {
-            AliasClassGenerator.new_()
-                    .packageName(packageName)
-                    .className(className)
-                    .methods(util.methodsOfField(ve))
-                    .build(ve, util);
+        try { handleAlias(roundEnv);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        return true;
+    }
+
+    private void handleAlias(RoundEnvironment roundEnv) throws IOException {
+
+        final var elements = util.processingEnv().getElementUtils();
+        final Map<String, AliasClassGenerator> aliases = new HashMap<>();
+        roundEnv.getElementsAnnotatedWith(GenerateAlias.class).forEach(element -> {
+
+            final String className = Objects.requireNonNull(element.getAnnotation(GenerateAlias.class)).className();
+            if (className.isBlank()) throw new IllegalArgumentException("Class name cannot be empty. (GenerateAlias: " + className + ")");
+
+            final String packageName = elements.getPackageOf(element).toString();
+            if (!(element instanceof VariableElement ve)) throw new IllegalArgumentException("Invalid element.");
+
+            aliases.computeIfAbsent(packageName + "." + className, _ -> AliasClassGenerator.of(util))
+                    .packageName(packageName)
+                    .className(className)
+                    .methods(ve, util.methodsOfField(ve));
+        });
+
+        aliases.values().forEach(gen -> {
+            try { gen.build();
+            } catch (IOException e) {
+                throw new UncheckedIOException(e);
+            }
+        });
     }
 }
