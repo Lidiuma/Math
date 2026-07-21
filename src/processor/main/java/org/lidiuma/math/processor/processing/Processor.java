@@ -52,7 +52,8 @@ public final class Processor extends AbstractProcessor {
         roundEnv.getElementsAnnotatedWith(GenerateAlias.class).forEach(element -> {
 
             final String className = Objects.requireNonNull(element.getAnnotation(GenerateAlias.class)).className();
-            if (className.isBlank()) throw new IllegalArgumentException("Class name cannot be empty. (GenerateAlias: " + className + ")");
+
+            if (isAliasInvalid(element, className)) return;
 
             final String packageName = elements.getPackageOf(element).toString();
             if (!(element instanceof VariableElement ve)) throw new IllegalArgumentException("Invalid element.");
@@ -69,5 +70,32 @@ public final class Processor extends AbstractProcessor {
                 throw new UncheckedIOException(e);
             }
         });
+    }
+
+    private boolean isAliasInvalid(Element element, String className) {
+
+        final String annotationName = GenerateAlias.class.getSimpleName();
+        final var messager = processingEnv.getMessager();
+        if (className.isBlank()) {
+            messager.printError(annotationName + "'s class name cannot be empty.", element);
+            return true;
+        }
+
+        final var modifiers = element.getModifiers();
+        if (modifiers.contains(Modifier.PRIVATE)) { // TODO Allow the method generator to use anything other than public.
+            messager.printError("Cannot generate alias since '" + element.getSimpleName() + "' is private.", element);
+            return true;
+        }
+
+        if (!modifiers.contains(Modifier.STATIC)) {
+            messager.printError("Cannot generate alias since '" + element.getSimpleName() + "' is not static.", element);
+            return true;
+        }
+
+        if (!modifiers.contains(Modifier.FINAL)) {
+            messager.printError("Cannot generate alias since '" + element.getSimpleName() + "' is not final.", element);
+            return true;
+        }
+        return false;
     }
 }
