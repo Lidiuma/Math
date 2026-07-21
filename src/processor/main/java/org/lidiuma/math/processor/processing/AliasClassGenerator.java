@@ -33,14 +33,14 @@ public final class AliasClassGenerator {
             
             public final class %s {
             
-                private %s() {}
-                %s
+                private %s() {}%s
             }
-            """;
+            """; // The methods are near the constructor to have the correct new line.
     private static final String METHOD_SOURCE = """
+            \n
                 public static %s %s(%s) {
                     %s
-                }
+                }\
             """;
     private static final String METHOD_CALL = "%s%s.%s.%s(%s);";
     private String package_;
@@ -110,7 +110,8 @@ public final class AliasClassGenerator {
 
         final String methodCall = String.format(METHOD_CALL,
                 returnType.getKind() == TypeKind.VOID ? "" : "return ",
-                annotated.getEnclosingElement().toString(),
+                // Full package name not needed, since the generate class is created within the package of the annotated one.
+                annotated.getEnclosingElement().getSimpleName(),
                 annotated.getSimpleName(),
                 method.getSimpleName(),
                 argumentsShort);
