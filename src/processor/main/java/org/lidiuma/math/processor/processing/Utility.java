@@ -171,40 +171,42 @@ public record Utility(ProcessingEnvironment processingEnv) {
     /// @param typeMirror the generic type to discover the specialized type.
     /// @return the actual type used of the generic parameter.
     /// @apiNote if not generics, the normal type will be returned.
-    public String specializedOfGeneric(DeclaredType declaredType, TypeMirror typeMirror) {
+    public TypeMirror specializedOfGeneric(DeclaredType declaredType, TypeMirror typeMirror) {
+        final var types = processingEnv.getTypeUtils();
         return switch (typeMirror.getKind()) {
             case TYPEVAR -> {
                 final var tv = (TypeVariable) typeMirror;
-                yield processingEnv.getTypeUtils().asMemberOf(declaredType, tv.asElement()).toString();
+                yield types.asMemberOf(declaredType, tv.asElement());
             }
             case DECLARED -> {
 
                 final var declared = (DeclaredType) typeMirror;
-                final String baseName = ((TypeElement) declared.asElement()).getQualifiedName().toString();
+                final var element = (TypeElement) declared.asElement();
 
-                final List<? extends TypeMirror> args = declared.getTypeArguments();
-                if (args.isEmpty()) yield baseName;
+                final var args = declared.getTypeArguments();
+                if (args.isEmpty()) yield declared;
 
-                // Recursively resolve each type argument
-                StringBuilder sb = new StringBuilder(baseName).append("<");
-                for (int i = 0; i < args.size(); i++) {
-                    if (i > 0) sb.append(", ");
-                    sb.append(specializedOfGeneric(declaredType, args.get(i)));
-                }
-                sb.append(">");
-                yield sb.toString();
+                final var resolvedArgs = args.stream()
+                        .map(arg -> specializedOfGeneric(declaredType, arg))
+                        .toArray(TypeMirror[]::new);
+
+                yield processingEnv.getTypeUtils().getDeclaredType(element, resolvedArgs);
             }
-            case ARRAY -> specializedOfGeneric(declaredType, ((ArrayType) typeMirror).getComponentType()) + "[]";
+            case ARRAY -> {
+                final var type = specializedOfGeneric(declaredType, ((ArrayType) typeMirror).getComponentType());
+                yield types.getArrayType(type);
+            }
             case WILDCARD -> {
 
                 final var wildcard = (WildcardType) typeMirror;
                 final TypeMirror extendsBound = wildcard.getExtendsBound();
-                if (extendsBound != null) yield "? extends " + specializedOfGeneric(declaredType, extendsBound);
+                if (extendsBound != null) yield types.getWildcardType(specializedOfGeneric(declaredType, extendsBound), null);
 
                 final TypeMirror superBound = wildcard.getSuperBound();
-                yield superBound == null ? "?" : "? super " + specializedOfGeneric(declaredType, superBound);
+                if (superBound != null) yield types.getWildcardType(null, specializedOfGeneric(declaredType, superBound));
+                yield types.getWildcardType(null, null);
             }
-            default -> typeMirror.toString();
+            default -> typeMirror;
         };
     }
 

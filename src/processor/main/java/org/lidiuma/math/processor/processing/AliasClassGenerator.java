@@ -99,7 +99,7 @@ public final class AliasClassGenerator {
         final StringBuilder argumentsLong = new StringBuilder();
         final StringBuilder argumentsShort = new StringBuilder();
         for (var argument : arguments) {
-            final String type = util.specializedOfGeneric(annotatedDeclared, argument.asType());
+            final String type = util.specializedOfGeneric(annotatedDeclared, argument.asType()).toString();
             argumentsLong.append(String.format("%s %s, ", type, argument.getSimpleName()));
             argumentsShort.append(argument.getSimpleName()).append(", ");
         }
