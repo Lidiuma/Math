@@ -49,11 +49,8 @@ public final class AliasGenerator {
 
         if (!(element instanceof TypeElement typeElement)) throw new IllegalArgumentException("Invalid element.");
 
-        final var types = new LinkedHashSet<>(List.of(typeElement));
-        final var constructors = util.constructors(types, AliasGenerator::isNonAccessible).get(typeElement);
-
         final var alias = new AliasType.Constructor(typeElement, factory.methodName());
-        addMethodsAlias(alias, constructors);
+        addMethodsAlias(alias, util.constructorsOfType(typeElement));
     }
 
     public void addMethods(GenerateAlias ignored, Element element) { // Ignored since I only use it as a description of "element must be field".

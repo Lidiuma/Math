@@ -159,6 +159,14 @@ public record Utility(ProcessingEnvironment processingEnv) {
         return result;
     }
 
+    public SequencedSet<ExecutableElement> constructorsOfType(TypeElement typeElement) {
+        final var types = new LinkedHashSet<>(List.of(typeElement));
+        return constructors(types, (_, element) -> {
+            if (!element.getModifiers().contains(Modifier.PUBLIC)) return true;
+            return element.getAnnotation(AliasExclude.class) != null;
+        }).get(typeElement);
+    }
+
     /// @return the method signature while retaining as much information as the compiler has.
     @SuppressWarnings("unused")
     public String erasedMethodSignature(ExecutableElement method) {
