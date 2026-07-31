@@ -18,6 +18,12 @@ package org.lidiuma.math.processor.dsl;
 
 public final class JavaDSL {
 
+    public static final int INDENT = 4;
+
+    public static ClassDSL class_() {
+        return new ClassDSL();
+    }
+
     public static MethodDSL method() {
         return new MethodDSL();
     }

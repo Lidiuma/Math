@@ -29,16 +29,6 @@ import java.util.*;
 
 public final class AliasClassGenerator {
 
-    private static final String CLASS_SOURCE = """
-            package %s;
-            %s
-            
-            // Automatically generated class, DO NOT MODIFY!
-            public final class %s {
-            
-                private %s() {}
-                %s}
-            """;
     private final Utility util;
     // Class generation information.
     private final SequencedSet<String> imports = new LinkedHashSet<>();
@@ -79,28 +69,26 @@ public final class AliasClassGenerator {
         if (package_ == null) throw new IllegalArgumentException("The package name is required.");
         if (class_ == null) throw new IllegalArgumentException("The class name is required.");
 
-        final StringBuilder methodsSource = new StringBuilder();
-        for (var entry : methods.entrySet()) {
-
-            final var annotated = entry.getKey();
-            final var methods = entry.getValue();
-            for (var method : methods) {
-                methodsSource.append("\n").append(createMethod(annotated, method));
-            }
-        }
-
         final String fullName = package_ + "." + class_;
         final JavaFileObject sourceFile = util.processingEnv().getFiler().createSourceFile(fullName);
 
         try (var writer = sourceFile.openWriter()) {
-            final var source = String.format(CLASS_SOURCE,
-                    package_,
-                    "\n" + String.join("\n", this.imports),
-                    class_,
-                    class_,
-                    methodsSource
-            );
-            writer.write(source);
+
+            final var dsl = JavaDSL.class_().package_(package_).access(AccessModifier.PUBLIC);
+
+            // Methods first to discover the imports.
+            for (var entry : methods.entrySet()) {
+
+                final var annotated = entry.getKey();
+                final var methods = entry.getValue();
+                for (var method : methods) {
+                    dsl.addMethod(createMethod(annotated, method));
+                }
+            }
+
+            for (var import_ : imports) dsl.addImport(import_, false);
+            dsl.name(class_);
+            writer.write(dsl.syntax());
         }
     }
 
@@ -143,7 +131,7 @@ public final class AliasClassGenerator {
         }
 
         final String returnStr = returnType.getKind() == TypeKind.VOID ? "" : "return ";
-        return methodDsl.body(returnStr + callDsl.syntax()).syntax().indent(4);
+        return methodDsl.body(returnStr + callDsl.syntax()).syntax();
     }
 
     /// Imports the necessary classes and returns the class name.
@@ -160,10 +148,9 @@ public final class AliasClassGenerator {
         // Java lang classes are always imported.
         if (elementPackage.equals("java.lang")) return;
 
-        final String import_ = "import " + element + ";";
         // I import the missing class.
-        if (elementPackage.startsWith("java")) imports.addFirst(import_);
-        else imports.addLast(import_);
+        if (elementPackage.startsWith("java")) imports.addFirst(element.toString());
+        else imports.addLast(element.toString());
     }
 
     private String retrieveClass(DeclaredType declaredType, TypeMirror type) {

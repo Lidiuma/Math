@@ -4,6 +4,9 @@
     <output url="file://$MODULE_DIR$/build/main" />
     <output-test url="file://$MODULE_DIR$/build/test" />
     <exclude-output />
+    <content url="file://$MODULE_DIR$/build/annotation-source">
+      <sourceFolder url="file://$MODULE_DIR$/build/annotation-source" isTestSource="false" />
+    </content>
     <content url="file://$MODULE_DIR$/src/math">
       <sourceFolder url="file://$MODULE_DIR$/src/math/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/math/main/resources" type="java-resource" relativeOutputPath="resources" />

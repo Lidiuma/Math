@@ -100,7 +100,7 @@ public final class MethodDSL {
         if (!parameters.isEmpty()) result.delete(result.length() - 2, result.length());
 
         return result.append(") {\n")
-                .append(body.indent(4))
+                .append(body.indent(JavaDSL.INDENT))
                 .append("}")
                 .toString();
     }
