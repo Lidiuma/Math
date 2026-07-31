@@ -74,7 +74,8 @@ public final class MethodDSL {
         return this;
     }
 
-    public String syntax() {
+    @Override
+    public String toString() {
 
         Objects.requireNonNull(name, "Name is not optional.");
         if (body.isBlank() && !returnType.isEmpty()) throw new IllegalArgumentException("Empty body when return type expected.");

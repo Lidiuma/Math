@@ -16,58 +16,53 @@
 
 package org.lidiuma.math.processor.processing;
 
+import org.lidiuma.math.processor.GenerateAlias;
+import org.lidiuma.math.processor.GenerateFactory;
 import org.lidiuma.math.processor.dsl.AccessModifier;
 import org.lidiuma.math.processor.dsl.JavaDSL;
-import javax.lang.model.element.Element;
-import javax.lang.model.element.ExecutableElement;
-import javax.lang.model.element.TypeElement;
-import javax.lang.model.element.VariableElement;
+import javax.lang.model.element.*;
 import javax.lang.model.type.*;
 import javax.tools.JavaFileObject;
 import java.io.IOException;
 import java.util.*;
 
-public final class AliasClassGenerator {
+public final class AliasGenerator {
 
-    private final Utility util;
     // Class generation information.
     private final SequencedSet<String> imports = new LinkedHashSet<>();
     private final SequencedMap<AliasType, SequencedSet<ExecutableElement>> methods = new LinkedHashMap<>();
-    private String package_;
-    private String class_;
+    private final Utility util;
+    private final String package_;
+    private final String class_;
 
-    private AliasClassGenerator(Utility util) {
+    public AliasGenerator(Utility util, String package_, String class_) {
         this.util = Objects.requireNonNull(util);
+        this.package_ = Objects.requireNonNull(package_);
+        this.class_ = Objects.requireNonNull(class_);
     }
 
-    public static AliasClassGenerator of(Utility util) {
-        return new AliasClassGenerator(util);
+    private static boolean isNonAccessible(TypeElement ignored, ExecutableElement element) {
+        return !element.getModifiers().contains(Modifier.PUBLIC);
     }
 
-    public AliasClassGenerator packageName(String packageName) {
-        this.package_ = packageName;
-        return this;
+    public void addMethods(GenerateFactory factory, Element element) {
+
+        if (!(element instanceof TypeElement typeElement)) throw new IllegalArgumentException("Invalid element.");
+
+        final var types = new LinkedHashSet<>(List.of(typeElement));
+        final var constructors = util.constructors(types, AliasGenerator::isNonAccessible).get(typeElement);
+
+        final var alias = new AliasType.Constructor(typeElement, factory.methodName());
+        addMethodsAlias(alias, constructors);
     }
 
-    public AliasClassGenerator className(String className) {
-        this.class_ = className;
-        return this;
-    }
-
-    /// @param aliasType used for the method resolution.
-    /// @param methods the methods to compile.
-    @SuppressWarnings("UnusedReturnValue")
-    public AliasClassGenerator addMethodsAlias(AliasType aliasType, SequencedSet<ExecutableElement> methods) {
-        Objects.requireNonNull(aliasType);
-        Objects.requireNonNull(methods);
-        this.methods.put(aliasType, methods);
-        return this;
+    public void addMethods(GenerateAlias ignored, Element element) { // Ignored since I only use it as a description of "element must be field".
+        if (!(element instanceof VariableElement varElement)) throw new IllegalArgumentException("Invalid @GenerateAlias element.");
+        final var type = new AliasType.Field(varElement);
+        addMethodsAlias(type, util.methodsOfField(varElement));
     }
 
     public void build() throws IOException {
-
-        if (package_ == null) throw new IllegalArgumentException("The package name is required.");
-        if (class_ == null) throw new IllegalArgumentException("The class name is required.");
 
         final String fullName = package_ + "." + class_;
         final JavaFileObject sourceFile = util.processingEnv().getFiler().createSourceFile(fullName);
@@ -88,8 +83,18 @@ public final class AliasClassGenerator {
 
             for (var import_ : imports) dsl.addImport(import_, false);
             dsl.name(class_);
-            writer.write(dsl.syntax());
+            writer.write(dsl.toString());
         }
+    }
+
+    /// @param aliasType used for the method resolution.
+    /// @param methods the methods to compile.
+    @SuppressWarnings("UnusedReturnValue")
+    private AliasGenerator addMethodsAlias(AliasType aliasType, SequencedSet<ExecutableElement> methods) {
+        Objects.requireNonNull(aliasType);
+        Objects.requireNonNull(methods);
+        this.methods.put(aliasType, methods);
+        return this;
     }
 
     private String createMethod(AliasType aliasType, ExecutableElement method) {
@@ -105,7 +110,7 @@ public final class AliasClassGenerator {
             case AliasType.Field _ -> method.getSimpleName().toString();
         };
 
-        // Constructors method names are <init>, so I fix it for the correct javadoc format.
+        // Constructors method names are <init>, so I fix it for the correct Javadoc format.
         final String signature = util.erasedMethodSignature(method).replaceAll("<init>", declared.asElement().getSimpleName().toString());
         final var methodDsl = JavaDSL.method()
                 .documentation("Generated alias of [" + declared.asElement() + "#" + signature + "].")
@@ -131,7 +136,7 @@ public final class AliasClassGenerator {
         }
 
         final String returnStr = returnType.getKind() == TypeKind.VOID ? "" : "return ";
-        return methodDsl.body(returnStr + callDsl.syntax()).syntax();
+        return methodDsl.body(returnStr + callDsl).toString();
     }
 
     /// Imports the necessary classes and returns the class name.
@@ -186,7 +191,7 @@ public final class AliasClassGenerator {
         };
     }
 
-    public sealed interface AliasType {
+    private sealed interface AliasType {
 
         Element annotated();
 

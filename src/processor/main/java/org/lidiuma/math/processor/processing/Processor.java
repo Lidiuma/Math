@@ -18,8 +18,6 @@ package org.lidiuma.math.processor.processing;
 
 import org.lidiuma.math.processor.GenerateAlias;
 import org.lidiuma.math.processor.GenerateFactory;
-import org.lidiuma.math.processor.processing.AliasClassGenerator.AliasType.Constructor;
-import org.lidiuma.math.processor.processing.AliasClassGenerator.AliasType.Field;
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.element.*;
@@ -51,38 +49,30 @@ public final class Processor extends AbstractProcessor {
     private void handleAlias(RoundEnvironment roundEnv) throws IOException {
 
         final var elements = util.processingEnv().getElementUtils();
-        final Map<String, AliasClassGenerator> aliases = new HashMap<>();
+        final Map<String, AliasGenerator> aliases = new HashMap<>();
 
         roundEnv.getElementsAnnotatedWith(GenerateFactory.class).forEach(element -> {
 
-            final GenerateFactory factory = Objects.requireNonNull(element.getAnnotation(GenerateFactory.class));
+            final GenerateFactory annotation = Objects.requireNonNull(element.getAnnotation(GenerateFactory.class));
+            final String package_ = elements.getPackageOf(element).toString();
+            final String class_ = annotation.outputClass();
+            final String signature = package_ + "." + class_;
 
-            final String packageName = elements.getPackageOf(element).toString();
-            if (!(element instanceof TypeElement ve)) throw new IllegalArgumentException("Invalid element.");
-
-            final var constructors = util.constructors(
-                    new LinkedHashSet<>(List.of(ve)),
-                    (_, method) -> !method.getModifiers().contains(Modifier.PUBLIC)
-            ).get(ve);
-            aliases.computeIfAbsent(packageName + "." + factory.outputClass(), _ -> AliasClassGenerator.of(util))
-                    .packageName(packageName)
-                    .className(factory.outputClass())
-                    .addMethodsAlias(new Constructor(ve, factory.methodName()), constructors);
+            aliases.computeIfAbsent(signature, _ -> new AliasGenerator(util, package_, class_))
+                    .addMethods(annotation, element);
         });
 
         roundEnv.getElementsAnnotatedWith(GenerateAlias.class).forEach(element -> {
 
-            final String className = Objects.requireNonNull(element.getAnnotation(GenerateAlias.class)).outputClass();
+            final var annotation = Objects.requireNonNull(element.getAnnotation(GenerateAlias.class));
+            if (isAliasInvalid(element, annotation.outputClass())) return;
 
-            if (isAliasInvalid(element, className)) return;
+            final String package_ = elements.getPackageOf(element).toString();
+            final String class_ = annotation.outputClass();
+            final String signature = package_ + "." + class_;
 
-            final String packageName = elements.getPackageOf(element).toString();
-            if (!(element instanceof VariableElement ve)) throw new IllegalArgumentException("Invalid element.");
-
-            aliases.computeIfAbsent(packageName + "." + className, _ -> AliasClassGenerator.of(util))
-                    .packageName(packageName)
-                    .className(className)
-                    .addMethodsAlias(new Field(ve), util.methodsOfField(ve));
+            aliases.computeIfAbsent(signature, _ -> new AliasGenerator(util, package_, class_))
+                    .addMethods(annotation, element);
         });
 
         aliases.values().forEach(gen -> {

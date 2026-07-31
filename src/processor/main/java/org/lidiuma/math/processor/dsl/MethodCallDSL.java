@@ -48,7 +48,8 @@ public final class MethodCallDSL {
         return this;
     }
 
-    public String syntax() {
+    @Override
+    public String toString() {
 
         final boolean isConstructor = field.isEmpty() && name.isEmpty();
         if (isConstructor && type.isEmpty()) throw new IllegalArgumentException("Type is required for constructor call.");

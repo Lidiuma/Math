@@ -54,7 +54,8 @@ public final class ClassDSL {
         return this;
     }
 
-    public String syntax() {
+    @Override
+    public String toString() {
 
         Objects.requireNonNull(package_, "Package is not optional.");
         Objects.requireNonNull(name, "Name is not optional.");
