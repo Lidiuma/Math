@@ -50,24 +50,42 @@ public record Utility(ProcessingEnvironment processingEnv) {
     }
 
     /// Collects the methods from the types provided.
-    /// @param types the types to retrieve the methods from.
-    /// @param filter the predicate, returns true to not put the method into the final result.
-    /// @return the filtered methods.
-    public SequencedMap<TypeElement, SequencedSet<ExecutableElement>> methods(SequencedSet<TypeElement> types, BiPredicate<TypeElement, ExecutableElement> filter) {
+    /// @param types the types to retrieve the elements from.
+    /// @param filter the predicate, returns true to not put the elements into the final result.
+    /// @return the filtered elements.
+    public <T extends Element> SequencedMap<TypeElement, SequencedSet<T>> elements(
+            SequencedSet<TypeElement> types,
+            BiPredicate<TypeElement, Element> filter,
+            Class<T> cast) {
 
-        final var result = new LinkedHashMap<TypeElement, SequencedSet<ExecutableElement>>();
+        final var result = new LinkedHashMap<TypeElement, SequencedSet<T>>();
         for (var type : types) {
 
             final var methods = type.getEnclosedElements();
-            for (var method : methods) {
-                if (method.getKind() != ElementKind.METHOD) continue;
-                final var executable = (ExecutableElement) method;
-
-                if (filter.test(type, executable)) continue;
+            for (var element : methods) {
+                if (filter.test(type, element)) continue;
+                final T executable = cast.cast(element);
                 result.computeIfAbsent(type, _ -> new LinkedHashSet<>()).add(executable);
             }
         }
         return result.reversed();
+    }
+
+    /// @param types the types to retrieve the methods from.
+    /// @param filter the predicate, returns true to not put the method into the final result.
+    /// @return the filtered methods.
+    public SequencedMap<TypeElement, SequencedSet<ExecutableElement>> methods(SequencedSet<TypeElement> types, BiPredicate<TypeElement, ExecutableElement> filter) {
+        return elements(types, (type, element) -> {
+            if (element.getKind() != ElementKind.METHOD) return true; // Filter out if not method.
+            return filter.test(type, (ExecutableElement) element);
+        }, ExecutableElement.class);
+    }
+
+    public SequencedMap<TypeElement, SequencedSet<ExecutableElement>> constructors(SequencedSet<TypeElement> types, BiPredicate<TypeElement, ExecutableElement> filter) {
+        return elements(types, (type, method) -> {
+            if (method.getKind() != ElementKind.CONSTRUCTOR) return true; // Filter out if not a constructor.
+            return filter.test(type, (ExecutableElement) method);
+        }, ExecutableElement.class);
     }
 
     /// @return all the methods of the types.

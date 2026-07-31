@@ -16,6 +16,9 @@
 
 package org.lidiuma.math.processor.processing;
 
+import org.lidiuma.math.processor.dsl.AccessModifier;
+import org.lidiuma.math.processor.dsl.JavaDSL;
+import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
@@ -33,20 +36,13 @@ public final class AliasClassGenerator {
             // Automatically generated class, DO NOT MODIFY!
             public final class %s {
             
-                private %s() {}%s
-            }
-            """; // The methods are near the constructor to have the correct new line.
-    private static final String METHOD_SOURCE = """
-            \n
-                public static %s %s(%s) {
-                    %s
-                }\
+                private %s() {}
+                %s}
             """;
-    private static final String METHOD_CALL = "%s%s.%s.%s(%s);";
     private final Utility util;
     // Class generation information.
     private final SequencedSet<String> imports = new LinkedHashSet<>();
-    private final SequencedMap<VariableElement, SequencedSet<ExecutableElement>> methods = new LinkedHashMap<>();
+    private final SequencedMap<AliasType, SequencedSet<ExecutableElement>> methods = new LinkedHashMap<>();
     private String package_;
     private String class_;
 
@@ -68,13 +64,13 @@ public final class AliasClassGenerator {
         return this;
     }
 
-    /// @param annotated used for the method resolution.
+    /// @param aliasType used for the method resolution.
     /// @param methods the methods to compile.
     @SuppressWarnings("UnusedReturnValue")
-    public AliasClassGenerator methods(VariableElement annotated, SequencedSet<ExecutableElement> methods) {
-        Objects.requireNonNull(annotated);
+    public AliasClassGenerator addMethodsAlias(AliasType aliasType, SequencedSet<ExecutableElement> methods) {
+        Objects.requireNonNull(aliasType);
         Objects.requireNonNull(methods);
-        this.methods.put(annotated, methods);
+        this.methods.put(aliasType, methods);
         return this;
     }
 
@@ -87,14 +83,9 @@ public final class AliasClassGenerator {
         for (var entry : methods.entrySet()) {
 
             final var annotated = entry.getKey();
-            methodsSource.append("\n\n    /* === Generated Aliases for ")
-                    .append(annotated.getEnclosingElement().getSimpleName()).append(".")
-                    .append(annotated.getSimpleName())
-                    .append(" === */");
-
             final var methods = entry.getValue();
             for (var method : methods) {
-                methodsSource.append(createMethod(annotated, method));
+                methodsSource.append("\n").append(createMethod(annotated, method));
             }
         }
 
@@ -113,37 +104,46 @@ public final class AliasClassGenerator {
         }
     }
 
-    private String createMethod(VariableElement annotated, ExecutableElement method) {
+    private String createMethod(AliasType aliasType, ExecutableElement method) {
 
-        final var returnType = method.getReturnType();
         final var arguments = method.getParameters();
-        final var declared = (DeclaredType) annotated.asType();
+        final var declared = (DeclaredType) aliasType.annotated().asType();
+        final TypeMirror returnType = switch (aliasType) {
+            case AliasType.Constructor(var annotated, _) -> annotated.asType();
+            case AliasType.Field _ -> method.getReturnType();
+        };
+        final String methodName = switch (aliasType) {
+            case AliasType.Constructor(_, var name) -> name;
+            case AliasType.Field _ -> method.getSimpleName().toString();
+        };
 
-        final StringBuilder argumentsLong = new StringBuilder();
-        final StringBuilder argumentsShort = new StringBuilder();
+        // Constructors method names are <init>, so I fix it for the correct javadoc format.
+        final String signature = util.erasedMethodSignature(method).replaceAll("<init>", declared.asElement().getSimpleName().toString());
+        final var methodDsl = JavaDSL.method()
+                .documentation("Generated alias of [" + declared.asElement() + "#" + signature + "].")
+                .access(AccessModifier.PUBLIC)
+                .static_(true)
+                .return_(retrieveClass(declared, returnType))
+                .name(methodName);
+
+        final var callDsl = JavaDSL.methodCall();
+        switch (aliasType) {
+            // Full package name not needed, since the generate class is created within the package of the annotated one.
+            case AliasType.Field(var annotated) -> callDsl.type(annotated.getEnclosingElement().getSimpleName().toString())
+                    .instance(annotated.getSimpleName().toString())
+                    .name(methodName);
+            case AliasType.Constructor(var annotated, _) -> callDsl.type(annotated.getSimpleName().toString());
+        }
+
         for (var argument : arguments) {
             final String type = retrieveClass(declared, argument.asType());
-            argumentsLong.append(String.format("%s %s, ", type, argument.getSimpleName()));
-            argumentsShort.append(argument.getSimpleName()).append(", ");
-        }
-        if (!arguments.isEmpty()) {
-            argumentsLong.delete(argumentsLong.length() - 2, argumentsLong.length());
-            argumentsShort.delete(argumentsShort.length() - 2, argumentsShort.length());
+            final String name = argument.getSimpleName().toString();
+            methodDsl.addParameter(type, name);
+            callDsl.addParameter(name);
         }
 
-        final String methodCall = String.format(METHOD_CALL,
-                returnType.getKind() == TypeKind.VOID ? "" : "return ",
-                // Full package name not needed, since the generate class is created within the package of the annotated one.
-                annotated.getEnclosingElement().getSimpleName(),
-                annotated.getSimpleName(),
-                method.getSimpleName(),
-                argumentsShort);
-
-        return String.format(METHOD_SOURCE,
-                retrieveClass(declared, returnType),
-                method.getSimpleName(),
-                argumentsLong,
-                methodCall);
+        final String returnStr = returnType.getKind() == TypeKind.VOID ? "" : "return ";
+        return methodDsl.body(returnStr + callDsl.syntax()).syntax().indent(4);
     }
 
     /// Imports the necessary classes and returns the class name.
@@ -197,5 +197,14 @@ public final class AliasClassGenerator {
             }
             default -> specialized.toString();
         };
+    }
+
+    public sealed interface AliasType {
+
+        Element annotated();
+
+        record Field(VariableElement annotated) implements AliasType {}
+
+        record Constructor(TypeElement annotated, String methodName) implements AliasType {}
     }
 }

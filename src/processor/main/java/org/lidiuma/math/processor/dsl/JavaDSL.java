@@ -14,16 +14,15 @@
  * limitations under the License.
  */
 
-package org.lidiuma.math.processor;
+package org.lidiuma.math.processor.dsl;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+public final class JavaDSL {
 
-@Target(ElementType.FIELD)
-@Retention(RetentionPolicy.SOURCE)
-public @interface GenerateAlias {
+    public static MethodDSL method() {
+        return new MethodDSL();
+    }
 
-    String outputClass();
+    public static MethodCallDSL methodCall() {
+        return new MethodCallDSL();
+    }
 }

@@ -14,16 +14,21 @@
  * limitations under the License.
  */
 
-package org.lidiuma.math.processor;
+package org.lidiuma.math.processor.dsl;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+public enum AccessModifier {
+    PRIVATE,
+    DEFAULT,
+    PROTECTED,
+    PUBLIC;
 
-@Target(ElementType.FIELD)
-@Retention(RetentionPolicy.SOURCE)
-public @interface GenerateAlias {
-
-    String outputClass();
+    @Override
+    public String toString() {
+        return switch (this) {
+            case PRIVATE -> "private";
+            case DEFAULT -> "";
+            case PROTECTED -> "protected";
+            case PUBLIC -> "public";
+        };
+    }
 }

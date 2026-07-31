@@ -21,9 +21,12 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target(ElementType.FIELD)
+/// Copies the constructors into static factories methods.
+@Target(ElementType.TYPE)
 @Retention(RetentionPolicy.SOURCE)
-public @interface GenerateAlias {
+public @interface GenerateFactory {
+
+    String methodName();
 
     String outputClass();
 }

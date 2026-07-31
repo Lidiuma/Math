@@ -17,6 +17,9 @@
 package org.lidiuma.math.processor.processing;
 
 import org.lidiuma.math.processor.GenerateAlias;
+import org.lidiuma.math.processor.GenerateFactory;
+import org.lidiuma.math.processor.processing.AliasClassGenerator.AliasType.Constructor;
+import org.lidiuma.math.processor.processing.AliasClassGenerator.AliasType.Field;
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.element.*;
@@ -30,7 +33,7 @@ public final class Processor extends AbstractProcessor {
 
     @Override
     public Set<String> getSupportedAnnotationTypes() {
-        return Set.of(GenerateAlias.class.getName());
+        return Set.of(GenerateAlias.class.getName(), GenerateFactory.class.getName());
     }
 
     @Override
@@ -49,9 +52,27 @@ public final class Processor extends AbstractProcessor {
 
         final var elements = util.processingEnv().getElementUtils();
         final Map<String, AliasClassGenerator> aliases = new HashMap<>();
+
+        roundEnv.getElementsAnnotatedWith(GenerateFactory.class).forEach(element -> {
+
+            final GenerateFactory factory = Objects.requireNonNull(element.getAnnotation(GenerateFactory.class));
+
+            final String packageName = elements.getPackageOf(element).toString();
+            if (!(element instanceof TypeElement ve)) throw new IllegalArgumentException("Invalid element.");
+
+            final var constructors = util.constructors(
+                    new LinkedHashSet<>(List.of(ve)),
+                    (_, method) -> !method.getModifiers().contains(Modifier.PUBLIC)
+            ).get(ve);
+            aliases.computeIfAbsent(packageName + "." + factory.outputClass(), _ -> AliasClassGenerator.of(util))
+                    .packageName(packageName)
+                    .className(factory.outputClass())
+                    .addMethodsAlias(new Constructor(ve, factory.methodName()), constructors);
+        });
+
         roundEnv.getElementsAnnotatedWith(GenerateAlias.class).forEach(element -> {
 
-            final String className = Objects.requireNonNull(element.getAnnotation(GenerateAlias.class)).className();
+            final String className = Objects.requireNonNull(element.getAnnotation(GenerateAlias.class)).outputClass();
 
             if (isAliasInvalid(element, className)) return;
 
@@ -61,7 +82,7 @@ public final class Processor extends AbstractProcessor {
             aliases.computeIfAbsent(packageName + "." + className, _ -> AliasClassGenerator.of(util))
                     .packageName(packageName)
                     .className(className)
-                    .methods(ve, util.methodsOfField(ve));
+                    .addMethodsAlias(new Field(ve), util.methodsOfField(ve));
         });
 
         aliases.values().forEach(gen -> {
