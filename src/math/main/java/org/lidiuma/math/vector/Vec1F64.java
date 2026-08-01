@@ -20,13 +20,27 @@ import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.traits.vector.FloatingVector1Ops;
 import org.lidiuma.math.api.vector.Vector1;
 import org.lidiuma.math.numerics.DoubleNumeric;
+import org.lidiuma.math.processor.AliasExclude;
+import org.lidiuma.math.processor.GenerateAlias;
+import org.lidiuma.math.processor.GenerateFactory;
 import org.lidiuma.math.rotation.AngleF64;
 
+@GenerateFactory(methodName = "vec1", outputClass = "Vectors")
 public value record Vec1F64(@Override @NullRestricted Double x) implements Vector1<Double> {
 
-    public static final FloatingVector1Ops<Vec1F64, AngleF64, Double> WITNESS = new FloatingVector1Ops<>() {
+    @GenerateAlias(outputClass = "Vectors")
+    public static final Ops WITNESS = new Ops();
+
+    /// A constructor creating a specialized vector from a generic vector.
+    @AliasExclude
+    public Vec1F64(Vector1<Double> vec) {
+        this(vec.x());
+    }
+
+    public static final class Ops implements FloatingVector1Ops<Vec1F64, AngleF64, Double> {
 
         @Override
+        @AliasExclude
         public Vec1F64 of(Double x) {
             return new Vec1F64(x);
         }
@@ -37,13 +51,21 @@ public value record Vec1F64(@Override @NullRestricted Double x) implements Vecto
         }
 
         @Override
+        @AliasExclude
         public DoubleNumeric scalarOps() {
             return DoubleNumeric.WITNESS;
         }
-    };
 
-    /// A constructor creating a specialized vector from a generic vector.
-    public Vec1F64(Vector1<Double> vec) {
-        this(vec.x());
+        @Override
+        @AliasExclude
+        public Vec1F64 zero() {
+            return FloatingVector1Ops.super.zero();
+        }
+
+        @Override
+        @AliasExclude
+        public Vec1F64 one() {
+            return FloatingVector1Ops.super.one();
+        }
     }
 }

@@ -20,8 +20,12 @@ import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.traits.vector.FloatingVector4Ops;
 import org.lidiuma.math.api.vector.Vector4;
 import org.lidiuma.math.numerics.DoubleNumeric;
+import org.lidiuma.math.processor.AliasExclude;
+import org.lidiuma.math.processor.GenerateAlias;
+import org.lidiuma.math.processor.GenerateFactory;
 import org.lidiuma.math.rotation.AngleF64;
 
+@GenerateFactory(methodName = "vec4", outputClass = "Vectors")
 public value record Vec4F64(
         @Override @NullRestricted Double x,
         @Override @NullRestricted Double y,
@@ -29,9 +33,18 @@ public value record Vec4F64(
         @Override @NullRestricted Double w
 ) implements Vector4<Double> {
 
-    public static final FloatingVector4Ops<Vec4F64, AngleF64, Double> WITNESS = new FloatingVector4Ops<>() {
+    @GenerateAlias(outputClass = "Vectors")
+    public static final Ops WITNESS = new Ops();
+
+    @AliasExclude
+    public Vec4F64(Vector4<Double> vec) {
+        this(vec.x(), vec.y(), vec.z(), vec.w());
+    }
+
+    public static final class Ops implements FloatingVector4Ops<Vec4F64, AngleF64, Double> {
 
         @Override
+        @AliasExclude
         public Vec4F64 of(Double x, Double y, Double z, Double w) {
             return new Vec4F64(x, y, z, w);
         }
@@ -46,12 +59,21 @@ public value record Vec4F64(
         }
 
         @Override
+        @AliasExclude
         public DoubleNumeric scalarOps() {
             return DoubleNumeric.WITNESS;
         }
-    };
 
-    public Vec4F64(Vector4<Double> vec) {
-        this(vec.x(), vec.y(), vec.z(), vec.w());
+        @Override
+        @AliasExclude
+        public Vec4F64 zero() {
+            return FloatingVector4Ops.super.zero();
+        }
+
+        @Override
+        @AliasExclude
+        public Vec4F64 one() {
+            return FloatingVector4Ops.super.one();
+        }
     }
 }

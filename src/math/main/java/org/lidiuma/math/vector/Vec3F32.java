@@ -20,17 +20,30 @@ import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.traits.vector.FloatingVector3Ops;
 import org.lidiuma.math.api.vector.Vector3;
 import org.lidiuma.math.numerics.FloatNumeric;
+import org.lidiuma.math.processor.AliasExclude;
+import org.lidiuma.math.processor.GenerateAlias;
+import org.lidiuma.math.processor.GenerateFactory;
 import org.lidiuma.math.rotation.AngleF32;
 
+@GenerateFactory(methodName = "vec3", outputClass = "Vectors")
 public value record Vec3F32(
         @Override @NullRestricted Float x,
         @Override @NullRestricted Float y,
         @Override @NullRestricted Float z
 ) implements Vector3<Float> {
 
-    public static final FloatingVector3Ops<Vec3F32, AngleF32, Float> WITNESS = new FloatingVector3Ops<>() {
+    @GenerateAlias(outputClass = "Vectors")
+    public static final Ops WITNESS = new Ops();
+
+    @AliasExclude
+    public Vec3F32(Vector3<Float> vec) {
+        this(vec.x(), vec.y(), vec.z());
+    }
+
+    public static final class Ops implements FloatingVector3Ops<Vec3F32, AngleF32, Float> {
 
         @Override
+        @AliasExclude
         public Vec3F32 of(Float x, Float y, Float z) {
             return new Vec3F32(x, y, z);
         }
@@ -45,12 +58,21 @@ public value record Vec3F32(
         }
 
         @Override
+        @AliasExclude
         public FloatNumeric scalarOps() {
             return FloatNumeric.WITNESS;
         }
-    };
 
-    public Vec3F32(Vector3<Float> vec) {
-        this(vec.x(), vec.y(), vec.z());
+        @Override
+        @AliasExclude
+        public Vec3F32 zero() {
+            return FloatingVector3Ops.super.zero();
+        }
+
+        @Override
+        @AliasExclude
+        public Vec3F32 one() {
+            return FloatingVector3Ops.super.one();
+        }
     }
 }

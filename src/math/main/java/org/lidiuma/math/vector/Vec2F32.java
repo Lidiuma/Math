@@ -20,16 +20,29 @@ import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.traits.vector.FloatingVector2Ops;
 import org.lidiuma.math.api.vector.Vector2;
 import org.lidiuma.math.numerics.FloatNumeric;
+import org.lidiuma.math.processor.AliasExclude;
+import org.lidiuma.math.processor.GenerateAlias;
+import org.lidiuma.math.processor.GenerateFactory;
 import org.lidiuma.math.rotation.AngleF32;
 
+@GenerateFactory(methodName = "vec2", outputClass = "Vectors")
 public value record Vec2F32(
         @Override @NullRestricted Float x,
         @Override @NullRestricted Float y
 ) implements Vector2<Float> {
 
-    public static final FloatingVector2Ops<Vec2F32, AngleF32, Float> WITNESS = new FloatingVector2Ops<>() {
+    @GenerateAlias(outputClass = "Vectors")
+    public static final Ops WITNESS = new Ops();
+
+    @AliasExclude
+    public Vec2F32(Vector2<Float> vec) {
+        this(vec.x(), vec.y());
+    }
+
+    public static final class Ops implements FloatingVector2Ops<Vec2F32, AngleF32, Float> {
 
         @Override
+        @AliasExclude
         public Vec2F32 of(Float x, Float y) {
             return new Vec2F32(x, y);
         }
@@ -44,12 +57,21 @@ public value record Vec2F32(
         }
 
         @Override
+        @AliasExclude
         public FloatNumeric scalarOps() {
             return FloatNumeric.WITNESS;
         }
-    };
 
-    public Vec2F32(Vector2<Float> vec) {
-        this(vec.x(), vec.y());
+        @Override
+        @AliasExclude
+        public Vec2F32 zero() {
+            return FloatingVector2Ops.super.zero();
+        }
+
+        @Override
+        @AliasExclude
+        public Vec2F32 one() {
+            return FloatingVector2Ops.super.one();
+        }
     }
 }

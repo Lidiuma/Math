@@ -20,17 +20,30 @@ import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.traits.vector.FloatingVector3Ops;
 import org.lidiuma.math.api.vector.Vector3;
 import org.lidiuma.math.numerics.DoubleNumeric;
+import org.lidiuma.math.processor.AliasExclude;
+import org.lidiuma.math.processor.GenerateAlias;
+import org.lidiuma.math.processor.GenerateFactory;
 import org.lidiuma.math.rotation.AngleF64;
 
+@GenerateFactory(methodName = "vec3", outputClass = "Vectors")
 public value record Vec3F64(
         @Override @NullRestricted Double x,
         @Override @NullRestricted Double y,
         @Override @NullRestricted Double z
 ) implements Vector3<Double> {
 
-    public static final FloatingVector3Ops<Vec3F64, AngleF64, Double> WITNESS = new FloatingVector3Ops<>() {
+    @GenerateAlias(outputClass = "Vectors")
+    public static final Ops WITNESS = new Ops();
+
+    @AliasExclude
+    public Vec3F64(Vector3<Double> vec) {
+        this(vec.x(), vec.y(), vec.z());
+    }
+
+    public static final class Ops implements FloatingVector3Ops<Vec3F64, AngleF64, Double> {
 
         @Override
+        @AliasExclude
         public Vec3F64 of(Double x, Double y, Double z) {
             return new Vec3F64(x, y, z);
         }
@@ -45,12 +58,21 @@ public value record Vec3F64(
         }
 
         @Override
+        @AliasExclude
         public DoubleNumeric scalarOps() {
             return DoubleNumeric.WITNESS;
         }
-    };
 
-    public Vec3F64(Vector3<Double> vec) {
-        this(vec.x(), vec.y(), vec.z());
+        @Override
+        @AliasExclude
+        public Vec3F64 zero() {
+            return FloatingVector3Ops.super.zero();
+        }
+
+        @Override
+        @AliasExclude
+        public Vec3F64 one() {
+            return FloatingVector3Ops.super.one();
+        }
     }
 }

@@ -20,13 +20,28 @@ import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.traits.vector.FloatingVector1Ops;
 import org.lidiuma.math.api.vector.Vector1;
 import org.lidiuma.math.numerics.FloatNumeric;
+import org.lidiuma.math.processor.AliasExclude;
+import org.lidiuma.math.processor.GenerateAlias;
+import org.lidiuma.math.processor.GenerateFactory;
 import org.lidiuma.math.rotation.AngleF32;
 
+@GenerateFactory(methodName = "vec1", outputClass = "Vectors")
 public value record Vec1F32(@Override @NullRestricted Float x) implements Vector1<Float> {
 
-    public static final FloatingVector1Ops<Vec1F32, AngleF32, Float> WITNESS = new FloatingVector1Ops<>() {
+    @GenerateAlias(outputClass = "Vectors")
+    public static final Ops WITNESS = new Ops();
+
+    /// A constructor creating a specialized vector from a generic vector.
+    @SuppressWarnings("unused")
+    @AliasExclude
+    public Vec1F32(Vector1<Float> vec) {
+        this(vec.x());
+    }
+
+    public static final class Ops implements FloatingVector1Ops<Vec1F32, AngleF32, Float> {
 
         @Override
+        @AliasExclude
         public Vec1F32 of(Float x) {
             return new Vec1F32(x);
         }
@@ -37,14 +52,21 @@ public value record Vec1F32(@Override @NullRestricted Float x) implements Vector
         }
 
         @Override
+        @AliasExclude
         public FloatNumeric scalarOps() {
             return FloatNumeric.WITNESS;
         }
-    };
 
-    /// A constructor creating a specialized vector from a generic vector.
-    @SuppressWarnings("unused")
-    public Vec1F32(Vector1<Float> vec) {
-        this(vec.x());
+        @Override
+        @AliasExclude
+        public Vec1F32 zero() {
+            return FloatingVector1Ops.super.zero();
+        }
+
+        @Override
+        @AliasExclude
+        public Vec1F32 one() {
+            return FloatingVector1Ops.super.one();
+        }
     }
 }
