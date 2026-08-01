@@ -19,8 +19,10 @@ package org.lidiuma.math.tuple;
 import jdk.internal.vm.annotation.LooselyConsistentValue;
 import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.tuple.UnaryTuple1;
+import org.lidiuma.math.processor.GenerateFactory;
 
 @LooselyConsistentValue
+@GenerateFactory(methodName = "float1", outputClass = "Tuples")
 public value record Float1(
         @Override @NullRestricted Float x
 ) implements UnaryTuple1<Float> {
