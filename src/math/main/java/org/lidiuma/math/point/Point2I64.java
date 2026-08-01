@@ -19,8 +19,10 @@ package org.lidiuma.math.point;
 import jdk.internal.vm.annotation.LooselyConsistentValue;
 import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.point.Point2;
+import org.lidiuma.math.processor.GenerateFactory;
 
 @LooselyConsistentValue
+@GenerateFactory(methodName = "point2", outputClass = "Points")
 public value record Point2I64(
         @NullRestricted Long x,
         @NullRestricted Long y

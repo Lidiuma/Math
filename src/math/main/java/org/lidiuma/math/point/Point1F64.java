@@ -19,7 +19,9 @@ package org.lidiuma.math.point;
 import jdk.internal.vm.annotation.LooselyConsistentValue;
 import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.point.Point1;
+import org.lidiuma.math.processor.GenerateFactory;
 
 @LooselyConsistentValue
+@GenerateFactory(methodName = "point1", outputClass = "Points")
 public value record Point1F64(@NullRestricted Double x) implements Point1<Double> {
 }
