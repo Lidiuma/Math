@@ -22,11 +22,14 @@ import jdk.internal.vm.annotation.LooselyConsistentValue;
 import org.lidiuma.math.api.traits.matrix.Matrix4Ops;
 import org.lidiuma.math.api.traits.vector.Vector4Ops;
 import org.lidiuma.math.numerics.FloatNumeric;
+import org.lidiuma.math.processor.AliasExclude;
+import org.lidiuma.math.processor.GenerateAlias;
+import org.lidiuma.math.processor.GenerateFactory;
 import org.lidiuma.math.vector.Vec4F32;
 
 /// @see Matrix4
-@SuppressWarnings("unused")
 @LooselyConsistentValue
+@GenerateFactory(methodName = "matrix4", outputClass = "Matrices")
 public value record Matrix4F32(
         // I'm not using an array because it's an identity object, and this reads and feels better to work with.
         @NullRestricted Float m00, @NullRestricted Float m01, @NullRestricted Float m02, @NullRestricted Float m03,
@@ -35,8 +38,13 @@ public value record Matrix4F32(
         @NullRestricted Float m30, @NullRestricted Float m31, @NullRestricted Float m32, @NullRestricted Float m33
 ) implements Matrix4<Float> {
 
-    public static final Matrix4Ops<Matrix4F32, Vec4F32, Float> WITNESS = new Matrix4Ops<>() {
+    @GenerateAlias(outputClass = "Matrices")
+    public static final Ops WITNESS = new Ops();
+
+    public static final class Ops implements Matrix4Ops<Matrix4F32, Vec4F32, Float> {
+
         @Override
+        @AliasExclude
         public Matrix4F32 of(Float m00, Float m01, Float m02, Float m03,
                              Float m10, Float m11, Float m12, Float m13,
                              Float m20, Float m21, Float m22, Float m23,
@@ -50,15 +58,35 @@ public value record Matrix4F32(
         }
 
         @Override
+        @AliasExclude
         public Vector4Ops<Vec4F32, Float> vectorOps() {
             return Vec4F32.WITNESS;
         }
 
         @Override
+        @AliasExclude
         public FloatNumeric scalarOps() {
             return FloatNumeric.WITNESS;
         }
-    };
+
+        @Override
+        @AliasExclude
+        public Matrix4F32 zero() {
+            return Matrix4Ops.super.zero();
+        }
+
+        @Override
+        @AliasExclude
+        public Matrix4F32 one() {
+            return Matrix4Ops.super.one();
+        }
+
+        @Override
+        @AliasExclude
+        public Matrix4F32 identity() {
+            return Matrix4Ops.super.identity();
+        }
+    }
 
 //    /// Creates a transformation matrix from a translation and rotation.
 //    /// @return The transformation matrix.

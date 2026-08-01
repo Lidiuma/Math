@@ -21,33 +21,19 @@ import org.lidiuma.math.api.matrix.Affine2;
 import org.lidiuma.math.api.traits.matrix.Affine2Ops;
 import org.lidiuma.math.api.traits.vector.Vector2Ops;
 import org.lidiuma.math.numerics.FloatNumeric;
+import org.lidiuma.math.processor.AliasExclude;
+import org.lidiuma.math.processor.GenerateAlias;
+import org.lidiuma.math.processor.GenerateFactory;
 import org.lidiuma.math.vector.Vec2F32;
 
+@GenerateFactory(methodName = "affine2", outputClass = "Matrices")
 public value record Affine2F32(
         @NullRestricted Float m00, @NullRestricted Float m01, @NullRestricted Float m02,
         @NullRestricted Float m10, @NullRestricted Float m11, @NullRestricted Float m12
 ) implements Affine2<Float> {
 
-    public static final Affine2Ops<Affine2F32, Vec2F32, Float> WITNESS = new Affine2Ops<>() {
-
-        @Override
-        public Affine2F32 of(Float m00, Float m01, Float m02, Float m10, Float m11, Float m12) {
-            return new Affine2F32(
-                    m00, m01, m02,
-                    m10, m11, m12
-            );
-        }
-
-        @Override
-        public Vector2Ops<Vec2F32, Float> vectorOps() {
-            return Vec2F32.WITNESS;
-        }
-
-        @Override
-        public FloatNumeric scalarOps() {
-            return FloatNumeric.WITNESS;
-        }
-    };
+    @GenerateAlias(outputClass = "Matrices")
+    public static final Ops WITNESS = new Ops();
 
     @Override
     public Float m20() {
@@ -62,5 +48,47 @@ public value record Affine2F32(
     @Override
     public Float m22() {
         return 1f;
+    }
+
+    public static final class Ops implements Affine2Ops<Affine2F32, Vec2F32, Float> {
+
+        @Override
+        @AliasExclude
+        public Affine2F32 of(Float m00, Float m01, Float m02, Float m10, Float m11, Float m12) {
+            return new Affine2F32(
+                    m00, m01, m02,
+                    m10, m11, m12
+            );
+        }
+
+        @Override
+        @AliasExclude
+        public Vector2Ops<Vec2F32, Float> vectorOps() {
+            return Vec2F32.WITNESS;
+        }
+
+        @Override
+        @AliasExclude
+        public FloatNumeric scalarOps() {
+            return FloatNumeric.WITNESS;
+        }
+
+        @Override
+        @AliasExclude
+        public Affine2F32 zero() {
+            return Affine2Ops.super.zero();
+        }
+
+        @Override
+        @AliasExclude
+        public Affine2F32 one() {
+            return Affine2Ops.super.one();
+        }
+
+        @Override
+        @AliasExclude
+        public Affine2F32 identity() {
+            return Affine2Ops.super.identity();
+        }
     }
 }

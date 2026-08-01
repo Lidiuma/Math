@@ -21,12 +21,15 @@ import org.lidiuma.math.api.matrix.Matrix4;
 import org.lidiuma.math.api.traits.matrix.Matrix4Ops;
 import org.lidiuma.math.api.traits.vector.Vector4Ops;
 import org.lidiuma.math.numerics.DoubleNumeric;
+import org.lidiuma.math.processor.AliasExclude;
+import org.lidiuma.math.processor.GenerateAlias;
+import org.lidiuma.math.processor.GenerateFactory;
 import org.lidiuma.math.vector.Vec4F64;
 import jdk.internal.vm.annotation.LooselyConsistentValue;
 
 /// @see Matrix4
-@SuppressWarnings("unused")
 @LooselyConsistentValue
+@GenerateFactory(methodName = "matrix4", outputClass = "Matrices")
 public value record Matrix4F64(
         // I'm not using an array because it's an identity object, and this reads and feels better to work with.
         @NullRestricted Double m00, @NullRestricted Double m01, @NullRestricted Double m02, @NullRestricted Double m03,
@@ -35,9 +38,13 @@ public value record Matrix4F64(
         @NullRestricted Double m30, @NullRestricted Double m31, @NullRestricted Double m32, @NullRestricted Double m33
 ) implements Matrix4<Double> {
 
-    public static final Matrix4Ops<Matrix4F64, Vec4F64, Double> WITNESS = new Matrix4Ops<>() {
+    @GenerateAlias(outputClass = "Matrices")
+    public static final Ops WITNESS = new Ops();
+
+    public static final class Ops implements Matrix4Ops<Matrix4F64, Vec4F64, Double> {
 
         @Override
+        @AliasExclude
         public Matrix4F64 of(Double m00, Double m01, Double m02, Double m03,
                              Double m10, Double m11, Double m12, Double m13,
                              Double m20, Double m21, Double m22, Double m23,
@@ -51,13 +58,33 @@ public value record Matrix4F64(
         }
 
         @Override
+        @AliasExclude
         public Vector4Ops<Vec4F64, Double> vectorOps() {
             return Vec4F64.WITNESS;
         }
 
         @Override
+        @AliasExclude
         public DoubleNumeric scalarOps() {
             return DoubleNumeric.WITNESS;
         }
-    };
+
+        @Override
+        @AliasExclude
+        public Matrix4F64 zero() {
+            return Matrix4Ops.super.zero();
+        }
+
+        @Override
+        @AliasExclude
+        public Matrix4F64 one() {
+            return Matrix4Ops.super.one();
+        }
+
+        @Override
+        @AliasExclude
+        public Matrix4F64 identity() {
+            return Matrix4Ops.super.identity();
+        }
+    }
 }

@@ -22,20 +22,27 @@ import jdk.internal.vm.annotation.LooselyConsistentValue;
 import org.lidiuma.math.api.traits.matrix.Matrix3Ops;
 import org.lidiuma.math.api.traits.vector.Vector3Ops;
 import org.lidiuma.math.numerics.FloatNumeric;
+import org.lidiuma.math.processor.AliasExclude;
+import org.lidiuma.math.processor.GenerateAlias;
+import org.lidiuma.math.processor.GenerateFactory;
 import org.lidiuma.math.vector.Vec3F32;
 
 /// @see Matrix3
 @LooselyConsistentValue
-@SuppressWarnings("unused")
+@GenerateFactory(methodName = "matrix3", outputClass = "Matrices")
 public value record Matrix3F32(
         @NullRestricted Float m00, @NullRestricted Float m01, @NullRestricted Float m02,
         @NullRestricted Float m10, @NullRestricted Float m11, @NullRestricted Float m12,
         @NullRestricted Float m20, @NullRestricted Float m21, @NullRestricted Float m22
 ) implements Matrix3<Float> {
 
-    public static final Matrix3Ops<Matrix3F32, Vec3F32, Float> WITNESS = new Matrix3Ops<>() {
+    @GenerateAlias(outputClass = "Matrices")
+    public static final Ops WITNESS = new Ops();
+
+    public static final class Ops implements Matrix3Ops<Matrix3F32, Vec3F32, Float> {
 
         @Override
+        @AliasExclude
         public Matrix3F32 of(Float m00, Float m01, Float m02,
                              Float m10, Float m11, Float m12,
                              Float m20, Float m21, Float m22) {
@@ -47,15 +54,35 @@ public value record Matrix3F32(
         }
 
         @Override
+        @AliasExclude
         public Vector3Ops<Vec3F32, Float> vectorOps() {
             return Vec3F32.WITNESS;
         }
 
         @Override
+        @AliasExclude
         public FloatNumeric scalarOps() {
             return FloatNumeric.WITNESS;
         }
-    };
+
+        @Override
+        @AliasExclude
+        public Matrix3F32 zero() {
+            return Matrix3Ops.super.zero();
+        }
+
+        @Override
+        @AliasExclude
+        public Matrix3F32 one() {
+            return Matrix3Ops.super.one();
+        }
+
+        @Override
+        @AliasExclude
+        public Matrix3F32 identity() {
+            return Matrix3Ops.super.identity();
+        }
+    }
 
 //    /// @return creates an identity matrix having the 3rd column set to the translation vector.
 //    public static Matrix3F32 fromTranslation(Vector2F32 translation) {

@@ -21,37 +21,20 @@ import org.lidiuma.math.api.matrix.Affine3;
 import org.lidiuma.math.api.traits.matrix.Affine3Ops;
 import org.lidiuma.math.api.traits.vector.Vector3Ops;
 import org.lidiuma.math.numerics.FloatNumeric;
+import org.lidiuma.math.processor.AliasExclude;
+import org.lidiuma.math.processor.GenerateAlias;
+import org.lidiuma.math.processor.GenerateFactory;
 import org.lidiuma.math.vector.Vec3F32;
 
+@GenerateFactory(methodName = "affine3", outputClass = "Matrices")
 public value record Affine3F32(
         @NullRestricted Float m00, @NullRestricted Float m01, @NullRestricted Float m02, @NullRestricted Float m03,
         @NullRestricted Float m10, @NullRestricted Float m11, @NullRestricted Float m12, @NullRestricted Float m13,
         @NullRestricted Float m20, @NullRestricted Float m21, @NullRestricted Float m22, @NullRestricted Float m23
 ) implements Affine3<Float> {
 
-    public static final Affine3Ops<Affine3F32, Vec3F32, Float> WITNESS = new Affine3Ops<>() {
-
-        @Override
-        public Affine3F32 of(Float m00, Float m01, Float m02, Float m03,
-                             Float m10, Float m11, Float m12, Float m13,
-                             Float m20, Float m21, Float m22, Float m23) {
-            return new Affine3F32(
-                    m00, m01, m02, m03,
-                    m10, m11, m12, m13,
-                    m20, m21, m22, m23
-            );
-        }
-
-        @Override
-        public Vector3Ops<Vec3F32, Float> vectorOps() {
-            return Vec3F32.WITNESS;
-        }
-
-        @Override
-        public FloatNumeric scalarOps() {
-            return FloatNumeric.WITNESS;
-        }
-    };
+    @GenerateAlias(outputClass = "Matrices")
+    public static final Ops WITNESS = new Ops();
 
     @Override
     public Float m30() {
@@ -71,5 +54,50 @@ public value record Affine3F32(
     @Override
     public Float m33() {
         return 1f;
+    }
+
+    public static final class Ops implements Affine3Ops<Affine3F32, Vec3F32, Float> {
+
+        @Override
+        @AliasExclude
+        public Affine3F32 of(Float m00, Float m01, Float m02, Float m03,
+                             Float m10, Float m11, Float m12, Float m13,
+                             Float m20, Float m21, Float m22, Float m23) {
+            return new Affine3F32(
+                    m00, m01, m02, m03,
+                    m10, m11, m12, m13,
+                    m20, m21, m22, m23
+            );
+        }
+
+        @Override
+        @AliasExclude
+        public Vector3Ops<Vec3F32, Float> vectorOps() {
+            return Vec3F32.WITNESS;
+        }
+
+        @Override
+        @AliasExclude
+        public FloatNumeric scalarOps() {
+            return FloatNumeric.WITNESS;
+        }
+
+        @Override
+        @AliasExclude
+        public Affine3F32 zero() {
+            return Affine3Ops.super.zero();
+        }
+
+        @Override
+        @AliasExclude
+        public Affine3F32 one() {
+            return Affine3Ops.super.one();
+        }
+
+        @Override
+        @AliasExclude
+        public Affine3F32 identity() {
+            return Affine3Ops.super.identity();
+        }
     }
 }
