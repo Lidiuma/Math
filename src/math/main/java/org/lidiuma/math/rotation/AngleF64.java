@@ -19,6 +19,7 @@ package org.lidiuma.math.rotation;
 import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.rotation.Angle;
 
+// TODO Have aliases of the static methods?
 public value record AngleF64(
         @Override @NullRestricted Double radian
 ) implements Angle<Double> {

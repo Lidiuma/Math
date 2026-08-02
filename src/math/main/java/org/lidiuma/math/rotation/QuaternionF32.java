@@ -22,10 +22,14 @@ import org.lidiuma.math.api.traits.rotation.QuaternionOps;
 import org.lidiuma.math.api.vector.Vector4;
 import org.lidiuma.math.numerics.FloatNumeric;
 import jdk.internal.vm.annotation.LooselyConsistentValue;
+import org.lidiuma.math.processor.AliasExclude;
+import org.lidiuma.math.processor.GenerateAlias;
+import org.lidiuma.math.processor.GenerateFactory;
 import org.lidiuma.math.vector.Vec3F32;
 import static org.lidiuma.math.FloatingUtil.EPSILON_F32;
 
 @LooselyConsistentValue
+@GenerateFactory(methodName = "quaternion", outputClass = "Rotations")
 public value record QuaternionF32(
         @Override @NullRestricted Float x,
         @Override @NullRestricted Float y,
@@ -33,9 +37,18 @@ public value record QuaternionF32(
         @Override @NullRestricted Float w
 ) implements Quaternion<Float> {
 
-    public static final QuaternionOps<QuaternionF32, Vec3F32, AngleF32, Float> WITNESS = new QuaternionOps<>() {
+    @GenerateAlias(outputClass = "Rotations")
+    public static final Ops WITNESS = new Ops();
+
+    @AliasExclude
+    public QuaternionF32(Vector4<Float> v4) {
+        this(v4.x(), v4.y(), v4.z(), v4.w());
+    }
+
+    public static final class Ops implements QuaternionOps<QuaternionF32, Vec3F32, AngleF32, Float> {
 
         @Override
+        @AliasExclude
         public QuaternionF32 of(Float x, Float y, Float z, Float w) {
             return new QuaternionF32(x, y, z, w);
         }
@@ -197,11 +210,6 @@ public value record QuaternionF32(
             return angle(twist(quaternion, axis));
         }
 
-        @Override
-        public FloatNumeric scalarWitness() {
-            return FloatNumeric.WITNESS;
-        }
-
         private QuaternionF32 twist(QuaternionF32 quaternion, Vec3F32 axis) {
 
             final var witness = Vec3F32.WITNESS;
@@ -215,9 +223,29 @@ public value record QuaternionF32(
                     quaternion.w())
             );
         }
-    };
 
-    public QuaternionF32(Vector4<Float> v4) {
-        this(v4.x(), v4.y(), v4.z(), v4.w());
+        @Override
+        @AliasExclude
+        public FloatNumeric scalarWitness() {
+            return FloatNumeric.WITNESS;
+        }
+
+        @Override
+        @AliasExclude
+        public QuaternionF32 zero() {
+            return QuaternionOps.super.zero();
+        }
+
+        @Override
+        @AliasExclude
+        public QuaternionF32 one() {
+            return QuaternionOps.super.one();
+        }
+
+        @Override
+        @AliasExclude
+        public QuaternionF32 identity() {
+            return QuaternionOps.super.identity();
+        }
     }
 }

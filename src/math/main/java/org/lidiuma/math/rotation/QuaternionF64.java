@@ -22,11 +22,14 @@ import org.lidiuma.math.api.traits.rotation.QuaternionOps;
 import org.lidiuma.math.api.vector.Vector4;
 import org.lidiuma.math.numerics.DoubleNumeric;
 import jdk.internal.vm.annotation.LooselyConsistentValue;
+import org.lidiuma.math.processor.AliasExclude;
+import org.lidiuma.math.processor.GenerateAlias;
+import org.lidiuma.math.processor.GenerateFactory;
 import org.lidiuma.math.vector.Vec3F64;
-
 import static org.lidiuma.math.FloatingUtil.EPSILON_F32;
 
 @LooselyConsistentValue
+@GenerateFactory(methodName = "quaternion", outputClass = "Rotations")
 public value record QuaternionF64(
         @Override @NullRestricted Double x,
         @Override @NullRestricted Double y,
@@ -34,9 +37,18 @@ public value record QuaternionF64(
         @Override @NullRestricted Double w
 ) implements Quaternion<Double> {
 
-    public static final QuaternionOps<QuaternionF64, Vec3F64, AngleF64, Double> WITNESS = new QuaternionOps<>() {
+    @GenerateAlias(outputClass = "Rotations")
+    public static final Ops WITNESS = new Ops();
+
+    @AliasExclude
+    public QuaternionF64(Vector4<Double> v4) {
+        this(v4.x(), v4.y(), v4.z(), v4.w());
+    }
+
+    public static final class Ops implements QuaternionOps<QuaternionF64, Vec3F64, AngleF64, Double> {
 
         @Override
+        @AliasExclude
         public QuaternionF64 of(Double x, Double y, Double z, Double w) {
             return new QuaternionF64(x, y, z, w);
         }
@@ -198,11 +210,6 @@ public value record QuaternionF64(
             return angle(twist(quaternion, axis));
         }
 
-        @Override
-        public DoubleNumeric scalarWitness() {
-            return DoubleNumeric.WITNESS;
-        }
-
         private QuaternionF64 twist(QuaternionF64 quaternion, Vec3F64 axis) {
 
             final var witness = Vec3F64.WITNESS;
@@ -216,9 +223,29 @@ public value record QuaternionF64(
                     quaternion.w())
             );
         }
-    };
 
-    public QuaternionF64(Vector4<Double> v4) {
-        this(v4.x(), v4.y(), v4.z(), v4.w());
+        @Override
+        @AliasExclude
+        public DoubleNumeric scalarWitness() {
+            return DoubleNumeric.WITNESS;
+        }
+
+        @Override
+        @AliasExclude
+        public QuaternionF64 zero() {
+            return QuaternionOps.super.zero();
+        }
+
+        @Override
+        @AliasExclude
+        public QuaternionF64 one() {
+            return QuaternionOps.super.one();
+        }
+
+        @Override
+        @AliasExclude
+        public QuaternionF64 identity() {
+            return QuaternionOps.super.identity();
+        }
     }
 }
