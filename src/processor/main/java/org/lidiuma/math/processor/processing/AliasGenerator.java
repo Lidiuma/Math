@@ -17,7 +17,7 @@
 package org.lidiuma.math.processor.processing;
 
 import org.lidiuma.math.processor.Alias;
-import org.lidiuma.math.processor.NamedAlias;
+import org.lidiuma.math.processor.FactoryAlias;
 import org.lidiuma.math.processor.dsl.AccessModifier;
 import org.lidiuma.math.processor.dsl.JavaDSL;
 import javax.lang.model.element.*;
@@ -45,7 +45,7 @@ public final class AliasGenerator {
         return !element.getModifiers().contains(Modifier.PUBLIC);
     }
 
-    public void addMethods(NamedAlias factory, Element element) {
+    public void addMethods(FactoryAlias factory, Element element) {
 
         if (!(element instanceof TypeElement typeElement)) throw new IllegalArgumentException("Invalid element.");
 

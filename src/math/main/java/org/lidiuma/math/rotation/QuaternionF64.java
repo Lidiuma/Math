@@ -24,12 +24,12 @@ import org.lidiuma.math.numerics.DoubleNumeric;
 import jdk.internal.vm.annotation.LooselyConsistentValue;
 import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.Alias;
-import org.lidiuma.math.processor.NamedAlias;
+import org.lidiuma.math.processor.FactoryAlias;
 import org.lidiuma.math.vector.Vec3F64;
 import static org.lidiuma.math.FloatingUtil.EPSILON_F32;
 
 @LooselyConsistentValue
-@NamedAlias(methodName = "quaternion", outputClass = "Rotations")
+@FactoryAlias(methodName = "quaternion", outputClass = "Rotations")
 public value record QuaternionF64(
         @Override @NullRestricted Double x,
         @Override @NullRestricted Double y,

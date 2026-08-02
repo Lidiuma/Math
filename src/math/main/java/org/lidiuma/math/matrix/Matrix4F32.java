@@ -24,12 +24,12 @@ import org.lidiuma.math.api.traits.vector.Vector4Ops;
 import org.lidiuma.math.numerics.FloatNumeric;
 import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.Alias;
-import org.lidiuma.math.processor.NamedAlias;
+import org.lidiuma.math.processor.FactoryAlias;
 import org.lidiuma.math.vector.Vec4F32;
 
 /// @see Matrix4
 @LooselyConsistentValue
-@NamedAlias(methodName = "matrix4", outputClass = "Matrices")
+@FactoryAlias(methodName = "matrix4", outputClass = "Matrices")
 public value record Matrix4F32(
         // I'm not using an array because it's an identity object, and this reads and feels better to work with.
         @NullRestricted Float m00, @NullRestricted Float m01, @NullRestricted Float m02, @NullRestricted Float m03,

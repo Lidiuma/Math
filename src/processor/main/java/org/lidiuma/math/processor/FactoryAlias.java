@@ -14,14 +14,19 @@
  * limitations under the License.
  */
 
-package org.lidiuma.math.point;
+package org.lidiuma.math.processor;
 
-import jdk.internal.vm.annotation.LooselyConsistentValue;
-import jdk.internal.vm.annotation.NullRestricted;
-import org.lidiuma.math.api.point.Point1;
-import org.lidiuma.math.processor.FactoryAlias;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-@LooselyConsistentValue
-@FactoryAlias(methodName = "point1", outputClass = "Points")
-public value record Point1F64(@NullRestricted Double x) implements Point1<Double> {
+/// Copies the constructors into static factories methods.
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.SOURCE)
+public @interface FactoryAlias {
+
+    String methodName();
+
+    String outputClass();
 }

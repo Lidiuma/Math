@@ -17,7 +17,7 @@
 package org.lidiuma.math.processor.processing;
 
 import org.lidiuma.math.processor.Alias;
-import org.lidiuma.math.processor.NamedAlias;
+import org.lidiuma.math.processor.FactoryAlias;
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.element.*;
@@ -31,7 +31,7 @@ public final class Processor extends AbstractProcessor {
 
     @Override
     public Set<String> getSupportedAnnotationTypes() {
-        return Set.of(Alias.class.getName(), NamedAlias.class.getName());
+        return Set.of(Alias.class.getName(), FactoryAlias.class.getName());
     }
 
     @Override
@@ -51,9 +51,9 @@ public final class Processor extends AbstractProcessor {
         final var elements = util.processingEnv().getElementUtils();
         final Map<String, AliasGenerator> aliases = new HashMap<>();
 
-        roundEnv.getElementsAnnotatedWith(NamedAlias.class).forEach(element -> {
+        roundEnv.getElementsAnnotatedWith(FactoryAlias.class).forEach(element -> {
 
-            final NamedAlias annotation = Objects.requireNonNull(element.getAnnotation(NamedAlias.class));
+            final FactoryAlias annotation = Objects.requireNonNull(element.getAnnotation(FactoryAlias.class));
             final String package_ = elements.getPackageOf(element).toString();
             final String class_ = annotation.outputClass();
             final String signature = package_ + "." + class_;

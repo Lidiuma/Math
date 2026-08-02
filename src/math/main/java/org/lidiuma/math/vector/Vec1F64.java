@@ -22,10 +22,10 @@ import org.lidiuma.math.api.vector.Vector1;
 import org.lidiuma.math.numerics.DoubleNumeric;
 import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.Alias;
-import org.lidiuma.math.processor.NamedAlias;
+import org.lidiuma.math.processor.FactoryAlias;
 import org.lidiuma.math.rotation.AngleF64;
 
-@NamedAlias(methodName = "vec1", outputClass = "Vectors")
+@FactoryAlias(methodName = "vec1", outputClass = "Vectors")
 public value record Vec1F64(@Override @NullRestricted Double x) implements Vector1<Double> {
 
     @Alias(outputClass = "Vectors")

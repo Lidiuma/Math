@@ -24,12 +24,12 @@ import org.lidiuma.math.api.traits.vector.Vector3Ops;
 import org.lidiuma.math.numerics.DoubleNumeric;
 import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.Alias;
-import org.lidiuma.math.processor.NamedAlias;
+import org.lidiuma.math.processor.FactoryAlias;
 import org.lidiuma.math.vector.Vec3F64;
 
 /// @see Matrix3
 @LooselyConsistentValue
-@NamedAlias(methodName = "matrix3", outputClass = "Matrices")
+@FactoryAlias(methodName = "matrix3", outputClass = "Matrices")
 public value record Matrix3F64(
         @NullRestricted Double m00, @NullRestricted Double m01, @NullRestricted Double m02,
         @NullRestricted Double m10, @NullRestricted Double m11, @NullRestricted Double m12,

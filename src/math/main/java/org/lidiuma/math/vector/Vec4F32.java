@@ -22,10 +22,10 @@ import org.lidiuma.math.api.vector.Vector4;
 import org.lidiuma.math.numerics.FloatNumeric;
 import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.Alias;
-import org.lidiuma.math.processor.NamedAlias;
+import org.lidiuma.math.processor.FactoryAlias;
 import org.lidiuma.math.rotation.AngleF32;
 
-@NamedAlias(methodName = "vec4", outputClass = "Vectors")
+@FactoryAlias(methodName = "vec4", outputClass = "Vectors")
 public value record Vec4F32(
         @Override @NullRestricted Float x,
         @Override @NullRestricted Float y,

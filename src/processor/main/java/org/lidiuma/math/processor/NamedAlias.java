@@ -16,17 +16,8 @@
 
 package org.lidiuma.math.processor;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
-/// Copies the constructors into static factories methods.
-@Target(ElementType.TYPE) // TODO Make this work for methods/constructors to rename the method?
-@Retention(RetentionPolicy.SOURCE)
+// TODO Make this work for methods/constructors to rename the method.
 public @interface NamedAlias {
 
     String methodName();
-
-    String outputClass();
 }

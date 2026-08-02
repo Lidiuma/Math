@@ -23,10 +23,10 @@ import org.lidiuma.math.api.traits.vector.Vector3Ops;
 import org.lidiuma.math.numerics.FloatNumeric;
 import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.Alias;
-import org.lidiuma.math.processor.NamedAlias;
+import org.lidiuma.math.processor.FactoryAlias;
 import org.lidiuma.math.vector.Vec3F32;
 
-@NamedAlias(methodName = "affine3", outputClass = "Matrices")
+@FactoryAlias(methodName = "affine3", outputClass = "Matrices")
 public value record Affine3F32(
         @NullRestricted Float m00, @NullRestricted Float m01, @NullRestricted Float m02, @NullRestricted Float m03,
         @NullRestricted Float m10, @NullRestricted Float m11, @NullRestricted Float m12, @NullRestricted Float m13,
