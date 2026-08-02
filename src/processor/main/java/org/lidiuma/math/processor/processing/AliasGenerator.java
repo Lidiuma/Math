@@ -16,8 +16,8 @@
 
 package org.lidiuma.math.processor.processing;
 
-import org.lidiuma.math.processor.GenerateAlias;
-import org.lidiuma.math.processor.GenerateFactory;
+import org.lidiuma.math.processor.Alias;
+import org.lidiuma.math.processor.NamedAlias;
 import org.lidiuma.math.processor.dsl.AccessModifier;
 import org.lidiuma.math.processor.dsl.JavaDSL;
 import javax.lang.model.element.*;
@@ -45,7 +45,7 @@ public final class AliasGenerator {
         return !element.getModifiers().contains(Modifier.PUBLIC);
     }
 
-    public void addMethods(GenerateFactory factory, Element element) {
+    public void addMethods(NamedAlias factory, Element element) {
 
         if (!(element instanceof TypeElement typeElement)) throw new IllegalArgumentException("Invalid element.");
 
@@ -53,7 +53,7 @@ public final class AliasGenerator {
         addMethodsAlias(alias, util.constructorsOfType(typeElement));
     }
 
-    public void addMethods(GenerateAlias ignored, Element element) { // Ignored since I only use it as a description of "element must be field".
+    public void addMethods(Alias ignored, Element element) { // Ignored since I only use it as a description of "element must be field".
         if (!(element instanceof VariableElement varElement)) throw new IllegalArgumentException("Invalid @GenerateAlias element.");
         final var type = new AliasType.Field(varElement);
         addMethodsAlias(type, util.methodsOfField(varElement));

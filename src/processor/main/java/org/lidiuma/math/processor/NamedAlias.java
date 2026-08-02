@@ -22,9 +22,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /// Copies the constructors into static factories methods.
-@Target(ElementType.TYPE)
+@Target(ElementType.TYPE) // TODO Make this work for methods/constructors to rename the method?
 @Retention(RetentionPolicy.SOURCE)
-public @interface GenerateFactory {
+public @interface NamedAlias {
 
     String methodName();
 

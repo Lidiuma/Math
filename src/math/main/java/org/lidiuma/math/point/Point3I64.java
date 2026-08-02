@@ -19,10 +19,10 @@ package org.lidiuma.math.point;
 import jdk.internal.vm.annotation.LooselyConsistentValue;
 import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.point.Point3;
-import org.lidiuma.math.processor.GenerateFactory;
+import org.lidiuma.math.processor.NamedAlias;
 
 @LooselyConsistentValue
-@GenerateFactory(methodName = "point3", outputClass = "Points")
+@NamedAlias(methodName = "point3", outputClass = "Points")
 public value record Point3I64(
         @NullRestricted Long x,
         @NullRestricted Long y,

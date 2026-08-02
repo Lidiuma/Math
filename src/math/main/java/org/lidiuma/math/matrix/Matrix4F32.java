@@ -23,13 +23,13 @@ import org.lidiuma.math.api.traits.matrix.Matrix4Ops;
 import org.lidiuma.math.api.traits.vector.Vector4Ops;
 import org.lidiuma.math.numerics.FloatNumeric;
 import org.lidiuma.math.processor.AliasExclude;
-import org.lidiuma.math.processor.GenerateAlias;
-import org.lidiuma.math.processor.GenerateFactory;
+import org.lidiuma.math.processor.Alias;
+import org.lidiuma.math.processor.NamedAlias;
 import org.lidiuma.math.vector.Vec4F32;
 
 /// @see Matrix4
 @LooselyConsistentValue
-@GenerateFactory(methodName = "matrix4", outputClass = "Matrices")
+@NamedAlias(methodName = "matrix4", outputClass = "Matrices")
 public value record Matrix4F32(
         // I'm not using an array because it's an identity object, and this reads and feels better to work with.
         @NullRestricted Float m00, @NullRestricted Float m01, @NullRestricted Float m02, @NullRestricted Float m03,
@@ -38,7 +38,7 @@ public value record Matrix4F32(
         @NullRestricted Float m30, @NullRestricted Float m31, @NullRestricted Float m32, @NullRestricted Float m33
 ) implements Matrix4<Float> {
 
-    @GenerateAlias(outputClass = "Matrices")
+    @Alias(outputClass = "Matrices")
     public static final Ops WITNESS = new Ops();
 
     public static final class Ops implements Matrix4Ops<Matrix4F32, Vec4F32, Float> {

@@ -22,17 +22,17 @@ import org.lidiuma.math.api.traits.matrix.Affine2Ops;
 import org.lidiuma.math.api.traits.vector.Vector2Ops;
 import org.lidiuma.math.numerics.FloatNumeric;
 import org.lidiuma.math.processor.AliasExclude;
-import org.lidiuma.math.processor.GenerateAlias;
-import org.lidiuma.math.processor.GenerateFactory;
+import org.lidiuma.math.processor.Alias;
+import org.lidiuma.math.processor.NamedAlias;
 import org.lidiuma.math.vector.Vec2F32;
 
-@GenerateFactory(methodName = "affine2", outputClass = "Matrices")
+@NamedAlias(methodName = "affine2", outputClass = "Matrices")
 public value record Affine2F32(
         @NullRestricted Float m00, @NullRestricted Float m01, @NullRestricted Float m02,
         @NullRestricted Float m10, @NullRestricted Float m11, @NullRestricted Float m12
 ) implements Affine2<Float> {
 
-    @GenerateAlias(outputClass = "Matrices")
+    @Alias(outputClass = "Matrices")
     public static final Ops WITNESS = new Ops();
 
     @Override

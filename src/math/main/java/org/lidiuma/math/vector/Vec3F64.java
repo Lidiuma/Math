@@ -21,18 +21,18 @@ import org.lidiuma.math.api.traits.vector.FloatingVector3Ops;
 import org.lidiuma.math.api.vector.Vector3;
 import org.lidiuma.math.numerics.DoubleNumeric;
 import org.lidiuma.math.processor.AliasExclude;
-import org.lidiuma.math.processor.GenerateAlias;
-import org.lidiuma.math.processor.GenerateFactory;
+import org.lidiuma.math.processor.Alias;
+import org.lidiuma.math.processor.NamedAlias;
 import org.lidiuma.math.rotation.AngleF64;
 
-@GenerateFactory(methodName = "vec3", outputClass = "Vectors")
+@NamedAlias(methodName = "vec3", outputClass = "Vectors")
 public value record Vec3F64(
         @Override @NullRestricted Double x,
         @Override @NullRestricted Double y,
         @Override @NullRestricted Double z
 ) implements Vector3<Double> {
 
-    @GenerateAlias(outputClass = "Vectors")
+    @Alias(outputClass = "Vectors")
     public static final Ops WITNESS = new Ops();
 
     @AliasExclude

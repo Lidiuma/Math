@@ -16,8 +16,8 @@
 
 package org.lidiuma.math.processor.processing;
 
-import org.lidiuma.math.processor.GenerateAlias;
-import org.lidiuma.math.processor.GenerateFactory;
+import org.lidiuma.math.processor.Alias;
+import org.lidiuma.math.processor.NamedAlias;
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.element.*;
@@ -31,7 +31,7 @@ public final class Processor extends AbstractProcessor {
 
     @Override
     public Set<String> getSupportedAnnotationTypes() {
-        return Set.of(GenerateAlias.class.getName(), GenerateFactory.class.getName());
+        return Set.of(Alias.class.getName(), NamedAlias.class.getName());
     }
 
     @Override
@@ -51,9 +51,9 @@ public final class Processor extends AbstractProcessor {
         final var elements = util.processingEnv().getElementUtils();
         final Map<String, AliasGenerator> aliases = new HashMap<>();
 
-        roundEnv.getElementsAnnotatedWith(GenerateFactory.class).forEach(element -> {
+        roundEnv.getElementsAnnotatedWith(NamedAlias.class).forEach(element -> {
 
-            final GenerateFactory annotation = Objects.requireNonNull(element.getAnnotation(GenerateFactory.class));
+            final NamedAlias annotation = Objects.requireNonNull(element.getAnnotation(NamedAlias.class));
             final String package_ = elements.getPackageOf(element).toString();
             final String class_ = annotation.outputClass();
             final String signature = package_ + "." + class_;
@@ -62,9 +62,9 @@ public final class Processor extends AbstractProcessor {
                     .addMethods(annotation, element);
         });
 
-        roundEnv.getElementsAnnotatedWith(GenerateAlias.class).forEach(element -> {
+        roundEnv.getElementsAnnotatedWith(Alias.class).forEach(element -> {
 
-            final var annotation = Objects.requireNonNull(element.getAnnotation(GenerateAlias.class));
+            final var annotation = Objects.requireNonNull(element.getAnnotation(Alias.class));
             if (isAliasInvalid(element, annotation.outputClass())) return;
 
             final String package_ = elements.getPackageOf(element).toString();
@@ -85,7 +85,7 @@ public final class Processor extends AbstractProcessor {
 
     private boolean isAliasInvalid(Element element, String className) {
 
-        final String annotationName = GenerateAlias.class.getSimpleName();
+        final String annotationName = Alias.class.getSimpleName();
         final var messager = processingEnv.getMessager();
         if (className.isBlank()) {
             messager.printError(annotationName + "'s class name cannot be empty.", element);

@@ -23,13 +23,13 @@ import org.lidiuma.math.api.vector.Vector4;
 import org.lidiuma.math.numerics.FloatNumeric;
 import jdk.internal.vm.annotation.LooselyConsistentValue;
 import org.lidiuma.math.processor.AliasExclude;
-import org.lidiuma.math.processor.GenerateAlias;
-import org.lidiuma.math.processor.GenerateFactory;
+import org.lidiuma.math.processor.Alias;
+import org.lidiuma.math.processor.NamedAlias;
 import org.lidiuma.math.vector.Vec3F32;
 import static org.lidiuma.math.FloatingUtil.EPSILON_F32;
 
 @LooselyConsistentValue
-@GenerateFactory(methodName = "quaternion", outputClass = "Rotations")
+@NamedAlias(methodName = "quaternion", outputClass = "Rotations")
 public value record QuaternionF32(
         @Override @NullRestricted Float x,
         @Override @NullRestricted Float y,
@@ -37,7 +37,7 @@ public value record QuaternionF32(
         @Override @NullRestricted Float w
 ) implements Quaternion<Float> {
 
-    @GenerateAlias(outputClass = "Rotations")
+    @Alias(outputClass = "Rotations")
     public static final Ops WITNESS = new Ops();
 
     @AliasExclude

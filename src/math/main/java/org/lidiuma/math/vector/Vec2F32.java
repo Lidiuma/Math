@@ -21,17 +21,17 @@ import org.lidiuma.math.api.traits.vector.FloatingVector2Ops;
 import org.lidiuma.math.api.vector.Vector2;
 import org.lidiuma.math.numerics.FloatNumeric;
 import org.lidiuma.math.processor.AliasExclude;
-import org.lidiuma.math.processor.GenerateAlias;
-import org.lidiuma.math.processor.GenerateFactory;
+import org.lidiuma.math.processor.Alias;
+import org.lidiuma.math.processor.NamedAlias;
 import org.lidiuma.math.rotation.AngleF32;
 
-@GenerateFactory(methodName = "vec2", outputClass = "Vectors")
+@NamedAlias(methodName = "vec2", outputClass = "Vectors")
 public value record Vec2F32(
         @Override @NullRestricted Float x,
         @Override @NullRestricted Float y
 ) implements Vector2<Float> {
 
-    @GenerateAlias(outputClass = "Vectors")
+    @Alias(outputClass = "Vectors")
     public static final Ops WITNESS = new Ops();
 
     @AliasExclude

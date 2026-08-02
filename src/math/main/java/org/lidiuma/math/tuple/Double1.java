@@ -19,10 +19,10 @@ package org.lidiuma.math.tuple;
 import jdk.internal.vm.annotation.LooselyConsistentValue;
 import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.tuple.UnaryTuple1;
-import org.lidiuma.math.processor.GenerateFactory;
+import org.lidiuma.math.processor.NamedAlias;
 
 @LooselyConsistentValue
-@GenerateFactory(methodName = "double1", outputClass = "Tuples")
+@NamedAlias(methodName = "double1", outputClass = "Tuples")
 public value record Double1(
         @Override @NullRestricted Double x
 ) implements UnaryTuple1<Double> {

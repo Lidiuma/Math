@@ -23,20 +23,20 @@ import org.lidiuma.math.api.traits.matrix.Matrix3Ops;
 import org.lidiuma.math.api.traits.vector.Vector3Ops;
 import org.lidiuma.math.numerics.DoubleNumeric;
 import org.lidiuma.math.processor.AliasExclude;
-import org.lidiuma.math.processor.GenerateAlias;
-import org.lidiuma.math.processor.GenerateFactory;
+import org.lidiuma.math.processor.Alias;
+import org.lidiuma.math.processor.NamedAlias;
 import org.lidiuma.math.vector.Vec3F64;
 
 /// @see Matrix3
 @LooselyConsistentValue
-@GenerateFactory(methodName = "matrix3", outputClass = "Matrices")
+@NamedAlias(methodName = "matrix3", outputClass = "Matrices")
 public value record Matrix3F64(
         @NullRestricted Double m00, @NullRestricted Double m01, @NullRestricted Double m02,
         @NullRestricted Double m10, @NullRestricted Double m11, @NullRestricted Double m12,
         @NullRestricted Double m20, @NullRestricted Double m21, @NullRestricted Double m22
 ) implements Matrix3<Double> {
 
-    @GenerateAlias(outputClass = "Matrices")
+    @Alias(outputClass = "Matrices")
     public static final Ops WITNESS = new Ops();
 
     public static final class Ops implements Matrix3Ops<Matrix3F64, Vec3F64, Double> {

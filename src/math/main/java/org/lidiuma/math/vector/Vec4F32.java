@@ -21,11 +21,11 @@ import org.lidiuma.math.api.traits.vector.FloatingVector4Ops;
 import org.lidiuma.math.api.vector.Vector4;
 import org.lidiuma.math.numerics.FloatNumeric;
 import org.lidiuma.math.processor.AliasExclude;
-import org.lidiuma.math.processor.GenerateAlias;
-import org.lidiuma.math.processor.GenerateFactory;
+import org.lidiuma.math.processor.Alias;
+import org.lidiuma.math.processor.NamedAlias;
 import org.lidiuma.math.rotation.AngleF32;
 
-@GenerateFactory(methodName = "vec4", outputClass = "Vectors")
+@NamedAlias(methodName = "vec4", outputClass = "Vectors")
 public value record Vec4F32(
         @Override @NullRestricted Float x,
         @Override @NullRestricted Float y,
@@ -33,7 +33,7 @@ public value record Vec4F32(
         @Override @NullRestricted Float w
 ) implements Vector4<Float> {
 
-    @GenerateAlias(outputClass = "Vectors")
+    @Alias(outputClass = "Vectors")
     public static final Ops WITNESS = new Ops();
 
     @AliasExclude
