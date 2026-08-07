@@ -18,7 +18,7 @@ package org.lidiuma.math.numerics;
 
 import org.lidiuma.math.api.traits.numeric.OrderableFloatingNumerical;
 
-public class DoubleNumeric implements OrderableFloatingNumerical<Double> {
+public final class DoubleNumeric implements OrderableFloatingNumerical<Double> {
 
     public static final DoubleNumeric WITNESS = new DoubleNumeric();
 
