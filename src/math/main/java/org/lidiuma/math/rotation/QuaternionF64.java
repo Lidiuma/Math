@@ -226,7 +226,7 @@ public value record QuaternionF64(
 
         @Override
         @AliasExclude
-        public DoubleNumeric scalarWitness() {
+        public DoubleNumeric scalarOps() {
             return DoubleNumeric.WITNESS;
         }
 
