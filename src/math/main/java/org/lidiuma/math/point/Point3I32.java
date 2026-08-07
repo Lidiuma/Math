@@ -34,7 +34,7 @@ public value record Point3I32(
 ) implements Point3<Integer> {
 
     @Alias(outputClass = "Points")
-    public static final Point3I32.Ops WITNESS = new Point3I32.Ops();
+    public static final Ops OPS = new Ops();
 
     public static final class Ops implements Point3Ops<Point3I32, Vec3I32, Integer> {
 

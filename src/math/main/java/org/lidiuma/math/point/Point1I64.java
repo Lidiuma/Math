@@ -30,7 +30,7 @@ import org.lidiuma.math.vector.Vec1I64;
 public value record Point1I64(@NullRestricted Long x) implements Point1<Long> {
 
     @Alias(outputClass = "Points")
-    public static final Point1I64.Ops WITNESS = new Point1I64.Ops();
+    public static final Ops OPS = new Ops();
 
     public static final class Ops implements Point1Ops<Point1I64, Vec1I64, Long> {
 

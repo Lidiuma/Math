@@ -34,7 +34,7 @@ public value record Point3F64(
 ) implements Point3<Double> {
 
     @Alias(outputClass = "Points")
-    public static final Ops WITNESS = new Ops();
+    public static final Ops OPS = new Ops();
 
     public static final class Ops implements FloatingPoint3Ops<Point3F64, Vec3F64, Double> {
 

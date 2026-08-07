@@ -33,7 +33,7 @@ public value record Point2F32(
 ) implements Point2<Float> {
 
     @Alias(outputClass = "Points")
-    public static final Ops WITNESS = new Ops();
+    public static final Ops OPS = new Ops();
 
     public static final class Ops implements FloatingPoint2Ops<Point2F32, Vec2F32, Float> {
 

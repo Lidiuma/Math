@@ -30,7 +30,7 @@ import org.lidiuma.math.vector.Vec1F32;
 public value record Point1F32(@NullRestricted Float x) implements Point1<Float> {
 
     @Alias(outputClass = "Points")
-    public static final Ops WITNESS = new Ops();
+    public static final Ops OPS = new Ops();
 
     public static final class Ops implements FloatingPoint1Ops<Point1F32, Vec1F32, Float> {
 

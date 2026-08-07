@@ -33,7 +33,7 @@ public value record Point2F64(
 ) implements Point2<Double> {
 
     @Alias(outputClass = "Points")
-    public static final Ops WITNESS = new Ops();
+    public static final Ops OPS = new Ops();
 
     public static final class Ops implements FloatingPoint2Ops<Point2F64, Vec2F64, Double> {
 
