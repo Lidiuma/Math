@@ -19,9 +19,31 @@ package org.lidiuma.math.point;
 import jdk.internal.vm.annotation.LooselyConsistentValue;
 import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.point.Point1;
+import org.lidiuma.math.api.traits.point.Point1Ops;
+import org.lidiuma.math.processor.Alias;
+import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.FactoryAlias;
+import org.lidiuma.math.vector.Vec1I64;
 
 @LooselyConsistentValue
 @FactoryAlias(methodName = "point1", outputClass = "Points")
 public value record Point1I64(@NullRestricted Long x) implements Point1<Long> {
+
+    @Alias(outputClass = "Points")
+    public static final Point1I64.Ops WITNESS = new Point1I64.Ops();
+
+    public static final class Ops implements Point1Ops<Point1I64, Vec1I64, Long> {
+
+        @Override
+        @AliasExclude
+        public Point1I64 of(Long x) {
+            return new Point1I64(x);
+        }
+
+        @Override
+        @AliasExclude
+        public Vec1I64.Ops vectorOps() {
+            return Vec1I64.OPS;
+        }
+    }
 }

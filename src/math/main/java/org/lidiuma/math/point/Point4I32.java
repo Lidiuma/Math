@@ -19,7 +19,11 @@ package org.lidiuma.math.point;
 import jdk.internal.vm.annotation.LooselyConsistentValue;
 import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.point.Point4;
+import org.lidiuma.math.api.traits.point.Point4Ops;
+import org.lidiuma.math.processor.Alias;
+import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.FactoryAlias;
+import org.lidiuma.math.vector.Vec4I32;
 
 @LooselyConsistentValue
 @FactoryAlias(methodName = "point4", outputClass = "Points")
@@ -29,4 +33,22 @@ public value record Point4I32(
         @NullRestricted Integer z,
         @NullRestricted Integer w
 ) implements Point4<Integer> {
+
+    @Alias(outputClass = "Points")
+    public static final Point4I32.Ops WITNESS = new Point4I32.Ops();
+
+    public static final class Ops implements Point4Ops<Point4I32, Vec4I32, Integer> {
+
+        @Override
+        @AliasExclude
+        public Point4I32 of(Integer x, Integer y, Integer z, Integer w) {
+            return new Point4I32(x, y, z, w);
+        }
+
+        @Override
+        @AliasExclude
+        public Vec4I32.Ops vectorOps() {
+            return Vec4I32.OPS;
+        }
+    }
 }
