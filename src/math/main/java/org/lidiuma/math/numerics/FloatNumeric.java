@@ -16,9 +16,9 @@
 
 package org.lidiuma.math.numerics;
 
-import org.lidiuma.math.api.traits.FloatingNumerical;
+import org.lidiuma.math.api.traits.numeric.OrderableFloatingNumerical;
 
-public class FloatNumeric implements FloatingNumerical<Float> {
+public class FloatNumeric implements OrderableFloatingNumerical<Float> {
 
     public static final FloatNumeric WITNESS = new FloatNumeric();
 
