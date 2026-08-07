@@ -54,7 +54,7 @@ public value record Vec1F32(@Override @NullRestricted Float x) implements Vector
         @Override
         @AliasExclude
         public FloatNumeric scalarOps() {
-            return FloatNumeric.WITNESS;
+            return FloatNumeric.OPS;
         }
 
         @Override

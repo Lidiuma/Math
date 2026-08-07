@@ -53,7 +53,7 @@ public value record Vec1F64(@Override @NullRestricted Double x) implements Vecto
         @Override
         @AliasExclude
         public DoubleNumeric scalarOps() {
-            return DoubleNumeric.WITNESS;
+            return DoubleNumeric.OPS;
         }
 
         @Override

@@ -59,7 +59,7 @@ public value record Vec2F32(
         @Override
         @AliasExclude
         public FloatNumeric scalarOps() {
-            return FloatNumeric.WITNESS;
+            return FloatNumeric.OPS;
         }
 
         @Override

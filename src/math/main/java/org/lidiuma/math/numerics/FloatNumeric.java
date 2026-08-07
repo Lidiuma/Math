@@ -20,7 +20,7 @@ import org.lidiuma.math.api.traits.numeric.OrderableFloatingNumerical;
 
 public final class FloatNumeric implements OrderableFloatingNumerical<Float> {
 
-    public static final FloatNumeric WITNESS = new FloatNumeric();
+    public static final FloatNumeric OPS = new FloatNumeric();
 
     private FloatNumeric() {}
 

@@ -227,7 +227,7 @@ public value record QuaternionF64(
         @Override
         @AliasExclude
         public DoubleNumeric scalarOps() {
-            return DoubleNumeric.WITNESS;
+            return DoubleNumeric.OPS;
         }
 
         @Override

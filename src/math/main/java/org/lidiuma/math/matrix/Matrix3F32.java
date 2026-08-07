@@ -62,7 +62,7 @@ public value record Matrix3F32(
         @Override
         @AliasExclude
         public FloatNumeric scalarOps() {
-            return FloatNumeric.WITNESS;
+            return FloatNumeric.OPS;
         }
 
         @Override

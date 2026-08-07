@@ -20,7 +20,7 @@ import org.lidiuma.math.api.traits.numeric.OrderableFloatingNumerical;
 
 public final class DoubleNumeric implements OrderableFloatingNumerical<Double> {
 
-    public static final DoubleNumeric WITNESS = new DoubleNumeric();
+    public static final DoubleNumeric OPS = new DoubleNumeric();
 
     private DoubleNumeric() {}
 

@@ -66,7 +66,7 @@ public value record Matrix4F64(
         @Override
         @AliasExclude
         public DoubleNumeric scalarOps() {
-            return DoubleNumeric.WITNESS;
+            return DoubleNumeric.OPS;
         }
 
         @Override

@@ -227,7 +227,7 @@ public value record QuaternionF32(
         @Override
         @AliasExclude
         public FloatNumeric scalarOps() {
-            return FloatNumeric.WITNESS;
+            return FloatNumeric.OPS;
         }
 
         @Override

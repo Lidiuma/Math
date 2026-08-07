@@ -20,7 +20,7 @@ import org.lidiuma.math.api.traits.numeric.OrderableNumerical;
 
 public final class LongNumeric implements OrderableNumerical<Long> {
 
-    public static final LongNumeric WITNESS = new LongNumeric();
+    public static final LongNumeric OPS = new LongNumeric();
 
     private LongNumeric() {}
 
