@@ -64,7 +64,7 @@ public value record Affine2F32(
         @Override
         @AliasExclude
         public Vector2Ops<Vec2F32, Float> vectorOps() {
-            return Vec2F32.WITNESS;
+            return Vec2F32.OPS;
         }
 
         @Override

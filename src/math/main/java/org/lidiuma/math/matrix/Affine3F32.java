@@ -73,7 +73,7 @@ public value record Affine3F32(
         @Override
         @AliasExclude
         public Vector3Ops<Vec3F32, Float> vectorOps() {
-            return Vec3F32.WITNESS;
+            return Vec3F32.OPS;
         }
 
         @Override

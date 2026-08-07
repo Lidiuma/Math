@@ -46,7 +46,7 @@ public value record Point2F32(
         @Override
         @AliasExclude
         public Vec2F32.Ops vectorOps() {
-            return Vec2F32.WITNESS;
+            return Vec2F32.OPS;
         }
     }
 }

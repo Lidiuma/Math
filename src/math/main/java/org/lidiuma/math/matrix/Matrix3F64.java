@@ -56,7 +56,7 @@ public value record Matrix3F64(
         @Override
         @AliasExclude
         public Vector3Ops<Vec3F64, Double> vectorOps() {
-            return Vec3F64.WITNESS;
+            return Vec3F64.OPS;
         }
 
         @Override

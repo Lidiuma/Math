@@ -43,7 +43,7 @@ public value record Point1F32(@NullRestricted Float x) implements Point1<Float> 
         @Override
         @AliasExclude
         public Vec1F32.Ops vectorOps() {
-            return Vec1F32.WITNESS;
+            return Vec1F32.OPS;
         }
     }
 }

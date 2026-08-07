@@ -29,7 +29,7 @@ import org.lidiuma.math.rotation.AngleF64;
 public value record Vec1F64(@Override @NullRestricted Double x) implements Vector1<Double> {
 
     @Alias(outputClass = "Vectors")
-    public static final Ops WITNESS = new Ops();
+    public static final Ops OPS = new Ops();
 
     /// A constructor creating a specialized vector from a generic vector.
     @AliasExclude

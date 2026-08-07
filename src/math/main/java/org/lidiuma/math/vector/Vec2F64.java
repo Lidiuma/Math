@@ -32,7 +32,7 @@ public value record Vec2F64(
 ) implements Vector2<Double> {
 
     @Alias(outputClass = "Vectors")
-    public static final Ops WITNESS = new Ops();
+    public static final Ops OPS = new Ops();
 
     @AliasExclude
     public Vec2F64(Vector2<Double> vec) {

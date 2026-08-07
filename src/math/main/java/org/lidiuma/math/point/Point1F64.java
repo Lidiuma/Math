@@ -43,7 +43,7 @@ public value record Point1F64(@NullRestricted Double x) implements Point1<Double
         @Override
         @AliasExclude
         public Vec1F64.Ops vectorOps() {
-            return Vec1F64.WITNESS;
+            return Vec1F64.OPS;
         }
     }
 }

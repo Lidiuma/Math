@@ -33,7 +33,7 @@ public value record Vec3F32(
 ) implements Vector3<Float> {
 
     @Alias(outputClass = "Vectors")
-    public static final Ops WITNESS = new Ops();
+    public static final Ops OPS = new Ops();
 
     @AliasExclude
     public Vec3F32(Vector3<Float> vec) {

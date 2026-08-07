@@ -47,7 +47,7 @@ public value record Point3F64(
         @Override
         @AliasExclude
         public Vec3F64.Ops vectorOps() {
-            return Vec3F64.WITNESS;
+            return Vec3F64.OPS;
         }
     }
 }

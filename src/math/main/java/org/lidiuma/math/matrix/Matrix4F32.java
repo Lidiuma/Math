@@ -60,7 +60,7 @@ public value record Matrix4F32(
         @Override
         @AliasExclude
         public Vector4Ops<Vec4F32, Float> vectorOps() {
-            return Vec4F32.WITNESS;
+            return Vec4F32.OPS;
         }
 
         @Override

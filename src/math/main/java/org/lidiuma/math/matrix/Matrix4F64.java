@@ -60,7 +60,7 @@ public value record Matrix4F64(
         @Override
         @AliasExclude
         public Vector4Ops<Vec4F64, Double> vectorOps() {
-            return Vec4F64.WITNESS;
+            return Vec4F64.OPS;
         }
 
         @Override

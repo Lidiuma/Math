@@ -33,7 +33,7 @@ public value record Vec3F64(
 ) implements Vector3<Double> {
 
     @Alias(outputClass = "Vectors")
-    public static final Ops WITNESS = new Ops();
+    public static final Ops OPS = new Ops();
 
     @AliasExclude
     public Vec3F64(Vector3<Double> vec) {

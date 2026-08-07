@@ -34,7 +34,7 @@ public value record Vec4F64(
 ) implements Vector4<Double> {
 
     @Alias(outputClass = "Vectors")
-    public static final Ops WITNESS = new Ops();
+    public static final Ops OPS = new Ops();
 
     @AliasExclude
     public Vec4F64(Vector4<Double> vec) {

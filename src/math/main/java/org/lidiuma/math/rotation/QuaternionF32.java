@@ -95,7 +95,7 @@ public value record QuaternionF32(
         @Override
         public QuaternionF32 exp(QuaternionF32 quaternion) {
 
-            final var witness = Vec3F32.WITNESS;
+            final var witness = Vec3F32.OPS;
             final var vectorQuat = new Vec3F32(quaternion.x(), quaternion.y(), quaternion.z());
             final float angle = witness.length(vectorQuat); // The math is the same.
 
@@ -179,7 +179,7 @@ public value record QuaternionF32(
             // I avoid dividing by 0 if the sqrt is small enough.
             if (sqrt < epsilon) {
                 // I re-normalize because without w the length might no longer be 1.
-                final var ws = Vec3F32.WITNESS;
+                final var ws = Vec3F32.OPS;
                 final var axis = ws.normalize(new Vec3F32(quaternion.x(), quaternion.y(), quaternion.z()));
                 return new AxisAngleF32(axis, angle);
             }
@@ -212,7 +212,7 @@ public value record QuaternionF32(
 
         private QuaternionF32 twist(QuaternionF32 quaternion, Vec3F32 axis) {
 
-            final var witness = Vec3F32.WITNESS;
+            final var witness = Vec3F32.OPS;
             final var vectorQuat = new Vec3F32(quaternion.x(), quaternion.y(), quaternion.z());
             final float dot = witness.dot(vectorQuat, axis);
 
