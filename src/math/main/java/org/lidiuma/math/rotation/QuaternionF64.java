@@ -26,7 +26,6 @@ import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.Alias;
 import org.lidiuma.math.processor.FactoryAlias;
 import org.lidiuma.math.vector.Vec3F64;
-import static org.lidiuma.math.FloatingUtil.EPSILON_F32;
 
 @LooselyConsistentValue
 @FactoryAlias(methodName = "quaternion", outputClass = "Rotations")
@@ -36,6 +35,8 @@ public value record QuaternionF64(
         @Override @NullRestricted Double z,
         @Override @NullRestricted Double w
 ) implements Quaternion<Double> {
+
+    private static final float EPSILON_F64 = 1e-9f;
 
     @Alias(outputClass = "Rotations")
     public static final Ops WITNESS = new Ops();
@@ -99,7 +100,7 @@ public value record QuaternionF64(
             final var vectorQuat = new Vec3F64(quaternion.x(), quaternion.y(), quaternion.z());
             final double angle = witness.length(vectorQuat); // The math is the same.
 
-            if (angle < EPSILON_F32) return identity();
+            if (angle < EPSILON_F64) return identity();
 
             final double sin = Math.sin(angle);
             final double cos = Math.cos(angle);
@@ -120,7 +121,7 @@ public value record QuaternionF64(
             final double angle = Math.acos(w);
             final double sin = Math.sqrt(Math.max(0d, 1d - w * w));
 
-            if (sin < EPSILON_F32) return of(quaternion.x(), quaternion.y(), quaternion.z(), 0d);
+            if (sin < EPSILON_F64) return of(quaternion.x(), quaternion.y(), quaternion.z(), 0d);
 
             final double k = angle / sin;
             return of(

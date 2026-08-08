@@ -26,7 +26,6 @@ import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.Alias;
 import org.lidiuma.math.processor.FactoryAlias;
 import org.lidiuma.math.vector.Vec3F32;
-import static org.lidiuma.math.FloatingUtil.EPSILON_F32;
 
 @LooselyConsistentValue
 @FactoryAlias(methodName = "quaternion", outputClass = "Rotations")
@@ -36,6 +35,8 @@ public value record QuaternionF32(
         @Override @NullRestricted Float z,
         @Override @NullRestricted Float w
 ) implements Quaternion<Float> {
+
+    private static final float EPSILON_F32 = 1e-6f;
 
     @Alias(outputClass = "Rotations")
     public static final Ops WITNESS = new Ops();
