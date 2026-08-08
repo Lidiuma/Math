@@ -35,7 +35,7 @@ public value record Affine3F32(
 ) implements Affine3<Float> {
 
     @Alias(outputClass = "Matrices")
-    public static final Ops WITNESS = new Ops();
+    public static final Ops OPS = new Ops();
 
     @Override
     public Float m30() {

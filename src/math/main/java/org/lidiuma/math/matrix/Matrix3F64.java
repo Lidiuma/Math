@@ -37,7 +37,7 @@ public value record Matrix3F64(
 ) implements Matrix3<Double> {
 
     @Alias(outputClass = "Matrices")
-    public static final Ops WITNESS = new Ops();
+    public static final Ops OPS = new Ops();
 
     public static final class Ops implements Matrix3Ops<Matrix3F64, Vec3F64, Double> {
 

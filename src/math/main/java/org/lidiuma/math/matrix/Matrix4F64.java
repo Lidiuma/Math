@@ -39,7 +39,7 @@ public value record Matrix4F64(
 ) implements Matrix4<Double> {
 
     @Alias(outputClass = "Matrices")
-    public static final Ops WITNESS = new Ops();
+    public static final Ops OPS = new Ops();
 
     public static final class Ops implements Matrix4Ops<Matrix4F64, Vec4F64, Double> {
 
