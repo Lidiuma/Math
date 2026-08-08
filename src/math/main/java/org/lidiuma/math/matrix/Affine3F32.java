@@ -24,6 +24,7 @@ import org.lidiuma.math.numerics.FloatNumeric;
 import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.Alias;
 import org.lidiuma.math.processor.FactoryAlias;
+import org.lidiuma.math.rotation.QuaternionF32;
 import org.lidiuma.math.vector.Vec3F32;
 
 @FactoryAlias(methodName = "affine3", outputClass = "Matrices")
@@ -56,7 +57,7 @@ public value record Affine3F32(
         return 1f;
     }
 
-    public static final class Ops implements Affine3Ops<Affine3F32, Vec3F32, Float> {
+    public static final class Ops implements Affine3Ops<Affine3F32, Vec3F32, QuaternionF32, Float> {
 
         @Override
         @AliasExclude
@@ -67,6 +68,25 @@ public value record Affine3F32(
                     m00, m01, m02, m03,
                     m10, m11, m12, m13,
                     m20, m21, m22, m23
+            );
+        }
+
+        @Override
+        @AliasExclude
+        public Affine3F32 fromRotation(QuaternionF32 quaternion) {
+
+            final float xs = quaternion.x() * 2f, ys = quaternion.y() * 2f, zs = quaternion.z() * 2f;
+            final float wx = quaternion.w() * xs, wy = quaternion.w() * ys, wz = quaternion.w() * zs;
+            final float xx = quaternion.x() * xs, xy = quaternion.x() * ys, xz = quaternion.x() * zs;
+            final float yy = quaternion.y() * ys, yz = quaternion.y() * zs, zz = quaternion.z() * zs;
+
+            final float m00 = 1f - (yy + zz), m01 = xy - wz       , m02 = xz + wy;
+            final float m10 = xy + wz       , m11 = 1f - (xx + zz), m12 = yz - wx;
+            final float m20 = xz - wy       , m21 = yz + wx       , m22 = 1f - (xx + yy);
+            return new Affine3F32(
+                    m00, m01, m02, 0f,
+                    m10, m11, m12, 0f,
+                    m20, m21, m22, 0f
             );
         }
 

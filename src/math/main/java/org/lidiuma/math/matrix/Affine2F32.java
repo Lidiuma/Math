@@ -24,6 +24,7 @@ import org.lidiuma.math.numerics.FloatNumeric;
 import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.Alias;
 import org.lidiuma.math.processor.FactoryAlias;
+import org.lidiuma.math.rotation.AngleF32;
 import org.lidiuma.math.vector.Vec2F32;
 
 @FactoryAlias(methodName = "affine2", outputClass = "Matrices")
@@ -50,7 +51,7 @@ public value record Affine2F32(
         return 1f;
     }
 
-    public static final class Ops implements Affine2Ops<Affine2F32, Vec2F32, Float> {
+    public static final class Ops implements Affine2Ops<Affine2F32, Vec2F32, AngleF32, Float> {
 
         @Override
         @AliasExclude
@@ -58,6 +59,17 @@ public value record Affine2F32(
             return new Affine2F32(
                     m00, m01, m02,
                     m10, m11, m12
+            );
+        }
+
+        @Override
+        @AliasExclude
+        public Affine2F32 fromRotation(AngleF32 angle) {
+            final float cos = (float) Math.cos(angle.radian());
+            final float sin = (float) Math.sin(angle.radian());
+            return new Affine2F32(
+                    cos, -sin, 0f,
+                    sin, cos, 0f
             );
         }
 
