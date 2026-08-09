@@ -59,6 +59,19 @@ public value record Affine3F32(
 
     public static final class Ops implements Affine3Ops<Affine3F32, Vec3F32, QuaternionF32, Float> {
 
+        /// Creates a transformation matrix from translation, rotation, and scale.
+        public Affine3F32 fromTRS(Affine3F32 translation, Affine3F32 rotation, Affine3F32 scale) {
+            return multiply(translation, multiply(rotation, scale));
+        }
+
+        /// Creates a transformation matrix from translation, rotation, and scale.
+        public Affine3F32 fromTRS(Vec3F32 translation, QuaternionF32 rotation, Vec3F32 scale) {
+            final var trs = fromTranslation(translation);
+            final var rot = fromRotation(rotation);
+            final var scl = fromScale(scale);
+            return fromTRS(trs, rot, scl);
+        }
+
         @Override
         @AliasExclude
         public Affine3F32 of(Float m00, Float m01, Float m02, Float m03,

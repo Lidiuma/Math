@@ -53,6 +53,19 @@ public value record Affine2F32(
 
     public static final class Ops implements Affine2Ops<Affine2F32, Vec2F32, AngleF32, Float> {
 
+        /// Creates a transformation matrix from translation, rotation, and scale.
+        public Affine2F32 fromTRS(Affine2F32 translation, Affine2F32 rotation, Affine2F32 scale) {
+            return multiply(translation, multiply(rotation, scale));
+        }
+
+        /// Creates a transformation matrix from translation, rotation, and scale.
+        public Affine2F32 fromTRS(Vec2F32 translation, AngleF32 rotation, Vec2F32 scale) {
+            final var trs = fromTranslation(translation);
+            final var rot = fromRotation(rotation);
+            final var scl = fromScale(scale);
+            return fromTRS(trs, rot, scl);
+        }
+
         @Override
         @AliasExclude
         public Affine2F32 of(Float m00, Float m01, Float m02, Float m10, Float m11, Float m12) {
