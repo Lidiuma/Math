@@ -88,59 +88,10 @@ public value record Matrix4F32(
         }
     }
 
-//    /// Creates a transformation matrix from a translation and rotation.
-//    /// @return The transformation matrix.
-//    /// @apiNote The rotation quaternion is normalized internally.
-//    public static Matrix4F32 fromTR(Vector3F32 translation, QuatF32 rotation) {
-//
-//        final var rot = rotation.normalize();
-//
-//        final double xs = rot.x() * 2f, ys = rot.y() * 2f, zs = rot.z() * 2f;
-//        final double wx = rot.w() * xs, wy = rot.w() * ys, wz = rot.w() * zs;
-//        final double xx = rot.x() * xs, xy = rot.x() * ys, xz = rot.x() * zs;
-//        final double yy = rot.y() * ys, yz = rot.y() * zs, zz = rot.z() * zs;
-//
-//        final double m00 = 1f - (yy + zz), m01 = xy - wz       , m02 = xz + wy       , m03 = translation.x();
-//        final double m10 = xy + wz       , m11 = 1f - (xx + zz), m12 = yz - wx       , m13 = translation.y();
-//        final double m20 = xz - wy       , m21 = yz + wx       , m22 = 1f - (xx + yy), m23 = translation.z();
-//        final double m30 = 0f            , m31 = 0f            , m32 = 0f            , m33 = 1f;
-//        return new Matrix4F32(
-//                (float) m00, (float) m01, (float) m02, (float) m03,
-//                (float) m10, (float) m11, (float) m12, (float) m13,
-//                (float) m20, (float) m21, (float) m22, (float) m23,
-//                (float) m30, (float) m31, (float) m32, (float) m33
-//        );
-//    }
-//
-//    /// @return a new rotation matrix around the given axis.
-//    public static Matrix4F32 fromAxisAngle(Vector3F32 axis, Radians angle) {
-//        if (angle.value() == 0) return identity();
-//        final var quat = QuatF32.fromAxisAngle(axis.asF64(), angle);
-//        return fromRotation(quat);
-//    }
-//
-//    /// @return a pure rotation matrix from the quaternion.
-//    public static Matrix4F32 fromRotation(QuatF32 quaternion) {
-//        return fromTR(new Vector3F32(0f, 0f, 0f), quaternion);
-//    }
-//
 //    /// @return a new rotation matrix that aligns `v1` direction with `v2` direction.
 //    public static Matrix4F32 fromRotationBetween(Vector3F32 v1, Vector3F32 v2) {
 //        final var quat = QuatF32.fromRotationBetween(v1.asF64(), v2.asF64());
 //        return fromRotation(quat);
-//    }
-//
-//    /// @return a new rotation matrix from the given Euler angles.
-//    public static Matrix4F32 fromEulerAngles(Radians yaw, Radians pitch, Radians roll) {
-//        final var quat = QuatF32.fromEulerAngles(yaw, pitch, roll);
-//        return fromRotation(quat);
-//    }
-//
-//    /// Creates a transformation matrix from translation, rotation, and scale.
-//    /// @return The transformation matrix.
-//    /// @apiNote The rotation quaternion is normalized internally.
-//    public static Matrix4F32 fromTRS(Vector3F32 translation, QuatF32 rotation, Vector3F32 scale) {
-//        return fromTR(translation, rotation).scale(scale);
 //    }
 //
 //    /// Creates a matrix from three axes and a translation vector.
@@ -252,41 +203,6 @@ public value record Matrix4F32(
 //        return fromOrtho(origin.x(), origin.x() + width, origin.y(), origin.y() + height, 0, 1);
 //    }
 //
-//    /// @return creates an identity matrix having the 4th column set to the translation vector.
-//    public static Matrix4F32 fromTranslation(Vector3F32 translation) {
-//        return new Matrix4F32(
-//                1f, 0f, 0f, translation.x(),
-//                0f, 1f, 0f, translation.y(),
-//                0f, 0f, 1f, translation.z(),
-//                0f, 0f, 0f, 1f
-//        );
-//    }
-//
-//    /// @return creates an identity matrix having the 4th column set to the translation vector and the scaling vector in the diagonal.
-//    public static Matrix4F32 fromTranslation(Vector3F32 translation, Vector3F32 scaling) {
-//        final Matrix4F32 m = fromTranslation(translation);
-//        final float m00 = scaling.x();
-//        final float m11 = scaling.y();
-//        final float m22 = scaling.z();
-//        return new Matrix4F32(
-//                m00  , m.m01, m.m02, m.m03,
-//                m.m10, m11  , m.m12, m.m13,
-//                m.m20, m.m21, m22  , m.m23,
-//                m.m30, m.m31, m.m32, m.m33
-//        );
-//    }
-//
-//    /// @return a new pure scaling matrix.
-//    public static Matrix4F32 fromScale(Vector3F32 scale) {
-//        final Matrix4F32 i = identity();
-//        return new Matrix4F32(
-//                scale.x(), i.m01      , i.m02      , i.m03,
-//                i.m10      , scale.y(), i.m12      , i.m13,
-//                i.m20      , i.m21      , scale.z(), i.m23,
-//                i.m30      , i.m31      , i.m32      , i.m33
-//        );
-//    }
-//
 //    /// Creates a view rotation matrix from a view direction and an up vector.
 //    /// This matrix contains rotation only; combine with a translation to form a full view matrix.
 //    public static Matrix4F32 fromLookRotation(Vector3F32 direction, Vector3F32 up) {
@@ -321,13 +237,4 @@ public value record Matrix4F32(
 //        return fromAxes(r, u, f.mul(-1f), position);
 //    }
 //
-//    /// Creates a new Matrix from the 3x3 matrix, with the missing elements copied from the identity matrix.
-//    public static Matrix4F32 fromMatrix3(Matrix3F32 matrix) {
-//        return new Matrix4F32(
-//                matrix.m00(), matrix.m01(), matrix.m02(), 0f,
-//                matrix.m10(), matrix.m11(), matrix.m12(), 0f,
-//                matrix.m20(), matrix.m21(), matrix.m22(), 0f,
-//                0f, 0f, 0f, 1f
-//        );
-//    }
 }
