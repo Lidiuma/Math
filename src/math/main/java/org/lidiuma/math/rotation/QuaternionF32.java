@@ -94,6 +94,35 @@ public value record QuaternionF32(
         }
 
         @Override
+        public QuaternionF32 fromRotationBetween(Vec3F32 vector1, Vec3F32 vector2) {
+
+            final var vOps = Vec3F32.OPS;
+            final float dot = Math.clamp(vOps.dot(vector1, vector2), -1f, 1f);
+
+            // When the vectors are parallel.
+            if (dot >= 1f) return identity();
+
+            // If the vectors are antiparallel (dot == -1), rotate 180 degrees around an arbitrary perpendicular axis.
+            if (dot <= -1f) {
+                final var perpendicular = Math.abs(vector1.x()) < .9f ?
+                        new Vec3F32(1f, 0f, 0f) :
+                        new Vec3F32(0f, 1f, 0f);
+                final var axis = vOps.cross(perpendicular, vector1);
+                // xyz = axis * (sin(pi / 2) = 1), w = cos(pi / 2) = 0
+                return of(axis.x(), axis.y(), axis.z(), 0f);
+            }
+
+            final Vec3F32 cross = vOps.cross(vector1, vector2);
+            final float scale = (float) Math.sqrt(2f * (1f + dot));
+            return of(
+                    cross.x() / scale,
+                    cross.y() / scale,
+                    cross.z() / scale,
+                    (1f + dot) / scale
+            );
+        }
+
+        @Override
         public QuaternionF32 exp(QuaternionF32 quaternion) {
 
             final var witness = Vec3F32.OPS;

@@ -94,6 +94,35 @@ public value record QuaternionF64(
         }
 
         @Override
+        public QuaternionF64 fromRotationBetween(Vec3F64 vector1, Vec3F64 vector2) {
+
+            final var vOps = Vec3F64.OPS;
+            final double dot = Math.clamp(vOps.dot(vector1, vector2), -1d, 1d);
+
+            // When the vectors are parallel.
+            if (dot >= 1d) return identity();
+
+            // If the vectors are antiparallel (dot == -1), rotate 180 degrees around an arbitrary perpendicular axis.
+            if (dot <= -1d) {
+                final var perpendicular = Math.abs(vector1.x()) < .9d ?
+                        new Vec3F64(1d, 0d, 0d) :
+                        new Vec3F64(0d, 1d, 0d);
+                final var axis = vOps.cross(perpendicular, vector1);
+                // xyz = axis * (sin(pi / 2) = 1), w = cos(pi / 2) = 0
+                return of(axis.x(), axis.y(), axis.z(), 0d);
+            }
+
+            final Vec3F64 cross = vOps.cross(vector1, vector2);
+            final double scale = Math.sqrt(2d * (1d + dot));
+            return of(
+                    cross.x() / scale,
+                    cross.y() / scale,
+                    cross.z() / scale,
+                    (1d + dot) / scale
+            );
+        }
+
+        @Override
         public QuaternionF64 exp(QuaternionF64 quaternion) {
 
             final var witness = Vec3F64.OPS;
