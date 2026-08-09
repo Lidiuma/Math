@@ -39,7 +39,7 @@ public value record QuaternionF64(
     private static final float EPSILON_F64 = 1e-9f;
 
     @Alias(outputClass = "Rotations")
-    public static final Ops WITNESS = new Ops();
+    public static final Ops OPS = new Ops();
 
     @AliasExclude
     public QuaternionF64(Vector4<Double> v4) {
