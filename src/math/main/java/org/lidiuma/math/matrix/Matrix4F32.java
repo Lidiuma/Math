@@ -20,8 +20,6 @@ import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.matrix.Matrix4;
 import jdk.internal.vm.annotation.LooselyConsistentValue;
 import org.lidiuma.math.api.traits.matrix.Matrix4Ops;
-import org.lidiuma.math.api.traits.vector.Vector4Ops;
-import org.lidiuma.math.numerics.FloatNumeric;
 import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.Alias;
 import org.lidiuma.math.processor.FactoryAlias;
@@ -59,14 +57,8 @@ public value record Matrix4F32(
 
         @Override
         @AliasExclude
-        public Vector4Ops<Vec4F32, Float> vectorOps() {
+        public Vec4F32.Ops vectorOps() {
             return Vec4F32.OPS;
-        }
-
-        @Override
-        @AliasExclude
-        public FloatNumeric scalarOps() {
-            return FloatNumeric.OPS;
         }
 
         @Override
@@ -87,154 +79,4 @@ public value record Matrix4F32(
             return Matrix4Ops.super.identity();
         }
     }
-
-//    /// @return a new rotation matrix that aligns `v1` direction with `v2` direction.
-//    public static Matrix4F32 fromRotationBetween(Vector3F32 v1, Vector3F32 v2) {
-//        final var quat = QuatF32.fromRotationBetween(v1.asF64(), v2.asF64());
-//        return fromRotation(quat);
-//    }
-//
-//    /// Creates a matrix from three axes and a translation vector.
-//    /// @return a matrix representing the given axes and translation.
-//    /// @apiNote
-//    /// |   |   |   |             |
-//    /// |:-:|:-:|:-:|:-----------:|
-//    /// | x | x | x | x-translation |
-//    /// | y | y | y | y-translation |
-//    /// | z | z | z | z-translation |
-//    /// | 0 | 0 | 0 |      1       |
-//    public static Matrix4F32 fromAxes(Vector3F32 xAxis, Vector3F32 yAxis, Vector3F32 zAxis, Vector3F32 translation) {
-//        return new Matrix4F32(
-//                xAxis.x(), xAxis.y(), xAxis.z(), translation.x(),
-//                yAxis.x(), yAxis.y(), yAxis.z(), translation.y(),
-//                zAxis.x(), zAxis.y(), zAxis.z(), translation.z(),
-//                0f, 0f, 0f, 1f
-//        );
-//    }
-//
-//    /// Creates a projection matrix with a near and far plane, a field of view, and an aspect ratio.
-//    /// @param near The near plane.
-//    /// @param far The far plane.
-//    /// @param fovY The field of view of the height.
-//    /// @param aspectRatio The aspect ratio.
-//    /// @apiNote Only the vertical FOV is specified, the horizontal FOV is derived from the aspect ratio.
-//    public static Matrix4F32 fromProjection(float near, float far, Radians fovY, float aspectRatio) {
-//        final float focalLen = (float) (1f / Math.tan(fovY.value() / 2f));
-//        final float m00 = focalLen / aspectRatio;
-//        final float m22 = (far + near) / (near - far);
-//        final float m33 = (2f * far * near) / (near - far);
-//        return new Matrix4F32(
-//                m00, 0f, 0f, 0f,
-//                0f, focalLen, 0f, 0f,
-//                0f, 0f, m22, m33,
-//                0f, 0f, -1f, 0f
-//        );
-//    }
-//
-//    /// Creates an off-center perspective projection matrix.\
-//    /// Useful for asymmetric frustums (off-center projections), e.g., stereo rendering or shadows.
-//    /// @param left The X coordinate on the near plane that maps to the left of the viewport.
-//    /// @param right The X coordinate on the near plane that maps to the right of the viewport.
-//    /// @param bottom The Y coordinate on the near plane that maps to the bottom of the viewport.
-//    /// @param top The Y coordinate on the near plane that maps to the top of the viewport.
-//    /// @param near The distance to the near clipping plane (must be positive).
-//    /// @param far The distance to the far clipping plane (must be positive and greater than near).
-//    /// @return the projection matrix that maps the specified frustum to normalized device coordinates.
-//    public static Matrix4F32 fromProjection(float left, float right, float bottom, float top, float near, float far) {
-//        float m00 = 2f * near / (right - left); // X offset.
-//        float m11 = 2f * near / (top - bottom); // Y offset.
-//        float m02 = (right + left) / (right - left);
-//        float m12 = (top + bottom) / (top - bottom);
-//        float m22 = (far + near) / (near - far);
-//        float m23 = (2f * far * near) / (near - far);
-//        return new Matrix4F32(
-//                m00, 0f, m02, 0f,
-//                0f, m11, m12, 0f,
-//                0f, 0f, m22, m23,
-//                0f, 0f, -1f, 0f
-//        );
-//    }
-//
-//    /// Creates an orthographic projection matrix, equivalent to OpenGL's glOrtho ([docs](https://registry.khronos.org/OpenGL-Refpages/gl2.1/xhtml/glOrtho.xml)).
-//    /// @param left   The left clipping plane (x-coordinate)
-//    /// @param right  The right clipping plane (x-coordinate)
-//    /// @param bottom The bottom clipping plane (y-coordinate)
-//    /// @param top    The top clipping plane (y-coordinate)
-//    /// @param near   The near clipping plane (z-coordinate, must be less than far)
-//    /// @param far    The far clipping plane (z-coordinate, must be greater than near)
-//    /// @return       the new matrix representing the orthographic projection.
-//    public static Matrix4F32 fromOrtho(float left, float right, float bottom, float top, float near, float far) {
-//
-//        final float xOrtho =  2f / (right - left);
-//        final float yOrtho =  2f / (top - bottom);
-//        final float zOrtho = -2f / (far - near);
-//
-//        final float tx = -(right + left) / (right - left);
-//        final float ty = -(top + bottom) / (top - bottom);
-//        final float tz = -(far + near) / (far - near);
-//
-//        return new Matrix4F32(
-//                xOrtho, 0f, 0f, tx,
-//                0f, yOrtho, 0f, ty,
-//                0f, 0f, zOrtho, tz,
-//                0f, 0f, 0f, 1f
-//        );
-//    }
-//
-//    /// Creates an orthographic projection matrix whose lower‑left corner is {@code origin},
-//    /// extending {@code width} horizontally and {@code height} vertically.
-//    /// @param width   horizontal size (must be positive)
-//    /// @param height  vertical size (must be positive)
-//    /// @param near   The near clipping plane (z-coordinate, must be less than far)
-//    /// @param far    The far clipping plane (z-coordinate, must be greater than near)
-//    /// @return       the new matrix representing the 2D orthographic projection.
-//    public static Matrix4F32 fromOrtho2D(Vector2F32 origin, float width, float height, float near, float far) {
-//        return fromOrtho(origin.x(), origin.x() + width, origin.y(), origin.y() + height, near, far);
-//    }
-//
-//    /// Creates an orthographic projection matrix whose lower‑left corner is {@code origin},
-//    /// extending {@code width} horizontally and {@code height} vertically.
-//    ///
-//    /// The near plane is set to 0, and the far plane is set to 1.
-//    /// @param width   horizontal size (must be positive)
-//    /// @param height  vertical size (must be positive)
-//    /// @return       the new matrix representing the 2D orthographic projection.
-//    public static Matrix4F32 fromOrtho2D(Vector2F32 origin, float width, float height) {
-//        return fromOrtho(origin.x(), origin.x() + width, origin.y(), origin.y() + height, 0, 1);
-//    }
-//
-//    /// Creates a view rotation matrix from a view direction and an up vector.
-//    /// This matrix contains rotation only; combine with a translation to form a full view matrix.
-//    public static Matrix4F32 fromLookRotation(Vector3F32 direction, Vector3F32 up) {
-//
-//        final var f = direction.normalize();   // forward
-//        final var r = f.cross(up).normalize(); // right
-//        final var u = r.cross(f).normalize();  // true up
-//
-//        final Matrix4F32 i = identity();
-//        return new Matrix4F32(
-//                 r.x(),  r.y(),  r.z(), i.m03,
-//                 u.x(),  u.y(),  u.z(), i.m13,
-//                -f.x(), -f.y(), -f.z(), i.m23,
-//                 i.m30,  i.m31,  i.m32, i.m33
-//        );
-//    }
-//
-//    /// Creates a view (camera) matrix that looks from `position` towards `target`, using `up` as the up direction.
-//    ///
-//    /// The resulting matrix transforms world-space coordinates into view space.
-//    public static Matrix4F32 fromLookAt(Vector3F32 position, Vector3F32 target, Vector3F32 up) {
-//        final var direction = target.sub(position);
-//        final Matrix4F32 rotation = fromLookRotation(direction, up);
-//        final Matrix4F32 translation = fromTranslation(position.mul(-1f));
-//        return rotation.mul(translation);
-//    }
-//
-//    public static Matrix4F32 fromWorld(Vector3F32 position, Vector3F32 forward, Vector3F32 up) {
-//        final var f = forward.normalize();     // forward
-//        final var r = f.cross(up).normalize(); // right
-//        final var u = r.cross(f).normalize();  // true Up
-//        return fromAxes(r, u, f.mul(-1f), position);
-//    }
-//
 }

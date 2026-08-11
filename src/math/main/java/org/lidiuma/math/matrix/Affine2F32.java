@@ -19,8 +19,7 @@ package org.lidiuma.math.matrix;
 import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.matrix.Affine2;
 import org.lidiuma.math.api.traits.matrix.Affine2Ops;
-import org.lidiuma.math.api.traits.vector.Vector2Ops;
-import org.lidiuma.math.numerics.FloatNumeric;
+import org.lidiuma.math.api.traits.matrix.FloatingAffineOps;
 import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.Alias;
 import org.lidiuma.math.processor.FactoryAlias;
@@ -51,7 +50,7 @@ public value record Affine2F32(
         return 1f;
     }
 
-    public static final class Ops implements Affine2Ops<Affine2F32, Vec2F32, AngleF32, Float> {
+    public static final class Ops implements Affine2Ops<Affine2F32, Vec2F32, Float>, FloatingAffineOps<Affine2F32, Vec2F32, AngleF32, Float> {
 
         /// Creates a transformation matrix from translation, rotation, and scale.
         public Affine2F32 fromTRS(Affine2F32 translation, Affine2F32 rotation, Affine2F32 scale) {
@@ -88,14 +87,8 @@ public value record Affine2F32(
 
         @Override
         @AliasExclude
-        public Vector2Ops<Vec2F32, Float> vectorOps() {
+        public Vec2F32.Ops vectorOps() {
             return Vec2F32.OPS;
-        }
-
-        @Override
-        @AliasExclude
-        public FloatNumeric scalarOps() {
-            return FloatNumeric.OPS;
         }
 
         @Override

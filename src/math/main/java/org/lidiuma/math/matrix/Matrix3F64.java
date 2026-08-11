@@ -20,8 +20,6 @@ import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.matrix.Matrix3;
 import jdk.internal.vm.annotation.LooselyConsistentValue;
 import org.lidiuma.math.api.traits.matrix.Matrix3Ops;
-import org.lidiuma.math.api.traits.vector.Vector3Ops;
-import org.lidiuma.math.numerics.DoubleNumeric;
 import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.Alias;
 import org.lidiuma.math.processor.FactoryAlias;
@@ -55,14 +53,8 @@ public value record Matrix3F64(
 
         @Override
         @AliasExclude
-        public Vector3Ops<Vec3F64, Double> vectorOps() {
+        public Vec3F64.Ops vectorOps() {
             return Vec3F64.OPS;
-        }
-
-        @Override
-        @AliasExclude
-        public DoubleNumeric scalarOps() {
-            return DoubleNumeric.OPS;
         }
 
         @Override

@@ -19,8 +19,7 @@ package org.lidiuma.math.matrix;
 import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.matrix.Affine3;
 import org.lidiuma.math.api.traits.matrix.Affine3Ops;
-import org.lidiuma.math.api.traits.vector.Vector3Ops;
-import org.lidiuma.math.numerics.FloatNumeric;
+import org.lidiuma.math.api.traits.matrix.FloatingAffineOps;
 import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.Alias;
 import org.lidiuma.math.processor.FactoryAlias;
@@ -57,7 +56,7 @@ public value record Affine3F32(
         return 1f;
     }
 
-    public static final class Ops implements Affine3Ops<Affine3F32, Vec3F32, QuaternionF32, Float> {
+    public static final class Ops implements Affine3Ops<Affine3F32, Vec3F32, Float>, FloatingAffineOps<Affine3F32, Vec3F32, QuaternionF32, Float> {
 
         /// Creates a transformation matrix from translation, rotation, and scale.
         public Affine3F32 fromTRS(Affine3F32 translation, Affine3F32 rotation, Affine3F32 scale) {
@@ -105,14 +104,8 @@ public value record Affine3F32(
 
         @Override
         @AliasExclude
-        public Vector3Ops<Vec3F32, Float> vectorOps() {
+        public Vec3F32.Ops vectorOps() {
             return Vec3F32.OPS;
-        }
-
-        @Override
-        @AliasExclude
-        public FloatNumeric scalarOps() {
-            return FloatNumeric.OPS;
         }
 
         @Override

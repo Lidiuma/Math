@@ -19,8 +19,6 @@ package org.lidiuma.math.matrix;
 import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.matrix.Matrix4;
 import org.lidiuma.math.api.traits.matrix.Matrix4Ops;
-import org.lidiuma.math.api.traits.vector.Vector4Ops;
-import org.lidiuma.math.numerics.DoubleNumeric;
 import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.Alias;
 import org.lidiuma.math.processor.FactoryAlias;
@@ -59,14 +57,8 @@ public value record Matrix4F64(
 
         @Override
         @AliasExclude
-        public Vector4Ops<Vec4F64, Double> vectorOps() {
+        public Vec4F64.Ops vectorOps() {
             return Vec4F64.OPS;
-        }
-
-        @Override
-        @AliasExclude
-        public DoubleNumeric scalarOps() {
-            return DoubleNumeric.OPS;
         }
 
         @Override
