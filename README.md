@@ -4,18 +4,24 @@ Welcome!\
 This is a math library made with one of the latest you can get Java, to be more specific, the [Valhalla Early Access 2](https://jdk.java.net/valhalla/) based on Java 26.\
 If you are thinking "Valhalla?!" Yes, I understand, weirdly enough for many, Valhalla is coming soon!
 
-# Features
-Most classes that requires numeric have support for `Integer`, `Long`, `Float`, and `Double`, and custom ones can be added easily.
-Only the shape classes do not provide a specialization, they use generics directly.
+The library does not use the classic [OOP](https://en.wikipedia.org/wiki/Object-oriented_programming) paradigm, but instead uses mainly [FP](https://en.wikipedia.org/wiki/Functional_programming) paradigms; immutability for data, and type-classes/traits for behavior.
+For example for a `Vector3`, I can get an instance of `Vector3Ops` (ops stands for operations), of which I can use to call methods like `ops.dot(Vector3, Vector3)`,
+but in mostly all cases, these convenience classes are more than enough:
+- `Colors`
+- `Matrices`
+- `Points`
+- `Rotations`
+- `Tuples`
+- `Vectors`
 
-Available:
-- Point interfaces/implementations from 1D to 4D
-- Vector interfaces/implementations from 1D to 4D
-- Quaternion and Radians unit-class for rotation, they always use `double`.
-- Modularity as a top priority.
-- Shape interface plus `Line`, `Rectangle`, `Cuboid`, and `Sphere` implementations.
-- Matrix, Matrix3 and Matrix4 interfaces and implementations using `float` and `double`.
-- Safe nullability API thanks to [Jspecify](https://jspecify.dev/)
+# Features
+- JPMS support. (it's a top priority)
+- Zero `null` usage and safe nullability API thanks to [Jspecify](https://jspecify.dev/)
+- `Point1`, `Point2`, `Point3`, `Point4` (versions: `float`, `double`, `int`, `long`)
+- `Vector1`, `Vector2`, `Vector3`, `Vector4` (versions: `float`, `double`, `int`, `long`)
+- `Quaternion`, `Angle`, `AxisAngle`, `SwingTwist` for rotation. (versions: `float`, `double`)
+- `Rectangle`, `Segment`, `Radius`, and `Triangle`. (versions: `float`, `double`)
+- `Affine2`, `Affine3`, `Matrix3`, and `Matrix4`. (versions: `float`, `double`)
 
 # How to Use
 The library is on Maven Central and can be included with the following.
@@ -34,15 +40,16 @@ To run the application, you'll need to provide a few runtime flags, since I'm us
 - `--add-exports=java.base/jdk.internal.vm.annotation=lidiuma.math`
 
 ## Why?
-I was not satisfied with LibGDX APIs, since outdated; they started with Java 6,
+I was not satisfied with LibGDX APIs, since quite messy and outdated; they started with Java 6,
 it has almost been 2 decades since this version was released!\
 Either way, I had to abuse primitives to not kill the GC, making both of these things a *bad* coding experience.
 
-This is why I'm remaking some of the math classes by following modern standards, like immutability, and for the most part, throwing in the trash inheritance.
+This is why I'm remaking some of the math classes by following modern standards, like immutability.
 My objective is to have these math classes be used in hot-paths without any worry, hence why I'm using Valhalla.
 
-My dream/hope is that this becomes a standard for game related things to make library development easier between different frameworks,
-I'll try my best to make this a reality, but it will likely just be one of those nice dreams... we'll see with time!
+###### Outdated, now this is provided by the MathAPI
+~~My dream/hope is that this becomes a standard for game related things to make library development easier between different frameworks,
+I'll try my best to make this a reality, but it will likely just be one of those nice dreams... we'll see with time!~~
 
 ## Backwards compatibility?
 No guarantees. I'm using an Early Access what do you expect?!\
@@ -51,15 +58,9 @@ But there might be things out of my control, so this is something to keep in min
 To make you a bit relieved, I'll be the primary person using this library, and I'm quite lazy,
 this means I won't have the motivation to change things (unless really needed), meaning breaking changes will probably be kept to a minimum.
 
-## Better name?
-~~One of the two hardest things in programming is figuring out names for things.
-I'll keep this name for a long while, probably I'll change it with a proper release, meaning when Valhalla goes in GA.~~
-###### Update: The name should be fine, still, I need to change the `github.io` domain, which I might have figured out, I only need to buy it.
-###### Update-2: Bought the domain `org.lidiuma` and replaced all references from the old one. I'll keep this section for a while, in case the people who visited the repository wonder what had happened.
-
 ## Special Thanks
-To [LibGDX](https://libgdx.com/), I ~~stole~~ used as a reference most of the math from their implementation, so if there are bugs, it's their fault! (I'm joking)
-Aside that, the implementation is totally different with better naming, safety, and (hopefully) usage.
+To [LibGDX](https://libgdx.com/), I used it as a reference, even though all the code has seen so much refactor that there's no longer trace of the original LibGDX code.
+But I still like to thank it for allowing me to bootstrap and have a more or less clear direction to follow.
 
 ## Building the project
 **I'm using [bld](https://rife2.com/bld), a lightweight and easy-to-read build tool that compiles Java using Java.**
