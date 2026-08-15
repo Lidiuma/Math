@@ -18,6 +18,9 @@ package org.lidiuma.math.tuple;
 
 import jdk.internal.vm.annotation.LooselyConsistentValue;
 import jdk.internal.vm.annotation.NullRestricted;
+import org.lidiuma.math.api.tuple.UnaryTuple1;
+import org.lidiuma.math.api.tuple.UnaryTuple2;
+import org.lidiuma.math.api.tuple.UnaryTuple3;
 import org.lidiuma.math.api.tuple.UnaryTuple4;
 import org.lidiuma.math.processor.FactoryAlias;
 import static org.lidiuma.math.internal.AnnotationConst.DOUBLE4;
@@ -32,15 +35,19 @@ public value record Double4(
         @Override @NullRestricted Double w
 ) implements UnaryTuple4<Double> {
 
-    public Double4(Double1 double1, double y, double z, double w) {
-        this(double1.x(), y, z, w);
+    public Double4(UnaryTuple1<Double> tuple, double y, double z, double w) {
+        this(tuple.x(), y, z, w);
     }
 
-    public Double4(Double2 double2, double z, double w) {
-        this(double2.x(), double2.y(), z, w);
+    public Double4(UnaryTuple2<Double> tuple, double z, double w) {
+        this(tuple.x(), tuple.y(), z, w);
     }
 
-    public Double4(Double3 double3, double w) {
-        this(double3.x(), double3.y(), double3.z(), w);
+    public Double4(UnaryTuple3<Double> tuple, double w) {
+        this(tuple.x(), tuple.y(), tuple.z(), w);
+    }
+
+    public Double4(UnaryTuple4<Double> tuple) {
+        this(tuple.x(), tuple.y(), tuple.z(), tuple.w());
     }
 }

@@ -18,7 +18,10 @@ package org.lidiuma.math.tuple;
 
 import jdk.internal.vm.annotation.LooselyConsistentValue;
 import jdk.internal.vm.annotation.NullRestricted;
+import org.lidiuma.math.api.tuple.UnaryTuple1;
+import org.lidiuma.math.api.tuple.UnaryTuple2;
 import org.lidiuma.math.api.tuple.UnaryTuple3;
+import org.lidiuma.math.api.tuple.UnaryTuple4;
 import org.lidiuma.math.processor.FactoryAlias;
 import static org.lidiuma.math.internal.AnnotationConst.INT3;
 import static org.lidiuma.math.internal.AnnotationConst.TUPLES_OUT;
@@ -31,15 +34,19 @@ public value record Integer3(
         @Override @NullRestricted Integer z
 ) implements UnaryTuple3<Integer> {
 
-    public Integer3(Integer1 integer1, int y, int z) {
-        this(integer1.x(), y, z);
+    public Integer3(UnaryTuple1<Integer> tuple, int y, int z) {
+        this(tuple.x(), y, z);
     }
 
-    public Integer3(Integer2 integer2, int z) {
-        this(integer2.x(), integer2.y(), z);
+    public Integer3(UnaryTuple2<Integer> tuple, int z) {
+        this(tuple.x(), tuple.y(), z);
     }
 
-    public Integer3(Integer4 integer4) {
-        this(integer4.x(), integer4.y(), integer4.z());
+    public Integer3(UnaryTuple3<Integer> tuple) {
+        this(tuple.x(), tuple.y(), tuple.z());
+    }
+
+    public Integer3(UnaryTuple4<Integer> tuple) {
+        this(tuple.x(), tuple.y(), tuple.z());
     }
 }
