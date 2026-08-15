@@ -32,6 +32,14 @@ public value record Long4(
         @Override @NullRestricted Long w
 ) implements UnaryTuple4<Long> {
 
+    public Long4(Long1 long1, long y, long z, long w) {
+        this(long1.x(), y, z, w);
+    }
+
+    public Long4(Long2 long2, long z, long w) {
+        this(long2.x(), long2.y(), z, w);
+    }
+
     public Long4(Long3 long3, long w) {
         this(long3.x(), long3.y(), long3.z(), w);
     }

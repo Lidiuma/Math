@@ -32,6 +32,14 @@ public value record Float4(
         @Override @NullRestricted Float w
 ) implements UnaryTuple4<Float> {
 
+    public Float4(Float1 float1, float y, float z, float w) {
+        this(float1.x(), y, z, w);
+    }
+
+    public Float4(Float2 float2, float z, float w) {
+        this(float2.x(), float2.y(), z, w);
+    }
+
     public Float4(Float3 float3, float w) {
         this(float3.x(), float3.y(), float3.z(), w);
     }

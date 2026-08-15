@@ -28,5 +28,17 @@ import static org.lidiuma.math.internal.AnnotationConst.TUPLES_OUT;
 public value record Integer1(
         @Override @NullRestricted Integer x
 ) implements UnaryTuple1<Integer> {
+
+    public Integer1(Integer2 integer2) {
+        this(integer2.x());
+    }
+
+    public Integer1(Integer3 integer3) {
+        this(integer3.x());
+    }
+
+    public Integer1(Integer4 integer4) {
+        this(integer4.x());
+    }
 }
 

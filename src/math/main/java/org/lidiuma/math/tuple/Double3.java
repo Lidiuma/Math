@@ -31,7 +31,15 @@ public value record Double3(
         @Override @NullRestricted Double z
 ) implements UnaryTuple3<Double> {
 
+    public Double3(Double1 double1, double y, double z) {
+        this(double1.x(), y, z);
+    }
+
     public Double3(Double2 double2, double z) {
         this(double2.x(), double2.y(), z);
+    }
+
+    public Double3(Double4 double4) {
+        this(double4.x(), double4.y(), double4.z());
     }
 }

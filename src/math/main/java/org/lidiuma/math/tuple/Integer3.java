@@ -31,7 +31,15 @@ public value record Integer3(
         @Override @NullRestricted Integer z
 ) implements UnaryTuple3<Integer> {
 
-    public Integer3(Integer2 int2, int z) {
-        this(int2.x(), int2.y(), z);
+    public Integer3(Integer1 integer1, int y, int z) {
+        this(integer1.x(), y, z);
+    }
+
+    public Integer3(Integer2 integer2, int z) {
+        this(integer2.x(), integer2.y(), z);
+    }
+
+    public Integer3(Integer4 integer4) {
+        this(integer4.x(), integer4.y(), integer4.z());
     }
 }

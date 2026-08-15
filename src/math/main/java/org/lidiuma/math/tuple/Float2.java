@@ -33,4 +33,12 @@ public value record Float2(
     public Float2(Float1 float1, float y) {
         this(float1.x(), y);
     }
+
+    public Float2(Float3 float3) {
+        this(float3.x(), float3.y());
+    }
+
+    public Float2(Float4 float4) {
+        this(float4.x(), float4.y());
+    }
 }

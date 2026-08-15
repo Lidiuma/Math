@@ -28,4 +28,16 @@ import static org.lidiuma.math.internal.AnnotationConst.TUPLES_OUT;
 public value record Long1(
         @Override @NullRestricted Long x
 ) implements UnaryTuple1<Long> {
+
+    public Long1(Long2 long2) {
+        this(long2.x());
+    }
+
+    public Long1(Long3 long3) {
+        this(long3.x());
+    }
+
+    public Long1(Long4 long4) {
+        this(long4.x());
+    }
 }

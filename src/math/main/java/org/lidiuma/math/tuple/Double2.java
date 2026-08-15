@@ -33,4 +33,12 @@ public value record Double2(
     public Double2(Double1 double1, double y) {
         this(double1.x(), y);
     }
+
+    public Double2(Double3 double3) {
+        this(double3.x(), double3.y());
+    }
+
+    public Double2(Double4 double4) {
+        this(double4.x(), double4.y());
+    }
 }

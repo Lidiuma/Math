@@ -28,4 +28,16 @@ import static org.lidiuma.math.internal.AnnotationConst.TUPLES_OUT;
 public value record Float1(
         @Override @NullRestricted Float x
 ) implements UnaryTuple1<Float> {
+
+    public Float1(Float2 float2) {
+        this(float2.x());
+    }
+
+    public Float1(Float3 float3) {
+        this(float3.x());
+    }
+
+    public Float1(Float4 float4) {
+        this(float4.x());
+    }
 }

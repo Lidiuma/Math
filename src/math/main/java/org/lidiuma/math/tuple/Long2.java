@@ -33,4 +33,12 @@ public value record Long2(
     public Long2(Long1 long1, long y) {
         this(long1.x(), y);
     }
+
+    public Long2(Long3 long3) {
+        this(long3.x(), long3.y());
+    }
+
+    public Long2(Long4 long4) {
+        this(long4.x(), long4.y());
+    }
 }

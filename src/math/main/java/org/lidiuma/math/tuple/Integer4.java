@@ -32,7 +32,15 @@ public value record Integer4(
         @Override @NullRestricted Integer w
 ) implements UnaryTuple4<Integer> {
 
-    public Integer4(Integer3 int3, int w) {
-        this(int3.x(), int3.y(), int3.z(), w);
+    public Integer4(Integer1 integer1, int y, int z, int w) {
+        this(integer1.x(), y, z, w);
+    }
+
+    public Integer4(Integer2 integer2, int z, int w) {
+        this(integer2.x(), integer2.y(), z, w);
+    }
+
+    public Integer4(Integer3 integer3, int w) {
+        this(integer3.x(), integer3.y(), integer3.z(), w);
     }
 }

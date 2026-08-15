@@ -28,4 +28,16 @@ import static org.lidiuma.math.internal.AnnotationConst.TUPLES_OUT;
 public value record Double1(
         @Override @NullRestricted Double x
 ) implements UnaryTuple1<Double> {
+
+    public Double1(Double2 double2) {
+        this(double2.x());
+    }
+
+    public Double1(Double3 double3) {
+        this(double3.x());
+    }
+
+    public Double1(Double4 double4) {
+        this(double4.x());
+    }
 }
