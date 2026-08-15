@@ -26,4 +26,9 @@ public final class AnnotationConst {
     public static final String VEC3_FACTORY = "vec3";
     public static final String VEC4_FACTORY = "vec4";
 
+    // Explicit numeric types for re-use.
+    public static final String I32 = "I32";
+    public static final String I64 = "I64";
+    public static final String F32 = "F32";
+    public static final String F64 = "F64";
 }

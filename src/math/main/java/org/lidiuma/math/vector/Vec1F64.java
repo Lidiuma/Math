@@ -23,9 +23,9 @@ import org.lidiuma.math.numerics.DoubleNumeric;
 import org.lidiuma.math.processor.Alias;
 import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.FactoryAlias;
+import org.lidiuma.math.processor.NamedAlias;
 import org.lidiuma.math.rotation.AngleF64;
-import static org.lidiuma.math.internal.AnnotationConst.VEC1_FACTORY;
-import static org.lidiuma.math.internal.AnnotationConst.VECTOR_OUT;
+import static org.lidiuma.math.internal.AnnotationConst.*;
 
 @FactoryAlias(methodName = VEC1_FACTORY, outputClass = VECTOR_OUT)
 public value record Vec1F64(@Override @NullRestricted Double x) implements Vector1<Double> {
@@ -34,7 +34,7 @@ public value record Vec1F64(@Override @NullRestricted Double x) implements Vecto
     public static final Ops OPS = new Ops();
 
     /// A constructor creating a specialized vector from a generic vector.
-    @AliasExclude
+    @NamedAlias(methodName = VEC1_FACTORY + F64)
     public Vec1F64(Vector1<Double> vec) {
         this(vec.x());
     }

@@ -23,8 +23,8 @@ import org.lidiuma.math.numerics.LongNumeric;
 import org.lidiuma.math.processor.Alias;
 import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.FactoryAlias;
-import static org.lidiuma.math.internal.AnnotationConst.VEC1_FACTORY;
-import static org.lidiuma.math.internal.AnnotationConst.VECTOR_OUT;
+import org.lidiuma.math.processor.NamedAlias;
+import static org.lidiuma.math.internal.AnnotationConst.*;
 
 @FactoryAlias(methodName = VEC1_FACTORY, outputClass = VECTOR_OUT)
 public value record Vec1I64(@Override @NullRestricted Long x) implements Vector1<Long> {
@@ -33,8 +33,7 @@ public value record Vec1I64(@Override @NullRestricted Long x) implements Vector1
     public static final Ops OPS = new Ops();
 
     /// A constructor creating a specialized vector from a generic vector.
-    @SuppressWarnings("unused")
-    @AliasExclude
+    @NamedAlias(methodName = VEC1_FACTORY + I64)
     public Vec1I64(Vector1<Long> vec) {
         this(vec.x());
     }

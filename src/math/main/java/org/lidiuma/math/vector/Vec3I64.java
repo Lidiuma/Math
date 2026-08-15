@@ -23,8 +23,8 @@ import org.lidiuma.math.numerics.LongNumeric;
 import org.lidiuma.math.processor.Alias;
 import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.FactoryAlias;
-import static org.lidiuma.math.internal.AnnotationConst.VEC3_FACTORY;
-import static org.lidiuma.math.internal.AnnotationConst.VECTOR_OUT;
+import org.lidiuma.math.processor.NamedAlias;
+import static org.lidiuma.math.internal.AnnotationConst.*;
 
 @FactoryAlias(methodName = VEC3_FACTORY, outputClass = VECTOR_OUT)
 public value record Vec3I64(
@@ -36,7 +36,8 @@ public value record Vec3I64(
     @Alias(outputClass = VECTOR_OUT)
     public static final Ops OPS = new Ops();
 
-    @AliasExclude
+    /// A constructor creating a specialized vector from a generic vector.
+    @NamedAlias(methodName = VEC3_FACTORY + I64)
     public Vec3I64(Vector3<Long> vec) {
         this(vec.x(), vec.y(), vec.z());
     }

@@ -23,9 +23,9 @@ import org.lidiuma.math.numerics.FloatNumeric;
 import org.lidiuma.math.processor.Alias;
 import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.FactoryAlias;
+import org.lidiuma.math.processor.NamedAlias;
 import org.lidiuma.math.rotation.AngleF32;
-import static org.lidiuma.math.internal.AnnotationConst.VEC3_FACTORY;
-import static org.lidiuma.math.internal.AnnotationConst.VECTOR_OUT;
+import static org.lidiuma.math.internal.AnnotationConst.*;
 
 @FactoryAlias(methodName = VEC3_FACTORY, outputClass = VECTOR_OUT)
 public value record Vec3F32(
@@ -37,7 +37,8 @@ public value record Vec3F32(
     @Alias(outputClass = VECTOR_OUT)
     public static final Ops OPS = new Ops();
 
-    @AliasExclude
+    /// A constructor creating a specialized vector from a generic vector.
+    @NamedAlias(methodName = VEC3_FACTORY + F32)
     public Vec3F32(Vector3<Float> vec) {
         this(vec.x(), vec.y(), vec.z());
     }

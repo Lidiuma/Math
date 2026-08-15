@@ -23,8 +23,8 @@ import org.lidiuma.math.numerics.IntegerNumeric;
 import org.lidiuma.math.processor.Alias;
 import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.FactoryAlias;
-import static org.lidiuma.math.internal.AnnotationConst.VEC4_FACTORY;
-import static org.lidiuma.math.internal.AnnotationConst.VECTOR_OUT;
+import org.lidiuma.math.processor.NamedAlias;
+import static org.lidiuma.math.internal.AnnotationConst.*;
 
 @FactoryAlias(methodName = VEC4_FACTORY, outputClass = VECTOR_OUT)
 public value record Vec4I32(
@@ -37,7 +37,8 @@ public value record Vec4I32(
     @Alias(outputClass = VECTOR_OUT)
     public static final Ops OPS = new Ops();
 
-    @AliasExclude
+    /// A constructor creating a specialized vector from a generic vector.
+    @NamedAlias(methodName = VEC4_FACTORY + I32)
     public Vec4I32(Vector4<Integer> vec) {
         this(vec.x(), vec.y(), vec.z(), vec.w());
     }
