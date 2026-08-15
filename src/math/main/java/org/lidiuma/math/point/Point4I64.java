@@ -20,12 +20,13 @@ import jdk.internal.vm.annotation.LooselyConsistentValue;
 import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.point.Point4;
 import org.lidiuma.math.api.traits.point.Point4Ops;
+import org.lidiuma.math.api.tuple.UnaryTuple4;
 import org.lidiuma.math.processor.Alias;
 import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.FactoryAlias;
+import org.lidiuma.math.processor.NamedAlias;
 import org.lidiuma.math.vector.Vec4I64;
-import static org.lidiuma.math.internal.AnnotationConst.POINT4_FACTORY;
-import static org.lidiuma.math.internal.AnnotationConst.POINT_OUT;
+import static org.lidiuma.math.internal.AnnotationConst.*;
 
 @LooselyConsistentValue
 @FactoryAlias(methodName = POINT4_FACTORY, outputClass = POINT_OUT)
@@ -38,6 +39,11 @@ public value record Point4I64(
 
     @Alias(outputClass = POINT_OUT)
     public static final Ops OPS = new Ops();
+
+    @NamedAlias(methodName = POINT4_FACTORY + I64)
+    public Point4I64(UnaryTuple4<Long> tuple) {
+        this(tuple.x(), tuple.y(), tuple.z(), tuple.w());
+    }
 
     public static final class Ops implements Point4Ops<Point4I64, Vec4I64, Long> {
 

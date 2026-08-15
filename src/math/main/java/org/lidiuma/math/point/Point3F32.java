@@ -20,12 +20,13 @@ import jdk.internal.vm.annotation.LooselyConsistentValue;
 import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.point.Point3;
 import org.lidiuma.math.api.traits.point.FloatingPoint3Ops;
+import org.lidiuma.math.api.tuple.UnaryTuple3;
 import org.lidiuma.math.processor.Alias;
 import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.FactoryAlias;
+import org.lidiuma.math.processor.NamedAlias;
 import org.lidiuma.math.vector.Vec3F32;
-import static org.lidiuma.math.internal.AnnotationConst.POINT3_FACTORY;
-import static org.lidiuma.math.internal.AnnotationConst.POINT_OUT;
+import static org.lidiuma.math.internal.AnnotationConst.*;
 
 @LooselyConsistentValue
 @FactoryAlias(methodName = POINT3_FACTORY, outputClass = POINT_OUT)
@@ -37,6 +38,11 @@ public value record Point3F32(
 
     @Alias(outputClass = POINT_OUT)
     public static final Ops OPS = new Ops();
+
+    @NamedAlias(methodName = POINT3_FACTORY + F32)
+    public Point3F32(UnaryTuple3<Float> tuple) {
+        this(tuple.x(), tuple.y(), tuple.z());
+    }
 
     public static final class Ops implements FloatingPoint3Ops<Point3F32, Vec3F32, Float> {
 

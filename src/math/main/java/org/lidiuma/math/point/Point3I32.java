@@ -20,12 +20,13 @@ import jdk.internal.vm.annotation.LooselyConsistentValue;
 import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.point.Point3;
 import org.lidiuma.math.api.traits.point.Point3Ops;
+import org.lidiuma.math.api.tuple.UnaryTuple3;
 import org.lidiuma.math.processor.Alias;
 import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.FactoryAlias;
+import org.lidiuma.math.processor.NamedAlias;
 import org.lidiuma.math.vector.Vec3I32;
-import static org.lidiuma.math.internal.AnnotationConst.POINT3_FACTORY;
-import static org.lidiuma.math.internal.AnnotationConst.POINT_OUT;
+import static org.lidiuma.math.internal.AnnotationConst.*;
 
 @LooselyConsistentValue
 @FactoryAlias(methodName = POINT3_FACTORY, outputClass = POINT_OUT)
@@ -37,6 +38,11 @@ public value record Point3I32(
 
     @Alias(outputClass = POINT_OUT)
     public static final Ops OPS = new Ops();
+
+    @NamedAlias(methodName = POINT3_FACTORY + I32)
+    public Point3I32(UnaryTuple3<Integer> tuple) {
+        this(tuple.x(), tuple.y(), tuple.z());
+    }
 
     public static final class Ops implements Point3Ops<Point3I32, Vec3I32, Integer> {
 
