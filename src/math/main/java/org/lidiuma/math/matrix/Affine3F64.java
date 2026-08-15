@@ -20,8 +20,8 @@ import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.matrix.Affine3;
 import org.lidiuma.math.api.traits.matrix.Affine3Ops;
 import org.lidiuma.math.api.traits.matrix.FloatingAffineOps;
-import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.Alias;
+import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.FactoryAlias;
 import org.lidiuma.math.rotation.QuaternionF64;
 import org.lidiuma.math.vector.Vec3F64;
@@ -84,7 +84,6 @@ public value record Affine3F64(
         }
 
         @Override
-        @AliasExclude
         public Affine3F64 fromRotation(QuaternionF64 quaternion) {
 
             final double xs = quaternion.x() * 2d, ys = quaternion.y() * 2d, zs = quaternion.z() * 2d;

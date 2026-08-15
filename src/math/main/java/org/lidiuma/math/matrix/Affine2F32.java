@@ -20,8 +20,8 @@ import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.matrix.Affine2;
 import org.lidiuma.math.api.traits.matrix.Affine2Ops;
 import org.lidiuma.math.api.traits.matrix.FloatingAffineOps;
-import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.Alias;
+import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.FactoryAlias;
 import org.lidiuma.math.rotation.AngleF32;
 import org.lidiuma.math.vector.Vec2F32;
@@ -75,7 +75,6 @@ public value record Affine2F32(
         }
 
         @Override
-        @AliasExclude
         public Affine2F32 fromRotation(AngleF32 angle) {
             final float cos = (float) Math.cos(angle.radian());
             final float sin = (float) Math.sin(angle.radian());
