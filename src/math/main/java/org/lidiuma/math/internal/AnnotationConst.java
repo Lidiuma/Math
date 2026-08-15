@@ -20,11 +20,30 @@ package org.lidiuma.math.internal;
 /// Really useful to avoid mistakes that come from using strings directly.
 public final class AnnotationConst {
 
+    // Vector-related
     public static final String VECTOR_OUT = "Vectors";
     public static final String VEC1_FACTORY = "vec1";
     public static final String VEC2_FACTORY = "vec2";
     public static final String VEC3_FACTORY = "vec3";
     public static final String VEC4_FACTORY = "vec4";
+    // Tuples-related
+    public static final String TUPLES_OUT = "Tuples";
+    public static final String DOUBLE1 = "double1";
+    public static final String DOUBLE2 = "double2";
+    public static final String DOUBLE3 = "double3";
+    public static final String DOUBLE4 = "double4";
+    public static final String FLOAT1 = "float1";
+    public static final String FLOAT2 = "float2";
+    public static final String FLOAT3 = "float3";
+    public static final String FLOAT4 = "float4";
+    public static final String INT1 = "int1";
+    public static final String INT2 = "int2";
+    public static final String INT3 = "int3";
+    public static final String INT4 = "int4";
+    public static final String LONG1 = "long1";
+    public static final String LONG2 = "long2";
+    public static final String LONG3 = "long3";
+    public static final String LONG4 = "long4";
 
     // Explicit numeric types for re-use.
     public static final String I32 = "I32";

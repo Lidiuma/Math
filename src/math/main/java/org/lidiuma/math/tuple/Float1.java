@@ -20,9 +20,11 @@ import jdk.internal.vm.annotation.LooselyConsistentValue;
 import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.tuple.UnaryTuple1;
 import org.lidiuma.math.processor.FactoryAlias;
+import static org.lidiuma.math.internal.AnnotationConst.FLOAT1;
+import static org.lidiuma.math.internal.AnnotationConst.TUPLES_OUT;
 
 @LooselyConsistentValue
-@FactoryAlias(methodName = "float1", outputClass = "Tuples")
+@FactoryAlias(methodName = FLOAT1, outputClass = TUPLES_OUT)
 public value record Float1(
         @Override @NullRestricted Float x
 ) implements UnaryTuple1<Float> {

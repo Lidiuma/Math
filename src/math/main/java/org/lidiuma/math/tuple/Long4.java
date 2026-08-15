@@ -20,9 +20,11 @@ import jdk.internal.vm.annotation.LooselyConsistentValue;
 import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.tuple.UnaryTuple4;
 import org.lidiuma.math.processor.FactoryAlias;
+import static org.lidiuma.math.internal.AnnotationConst.LONG4;
+import static org.lidiuma.math.internal.AnnotationConst.TUPLES_OUT;
 
 @LooselyConsistentValue
-@FactoryAlias(methodName = "long4", outputClass = "Tuples")
+@FactoryAlias(methodName = LONG4, outputClass = TUPLES_OUT)
 public value record Long4(
         @Override @NullRestricted Long x,
         @Override @NullRestricted Long y,
