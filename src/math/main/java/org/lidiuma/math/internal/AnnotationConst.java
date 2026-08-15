@@ -50,6 +50,9 @@ public final class AnnotationConst {
     public static final String POINT2_FACTORY = "point2";
     public static final String POINT3_FACTORY = "point3";
     public static final String POINT4_FACTORY = "point4";
+    // Colors-related
+    public static final String COLOR_OUT = "Colors";
+    public static final String COLOR_FACTORY = "color";
 
     // Explicit numeric types for re-use.
     public static final String I32 = "I32";

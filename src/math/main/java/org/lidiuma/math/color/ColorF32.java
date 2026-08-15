@@ -19,9 +19,15 @@ package org.lidiuma.math.color;
 import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.color.Color;
 import org.lidiuma.math.api.traits.color.ColorOps;
+import org.lidiuma.math.api.tuple.UnaryTuple4;
+import org.lidiuma.math.processor.Alias;
+import org.lidiuma.math.processor.FactoryAlias;
+import org.lidiuma.math.processor.NamedAlias;
 import org.lidiuma.math.vector.Vec4F32;
 import java.util.function.UnaryOperator;
+import static org.lidiuma.math.internal.AnnotationConst.*;
 
+@FactoryAlias(methodName = COLOR_FACTORY, outputClass = COLOR_OUT)
 public value record ColorF32(
         @Override @NullRestricted Float red,
         @Override @NullRestricted Float green,
@@ -29,7 +35,13 @@ public value record ColorF32(
         @Override @NullRestricted Float alpha
 ) implements Color<Float> {
 
+    @Alias(outputClass = COLOR_OUT)
     public static final Ops OPS = new ColorF32.Ops();
+
+    @NamedAlias(methodName = COLOR_FACTORY + F32)
+    public ColorF32(UnaryTuple4<Float> tuple) {
+        this(tuple.x(), tuple.y(), tuple.z(), tuple.w());
+    }
 
     public static final class Ops implements ColorOps<ColorF32, Float> {
 
