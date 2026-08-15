@@ -18,6 +18,7 @@ package org.lidiuma.math.vector;
 
 import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.traits.vector.FloatingVector3Ops;
+import org.lidiuma.math.api.tuple.UnaryTuple3;
 import org.lidiuma.math.api.vector.Vector3;
 import org.lidiuma.math.numerics.DoubleNumeric;
 import org.lidiuma.math.processor.Alias;
@@ -39,7 +40,7 @@ public value record Vec3F64(
 
     /// A constructor creating a specialized vector from a generic vector.
     @NamedAlias(methodName = VEC3_FACTORY + F64)
-    public Vec3F64(Vector3<Double> vec) {
+    public Vec3F64(UnaryTuple3<Double> vec) {
         this(vec.x(), vec.y(), vec.z());
     }
 

@@ -18,6 +18,7 @@ package org.lidiuma.math.vector;
 
 import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.traits.vector.FloatingVector4Ops;
+import org.lidiuma.math.api.tuple.UnaryTuple4;
 import org.lidiuma.math.api.vector.Vector4;
 import org.lidiuma.math.numerics.FloatNumeric;
 import org.lidiuma.math.processor.Alias;
@@ -40,7 +41,7 @@ public value record Vec4F32(
 
     /// A constructor creating a specialized vector from a generic vector.
     @NamedAlias(methodName = VEC4_FACTORY + F32)
-    public Vec4F32(Vector4<Float> vec) {
+    public Vec4F32(UnaryTuple4<Float> vec) {
         this(vec.x(), vec.y(), vec.z(), vec.w());
     }
 

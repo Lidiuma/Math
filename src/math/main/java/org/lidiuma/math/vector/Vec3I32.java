@@ -18,6 +18,7 @@ package org.lidiuma.math.vector;
 
 import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.traits.vector.Vector3Ops;
+import org.lidiuma.math.api.tuple.UnaryTuple3;
 import org.lidiuma.math.api.vector.Vector3;
 import org.lidiuma.math.numerics.IntegerNumeric;
 import org.lidiuma.math.processor.Alias;
@@ -38,7 +39,7 @@ public value record Vec3I32(
 
     /// A constructor creating a specialized vector from a generic vector.
     @NamedAlias(methodName = VEC3_FACTORY + I32)
-    public Vec3I32(Vector3<Integer> vec) {
+    public Vec3I32(UnaryTuple3<Integer> vec) {
         this(vec.x(), vec.y(), vec.z());
     }
 

@@ -18,6 +18,7 @@ package org.lidiuma.math.vector;
 
 import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.traits.vector.FloatingVector1Ops;
+import org.lidiuma.math.api.tuple.UnaryTuple1;
 import org.lidiuma.math.api.vector.Vector1;
 import org.lidiuma.math.numerics.FloatNumeric;
 import org.lidiuma.math.processor.Alias;
@@ -35,7 +36,7 @@ public value record Vec1F32(@Override @NullRestricted Float x) implements Vector
 
     /// A constructor creating a specialized vector from a generic vector.
     @NamedAlias(methodName = VEC1_FACTORY + F32)
-    public Vec1F32(Vector1<Float> vec) {
+    public Vec1F32(UnaryTuple1<Float> vec) {
         this(vec.x());
     }
 

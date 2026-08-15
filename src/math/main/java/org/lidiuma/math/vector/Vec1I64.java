@@ -18,6 +18,7 @@ package org.lidiuma.math.vector;
 
 import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.traits.vector.Vector1Ops;
+import org.lidiuma.math.api.tuple.UnaryTuple1;
 import org.lidiuma.math.api.vector.Vector1;
 import org.lidiuma.math.numerics.LongNumeric;
 import org.lidiuma.math.processor.Alias;
@@ -34,7 +35,7 @@ public value record Vec1I64(@Override @NullRestricted Long x) implements Vector1
 
     /// A constructor creating a specialized vector from a generic vector.
     @NamedAlias(methodName = VEC1_FACTORY + I64)
-    public Vec1I64(Vector1<Long> vec) {
+    public Vec1I64(UnaryTuple1<Long> vec) {
         this(vec.x());
     }
 

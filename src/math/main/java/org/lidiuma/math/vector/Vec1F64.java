@@ -18,6 +18,7 @@ package org.lidiuma.math.vector;
 
 import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.traits.vector.FloatingVector1Ops;
+import org.lidiuma.math.api.tuple.UnaryTuple1;
 import org.lidiuma.math.api.vector.Vector1;
 import org.lidiuma.math.numerics.DoubleNumeric;
 import org.lidiuma.math.processor.Alias;
@@ -35,7 +36,7 @@ public value record Vec1F64(@Override @NullRestricted Double x) implements Vecto
 
     /// A constructor creating a specialized vector from a generic vector.
     @NamedAlias(methodName = VEC1_FACTORY + F64)
-    public Vec1F64(Vector1<Double> vec) {
+    public Vec1F64(UnaryTuple1<Double> vec) {
         this(vec.x());
     }
 
