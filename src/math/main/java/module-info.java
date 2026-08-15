@@ -31,4 +31,5 @@ module lidiuma.math {
     exports org.lidiuma.math.color;
     exports org.lidiuma.math.shapes.rectangle;
     exports org.lidiuma.math.shapes.segment;
+    // DO NOT EXPORT -> org.lidiuma.math.internal
 }

@@ -20,18 +20,20 @@ import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.traits.vector.FloatingVector2Ops;
 import org.lidiuma.math.api.vector.Vector2;
 import org.lidiuma.math.numerics.DoubleNumeric;
-import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.Alias;
+import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.FactoryAlias;
 import org.lidiuma.math.rotation.AngleF64;
+import static org.lidiuma.math.internal.AnnotationConst.VEC2_FACTORY;
+import static org.lidiuma.math.internal.AnnotationConst.VECTOR_OUT;
 
-@FactoryAlias(methodName = "vec2", outputClass = "Vectors")
+@FactoryAlias(methodName = VEC2_FACTORY, outputClass = VECTOR_OUT)
 public value record Vec2F64(
         @Override @NullRestricted Double x,
         @Override @NullRestricted Double y
 ) implements Vector2<Double> {
 
-    @Alias(outputClass = "Vectors")
+    @Alias(outputClass = VECTOR_OUT)
     public static final Ops OPS = new Ops();
 
     @AliasExclude

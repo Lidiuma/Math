@@ -20,14 +20,16 @@ import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.traits.vector.Vector1Ops;
 import org.lidiuma.math.api.vector.Vector1;
 import org.lidiuma.math.numerics.IntegerNumeric;
-import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.Alias;
+import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.FactoryAlias;
+import static org.lidiuma.math.internal.AnnotationConst.VEC1_FACTORY;
+import static org.lidiuma.math.internal.AnnotationConst.VECTOR_OUT;
 
-@FactoryAlias(methodName = "vec1", outputClass = "Vectors")
+@FactoryAlias(methodName = VEC1_FACTORY, outputClass = VECTOR_OUT)
 public value record Vec1I32(@Override @NullRestricted Integer x) implements Vector1<Integer> {
 
-    @Alias(outputClass = "Vectors")
+    @Alias(outputClass = VECTOR_OUT)
     public static final Ops OPS = new Ops();
 
     /// A constructor creating a specialized vector from a generic vector.

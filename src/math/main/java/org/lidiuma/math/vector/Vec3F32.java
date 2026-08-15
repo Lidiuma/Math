@@ -20,19 +20,21 @@ import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.traits.vector.FloatingVector3Ops;
 import org.lidiuma.math.api.vector.Vector3;
 import org.lidiuma.math.numerics.FloatNumeric;
-import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.Alias;
+import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.FactoryAlias;
 import org.lidiuma.math.rotation.AngleF32;
+import static org.lidiuma.math.internal.AnnotationConst.VEC3_FACTORY;
+import static org.lidiuma.math.internal.AnnotationConst.VECTOR_OUT;
 
-@FactoryAlias(methodName = "vec3", outputClass = "Vectors")
+@FactoryAlias(methodName = VEC3_FACTORY, outputClass = VECTOR_OUT)
 public value record Vec3F32(
         @Override @NullRestricted Float x,
         @Override @NullRestricted Float y,
         @Override @NullRestricted Float z
 ) implements Vector3<Float> {
 
-    @Alias(outputClass = "Vectors")
+    @Alias(outputClass = VECTOR_OUT)
     public static final Ops OPS = new Ops();
 
     @AliasExclude
