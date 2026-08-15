@@ -25,15 +25,17 @@ import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.FactoryAlias;
 import org.lidiuma.math.rotation.QuaternionF64;
 import org.lidiuma.math.vector.Vec3F64;
+import static org.lidiuma.math.internal.AnnotationConst.AFFINE3_FACTORY;
+import static org.lidiuma.math.internal.AnnotationConst.MATRIX_OUT;
 
-@FactoryAlias(methodName = "affine3", outputClass = "Matrices")
+@FactoryAlias(methodName = AFFINE3_FACTORY, outputClass = MATRIX_OUT)
 public value record Affine3F64(
         @NullRestricted Double m00, @NullRestricted Double m01, @NullRestricted Double m02, @NullRestricted Double m03,
         @NullRestricted Double m10, @NullRestricted Double m11, @NullRestricted Double m12, @NullRestricted Double m13,
         @NullRestricted Double m20, @NullRestricted Double m21, @NullRestricted Double m22, @NullRestricted Double m23
 ) implements Affine3<Double> {
 
-    @Alias(outputClass = "Matrices")
+    @Alias(outputClass = MATRIX_OUT)
     public static final Ops OPS = new Ops();
 
     @Override
@@ -72,18 +74,6 @@ public value record Affine3F64(
         }
 
         @Override
-        @AliasExclude
-        public Affine3F64 of(Double m00, Double m01, Double m02, Double m03,
-                             Double m10, Double m11, Double m12, Double m13,
-                             Double m20, Double m21, Double m22, Double m23) {
-            return new Affine3F64(
-                    m00, m01, m02, m03,
-                    m10, m11, m12, m13,
-                    m20, m21, m22, m23
-            );
-        }
-
-        @Override
         public Affine3F64 fromRotation(QuaternionF64 quaternion) {
 
             final double xs = quaternion.x() * 2d, ys = quaternion.y() * 2d, zs = quaternion.z() * 2d;
@@ -98,6 +88,18 @@ public value record Affine3F64(
                     m00, m01, m02, 0d,
                     m10, m11, m12, 0d,
                     m20, m21, m22, 0d
+            );
+        }
+
+        @Override
+        @AliasExclude
+        public Affine3F64 of(Double m00, Double m01, Double m02, Double m03,
+                             Double m10, Double m11, Double m12, Double m13,
+                             Double m20, Double m21, Double m22, Double m23) {
+            return new Affine3F64(
+                    m00, m01, m02, m03,
+                    m10, m11, m12, m13,
+                    m20, m21, m22, m23
             );
         }
 

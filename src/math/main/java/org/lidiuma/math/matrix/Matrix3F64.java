@@ -16,25 +16,27 @@
 
 package org.lidiuma.math.matrix;
 
+import jdk.internal.vm.annotation.LooselyConsistentValue;
 import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.matrix.Matrix3;
-import jdk.internal.vm.annotation.LooselyConsistentValue;
 import org.lidiuma.math.api.traits.matrix.Matrix3Ops;
-import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.Alias;
+import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.FactoryAlias;
 import org.lidiuma.math.vector.Vec3F64;
+import static org.lidiuma.math.internal.AnnotationConst.MATRIX3_FACTORY;
+import static org.lidiuma.math.internal.AnnotationConst.MATRIX_OUT;
 
 /// @see Matrix3
 @LooselyConsistentValue
-@FactoryAlias(methodName = "matrix3", outputClass = "Matrices")
+@FactoryAlias(methodName = MATRIX3_FACTORY, outputClass = MATRIX_OUT)
 public value record Matrix3F64(
         @NullRestricted Double m00, @NullRestricted Double m01, @NullRestricted Double m02,
         @NullRestricted Double m10, @NullRestricted Double m11, @NullRestricted Double m12,
         @NullRestricted Double m20, @NullRestricted Double m21, @NullRestricted Double m22
 ) implements Matrix3<Double> {
 
-    @Alias(outputClass = "Matrices")
+    @Alias(outputClass = MATRIX_OUT)
     public static final Ops OPS = new Ops();
 
     public static final class Ops implements Matrix3Ops<Matrix3F64, Vec3F64, Double> {

@@ -25,14 +25,16 @@ import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.FactoryAlias;
 import org.lidiuma.math.rotation.AngleF64;
 import org.lidiuma.math.vector.Vec2F64;
+import static org.lidiuma.math.internal.AnnotationConst.AFFINE2_FACTORY;
+import static org.lidiuma.math.internal.AnnotationConst.MATRIX_OUT;
 
-@FactoryAlias(methodName = "affine2", outputClass = "Matrices")
+@FactoryAlias(methodName = AFFINE2_FACTORY, outputClass = MATRIX_OUT)
 public value record Affine2F64(
         @NullRestricted Double m00, @NullRestricted Double m01, @NullRestricted Double m02,
         @NullRestricted Double m10, @NullRestricted Double m11, @NullRestricted Double m12
 ) implements Affine2<Double> {
 
-    @Alias(outputClass = "Matrices")
+    @Alias(outputClass = MATRIX_OUT)
     public static final Ops OPS = new Ops();
 
     @Override
@@ -66,21 +68,21 @@ public value record Affine2F64(
         }
 
         @Override
-        @AliasExclude
-        public Affine2F64 of(Double m00, Double m01, Double m02, Double m10, Double m11, Double m12) {
-            return new Affine2F64(
-                    m00, m01, m02,
-                    m10, m11, m12
-            );
-        }
-
-        @Override
         public Affine2F64 fromRotation(AngleF64 angle) {
             final double cos = Math.cos(angle.radian());
             final double sin = Math.sin(angle.radian());
             return new Affine2F64(
                     cos, -sin, 0d,
                     sin, cos, 0d
+            );
+        }
+
+        @Override
+        @AliasExclude
+        public Affine2F64 of(Double m00, Double m01, Double m02, Double m10, Double m11, Double m12) {
+            return new Affine2F64(
+                    m00, m01, m02,
+                    m10, m11, m12
             );
         }
 

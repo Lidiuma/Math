@@ -53,6 +53,12 @@ public final class AnnotationConst {
     // Colors-related
     public static final String COLOR_OUT = "Colors";
     public static final String COLOR_FACTORY = "color";
+    // Matrices-related
+    public static final String MATRIX_OUT = "Matrices";
+    public static final String AFFINE2_FACTORY = "affine2";
+    public static final String AFFINE3_FACTORY = "affine3";
+    public static final String MATRIX3_FACTORY = "matrix3";
+    public static final String MATRIX4_FACTORY = "matrix4";
 
     // Explicit numeric types for re-use.
     public static final String I32 = "I32";

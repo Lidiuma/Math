@@ -25,15 +25,17 @@ import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.FactoryAlias;
 import org.lidiuma.math.rotation.QuaternionF32;
 import org.lidiuma.math.vector.Vec3F32;
+import static org.lidiuma.math.internal.AnnotationConst.AFFINE3_FACTORY;
+import static org.lidiuma.math.internal.AnnotationConst.MATRIX_OUT;
 
-@FactoryAlias(methodName = "affine3", outputClass = "Matrices")
+@FactoryAlias(methodName = AFFINE3_FACTORY, outputClass = MATRIX_OUT)
 public value record Affine3F32(
         @NullRestricted Float m00, @NullRestricted Float m01, @NullRestricted Float m02, @NullRestricted Float m03,
         @NullRestricted Float m10, @NullRestricted Float m11, @NullRestricted Float m12, @NullRestricted Float m13,
         @NullRestricted Float m20, @NullRestricted Float m21, @NullRestricted Float m22, @NullRestricted Float m23
 ) implements Affine3<Float> {
 
-    @Alias(outputClass = "Matrices")
+    @Alias(outputClass = MATRIX_OUT)
     public static final Ops OPS = new Ops();
 
     @Override
@@ -72,18 +74,6 @@ public value record Affine3F32(
         }
 
         @Override
-        @AliasExclude
-        public Affine3F32 of(Float m00, Float m01, Float m02, Float m03,
-                             Float m10, Float m11, Float m12, Float m13,
-                             Float m20, Float m21, Float m22, Float m23) {
-            return new Affine3F32(
-                    m00, m01, m02, m03,
-                    m10, m11, m12, m13,
-                    m20, m21, m22, m23
-            );
-        }
-
-        @Override
         public Affine3F32 fromRotation(QuaternionF32 quaternion) {
 
             final float xs = quaternion.x() * 2f, ys = quaternion.y() * 2f, zs = quaternion.z() * 2f;
@@ -98,6 +88,18 @@ public value record Affine3F32(
                     m00, m01, m02, 0f,
                     m10, m11, m12, 0f,
                     m20, m21, m22, 0f
+            );
+        }
+
+        @Override
+        @AliasExclude
+        public Affine3F32 of(Float m00, Float m01, Float m02, Float m03,
+                             Float m10, Float m11, Float m12, Float m13,
+                             Float m20, Float m21, Float m22, Float m23) {
+            return new Affine3F32(
+                    m00, m01, m02, m03,
+                    m10, m11, m12, m13,
+                    m20, m21, m22, m23
             );
         }
 

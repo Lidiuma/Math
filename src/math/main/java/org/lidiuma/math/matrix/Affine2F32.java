@@ -25,14 +25,16 @@ import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.FactoryAlias;
 import org.lidiuma.math.rotation.AngleF32;
 import org.lidiuma.math.vector.Vec2F32;
+import static org.lidiuma.math.internal.AnnotationConst.AFFINE2_FACTORY;
+import static org.lidiuma.math.internal.AnnotationConst.MATRIX_OUT;
 
-@FactoryAlias(methodName = "affine2", outputClass = "Matrices")
+@FactoryAlias(methodName = AFFINE2_FACTORY, outputClass = MATRIX_OUT)
 public value record Affine2F32(
         @NullRestricted Float m00, @NullRestricted Float m01, @NullRestricted Float m02,
         @NullRestricted Float m10, @NullRestricted Float m11, @NullRestricted Float m12
 ) implements Affine2<Float> {
 
-    @Alias(outputClass = "Matrices")
+    @Alias(outputClass = MATRIX_OUT)
     public static final Ops OPS = new Ops();
 
     @Override
@@ -66,21 +68,21 @@ public value record Affine2F32(
         }
 
         @Override
-        @AliasExclude
-        public Affine2F32 of(Float m00, Float m01, Float m02, Float m10, Float m11, Float m12) {
-            return new Affine2F32(
-                    m00, m01, m02,
-                    m10, m11, m12
-            );
-        }
-
-        @Override
         public Affine2F32 fromRotation(AngleF32 angle) {
             final float cos = (float) Math.cos(angle.radian());
             final float sin = (float) Math.sin(angle.radian());
             return new Affine2F32(
                     cos, -sin, 0f,
                     sin, cos, 0f
+            );
+        }
+
+        @Override
+        @AliasExclude
+        public Affine2F32 of(Float m00, Float m01, Float m02, Float m10, Float m11, Float m12) {
+            return new Affine2F32(
+                    m00, m01, m02,
+                    m10, m11, m12
             );
         }
 

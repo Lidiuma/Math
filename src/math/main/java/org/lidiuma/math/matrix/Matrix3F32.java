@@ -16,25 +16,27 @@
 
 package org.lidiuma.math.matrix;
 
+import jdk.internal.vm.annotation.LooselyConsistentValue;
 import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.matrix.Matrix3;
-import jdk.internal.vm.annotation.LooselyConsistentValue;
 import org.lidiuma.math.api.traits.matrix.Matrix3Ops;
-import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.Alias;
+import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.FactoryAlias;
 import org.lidiuma.math.vector.Vec3F32;
+import static org.lidiuma.math.internal.AnnotationConst.MATRIX3_FACTORY;
+import static org.lidiuma.math.internal.AnnotationConst.MATRIX_OUT;
 
 /// @see Matrix3
 @LooselyConsistentValue
-@FactoryAlias(methodName = "matrix3", outputClass = "Matrices")
+@FactoryAlias(methodName = MATRIX3_FACTORY, outputClass = MATRIX_OUT)
 public value record Matrix3F32(
         @NullRestricted Float m00, @NullRestricted Float m01, @NullRestricted Float m02,
         @NullRestricted Float m10, @NullRestricted Float m11, @NullRestricted Float m12,
         @NullRestricted Float m20, @NullRestricted Float m21, @NullRestricted Float m22
 ) implements Matrix3<Float> {
 
-    @Alias(outputClass = "Matrices")
+    @Alias(outputClass = MATRIX_OUT)
     public static final Ops OPS = new Ops();
 
     public static final class Ops implements Matrix3Ops<Matrix3F32, Vec3F32, Float> {
