@@ -18,6 +18,7 @@ package org.lidiuma.math.processor.processing;
 
 import org.lidiuma.math.processor.Alias;
 import org.lidiuma.math.processor.FactoryAlias;
+import org.lidiuma.math.processor.NamedAlias;
 import org.lidiuma.math.processor.dsl.AccessModifier;
 import org.lidiuma.math.processor.dsl.JavaDSL;
 import javax.lang.model.element.*;
@@ -102,7 +103,10 @@ public final class AliasGenerator {
             case AliasType.Constructor(var annotated, _) -> annotated.asType();
             case AliasType.Field _ -> method.getReturnType();
         };
+        final NamedAlias named = method.getAnnotation(NamedAlias.class);
         final String methodName = switch (aliasType) {
+            // In case the annotation is present, it overrides the default name.
+            case AliasType.Constructor _, AliasType.Field _ when named != null -> named.methodName();
             case AliasType.Constructor(_, var name) -> name;
             case AliasType.Field _ -> method.getSimpleName().toString();
         };
@@ -121,7 +125,7 @@ public final class AliasGenerator {
             // Full package name not needed, since the generate class is created within the package of the annotated one.
             case AliasType.Field(var annotated) -> callDsl.type(annotated.getEnclosingElement().getSimpleName().toString())
                     .instance(annotated.getSimpleName().toString())
-                    .name(methodName);
+                    .name(method.getSimpleName().toString());
             case AliasType.Constructor(var annotated, _) -> callDsl.type(annotated.getSimpleName().toString());
         }
 
