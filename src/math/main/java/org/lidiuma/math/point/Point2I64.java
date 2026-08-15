@@ -24,15 +24,17 @@ import org.lidiuma.math.processor.Alias;
 import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.FactoryAlias;
 import org.lidiuma.math.vector.Vec2I64;
+import static org.lidiuma.math.internal.AnnotationConst.POINT2_FACTORY;
+import static org.lidiuma.math.internal.AnnotationConst.POINT_OUT;
 
 @LooselyConsistentValue
-@FactoryAlias(methodName = "point2", outputClass = "Points")
+@FactoryAlias(methodName = POINT2_FACTORY, outputClass = POINT_OUT)
 public value record Point2I64(
         @NullRestricted Long x,
         @NullRestricted Long y
 ) implements Point2<Long> {
 
-    @Alias(outputClass = "Points")
+    @Alias(outputClass = POINT_OUT)
     public static final Ops OPS = new Ops();
 
     public static final class Ops implements Point2Ops<Point2I64, Vec2I64, Long> {

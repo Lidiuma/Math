@@ -24,12 +24,14 @@ import org.lidiuma.math.processor.Alias;
 import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.FactoryAlias;
 import org.lidiuma.math.vector.Vec1F32;
+import static org.lidiuma.math.internal.AnnotationConst.POINT1_FACTORY;
+import static org.lidiuma.math.internal.AnnotationConst.POINT_OUT;
 
 @LooselyConsistentValue
-@FactoryAlias(methodName = "point1", outputClass = "Points")
+@FactoryAlias(methodName = POINT1_FACTORY, outputClass = POINT_OUT)
 public value record Point1F32(@NullRestricted Float x) implements Point1<Float> {
 
-    @Alias(outputClass = "Points")
+    @Alias(outputClass = POINT_OUT)
     public static final Ops OPS = new Ops();
 
     public static final class Ops implements FloatingPoint1Ops<Point1F32, Vec1F32, Float> {

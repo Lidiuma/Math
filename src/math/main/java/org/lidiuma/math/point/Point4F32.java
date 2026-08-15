@@ -24,9 +24,11 @@ import org.lidiuma.math.processor.Alias;
 import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.FactoryAlias;
 import org.lidiuma.math.vector.Vec4F32;
+import static org.lidiuma.math.internal.AnnotationConst.POINT4_FACTORY;
+import static org.lidiuma.math.internal.AnnotationConst.POINT_OUT;
 
 @LooselyConsistentValue
-@FactoryAlias(methodName = "point4", outputClass = "Points")
+@FactoryAlias(methodName = POINT4_FACTORY, outputClass = POINT_OUT)
 public value record Point4F32(
         @NullRestricted Float x,
         @NullRestricted Float y,
@@ -34,7 +36,7 @@ public value record Point4F32(
         @NullRestricted Float w
 ) implements Point4<Float> {
 
-    @Alias(outputClass = "Points")
+    @Alias(outputClass = POINT_OUT)
     public static final Ops OPS = new Ops();
 
     public static final class Ops implements FloatingPoint4Ops<Point4F32, Vec4F32, Float> {
