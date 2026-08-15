@@ -23,10 +23,10 @@ import org.lidiuma.math.api.traits.matrix.FloatingAffineOps;
 import org.lidiuma.math.processor.Alias;
 import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.FactoryAlias;
+import org.lidiuma.math.processor.NamedAlias;
 import org.lidiuma.math.rotation.AngleF32;
 import org.lidiuma.math.vector.Vec2F32;
-import static org.lidiuma.math.internal.AnnotationConst.AFFINE2_FACTORY;
-import static org.lidiuma.math.internal.AnnotationConst.MATRIX_OUT;
+import static org.lidiuma.math.internal.AnnotationConst.*;
 
 @FactoryAlias(methodName = AFFINE2_FACTORY, outputClass = MATRIX_OUT)
 public value record Affine2F32(
@@ -36,6 +36,14 @@ public value record Affine2F32(
 
     @Alias(outputClass = MATRIX_OUT)
     public static final Ops OPS = new Ops();
+
+    @NamedAlias(methodName = AFFINE2_FACTORY + F32)
+    public Affine2F32(Affine2<Float> affine2) {
+        this(
+                affine2.m00(), affine2.m01(), affine2.m02(),
+                affine2.m10(), affine2.m11(), affine2.m12()
+        );
+    }
 
     @Override
     public Float m20() {

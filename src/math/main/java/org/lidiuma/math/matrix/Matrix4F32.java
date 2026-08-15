@@ -23,9 +23,9 @@ import org.lidiuma.math.api.traits.matrix.Matrix4Ops;
 import org.lidiuma.math.processor.Alias;
 import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.FactoryAlias;
+import org.lidiuma.math.processor.NamedAlias;
 import org.lidiuma.math.vector.Vec4F32;
-import static org.lidiuma.math.internal.AnnotationConst.MATRIX4_FACTORY;
-import static org.lidiuma.math.internal.AnnotationConst.MATRIX_OUT;
+import static org.lidiuma.math.internal.AnnotationConst.*;
 
 /// @see Matrix4
 @LooselyConsistentValue
@@ -40,6 +40,16 @@ public value record Matrix4F32(
 
     @Alias(outputClass = MATRIX_OUT)
     public static final Ops OPS = new Ops();
+
+    @NamedAlias(methodName = MATRIX4_FACTORY + F32)
+    public Matrix4F32(Matrix4<Float> matrix4) {
+        this(
+                matrix4.m00(), matrix4.m01(), matrix4.m02(), matrix4.m03(),
+                matrix4.m10(), matrix4.m11(), matrix4.m12(), matrix4.m13(),
+                matrix4.m20(), matrix4.m21(), matrix4.m22(), matrix4.m23(),
+                matrix4.m30(), matrix4.m31(), matrix4.m32(), matrix4.m33()
+        );
+    }
 
     public static final class Ops implements Matrix4Ops<Matrix4F32, Vec4F32, Float> {
 

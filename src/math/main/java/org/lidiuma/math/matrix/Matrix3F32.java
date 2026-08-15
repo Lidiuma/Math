@@ -23,9 +23,9 @@ import org.lidiuma.math.api.traits.matrix.Matrix3Ops;
 import org.lidiuma.math.processor.Alias;
 import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.FactoryAlias;
+import org.lidiuma.math.processor.NamedAlias;
 import org.lidiuma.math.vector.Vec3F32;
-import static org.lidiuma.math.internal.AnnotationConst.MATRIX3_FACTORY;
-import static org.lidiuma.math.internal.AnnotationConst.MATRIX_OUT;
+import static org.lidiuma.math.internal.AnnotationConst.*;
 
 /// @see Matrix3
 @LooselyConsistentValue
@@ -38,6 +38,15 @@ public value record Matrix3F32(
 
     @Alias(outputClass = MATRIX_OUT)
     public static final Ops OPS = new Ops();
+
+    @NamedAlias(methodName = MATRIX3_FACTORY + F32)
+    public Matrix3F32(Matrix3<Float> matrix3) {
+        this(
+                matrix3.m00(), matrix3.m01(), matrix3.m02(),
+                matrix3.m10(), matrix3.m11(), matrix3.m12(),
+                matrix3.m20(), matrix3.m21(), matrix3.m22()
+        );
+    }
 
     public static final class Ops implements Matrix3Ops<Matrix3F32, Vec3F32, Float> {
 
