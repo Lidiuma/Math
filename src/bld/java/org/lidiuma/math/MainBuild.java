@@ -33,16 +33,15 @@ public final class MainBuild extends Project {
     public static final MathBuild MATH = new MathBuild();
     public static final BenchmarkBuild BENCHMARK = new BenchmarkBuild();
 
-    private static String javaTool;
-
-    static void main(String... args) throws Exception {
-        var project = new MainBuild();
-        javaTool = retrieveJavaTool(project);
-        project.start(args);
+    static void main(String... args) {
+        new MainBuild().start(args);
     }
 
-    public static String javaToolPath() {
-        return javaTool;
+    public static String javaToolPath(Project project) {
+        try { return retrieveJavaTool(project);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private static String retrieveJavaTool(Project project) throws IOException {
@@ -51,8 +50,8 @@ public final class MainBuild extends Project {
     }
 
     public static void commonBuildOption(JavacOptions options, String mathModule) {
-        options.target(26);
-        options.source(26);
+        options.target(28);
+        options.source(28);
         options.enablePreview();
         options.add("--add-exports=java.base/jdk.internal.value=" + mathModule);
         options.add("--add-exports=java.base/jdk.internal.vm.annotation=" + mathModule);

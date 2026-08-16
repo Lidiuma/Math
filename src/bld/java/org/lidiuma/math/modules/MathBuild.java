@@ -44,7 +44,7 @@ public final class MathBuild extends MathModule {
         module = "lidiuma.math";
         version = version(0, 2, 0);
 
-        javaTool = javaToolPath();
+        javaTool = javaToolPath(this);
         downloadSources = true;
         repositories = List.of(MAVEN_CENTRAL, CENTRAL_SNAPSHOTS, RIFE2_RELEASES);
         assignModuleDirectories("math");
@@ -174,7 +174,7 @@ public final class MathBuild extends MathModule {
         final var operation = super.javadocOperation();
         final var options = operation.javadocOptions();
 
-        options.add("--source=26");
+        options.add("--source=28");
         options.add("--enable-preview");
         options.add("--add-exports=java.base/jdk.internal.value=" + module());
         options.add("--add-exports=java.base/jdk.internal.vm.annotation=" + module());

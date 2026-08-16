@@ -18,7 +18,8 @@ package org.lidiuma.math.modules;
 
 import org.lidiuma.math.MathModule;
 import java.util.List;
-import static org.lidiuma.math.MainBuild.*;
+import static org.lidiuma.math.MainBuild.GROUP_ID;
+import static org.lidiuma.math.MainBuild.javaToolPath;
 import static rife.bld.dependencies.Repository.MAVEN_CENTRAL;
 import static rife.bld.dependencies.Repository.RIFE2_RELEASES;
 
@@ -27,7 +28,7 @@ public final class ProcessorBuild extends MathModule {
     public ProcessorBuild() {
         name = "processor";
         pkg = GROUP_ID + ".math." + name();
-        javaTool = javaToolPath();
+        javaTool = javaToolPath(this);
         downloadSources = true;
         repositories = List.of(MAVEN_CENTRAL, RIFE2_RELEASES);
         version = version(0, 1, 0);
