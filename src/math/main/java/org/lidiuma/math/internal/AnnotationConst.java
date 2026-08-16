@@ -59,13 +59,20 @@ public final class AnnotationConst {
     public static final String AFFINE3_FACTORY = "affine3";
     public static final String MATRIX3_FACTORY = "matrix3";
     public static final String MATRIX4_FACTORY = "matrix4";
+    public static final String UPPER_AFFINE2_FACTORY = "Affine2";
+    public static final String UPPER_AFFINE3_FACTORY = "Affine3";
+    public static final String UPPER_MATRIX3_FACTORY = "Matrix3";
+    public static final String UPPER_MATRIX4_FACTORY = "Matrix4";
     // Rotations-related
     public static final String ROTATION_OUT = "Rotations";
     public static final String QUATERNION_FACTORY = "quaternion";
     public static final String AXIS_ANGLE_FACTORY = "axisAngle";
     public static final String SWING_TWIST_FACTORY = "swingTwist";
     public static final String ANGLE_FACTORY = "angle";
+    // Re-used by multiple aliases.
     public static final String IDENTITY_FACTORY = "identity";
+    public static final String ONE_FACTORY = "one";
+    public static final String ZERO_FACTORY = "zero";
 
     // Explicit numeric types for re-use.
     public static final String I32 = "I32";

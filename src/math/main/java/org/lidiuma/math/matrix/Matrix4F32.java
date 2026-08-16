@@ -68,27 +68,27 @@ public value record Matrix4F32(
         }
 
         @Override
-        @AliasExclude
-        public Vec4F32.Ops vectorOps() {
-            return Vec4F32.OPS;
-        }
-
-        @Override
-        @AliasExclude
+        @NamedAlias(methodName = ZERO_FACTORY + UPPER_MATRIX4_FACTORY + F32)
         public Matrix4F32 zero() {
             return Matrix4Ops.super.zero();
         }
 
         @Override
-        @AliasExclude
+        @NamedAlias(methodName = ONE_FACTORY + UPPER_MATRIX4_FACTORY + F32)
         public Matrix4F32 one() {
             return Matrix4Ops.super.one();
         }
 
         @Override
-        @AliasExclude
+        @NamedAlias(methodName = IDENTITY_FACTORY + UPPER_MATRIX4_FACTORY + F32)
         public Matrix4F32 identity() {
             return Matrix4Ops.super.identity();
+        }
+
+        @Override
+        @AliasExclude
+        public Vec4F32.Ops vectorOps() {
+            return Vec4F32.OPS;
         }
     }
 }

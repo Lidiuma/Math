@@ -63,27 +63,27 @@ public value record Matrix3F32(
         }
 
         @Override
-        @AliasExclude
-        public Vec3F32.Ops vectorOps() {
-            return Vec3F32.OPS;
-        }
-
-        @Override
-        @AliasExclude
+        @NamedAlias(methodName = ZERO_FACTORY + UPPER_MATRIX3_FACTORY + F32)
         public Matrix3F32 zero() {
             return Matrix3Ops.super.zero();
         }
 
         @Override
-        @AliasExclude
+        @NamedAlias(methodName = ONE_FACTORY + UPPER_MATRIX3_FACTORY + F32)
         public Matrix3F32 one() {
             return Matrix3Ops.super.one();
         }
 
         @Override
-        @AliasExclude
+        @NamedAlias(methodName = IDENTITY_FACTORY + UPPER_MATRIX3_FACTORY + F32)
         public Matrix3F32 identity() {
             return Matrix3Ops.super.identity();
+        }
+
+        @Override
+        @AliasExclude
+        public Vec3F32.Ops vectorOps() {
+            return Vec3F32.OPS;
         }
     }
 }

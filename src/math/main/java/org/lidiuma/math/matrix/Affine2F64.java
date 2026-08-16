@@ -95,27 +95,27 @@ public value record Affine2F64(
         }
 
         @Override
-        @AliasExclude
-        public Vec2F64.Ops vectorOps() {
-            return Vec2F64.OPS;
-        }
-
-        @Override
-        @AliasExclude
+        @NamedAlias(methodName = ZERO_FACTORY + UPPER_AFFINE2_FACTORY + F64)
         public Affine2F64 zero() {
             return Affine2Ops.super.zero();
         }
 
         @Override
-        @AliasExclude
+        @NamedAlias(methodName = ONE_FACTORY + UPPER_AFFINE2_FACTORY + F64)
         public Affine2F64 one() {
             return Affine2Ops.super.one();
         }
 
         @Override
-        @AliasExclude
+        @NamedAlias(methodName = IDENTITY_FACTORY + UPPER_AFFINE2_FACTORY + F64)
         public Affine2F64 identity() {
             return Affine2Ops.super.identity();
+        }
+
+        @Override
+        @AliasExclude
+        public Vec2F64.Ops vectorOps() {
+            return Vec2F64.OPS;
         }
     }
 }

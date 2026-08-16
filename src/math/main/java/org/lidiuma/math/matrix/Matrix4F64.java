@@ -68,27 +68,27 @@ public value record Matrix4F64(
         }
 
         @Override
-        @AliasExclude
-        public Vec4F64.Ops vectorOps() {
-            return Vec4F64.OPS;
-        }
-
-        @Override
-        @AliasExclude
+        @NamedAlias(methodName = ZERO_FACTORY + UPPER_MATRIX4_FACTORY + F64)
         public Matrix4F64 zero() {
             return Matrix4Ops.super.zero();
         }
 
         @Override
-        @AliasExclude
+        @NamedAlias(methodName = ONE_FACTORY + UPPER_MATRIX4_FACTORY + F64)
         public Matrix4F64 one() {
             return Matrix4Ops.super.one();
         }
 
         @Override
-        @AliasExclude
+        @NamedAlias(methodName = IDENTITY_FACTORY + UPPER_MATRIX4_FACTORY + F64)
         public Matrix4F64 identity() {
             return Matrix4Ops.super.identity();
+        }
+
+        @Override
+        @AliasExclude
+        public Vec4F64.Ops vectorOps() {
+            return Vec4F64.OPS;
         }
     }
 }

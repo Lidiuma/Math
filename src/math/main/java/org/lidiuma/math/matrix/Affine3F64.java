@@ -113,27 +113,27 @@ public value record Affine3F64(
         }
 
         @Override
-        @AliasExclude
-        public Vec3F64.Ops vectorOps() {
-            return Vec3F64.OPS;
-        }
-
-        @Override
-        @AliasExclude
+        @NamedAlias(methodName = ZERO_FACTORY + UPPER_AFFINE3_FACTORY + F64)
         public Affine3F64 zero() {
             return Affine3Ops.super.zero();
         }
 
         @Override
-        @AliasExclude
+        @NamedAlias(methodName = ONE_FACTORY + UPPER_AFFINE3_FACTORY + F64)
         public Affine3F64 one() {
             return Affine3Ops.super.one();
         }
 
         @Override
-        @AliasExclude
+        @NamedAlias(methodName = IDENTITY_FACTORY + UPPER_AFFINE3_FACTORY + F64)
         public Affine3F64 identity() {
             return Affine3Ops.super.identity();
+        }
+
+        @Override
+        @AliasExclude
+        public Vec3F64.Ops vectorOps() {
+            return Vec3F64.OPS;
         }
     }
 }
