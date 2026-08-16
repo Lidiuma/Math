@@ -18,20 +18,24 @@ package org.lidiuma.math.rotation;
 
 import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.rotation.Angle;
+import org.lidiuma.math.processor.MethodAlias;
+import static org.lidiuma.math.internal.AnnotationConst.ROTATION_OUT;
 
-// TODO Have aliases of the static methods?
 public value record AngleF32(
         @Override @NullRestricted Float radian
 ) implements Angle<Float> {
 
+    @MethodAlias(outputClass = ROTATION_OUT)
     public static AngleF32 radians(float radians) {
         return new AngleF32(radians);
     }
 
+    @MethodAlias(outputClass = ROTATION_OUT)
     public static AngleF32 degrees(float degrees) {
         return new AngleF32((float) Math.toRadians(degrees));
     }
 
+    @MethodAlias(outputClass = ROTATION_OUT)
     public static AngleF32 turns(float turns) {
         return new AngleF32((float) (turns * Math.TAU));
     }
