@@ -257,6 +257,18 @@ public value record QuaternionF64(
         }
 
         @Override
+        @NamedAlias(methodName = ZERO_FACTORY + F64)
+        public QuaternionF64 zero() {
+            return QuaternionOps.super.zero();
+        }
+
+        @Override
+        @NamedAlias(methodName = ONE_FACTORY + F64)
+        public QuaternionF64 one() {
+            return QuaternionOps.super.one();
+        }
+
+        @Override
         @NamedAlias(methodName = IDENTITY_FACTORY + F64)
         public QuaternionF64 identity() {
             return QuaternionOps.super.identity();
@@ -266,18 +278,6 @@ public value record QuaternionF64(
         @AliasExclude
         public DoubleNumeric scalarOps() {
             return DoubleNumeric.OPS;
-        }
-
-        @Override
-        @AliasExclude
-        public QuaternionF64 zero() {
-            return QuaternionOps.super.zero();
-        }
-
-        @Override
-        @AliasExclude
-        public QuaternionF64 one() {
-            return QuaternionOps.super.one();
         }
     }
 }
