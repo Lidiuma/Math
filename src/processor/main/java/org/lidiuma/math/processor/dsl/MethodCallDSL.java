@@ -31,7 +31,7 @@ public final class MethodCallDSL {
         return this;
     }
 
-    /// The instance to where to call the method from.
+    /// The object instance name to use to make the method call.
     public MethodCallDSL instance(String field) {
         this.field = Objects.requireNonNull(field).trim();
         return this;

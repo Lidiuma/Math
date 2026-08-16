@@ -22,7 +22,11 @@ import org.lidiuma.math.processor.MethodAlias;
 import org.lidiuma.math.processor.NamedAlias;
 import org.lidiuma.math.processor.dsl.AccessModifier;
 import org.lidiuma.math.processor.dsl.JavaDSL;
-import javax.lang.model.element.*;
+import org.lidiuma.math.processor.dsl.MethodCallDSL;
+import javax.lang.model.element.Element;
+import javax.lang.model.element.ExecutableElement;
+import javax.lang.model.element.TypeElement;
+import javax.lang.model.element.VariableElement;
 import javax.lang.model.type.*;
 import javax.tools.JavaFileObject;
 import java.io.IOException;
@@ -43,8 +47,60 @@ public final class AliasGenerator {
         this.class_ = Objects.requireNonNull(class_);
     }
 
-    private static boolean isNonAccessible(TypeElement ignored, ExecutableElement element) {
-        return !element.getModifiers().contains(Modifier.PUBLIC);
+    /// Retrieves the final method name in the generated class, but not the one used to make the method call to the original implementation.
+    private static String methodName(ExecutableElement current, AliasType type) {
+        final NamedAlias named = current.getAnnotation(NamedAlias.class);
+        return switch (type) {
+            // In case the annotation is present, it overrides the default name.
+            case AliasType.Constructor _, AliasType.Field _, AliasType.Method _ when named != null -> named.methodName();
+            case AliasType.Constructor(_, var name) -> name;
+            case AliasType.Field _, AliasType.Method _ -> current.getSimpleName().toString();
+        };
+    }
+
+    /// Retrieves the return type of the method/constructor.
+    private static TypeMirror returnType(ExecutableElement current, AliasType type) {
+        return switch (type) {
+            case AliasType.Constructor(var annotated, _) -> annotated.asType();
+            case AliasType.Field _, AliasType.Method _ -> current.getReturnType();
+        };
+    }
+
+    /// Retrieves the class the annotation is applied to, for fields it's the field class.
+    private static DeclaredType annotatedType(AliasType type) {
+        return (DeclaredType) (switch (type) {
+            case AliasType.Constructor _, AliasType.Field _ -> type.annotated();
+            case AliasType.Method(var method) -> method.getEnclosingElement();
+        }).asType();
+    }
+
+    private static MethodCallDSL newMethodCall(ExecutableElement current, AliasType type) {
+
+        final var callDsl = JavaDSL.methodCall();
+        final String callMethodName = current.getSimpleName().toString();
+
+        // The type name of the enclosing class to use for the static method call.
+        final String enclosedName = type.annotated()
+                .getEnclosingElement()
+                .getSimpleName()
+                .toString();
+
+        return switch (type) {
+            // Full package name not needed, since the generate class is created within the package of the annotated one.
+            case AliasType.Field(var annotated) -> {
+                // The annotation is on the field, and I need the field name to make the static call.
+                final String fieldName = annotated.getSimpleName().toString();
+                yield callDsl.type(enclosedName)
+                    .instance(fieldName)
+                    .name(callMethodName);
+            }
+            case AliasType.Constructor(var annotated, _) -> {
+                // In this case the annotation is on the class, so I only need to get the class name.
+                final String name = annotated.getSimpleName().toString();
+                yield callDsl.type(name);
+            }
+            case AliasType.Method _ -> callDsl.type(enclosedName).name(callMethodName);
+        };
     }
 
     public void addMethods(FactoryAlias factory, Element element) {
@@ -105,21 +161,9 @@ public final class AliasGenerator {
     private String createMethod(AliasType aliasType, ExecutableElement method) {
 
         final var arguments = method.getParameters();
-        final var declared = (DeclaredType) (aliasType instanceof AliasType.Method(var m) ? // if method I get the enclosing type
-                m.getEnclosingElement() :
-                aliasType.annotated()).asType();
-
-        final TypeMirror returnType = switch (aliasType) {
-            case AliasType.Constructor(var annotated, _) -> annotated.asType();
-            case AliasType.Field _, AliasType.Method _ -> method.getReturnType();
-        };
-        final NamedAlias named = method.getAnnotation(NamedAlias.class);
-        final String methodName = switch (aliasType) {
-            // In case the annotation is present, it overrides the default name.
-            case AliasType.Constructor _, AliasType.Field _, AliasType.Method _ when named != null -> named.methodName();
-            case AliasType.Constructor(_, var name) -> name;
-            case AliasType.Field _, AliasType.Method _ -> method.getSimpleName().toString();
-        };
+        final DeclaredType declared = annotatedType(aliasType);
+        final TypeMirror returnType = returnType(method, aliasType);
+        final String methodName = methodName(method, aliasType);
 
         // Constructors method names are <init>, so I fix it for the correct Javadoc format.
         final String signature = util.erasedMethodSignature(method).replaceAll("<init>", declared.asElement().getSimpleName().toString());
@@ -130,16 +174,7 @@ public final class AliasGenerator {
                 .return_(retrieveClass(declared, returnType))
                 .name(methodName);
 
-        final var callDsl = JavaDSL.methodCall();
-        switch (aliasType) {
-            // Full package name not needed, since the generate class is created within the package of the annotated one.
-            case AliasType.Field(var annotated) -> callDsl.type(annotated.getEnclosingElement().getSimpleName().toString())
-                    .instance(annotated.getSimpleName().toString())
-                    .name(method.getSimpleName().toString());
-            case AliasType.Constructor(var annotated, _) -> callDsl.type(annotated.getSimpleName().toString());
-            case AliasType.Method(var annotated) -> callDsl.type(annotated.getEnclosingElement().getSimpleName().toString())
-                    .name(method.getSimpleName().toString());
-        }
+        final MethodCallDSL callDsl = newMethodCall(method, aliasType);
 
         for (var argument : arguments) {
             final String type = retrieveClass(declared, argument.asType());
