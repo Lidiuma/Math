@@ -20,8 +20,8 @@ import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.color.Color;
 import org.lidiuma.math.api.traits.color.ColorOps;
 import org.lidiuma.math.api.tuple.UnaryTuple4;
-import org.lidiuma.math.processor.Alias;
 import org.lidiuma.math.processor.FactoryAlias;
+import org.lidiuma.math.processor.FieldAlias;
 import org.lidiuma.math.processor.NamedAlias;
 import org.lidiuma.math.vector.Vec4F32;
 import java.util.function.UnaryOperator;
@@ -35,7 +35,7 @@ public value record ColorF32(
         @Override @NullRestricted Float alpha
 ) implements Color<Float> {
 
-    @Alias(outputClass = COLOR_OUT)
+    @FieldAlias(outputClass = COLOR_OUT)
     public static final Ops OPS = new ColorF32.Ops();
 
     @NamedAlias(methodName = COLOR_FACTORY + F32)

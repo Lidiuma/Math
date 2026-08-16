@@ -21,9 +21,9 @@ import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.point.Point2;
 import org.lidiuma.math.api.traits.point.Point2Ops;
 import org.lidiuma.math.api.tuple.UnaryTuple2;
-import org.lidiuma.math.processor.Alias;
 import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.FactoryAlias;
+import org.lidiuma.math.processor.FieldAlias;
 import org.lidiuma.math.processor.NamedAlias;
 import org.lidiuma.math.vector.Vec2I32;
 import static org.lidiuma.math.internal.AnnotationConst.*;
@@ -35,7 +35,7 @@ public value record Point2I32(
         @NullRestricted Integer y
 ) implements Point2<Integer> {
 
-    @Alias(outputClass = POINT_OUT)
+    @FieldAlias(outputClass = POINT_OUT)
     public static final Ops OPS = new Ops();
 
     @NamedAlias(methodName = POINT2_FACTORY + I32)

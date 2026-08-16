@@ -21,9 +21,9 @@ import org.lidiuma.math.api.traits.vector.FloatingVector3Ops;
 import org.lidiuma.math.api.tuple.UnaryTuple3;
 import org.lidiuma.math.api.vector.Vector3;
 import org.lidiuma.math.numerics.DoubleNumeric;
-import org.lidiuma.math.processor.Alias;
 import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.FactoryAlias;
+import org.lidiuma.math.processor.FieldAlias;
 import org.lidiuma.math.processor.NamedAlias;
 import org.lidiuma.math.rotation.AngleF64;
 import static org.lidiuma.math.internal.AnnotationConst.*;
@@ -35,7 +35,7 @@ public value record Vec3F64(
         @Override @NullRestricted Double z
 ) implements Vector3<Double> {
 
-    @Alias(outputClass = VECTOR_OUT)
+    @FieldAlias(outputClass = VECTOR_OUT)
     public static final Ops OPS = new Ops();
 
     /// A constructor creating a specialized vector from a generic vector.

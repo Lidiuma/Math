@@ -16,8 +16,9 @@
 
 package org.lidiuma.math.processor.processing;
 
-import org.lidiuma.math.processor.Alias;
 import org.lidiuma.math.processor.FactoryAlias;
+import org.lidiuma.math.processor.FieldAlias;
+import org.lidiuma.math.processor.MethodAlias;
 import org.lidiuma.math.processor.NamedAlias;
 import org.lidiuma.math.processor.dsl.AccessModifier;
 import org.lidiuma.math.processor.dsl.JavaDSL;
@@ -54,7 +55,13 @@ public final class AliasGenerator {
         addMethodsAlias(alias, util.constructorsOfType(typeElement));
     }
 
-    public void addMethods(Alias ignored, Element element) { // Ignored since I only use it as a description of "element must be field".
+    public void addMethods(MethodAlias ignored, Element element) {
+        if (!(element instanceof ExecutableElement typeElement)) throw new IllegalArgumentException("Invalid element.");
+        final var type = new AliasType.Method(typeElement);
+        addMethodsAlias(type, new LinkedHashSet<>(List.of(typeElement)));
+    }
+
+    public void addMethods(FieldAlias ignored, Element element) { // Ignored since I only use it as a description of "element must be field".
         if (!(element instanceof VariableElement varElement)) throw new IllegalArgumentException("Invalid @GenerateAlias element.");
         final var type = new AliasType.Field(varElement);
         addMethodsAlias(type, util.methodsOfField(varElement));
@@ -98,17 +105,20 @@ public final class AliasGenerator {
     private String createMethod(AliasType aliasType, ExecutableElement method) {
 
         final var arguments = method.getParameters();
-        final var declared = (DeclaredType) aliasType.annotated().asType();
+        final var declared = (DeclaredType) (aliasType instanceof AliasType.Method(var m) ? // if method I get the enclosing type
+                m.getEnclosingElement() :
+                aliasType.annotated()).asType();
+
         final TypeMirror returnType = switch (aliasType) {
             case AliasType.Constructor(var annotated, _) -> annotated.asType();
-            case AliasType.Field _ -> method.getReturnType();
+            case AliasType.Field _, AliasType.Method _ -> method.getReturnType();
         };
         final NamedAlias named = method.getAnnotation(NamedAlias.class);
         final String methodName = switch (aliasType) {
             // In case the annotation is present, it overrides the default name.
-            case AliasType.Constructor _, AliasType.Field _ when named != null -> named.methodName();
+            case AliasType.Constructor _, AliasType.Field _, AliasType.Method _ when named != null -> named.methodName();
             case AliasType.Constructor(_, var name) -> name;
-            case AliasType.Field _ -> method.getSimpleName().toString();
+            case AliasType.Field _, AliasType.Method _ -> method.getSimpleName().toString();
         };
 
         // Constructors method names are <init>, so I fix it for the correct Javadoc format.
@@ -127,6 +137,8 @@ public final class AliasGenerator {
                     .instance(annotated.getSimpleName().toString())
                     .name(method.getSimpleName().toString());
             case AliasType.Constructor(var annotated, _) -> callDsl.type(annotated.getSimpleName().toString());
+            case AliasType.Method(var annotated) -> callDsl.type(annotated.getEnclosingElement().getSimpleName().toString())
+                    .name(method.getSimpleName().toString());
         }
 
         for (var argument : arguments) {
@@ -197,6 +209,8 @@ public final class AliasGenerator {
         Element annotated();
 
         record Field(VariableElement annotated) implements AliasType {}
+
+        record Method(ExecutableElement annotated) implements AliasType {}
 
         record Constructor(TypeElement annotated, String methodName) implements AliasType {}
     }

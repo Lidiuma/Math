@@ -21,9 +21,9 @@ import org.lidiuma.math.api.traits.vector.FloatingVector4Ops;
 import org.lidiuma.math.api.tuple.UnaryTuple4;
 import org.lidiuma.math.api.vector.Vector4;
 import org.lidiuma.math.numerics.FloatNumeric;
-import org.lidiuma.math.processor.Alias;
 import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.FactoryAlias;
+import org.lidiuma.math.processor.FieldAlias;
 import org.lidiuma.math.processor.NamedAlias;
 import org.lidiuma.math.rotation.AngleF32;
 import static org.lidiuma.math.internal.AnnotationConst.*;
@@ -36,7 +36,7 @@ public value record Vec4F32(
         @Override @NullRestricted Float w
 ) implements Vector4<Float> {
 
-    @Alias(outputClass = VECTOR_OUT)
+    @FieldAlias(outputClass = VECTOR_OUT)
     public static final Ops OPS = new Ops();
 
     /// A constructor creating a specialized vector from a generic vector.

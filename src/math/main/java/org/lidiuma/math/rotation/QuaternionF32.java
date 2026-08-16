@@ -16,15 +16,15 @@
 
 package org.lidiuma.math.rotation;
 
+import jdk.internal.vm.annotation.LooselyConsistentValue;
 import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.rotation.Quaternion;
 import org.lidiuma.math.api.traits.rotation.QuaternionOps;
 import org.lidiuma.math.api.vector.Vector4;
 import org.lidiuma.math.numerics.FloatNumeric;
-import jdk.internal.vm.annotation.LooselyConsistentValue;
 import org.lidiuma.math.processor.AliasExclude;
-import org.lidiuma.math.processor.Alias;
 import org.lidiuma.math.processor.FactoryAlias;
+import org.lidiuma.math.processor.FieldAlias;
 import org.lidiuma.math.vector.Vec3F32;
 
 @LooselyConsistentValue
@@ -38,7 +38,7 @@ public value record QuaternionF32(
 
     private static final float EPSILON_F32 = 1e-6f;
 
-    @Alias(outputClass = "Rotations")
+    @FieldAlias(outputClass = "Rotations")
     public static final Ops OPS = new Ops();
 
     @AliasExclude

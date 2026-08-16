@@ -21,9 +21,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target(ElementType.FIELD) // TODO Make this work for static methods?
+@Target(ElementType.FIELD)
 @Retention(RetentionPolicy.SOURCE)
-public @interface Alias {
+public @interface FieldAlias {
 
     String outputClass();
 }

@@ -21,9 +21,9 @@ import org.lidiuma.math.api.traits.vector.Vector3Ops;
 import org.lidiuma.math.api.tuple.UnaryTuple3;
 import org.lidiuma.math.api.vector.Vector3;
 import org.lidiuma.math.numerics.IntegerNumeric;
-import org.lidiuma.math.processor.Alias;
 import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.FactoryAlias;
+import org.lidiuma.math.processor.FieldAlias;
 import org.lidiuma.math.processor.NamedAlias;
 import static org.lidiuma.math.internal.AnnotationConst.*;
 
@@ -34,7 +34,7 @@ public value record Vec3I32(
         @Override @NullRestricted Integer z
 ) implements Vector3<Integer> {
 
-    @Alias(outputClass = VECTOR_OUT)
+    @FieldAlias(outputClass = VECTOR_OUT)
     public static final Ops OPS = new Ops();
 
     /// A constructor creating a specialized vector from a generic vector.

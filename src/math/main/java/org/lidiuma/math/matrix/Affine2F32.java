@@ -20,9 +20,9 @@ import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.matrix.Affine2;
 import org.lidiuma.math.api.traits.matrix.Affine2Ops;
 import org.lidiuma.math.api.traits.matrix.FloatingAffineOps;
-import org.lidiuma.math.processor.Alias;
 import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.FactoryAlias;
+import org.lidiuma.math.processor.FieldAlias;
 import org.lidiuma.math.processor.NamedAlias;
 import org.lidiuma.math.rotation.AngleF32;
 import org.lidiuma.math.vector.Vec2F32;
@@ -34,7 +34,7 @@ public value record Affine2F32(
         @NullRestricted Float m10, @NullRestricted Float m11, @NullRestricted Float m12
 ) implements Affine2<Float> {
 
-    @Alias(outputClass = MATRIX_OUT)
+    @FieldAlias(outputClass = MATRIX_OUT)
     public static final Ops OPS = new Ops();
 
     @NamedAlias(methodName = AFFINE2_FACTORY + F32)

@@ -20,9 +20,9 @@ import jdk.internal.vm.annotation.LooselyConsistentValue;
 import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.matrix.Matrix3;
 import org.lidiuma.math.api.traits.matrix.Matrix3Ops;
-import org.lidiuma.math.processor.Alias;
 import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.FactoryAlias;
+import org.lidiuma.math.processor.FieldAlias;
 import org.lidiuma.math.processor.NamedAlias;
 import org.lidiuma.math.vector.Vec3F64;
 import static org.lidiuma.math.internal.AnnotationConst.*;
@@ -36,7 +36,7 @@ public value record Matrix3F64(
         @NullRestricted Double m20, @NullRestricted Double m21, @NullRestricted Double m22
 ) implements Matrix3<Double> {
 
-    @Alias(outputClass = MATRIX_OUT)
+    @FieldAlias(outputClass = MATRIX_OUT)
     public static final Ops OPS = new Ops();
 
     @NamedAlias(methodName = MATRIX3_FACTORY + F64)

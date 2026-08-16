@@ -21,9 +21,9 @@ import org.lidiuma.math.api.traits.vector.Vector2Ops;
 import org.lidiuma.math.api.tuple.UnaryTuple2;
 import org.lidiuma.math.api.vector.Vector2;
 import org.lidiuma.math.numerics.LongNumeric;
-import org.lidiuma.math.processor.Alias;
 import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.FactoryAlias;
+import org.lidiuma.math.processor.FieldAlias;
 import org.lidiuma.math.processor.NamedAlias;
 import static org.lidiuma.math.internal.AnnotationConst.*;
 
@@ -33,7 +33,7 @@ public value record Vec2I64(
         @Override @NullRestricted Long y
 ) implements Vector2<Long> {
 
-    @Alias(outputClass = VECTOR_OUT)
+    @FieldAlias(outputClass = VECTOR_OUT)
     public static final Ops OPS = new Ops();
 
     /// A constructor creating a specialized vector from a generic vector.

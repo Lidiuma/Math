@@ -20,9 +20,9 @@ import jdk.internal.vm.annotation.LooselyConsistentValue;
 import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.matrix.Matrix4;
 import org.lidiuma.math.api.traits.matrix.Matrix4Ops;
-import org.lidiuma.math.processor.Alias;
 import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.FactoryAlias;
+import org.lidiuma.math.processor.FieldAlias;
 import org.lidiuma.math.processor.NamedAlias;
 import org.lidiuma.math.vector.Vec4F64;
 import static org.lidiuma.math.internal.AnnotationConst.*;
@@ -38,7 +38,7 @@ public value record Matrix4F64(
         @NullRestricted Double m30, @NullRestricted Double m31, @NullRestricted Double m32, @NullRestricted Double m33
 ) implements Matrix4<Double> {
 
-    @Alias(outputClass = MATRIX_OUT)
+    @FieldAlias(outputClass = MATRIX_OUT)
     public static final Ops OPS = new Ops();
 
     @NamedAlias(methodName = MATRIX4_FACTORY + F64)

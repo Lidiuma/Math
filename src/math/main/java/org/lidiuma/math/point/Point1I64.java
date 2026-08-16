@@ -21,9 +21,9 @@ import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.point.Point1;
 import org.lidiuma.math.api.traits.point.Point1Ops;
 import org.lidiuma.math.api.tuple.UnaryTuple1;
-import org.lidiuma.math.processor.Alias;
 import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.FactoryAlias;
+import org.lidiuma.math.processor.FieldAlias;
 import org.lidiuma.math.processor.NamedAlias;
 import org.lidiuma.math.vector.Vec1I64;
 import static org.lidiuma.math.internal.AnnotationConst.*;
@@ -32,7 +32,7 @@ import static org.lidiuma.math.internal.AnnotationConst.*;
 @FactoryAlias(methodName = POINT1_FACTORY, outputClass = POINT_OUT)
 public value record Point1I64(@NullRestricted Long x) implements Point1<Long> {
 
-    @Alias(outputClass = POINT_OUT)
+    @FieldAlias(outputClass = POINT_OUT)
     public static final Ops OPS = new Ops();
 
     @NamedAlias(methodName = POINT1_FACTORY + I64)
