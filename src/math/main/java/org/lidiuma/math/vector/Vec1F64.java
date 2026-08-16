@@ -54,21 +54,21 @@ public value record Vec1F64(@Override @NullRestricted Double x) implements Vecto
         }
 
         @Override
-        @AliasExclude
-        public DoubleNumeric scalarOps() {
-            return DoubleNumeric.OPS;
-        }
-
-        @Override
-        @AliasExclude
+        @NamedAlias(methodName = ZERO_FACTORY + UPPER_VEC1_FACTORY + F64)
         public Vec1F64 zero() {
             return FloatingVector1Ops.super.zero();
         }
 
         @Override
-        @AliasExclude
+        @NamedAlias(methodName = ONE_FACTORY + UPPER_VEC1_FACTORY + F64)
         public Vec1F64 one() {
             return FloatingVector1Ops.super.one();
+        }
+
+        @Override
+        @AliasExclude
+        public DoubleNumeric scalarOps() {
+            return DoubleNumeric.OPS;
         }
     }
 }

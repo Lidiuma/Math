@@ -59,21 +59,21 @@ public value record Vec2I32(
         }
 
         @Override
-        @AliasExclude
-        public IntegerNumeric scalarOps() {
-            return IntegerNumeric.OPS;
-        }
-
-        @Override
-        @AliasExclude
+        @NamedAlias(methodName = ZERO_FACTORY + UPPER_VEC2_FACTORY + I32)
         public Vec2I32 zero() {
             return Vector2Ops.super.zero();
         }
 
         @Override
-        @AliasExclude
+        @NamedAlias(methodName = ONE_FACTORY + UPPER_VEC2_FACTORY + I32)
         public Vec2I32 one() {
             return Vector2Ops.super.one();
+        }
+
+        @Override
+        @AliasExclude
+        public IntegerNumeric scalarOps() {
+            return IntegerNumeric.OPS;
         }
     }
 }

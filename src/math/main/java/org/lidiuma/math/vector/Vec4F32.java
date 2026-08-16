@@ -63,21 +63,21 @@ public value record Vec4F32(
         }
 
         @Override
-        @AliasExclude
-        public FloatNumeric scalarOps() {
-            return FloatNumeric.OPS;
-        }
-
-        @Override
-        @AliasExclude
+        @NamedAlias(methodName = ZERO_FACTORY + UPPER_VEC4_FACTORY + F32)
         public Vec4F32 zero() {
             return FloatingVector4Ops.super.zero();
         }
 
         @Override
-        @AliasExclude
+        @NamedAlias(methodName = ONE_FACTORY + UPPER_VEC4_FACTORY + F32)
         public Vec4F32 one() {
             return FloatingVector4Ops.super.one();
+        }
+
+        @Override
+        @AliasExclude
+        public FloatNumeric scalarOps() {
+            return FloatNumeric.OPS;
         }
     }
 }

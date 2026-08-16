@@ -54,21 +54,21 @@ public value record Vec1F32(@Override @NullRestricted Float x) implements Vector
         }
 
         @Override
-        @AliasExclude
-        public FloatNumeric scalarOps() {
-            return FloatNumeric.OPS;
-        }
-
-        @Override
-        @AliasExclude
+        @NamedAlias(methodName = ZERO_FACTORY + UPPER_VEC1_FACTORY + F32)
         public Vec1F32 zero() {
             return FloatingVector1Ops.super.zero();
         }
 
         @Override
-        @AliasExclude
+        @NamedAlias(methodName = ONE_FACTORY + UPPER_VEC1_FACTORY + F32)
         public Vec1F32 one() {
             return FloatingVector1Ops.super.one();
+        }
+
+        @Override
+        @AliasExclude
+        public FloatNumeric scalarOps() {
+            return FloatNumeric.OPS;
         }
     }
 }

@@ -61,21 +61,21 @@ public value record Vec3I64(
         }
 
         @Override
-        @AliasExclude
-        public LongNumeric scalarOps() {
-            return LongNumeric.OPS;
-        }
-
-        @Override
-        @AliasExclude
+        @NamedAlias(methodName = ZERO_FACTORY + UPPER_VEC3_FACTORY + I64)
         public Vec3I64 zero() {
             return Vector3Ops.super.zero();
         }
 
         @Override
-        @AliasExclude
+        @NamedAlias(methodName = ONE_FACTORY + UPPER_VEC3_FACTORY + I64)
         public Vec3I64 one() {
             return Vector3Ops.super.one();
+        }
+
+        @Override
+        @AliasExclude
+        public LongNumeric scalarOps() {
+            return LongNumeric.OPS;
         }
     }
 }

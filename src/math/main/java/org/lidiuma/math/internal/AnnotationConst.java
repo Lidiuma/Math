@@ -26,6 +26,10 @@ public final class AnnotationConst {
     public static final String VEC2_FACTORY = "vec2";
     public static final String VEC3_FACTORY = "vec3";
     public static final String VEC4_FACTORY = "vec4";
+    public static final String UPPER_VEC1_FACTORY = "Vec1";
+    public static final String UPPER_VEC2_FACTORY = "Vec2";
+    public static final String UPPER_VEC3_FACTORY = "Vec3";
+    public static final String UPPER_VEC4_FACTORY = "Vec4";
     // Tuples-related
     public static final String TUPLES_OUT = "Tuples";
     public static final String DOUBLE1 = "double1";

@@ -62,21 +62,21 @@ public value record Vec3F64(
         }
 
         @Override
-        @AliasExclude
-        public DoubleNumeric scalarOps() {
-            return DoubleNumeric.OPS;
-        }
-
-        @Override
-        @AliasExclude
+        @NamedAlias(methodName = ZERO_FACTORY + UPPER_VEC3_FACTORY + F64)
         public Vec3F64 zero() {
             return FloatingVector3Ops.super.zero();
         }
 
         @Override
-        @AliasExclude
+        @NamedAlias(methodName = ONE_FACTORY + UPPER_VEC3_FACTORY + F64)
         public Vec3F64 one() {
             return FloatingVector3Ops.super.one();
+        }
+
+        @Override
+        @AliasExclude
+        public DoubleNumeric scalarOps() {
+            return DoubleNumeric.OPS;
         }
     }
 }

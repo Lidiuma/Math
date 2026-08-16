@@ -61,21 +61,21 @@ public value record Vec2F32(
         }
 
         @Override
-        @AliasExclude
-        public FloatNumeric scalarOps() {
-            return FloatNumeric.OPS;
-        }
-
-        @Override
-        @AliasExclude
+        @NamedAlias(methodName = ZERO_FACTORY + UPPER_VEC2_FACTORY + F32)
         public Vec2F32 zero() {
             return FloatingVector2Ops.super.zero();
         }
 
         @Override
-        @AliasExclude
+        @NamedAlias(methodName = ONE_FACTORY + UPPER_VEC2_FACTORY + F32)
         public Vec2F32 one() {
             return FloatingVector2Ops.super.one();
+        }
+
+        @Override
+        @AliasExclude
+        public FloatNumeric scalarOps() {
+            return FloatNumeric.OPS;
         }
     }
 }

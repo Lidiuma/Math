@@ -53,21 +53,21 @@ public value record Vec1I64(@Override @NullRestricted Long x) implements Vector1
         }
 
         @Override
-        @AliasExclude
-        public LongNumeric scalarOps() {
-            return LongNumeric.OPS;
-        }
-
-        @Override
-        @AliasExclude
+        @NamedAlias(methodName = ZERO_FACTORY + UPPER_VEC1_FACTORY + I64)
         public Vec1I64 zero() {
             return Vector1Ops.super.zero();
         }
 
         @Override
-        @AliasExclude
+        @NamedAlias(methodName = ONE_FACTORY + UPPER_VEC1_FACTORY + I64)
         public Vec1I64 one() {
             return Vector1Ops.super.one();
+        }
+
+        @Override
+        @AliasExclude
+        public LongNumeric scalarOps() {
+            return LongNumeric.OPS;
         }
     }
 }
