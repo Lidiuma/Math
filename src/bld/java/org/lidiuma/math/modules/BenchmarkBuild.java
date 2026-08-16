@@ -20,9 +20,6 @@ import org.lidiuma.math.MathModule;
 import rife.bld.operations.CompileOperation;
 import rife.bld.operations.JavacOptions;
 import rife.bld.operations.RunOperation;
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 import java.util.List;
 import static org.lidiuma.math.MainBuild.*;
 import static rife.bld.dependencies.Repository.MAVEN_CENTRAL;
@@ -38,18 +35,16 @@ public final class BenchmarkBuild extends MathModule {
         name = "math-benchmark";
         pkg = GROUP_ID + "." + name();
         mainClass = GROUP_ID + "." + name.replace("-", "_") + ".BenchmarkMain";
-
-        srcDirectory = new File(name, "src");
-        buildMainDirectory = new File(buildDirectory(), "benchmark");
-
         javaTool = javaToolPath();
         downloadSources = true;
         repositories = List.of(MAVEN_CENTRAL, RIFE2_RELEASES);
         version = version(0, 2, 0);
         assignModuleDirectories("benchmark");
 
+        // I use the relative path because bld does not yet support full paths.
+        final String mathJar = workDirectory().toPath().relativize(MATH.buildDistDirectory().toPath()).toString();
         scope(compile)
-                .include(local( name + "/lib"))
+                .include(local(mathJar))
                 .include(dependency("org.jspecify", "jspecify", version(1, 0, 0)))
                 .include(dependency("org.openjdk.jmh", "jmh-core", JMH_VERSION))
                 .include(dependency("org.openjdk.jmh", "jmh-generator-annprocess", JMH_VERSION));
@@ -78,17 +73,8 @@ public final class BenchmarkBuild extends MathModule {
 
     @Override
     public void compile() throws Exception {
-
         // I create the math jar to be imported by the benchmark, and move it under its temporary lib path.
         MATH.jar();
-
-        final var jarName = MATH.jarFileName();
-        final var jarPath = buildDistDirectory().toPath().resolve(jarName);
-        final var target = workDirectory().toPath().resolve(name(), "lib");
-
-        Files.createDirectories(target);
-        Files.move(jarPath, target.resolve(jarName), StandardCopyOption.REPLACE_EXISTING);
-
         super.compile();
     }
 }

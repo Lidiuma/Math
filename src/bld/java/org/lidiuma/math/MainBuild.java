@@ -73,7 +73,7 @@ public final class MainBuild extends Project {
     @Override
     public void compile() throws Exception {
         MATH.compile();
-//        benchmark.compile(); TODO Add back when fixed
+        BENCHMARK.compile();
         PROCESSOR.compile();
     }
 
