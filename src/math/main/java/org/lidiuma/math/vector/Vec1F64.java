@@ -25,7 +25,6 @@ import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.FactoryAlias;
 import org.lidiuma.math.processor.FieldAlias;
 import org.lidiuma.math.processor.NamedAlias;
-import org.lidiuma.math.rotation.AngleF64;
 import static org.lidiuma.math.internal.AnnotationConst.*;
 
 @FactoryAlias(methodName = VEC1_FACTORY, outputClass = VECTOR_OUT)
@@ -40,17 +39,12 @@ public value record Vec1F64(@Override @NullRestricted Double x) implements Vecto
         this(vec.x());
     }
 
-    public static final class Ops implements FloatingVector1Ops<Vec1F64, AngleF64, Double> {
+    public static final class Ops implements FloatingVector1Ops<Vec1F64, Double> {
 
         @Override
         @AliasExclude
         public Vec1F64 of(Double x) {
             return new Vec1F64(x);
-        }
-
-        @Override
-        public AngleF64 angle(Vec1F64 v1, Vec1F64 v2) {
-            return AngleF64.radians(0f);
         }
 
         @Override

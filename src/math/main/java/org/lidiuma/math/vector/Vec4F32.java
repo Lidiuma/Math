@@ -25,7 +25,6 @@ import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.FactoryAlias;
 import org.lidiuma.math.processor.FieldAlias;
 import org.lidiuma.math.processor.NamedAlias;
-import org.lidiuma.math.rotation.AngleF32;
 import static org.lidiuma.math.internal.AnnotationConst.*;
 
 @FactoryAlias(methodName = VEC4_FACTORY, outputClass = VECTOR_OUT)
@@ -45,21 +44,12 @@ public value record Vec4F32(
         this(vec.x(), vec.y(), vec.z(), vec.w());
     }
 
-    public static final class Ops implements FloatingVector4Ops<Vec4F32, AngleF32, Float> {
+    public static final class Ops implements FloatingVector4Ops<Vec4F32, Float> {
 
         @Override
         @AliasExclude
         public Vec4F32 of(Float x, Float y, Float z, Float w) {
             return new Vec4F32(x, y, z, w);
-        }
-
-        @Override
-        public AngleF32 angle(Vec4F32 v1, Vec4F32 v2) {
-            final float dot = dot(v1, v2);
-            final float length1 = lengthSquared(v1);
-            final float length2 = lengthSquared(v2);
-            final float theta = (float) (dot / Math.sqrt(length1 * length2));
-            return AngleF32.radians((float) Math.acos(theta));
         }
 
         @Override
