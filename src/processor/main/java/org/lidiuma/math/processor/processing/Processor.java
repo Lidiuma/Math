@@ -54,44 +54,10 @@ public final class Processor extends AbstractProcessor {
 
     private void handleAlias(RoundEnvironment roundEnv) throws IOException {
 
-        final var elements = util.processingEnv().getElementUtils();
         final Map<String, AliasGenerator> aliases = new HashMap<>();
-
-        roundEnv.getElementsAnnotatedWith(FactoryAlias.class).forEach(element -> {
-
-            final FactoryAlias annotation = Objects.requireNonNull(element.getAnnotation(FactoryAlias.class));
-            final String package_ = elements.getPackageOf(element).toString();
-            final String class_ = annotation.outputClass();
-            final String signature = package_ + "." + class_;
-
-            aliases.computeIfAbsent(signature, _ -> new AliasGenerator(util, package_, class_))
-                    .addMethods(annotation, element);
-        });
-
-        roundEnv.getElementsAnnotatedWith(FieldAlias.class).forEach(element -> {
-
-            final var annotation = Objects.requireNonNull(element.getAnnotation(FieldAlias.class));
-            if (isAliasInvalid(element, annotation.outputClass())) return;
-
-            final String package_ = elements.getPackageOf(element).toString();
-            final String class_ = annotation.outputClass();
-            final String signature = package_ + "." + class_;
-
-            aliases.computeIfAbsent(signature, _ -> new AliasGenerator(util, package_, class_))
-                    .addMethods(annotation, element);
-        });
-
-        roundEnv.getElementsAnnotatedWith(MethodAlias.class).forEach(element -> {
-
-            final var annotation = Objects.requireNonNull(element.getAnnotation(MethodAlias.class));
-
-            final String package_ = elements.getPackageOf(element).toString();
-            final String class_ = annotation.outputClass();
-            final String signature = package_ + "." + class_;
-
-            aliases.computeIfAbsent(signature, _ -> new AliasGenerator(util, package_, class_))
-                    .addMethods(annotation, element);
-        });
+        roundEnv.getElementsAnnotatedWith(FactoryAlias.class).forEach(element -> factoryAlias(aliases, element));
+        roundEnv.getElementsAnnotatedWith(FieldAlias.class).forEach(element -> fieldAlias(aliases, element));
+        roundEnv.getElementsAnnotatedWith(MethodAlias.class).forEach(element -> methodAlias(aliases, element));
 
         aliases.values().forEach(gen -> {
             try { gen.build();
@@ -126,5 +92,51 @@ public final class Processor extends AbstractProcessor {
             return true;
         }
         return false;
+    }
+
+    private void factoryAlias(Map<String, AliasGenerator> aliases, Element element) {
+
+        final var elements = util.processingEnv().getElementUtils();
+
+        final FactoryAlias annotation = Objects.requireNonNull(element.getAnnotation(FactoryAlias.class));
+        final String package_ = elements.getPackageOf(element).toString();
+        final String class_ = annotation.outputClass();
+        final String signature = package_ + "." + class_;
+
+        aliases.computeIfAbsent(signature, _ -> new AliasGenerator(util, package_, class_))
+                .addMethods(annotation, element);
+    }
+
+    private void fieldAlias(Map<String, AliasGenerator> aliases, Element element) {
+
+        final var elements = util.processingEnv().getElementUtils();
+
+        final var annotation = Objects.requireNonNull(element.getAnnotation(FieldAlias.class));
+        if (isAliasInvalid(element, annotation.outputClass())) return;
+
+        final String package_ = elements.getPackageOf(element).toString();
+        final String class_ = annotation.outputClass();
+        final String signature = package_ + "." + class_;
+
+        aliases.computeIfAbsent(signature, _ ->  new AliasGenerator(util, package_, class_))
+                .addMethods(annotation, element);
+    }
+
+    private void methodAlias(Map<String, AliasGenerator> aliases, Element element) {
+
+        final var elements = util.processingEnv().getElementUtils();
+        final var annotation = Objects.requireNonNull(element.getAnnotation(MethodAlias.class));
+
+        if (!element.getModifiers().contains(Modifier.STATIC)) {
+            processingEnv.getMessager().printError("Cannot generate alias since '" + element.getSimpleName() + "' is not static.", element);
+            return;
+        }
+
+        final String package_ = elements.getPackageOf(element).toString();
+        final String class_ = annotation.outputClass();
+        final String signature = package_ + "." + class_;
+
+        aliases.computeIfAbsent(signature, _ -> new AliasGenerator(util, package_, class_))
+                .addMethods(annotation, element);
     }
 }
