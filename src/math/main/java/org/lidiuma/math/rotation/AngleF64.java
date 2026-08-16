@@ -16,14 +16,24 @@
 
 package org.lidiuma.math.rotation;
 
+import jdk.internal.vm.annotation.LooselyConsistentValue;
 import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.rotation.Angle;
+import org.lidiuma.math.processor.AliasExclude;
+import org.lidiuma.math.processor.FactoryAlias;
 import org.lidiuma.math.processor.MethodAlias;
-import static org.lidiuma.math.internal.AnnotationConst.ROTATION_OUT;
+import static org.lidiuma.math.internal.AnnotationConst.*;
 
-public value record AngleF64(
-        @Override @NullRestricted Double radian
-) implements Angle<Double> {
+@FactoryAlias(methodName = ANGLE_FACTORY + F64, outputClass = ROTATION_OUT)
+@LooselyConsistentValue
+public value record AngleF64(@Override @NullRestricted Double radian) implements Angle<Double> {
+
+    @AliasExclude
+    public AngleF64 {}
+
+    public AngleF64(Angle<Double> angle) {
+        this(angle.radian());
+    }
 
     @MethodAlias(outputClass = ROTATION_OUT)
     public static AngleF64 radians(double radians) {

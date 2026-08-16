@@ -20,17 +20,17 @@ import jdk.internal.vm.annotation.LooselyConsistentValue;
 import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.rotation.Quaternion;
 import org.lidiuma.math.api.traits.rotation.QuaternionOps;
-import org.lidiuma.math.api.vector.Vector4;
+import org.lidiuma.math.api.tuple.UnaryTuple4;
 import org.lidiuma.math.numerics.FloatNumeric;
 import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.FactoryAlias;
 import org.lidiuma.math.processor.FieldAlias;
+import org.lidiuma.math.processor.NamedAlias;
 import org.lidiuma.math.vector.Vec3F32;
-import static org.lidiuma.math.internal.AnnotationConst.QUATERNION_FACTORY;
-import static org.lidiuma.math.internal.AnnotationConst.ROTATION_OUT;
+import static org.lidiuma.math.internal.AnnotationConst.*;
 
-@LooselyConsistentValue
 @FactoryAlias(methodName = QUATERNION_FACTORY, outputClass = ROTATION_OUT)
+@LooselyConsistentValue
 public value record QuaternionF32(
         @Override @NullRestricted Float x,
         @Override @NullRestricted Float y,
@@ -43,8 +43,8 @@ public value record QuaternionF32(
     @FieldAlias(outputClass = ROTATION_OUT)
     public static final Ops OPS = new Ops();
 
-    @AliasExclude
-    public QuaternionF32(Vector4<Float> v4) {
+    @NamedAlias(methodName = QUATERNION_FACTORY + F32)
+    public QuaternionF32(UnaryTuple4<Float> v4) {
         this(v4.x(), v4.y(), v4.z(), v4.w());
     }
 
@@ -257,6 +257,12 @@ public value record QuaternionF32(
         }
 
         @Override
+        @NamedAlias(methodName = IDENTITY_FACTORY + F32)
+        public QuaternionF32 identity() {
+            return QuaternionOps.super.identity();
+        }
+
+        @Override
         @AliasExclude
         public FloatNumeric scalarOps() {
             return FloatNumeric.OPS;
@@ -272,12 +278,6 @@ public value record QuaternionF32(
         @AliasExclude
         public QuaternionF32 one() {
             return QuaternionOps.super.one();
-        }
-
-        @Override
-        @AliasExclude
-        public QuaternionF32 identity() {
-            return QuaternionOps.super.identity();
         }
     }
 }

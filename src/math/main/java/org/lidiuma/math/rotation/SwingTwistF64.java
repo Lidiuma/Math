@@ -16,15 +16,22 @@
 
 package org.lidiuma.math.rotation;
 
+import jdk.internal.vm.annotation.LooselyConsistentValue;
 import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.rotation.SwingTwist;
 import org.lidiuma.math.processor.FactoryAlias;
-import static org.lidiuma.math.internal.AnnotationConst.ROTATION_OUT;
-import static org.lidiuma.math.internal.AnnotationConst.SWING_TWIST_FACTORY;
+import org.lidiuma.math.processor.NamedAlias;
+import static org.lidiuma.math.internal.AnnotationConst.*;
 
 @FactoryAlias(methodName = SWING_TWIST_FACTORY, outputClass = ROTATION_OUT)
+@LooselyConsistentValue
 public value record SwingTwistF64(
         @Override @NullRestricted QuaternionF64 swing,
         @Override @NullRestricted QuaternionF64 twist
 ) implements SwingTwist<QuaternionF64, Double> {
+
+    @NamedAlias(methodName = SWING_TWIST_FACTORY + F64)
+    public SwingTwistF64(SwingTwist<QuaternionF64, Double> swingTwist) {
+        this(swingTwist.swing(), swingTwist.twist());
+    }
 }

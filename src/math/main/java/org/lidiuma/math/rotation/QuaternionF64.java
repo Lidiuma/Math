@@ -20,17 +20,17 @@ import jdk.internal.vm.annotation.LooselyConsistentValue;
 import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.rotation.Quaternion;
 import org.lidiuma.math.api.traits.rotation.QuaternionOps;
-import org.lidiuma.math.api.vector.Vector4;
+import org.lidiuma.math.api.tuple.UnaryTuple4;
 import org.lidiuma.math.numerics.DoubleNumeric;
 import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.FactoryAlias;
 import org.lidiuma.math.processor.FieldAlias;
+import org.lidiuma.math.processor.NamedAlias;
 import org.lidiuma.math.vector.Vec3F64;
-import static org.lidiuma.math.internal.AnnotationConst.QUATERNION_FACTORY;
-import static org.lidiuma.math.internal.AnnotationConst.ROTATION_OUT;
+import static org.lidiuma.math.internal.AnnotationConst.*;
 
-@LooselyConsistentValue
 @FactoryAlias(methodName = QUATERNION_FACTORY, outputClass = ROTATION_OUT)
+@LooselyConsistentValue
 public value record QuaternionF64(
         @Override @NullRestricted Double x,
         @Override @NullRestricted Double y,
@@ -43,8 +43,8 @@ public value record QuaternionF64(
     @FieldAlias(outputClass = ROTATION_OUT)
     public static final Ops OPS = new Ops();
 
-    @AliasExclude
-    public QuaternionF64(Vector4<Double> v4) {
+    @NamedAlias(methodName = QUATERNION_FACTORY + F64)
+    public QuaternionF64(UnaryTuple4<Double> v4) {
         this(v4.x(), v4.y(), v4.z(), v4.w());
     }
 
@@ -257,6 +257,12 @@ public value record QuaternionF64(
         }
 
         @Override
+        @NamedAlias(methodName = IDENTITY_FACTORY + F64)
+        public QuaternionF64 identity() {
+            return QuaternionOps.super.identity();
+        }
+
+        @Override
         @AliasExclude
         public DoubleNumeric scalarOps() {
             return DoubleNumeric.OPS;
@@ -272,12 +278,6 @@ public value record QuaternionF64(
         @AliasExclude
         public QuaternionF64 one() {
             return QuaternionOps.super.one();
-        }
-
-        @Override
-        @AliasExclude
-        public QuaternionF64 identity() {
-            return QuaternionOps.super.identity();
         }
     }
 }

@@ -64,6 +64,8 @@ public final class AnnotationConst {
     public static final String QUATERNION_FACTORY = "quaternion";
     public static final String AXIS_ANGLE_FACTORY = "axisAngle";
     public static final String SWING_TWIST_FACTORY = "swingTwist";
+    public static final String ANGLE_FACTORY = "angle";
+    public static final String IDENTITY_FACTORY = "identity";
 
     // Explicit numeric types for re-use.
     public static final String I32 = "I32";
