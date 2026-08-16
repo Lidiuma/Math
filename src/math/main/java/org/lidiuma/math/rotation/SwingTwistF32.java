@@ -19,8 +19,10 @@ package org.lidiuma.math.rotation;
 import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.rotation.SwingTwist;
 import org.lidiuma.math.processor.FactoryAlias;
+import static org.lidiuma.math.internal.AnnotationConst.ROTATION_OUT;
+import static org.lidiuma.math.internal.AnnotationConst.SWING_TWIST_FACTORY;
 
-@FactoryAlias(methodName = "swingTwist", outputClass = "Rotations")
+@FactoryAlias(methodName = SWING_TWIST_FACTORY, outputClass = ROTATION_OUT)
 public value record SwingTwistF32(
         @Override @NullRestricted QuaternionF32 swing,
         @Override @NullRestricted QuaternionF32 twist

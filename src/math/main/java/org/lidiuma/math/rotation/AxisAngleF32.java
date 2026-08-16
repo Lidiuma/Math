@@ -20,8 +20,10 @@ import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.rotation.AxisAngle;
 import org.lidiuma.math.processor.FactoryAlias;
 import org.lidiuma.math.vector.Vec3F32;
+import static org.lidiuma.math.internal.AnnotationConst.AXIS_ANGLE_FACTORY;
+import static org.lidiuma.math.internal.AnnotationConst.ROTATION_OUT;
 
-@FactoryAlias(methodName = "axisAngle", outputClass = "Rotations")
+@FactoryAlias(methodName = AXIS_ANGLE_FACTORY, outputClass = ROTATION_OUT)
 public value record AxisAngleF32(
         @Override @NullRestricted Vec3F32 axis,
         @Override @NullRestricted AngleF32 angle

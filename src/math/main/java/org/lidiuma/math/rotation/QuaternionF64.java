@@ -26,9 +26,11 @@ import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.FactoryAlias;
 import org.lidiuma.math.processor.FieldAlias;
 import org.lidiuma.math.vector.Vec3F64;
+import static org.lidiuma.math.internal.AnnotationConst.QUATERNION_FACTORY;
+import static org.lidiuma.math.internal.AnnotationConst.ROTATION_OUT;
 
 @LooselyConsistentValue
-@FactoryAlias(methodName = "quaternion", outputClass = "Rotations")
+@FactoryAlias(methodName = QUATERNION_FACTORY, outputClass = ROTATION_OUT)
 public value record QuaternionF64(
         @Override @NullRestricted Double x,
         @Override @NullRestricted Double y,
@@ -38,7 +40,7 @@ public value record QuaternionF64(
 
     private static final float EPSILON_F64 = 1e-9f;
 
-    @FieldAlias(outputClass = "Rotations")
+    @FieldAlias(outputClass = ROTATION_OUT)
     public static final Ops OPS = new Ops();
 
     @AliasExclude
