@@ -51,7 +51,9 @@ public value record Matrix4F64(
         );
     }
 
-    public static final class Ops implements Matrix4Ops<Matrix4F64, Vec4F64, Double> {
+    public static final value class Ops implements Matrix4Ops<Matrix4F64, Vec4F64, Double> {
+
+        private Ops() {}
 
         @Override
         @AliasExclude

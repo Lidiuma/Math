@@ -67,7 +67,9 @@ public value record Affine3F64(
         return 1d;
     }
 
-    public static final class Ops implements Affine3Ops<Affine3F64, Vec3F64, Double>, FloatingAffineOps<Affine3F64, Vec3F64, QuaternionF64, Double> {
+    public static final value class Ops implements Affine3Ops<Affine3F64, Vec3F64, Double>, FloatingAffineOps<Affine3F64, Vec3F64, QuaternionF64, Double> {
+
+        private Ops() {}
 
         /// Creates a transformation matrix from translation, rotation, and scale.
         public Affine3F64 fromTRS(Affine3F64 translation, Affine3F64 rotation, Affine3F64 scale) {

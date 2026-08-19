@@ -48,7 +48,9 @@ public value record Matrix3F32(
         );
     }
 
-    public static final class Ops implements Matrix3Ops<Matrix3F32, Vec3F32, Float> {
+    public static final value class Ops implements Matrix3Ops<Matrix3F32, Vec3F32, Float> {
+
+        private Ops() {}
 
         @Override
         @AliasExclude

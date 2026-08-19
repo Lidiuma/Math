@@ -61,7 +61,9 @@ public value record Affine2F64(
         return 1d;
     }
 
-    public static final class Ops implements Affine2Ops<Affine2F64, Vec2F64, Double>, FloatingAffineOps<Affine2F64, Vec2F64, AngleF64, Double> {
+    public static final value class Ops implements Affine2Ops<Affine2F64, Vec2F64, Double>, FloatingAffineOps<Affine2F64, Vec2F64, AngleF64, Double> {
+
+        private Ops() {}
 
         /// Creates a transformation matrix from translation, rotation, and scale.
         public Affine2F64 fromTRS(Affine2F64 translation, Affine2F64 rotation, Affine2F64 scale) {
