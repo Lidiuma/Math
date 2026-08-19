@@ -43,9 +43,11 @@ public value record ColorF32(
         this(tuple.x(), tuple.y(), tuple.z(), tuple.w());
     }
 
-    public static final class Ops implements ColorOps<ColorF32, Float> {
+    public static final value class Ops implements ColorOps<ColorF32, Float> {
 
         // I use Vec4.Ops to avoid re-doing the math, which is error-prone.
+
+        private Ops() {}
 
         private Vec4F32 v(ColorF32 c) {
             return new Vec4F32(c.red(), c.green(), c.blue(), c.alpha());
