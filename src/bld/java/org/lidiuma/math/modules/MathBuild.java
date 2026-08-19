@@ -59,11 +59,14 @@ public final class MathBuild extends MathModule {
         scope(provided).include(localModule(apiDir.toString()));
 
         commonBuildOption(compileOperation().compileOptions(), module());
+        final var generatedSources = buildDirectory().toPath().resolve("annotation-source");
         compileOperation().compileOptions()
                 .parameters() // I allow reading the variable names, since it makes the library easier to use and understand.
                 .process(JavacOptions.Processing.FULL)
-                .sourceOutput(buildDirectory().toPath().resolve("annotation-source"))
+                .sourceOutput(generatedSources)
                 .processorModulePath(PROCESSOR.buildDistDirectory().toPath());
+
+        jarSourcesOperation().sourceDirectories().add(generatedSources.toFile());
 
         Util.addAttributesToJar(jarOperation(), version());
         Util.addAttributesToJar(jarSourcesOperation(), version());
