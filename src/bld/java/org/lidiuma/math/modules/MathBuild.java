@@ -17,24 +17,14 @@
 package org.lidiuma.math.modules;
 
 import org.lidiuma.math.MathModule;
-import rife.bld.NamedFile;
-import rife.bld.operations.JarOperation;
+import org.lidiuma.math.ProjectInfo;
+import org.lidiuma.math.Util;
 import rife.bld.operations.JavacOptions;
 import rife.bld.operations.JavadocOperation;
-import rife.bld.operations.PublishOperation;
-import rife.bld.publish.PublishDeveloper;
 import rife.bld.publish.PublishInfo;
-import rife.bld.publish.PublishLicense;
-import rife.bld.publish.PublishScm;
-import java.nio.file.Path;
-import java.time.Clock;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Map;
-import java.util.jar.Attributes;
-import static java.lang.String.format;
 import static org.lidiuma.math.Math.*;
+import static org.lidiuma.math.PublishUtil.*;
 import static rife.bld.dependencies.Repository.*;
 import static rife.bld.dependencies.Scope.*;
 
@@ -42,7 +32,7 @@ public final class MathBuild extends MathModule {
 
     public MathBuild() {
 
-        name = "math";
+        name = "Math";
         pkg = GROUP_ID + "." + name();
         module = "lidiuma.math";
         version = version(0, 3, 0);
@@ -60,7 +50,7 @@ public final class MathBuild extends MathModule {
         scope(test)
                 .include(module("org.junit.jupiter", "junit-jupiter", jUnitVersion))
                 .include(module("org.junit.platform", "junit-platform-console-standalone", jUnitVersion));
-        testOperation().javaOptions().add("--enable-final-field-mutation=ALL-UNNAMED");
+        // Required for testing, otherwise the different bytecode version will make the test classes non-findable.
         testOperation().javaOptions().add("--enable-preview");
 
         final var apiDir = workDirectory()
@@ -68,100 +58,53 @@ public final class MathBuild extends MathModule {
                 .relativize(PROCESSOR.buildDistDirectory().toPath()); // Use absolute when bld 2.3.1 releases.
         scope(provided).include(localModule(apiDir.toString()));
 
-        addAttributesToJar(jarOperation());
-        addAttributesToJar(jarSourcesOperation());
-
         commonBuildOption(compileOperation().compileOptions(), module());
         compileOperation().compileOptions()
-                .parameters()
+                .parameters() // I allow reading the variable names, since it makes the library easier to use and understand.
                 .process(JavacOptions.Processing.FULL)
                 .sourceOutput(buildDirectory().toPath().resolve("annotation-source"))
                 .processorModulePath(PROCESSOR.buildDistDirectory().toPath());
+
+        Util.addAttributesToJar(jarOperation(), version());
+        Util.addAttributesToJar(jarSourcesOperation(), version());
+
+        publishConfiguration();
     }
 
     public PublishInfo publishInfo() {
-
-        final String org = "lidiuma";
-        final String artifactId = name();
-        final String github = "https://github.com";
-        final String project = format("%s/%s/%s", github, org, artifactId);
-
-        final var license = new PublishLicense()
-                .name("The Apache License, Version 2.0")
-                .url("https://www.apache.org/licenses/LICENSE-2.0.txt");
-
-        final String devName = "Xasmedy";
-        final var developer = new PublishDeveloper()
-                .id(devName.toLowerCase())
-                .name(devName)
-                .email("xasmedy@pm.me")
-                .url(format("%s/%s", github, devName));
-
-        final var scm = new PublishScm()
-                .connection(format("scm:git:%s.git", project))
-                .developerConnection(format("scm:git:git@github.com:%s/%s.git", org, artifactId))
-                .url(project);
-
+        final var projectInfo = ProjectInfo.github("Lidiuma", name());
         return new PublishInfo()
                 .groupId(GROUP_ID)
-                .artifactId(artifactId)
+                .artifactId("math")
                 .version(version())
-                .name("Math")
-                .description("Valhalla-based Math Library")
-                .url(project)
-                .developer(developer)
-                .license(license)
-                .scm(scm)
+                .name(name())
+                .description("Math Library using Project Valhalla")
+                .url(projectInfo.url())
+                .developer(XASMEDY_DEV)
+                .license(APACHE_V2_LICENSE)
+                .scm(projectInfo.scm())
                 .signKey(property("sign.key"))
                 .signPassphrase(property("sign.passphrase"));
     }
 
-    @Override
-    public PublishOperation publishOperation() {
+    private void publishConfiguration() {
         final var op = super.publishOperation();
         op.repositories(CENTRAL_RELEASES.withCredentials(
                 property("sonatype.username"),
                 property("sonatype.password")
         )).info(publishInfo());
-        return op;
-    }
-
-    private void patchPublishJSpecify() {
-        // Gradle does not support Maven 4 new types, so I'm forced to patch the type, making it `jar` instead of `modular-jar`.
-        scope(compile).clear();
-        scope(compile).include(dependency("org.jspecify", "jspecify", version(1, 0, 0)));
     }
 
     @Override
     public void publish() throws Exception {
-        patchPublishJSpecify();
+        patchDependencies(this);
         super.publish();
     }
 
     @Override
     public void publishLocal() throws Exception {
-        patchPublishJSpecify();
+        patchDependencies(this);
         super.publishLocal();
-    }
-
-    private static String nowUTC() {
-        final var format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        return ZonedDateTime.now(Clock.systemUTC()).format(format);
-    }
-
-    /// Adds LICENSE and a few attributes.
-    private void addAttributesToJar(JarOperation op) {
-
-        // I add the LICENSE inside META-INF when creating a new jar file.
-        final var license = Path.of("LICENSE").toFile();
-        op.sourceFiles(new NamedFile("META-INF/LICENSE", license));
-
-        final Map<Attributes.Name, Object> attributes = Map.of(
-                new Attributes.Name("Built-By"), "Xasmedy",
-                new Attributes.Name("Built-Date"), nowUTC(),
-                new Attributes.Name("Version"), version().toString()
-        );
-        op.manifestAttributes(attributes);
     }
 
     @Override
