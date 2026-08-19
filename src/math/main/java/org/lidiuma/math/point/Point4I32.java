@@ -45,7 +45,9 @@ public value record Point4I32(
         this(tuple.x(), tuple.y(), tuple.z(), tuple.w());
     }
 
-    public static final class Ops implements Point4Ops<Point4I32, Vec4I32, Integer> {
+    public static final value class Ops implements Point4Ops<Point4I32, Vec4I32, Integer> {
+
+        private Ops() {}
 
         @Override
         @AliasExclude

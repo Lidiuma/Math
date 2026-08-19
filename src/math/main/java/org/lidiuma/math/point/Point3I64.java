@@ -44,7 +44,9 @@ public value record Point3I64(
         this(tuple.x(), tuple.y(), tuple.z());
     }
 
-    public static final class Ops implements Point3Ops<Point3I64, Vec3I64, Long> {
+    public static final value class Ops implements Point3Ops<Point3I64, Vec3I64, Long> {
+
+        private Ops() {}
 
         @Override
         @AliasExclude

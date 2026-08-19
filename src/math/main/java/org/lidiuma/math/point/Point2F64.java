@@ -43,7 +43,9 @@ public value record Point2F64(
         this(tuple.x(), tuple.y());
     }
 
-    public static final class Ops implements FloatingPoint2Ops<Point2F64, Vec2F64, Double> {
+    public static final value class Ops implements FloatingPoint2Ops<Point2F64, Vec2F64, Double> {
+
+        private Ops() {}
 
         @Override
         @AliasExclude

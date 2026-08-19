@@ -45,7 +45,9 @@ public value record Point4I64(
         this(tuple.x(), tuple.y(), tuple.z(), tuple.w());
     }
 
-    public static final class Ops implements Point4Ops<Point4I64, Vec4I64, Long> {
+    public static final value class Ops implements Point4Ops<Point4I64, Vec4I64, Long> {
+
+        private Ops() {}
 
         @Override
         @AliasExclude

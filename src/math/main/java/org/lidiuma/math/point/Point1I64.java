@@ -40,7 +40,9 @@ public value record Point1I64(@NullRestricted Long x) implements Point1<Long> {
         this(tuple.x());
     }
 
-    public static final class Ops implements Point1Ops<Point1I64, Vec1I64, Long> {
+    public static final value class Ops implements Point1Ops<Point1I64, Vec1I64, Long> {
+
+        private Ops() {}
 
         @Override
         @AliasExclude

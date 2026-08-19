@@ -44,7 +44,9 @@ public value record Point3F64(
         this(tuple.x(), tuple.y(), tuple.z());
     }
 
-    public static final class Ops implements FloatingPoint3Ops<Point3F64, Vec3F64, Double> {
+    public static final value class Ops implements FloatingPoint3Ops<Point3F64, Vec3F64, Double> {
+
+        private Ops() {}
 
         @Override
         @AliasExclude

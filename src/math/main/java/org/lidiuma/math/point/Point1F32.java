@@ -40,7 +40,9 @@ public value record Point1F32(@NullRestricted Float x) implements Point1<Float> 
         this(tuple.x());
     }
 
-    public static final class Ops implements FloatingPoint1Ops<Point1F32, Vec1F32, Float> {
+    public static final value class Ops implements FloatingPoint1Ops<Point1F32, Vec1F32, Float> {
+
+        private Ops() {}
 
         @Override
         @AliasExclude
