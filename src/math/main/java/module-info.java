@@ -18,10 +18,10 @@ import org.jspecify.annotations.NullMarked;
 
 @NullMarked // Makes the whole codebase non-null by default.
 module lidiuma.math {
+    requires static lidiuma.math.processor; // Not required at runtime, compile-time only.
     requires org.jspecify;
     requires lidiuma.math.api;
     requires lidiuma.math.api.traits;
-    requires lidiuma.math.processor;
     exports org.lidiuma.math.tuple;
     exports org.lidiuma.math.numerics;
     exports org.lidiuma.math.rotation;

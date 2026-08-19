@@ -18,8 +18,8 @@ package org.lidiuma.math.modules;
 
 import org.lidiuma.math.MathModule;
 import java.util.List;
-import static org.lidiuma.math.MainBuild.GROUP_ID;
-import static org.lidiuma.math.MainBuild.javaToolPath;
+import static org.lidiuma.math.Math.GROUP_ID;
+import static org.lidiuma.math.Math.javaToolPath;
 import static rife.bld.dependencies.Repository.MAVEN_CENTRAL;
 import static rife.bld.dependencies.Repository.RIFE2_RELEASES;
 

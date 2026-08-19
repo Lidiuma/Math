@@ -18,7 +18,10 @@ package org.lidiuma.math.modules;
 
 import org.lidiuma.math.MathModule;
 import rife.bld.NamedFile;
-import rife.bld.operations.*;
+import rife.bld.operations.JarOperation;
+import rife.bld.operations.JavacOptions;
+import rife.bld.operations.JavadocOperation;
+import rife.bld.operations.PublishOperation;
 import rife.bld.publish.PublishDeveloper;
 import rife.bld.publish.PublishInfo;
 import rife.bld.publish.PublishLicense;
@@ -31,7 +34,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.jar.Attributes;
 import static java.lang.String.format;
-import static org.lidiuma.math.MainBuild.*;
+import static org.lidiuma.math.Math.*;
 import static rife.bld.dependencies.Repository.*;
 import static rife.bld.dependencies.Scope.*;
 
@@ -43,7 +46,6 @@ public final class MathBuild extends MathModule {
         pkg = GROUP_ID + "." + name();
         module = "lidiuma.math";
         version = version(0, 2, 0);
-
         javaTool = javaToolPath(this);
         downloadSources = true;
         repositories = List.of(MAVEN_CENTRAL, CENTRAL_SNAPSHOTS, RIFE2_RELEASES);
@@ -54,20 +56,22 @@ public final class MathBuild extends MathModule {
                 .include(module("org.lidiuma.math", "math-api", version(1, 0, 0, "rc1")))
                 .include(module("org.lidiuma.math", "math-traits", snapshot(0, 1, 0)));
 
+        final var jUnitVersion = version(6,1,3);
+        scope(test)
+                .include(module("org.junit.jupiter", "junit-jupiter", jUnitVersion))
+                .include(module("org.junit.platform", "junit-platform-console-standalone", jUnitVersion));
+        testOperation().javaOptions().add("--enable-final-field-mutation=ALL-UNNAMED");
+        testOperation().javaOptions().add("--enable-preview");
+
         final var apiDir = workDirectory()
                 .toPath()
                 .relativize(PROCESSOR.buildDistDirectory().toPath()); // Use absolute when bld 2.3.1 releases.
         scope(provided).include(localModule(apiDir.toString()));
 
-        final var junitVersion = version(6,0,1);
-        scope(test)
-                .include(module("org.junit.jupiter", "junit-jupiter", junitVersion))
-                .include(module("org.junit.platform", "junit-platform-console-standalone", junitVersion))
-                .include(module("org.junit.platform", "junit-platform-launcher", junitVersion));
-
         addAttributesToJar(jarOperation());
         addAttributesToJar(jarSourcesOperation());
 
+        commonBuildOption(compileOperation().compileOptions(), module());
         compileOperation().compileOptions()
                 .parameters()
                 .process(JavacOptions.Processing.FULL)
@@ -158,14 +162,6 @@ public final class MathBuild extends MathModule {
                 new Attributes.Name("Version"), version().toString()
         );
         op.manifestAttributes(attributes);
-    }
-
-    @Override
-    public CompileOperation compileOperation() {
-        final var operation = super.compileOperation();
-        final var options = operation.compileOptions();
-        commonBuildOption(options, module());
-        return operation;
     }
 
     @Override

@@ -21,7 +21,7 @@ import rife.bld.operations.CompileOperation;
 import rife.bld.operations.JavacOptions;
 import rife.bld.operations.RunOperation;
 import java.util.List;
-import static org.lidiuma.math.MainBuild.*;
+import static org.lidiuma.math.Math.*;
 import static rife.bld.dependencies.Repository.MAVEN_CENTRAL;
 import static rife.bld.dependencies.Repository.RIFE2_RELEASES;
 import static rife.bld.dependencies.Scope.compile;
