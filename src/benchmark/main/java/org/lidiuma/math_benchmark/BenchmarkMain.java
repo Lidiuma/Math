@@ -51,6 +51,9 @@ public class BenchmarkMain {
     private float xf;
     private float yf;
     private float zf;
+    private Float xwf;
+    private Float ywf;
+    private Float zwf;
     private double xd;
     private double yd;
     private double zd;
@@ -66,6 +69,7 @@ public class BenchmarkMain {
 
         xf = random.nextFloat(); yf = random.nextFloat(); zf = random.nextFloat();
         xd = random.nextDouble(); yd = random.nextDouble(); zd = random.nextDouble();
+        xwf = xf; ywf = yf; zwf = zf;
 
         final var quat = fromAxisAngle(vec3(0f, 1f, 0f), angleF32);
         matrix = fromRotation(quat);
@@ -128,12 +132,67 @@ public class BenchmarkMain {
 
         final var r1 = Vectors.add(vec3(xf, yf, zf), vec3(zf, yf, zf));
         final var r2 = Vectors.multiply(r1, zf);
-        final var r3 = Vectors.divide(r2, vec3(1f, xf + 1, 1f));
-        final var r = Vectors.subtract(r3, vec3(yf - 2, zf, xf));
+        final var r3 = Vectors.divide(r2, vec3(2f, xf + 1f, 2f));
+        final var r = Vectors.subtract(r3, vec3(yf - 2f, zf, xf));
 
         // Feeding the vector directly will force it to go onto the heap, killing performance.
         hole.consume(r.x());
         hole.consume(r.y());
         hole.consume(r.z());
+    }
+
+    @Benchmark
+    @Warmup(iterations = 1,  time = 20)
+    @Measurement(iterations = 1,  time = 20)
+    @Fork(1)
+    public void operationsPrimitives(Blackhole hole) {
+
+        final float r1x = xf + zf;
+        final float r1y = yf + yf;
+        final float r1z = zf + zf;
+
+        final float r2x = r1x * zf;
+        final float r2y = r1y * zf;
+        final float r2z = r1z * zf;
+
+        final float r3x = r2x / 2f;
+        final float r3y = r2y / xf + 1f;
+        final float r3z = r2z / 2f;
+
+        final float rx = r3x - yf - 2f;
+        final float ry = r3y - zf;
+        final float rz = r3z - xf;
+
+        hole.consume(rx);
+        hole.consume(ry);
+        hole.consume(rz);
+    }
+
+    @Benchmark
+    @Warmup(iterations = 1,  time = 20)
+    @Measurement(iterations = 1,  time = 20)
+    @Fork(1)
+    @SuppressWarnings("")
+    public void operationsWrapper(Blackhole hole) {
+
+        final Float r1x = xwf + zwf;
+        final Float r1y = ywf + ywf;
+        final Float r1z = zwf + zwf;
+
+        final Float r2x = r1x * zwf;
+        final Float r2y = r1y * zwf;
+        final Float r2z = r1z * zwf;
+
+        final Float r3x = r2x / 2f;
+        final Float r3y = r2y / xwf + 1f;
+        final Float r3z = r2z / 2f;
+
+        final Float rx = r3x - ywf - 2f;
+        final Float ry = r3y - zwf;
+        final Float rz = r3z - xwf;
+
+        hole.consume(rx);
+        hole.consume(ry);
+        hole.consume(rz);
     }
 }

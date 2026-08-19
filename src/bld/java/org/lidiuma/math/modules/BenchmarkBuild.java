@@ -57,6 +57,8 @@ public final class BenchmarkBuild extends MathModule {
         operation.javaOptions().enablePreview();
 //        operation.javaOptions().add("-XX:+UnlockDiagnosticVMOptions");
 //        operation.javaOptions().add("-XX:+PrintInlining");
+//        operation.javaOptions().add("-XX:+UnlockExperimentalVMOptions");
+//        operation.javaOptions().add("-XX:+UseEpsilonGC");
 
         final var options = operation.runOptions();
         options.remove("-prof=gc"); // Remove to avoid doubles.
