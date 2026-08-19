@@ -20,39 +20,38 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.lidiuma.math.matrix.Matrices;
-import org.lidiuma.math.rotation.AngleF32;
+import org.lidiuma.math.rotation.AngleF64;
 import org.lidiuma.math.rotation.Rotations;
-import org.lidiuma.math.vector.Vec3F32;
+import org.lidiuma.math.vector.Vec3F64;
 import org.lidiuma.math.vector.Vectors;
-import static org.lidiuma.math.vector.Vectors.vec2;
-import static org.lidiuma.math.vector.Vectors.vec3;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public value class MathTest {
+public value class MathF64Test {
 
-    public static final Vec3F32 X_AXIS = Vectors.vec3(1f, 0f, 0f);
-    public static final Vec3F32 Y_AXIS = Vectors.vec3(0f, 1f, 0f);
-    public static final Vec3F32 Z_AXIS = Vectors.vec3(0f, 0f, 1f);
-    public static final AngleF32 DEG_180 = AngleF32.degrees(180);
+    public static final Vec3F64 X_AXIS = Vectors.vec3(1d, 0d, 0d);
+    public static final Vec3F64 Y_AXIS = Vectors.vec3(0d, 1d, 0d);
+    public static final Vec3F64 Z_AXIS = Vectors.vec3(0d, 0d, 1d);
+    public static final AngleF64 DEG_180 = Rotations.degrees(180d);
 
     @Test
-    void testRotationV2() {
+    void rotation2D() {
 
-        final var start = vec2(10f, 10f);
+        final var start = Vectors.vec2(10d, 10d);
         final var rot180 = Matrices.fromRotation(DEG_180);
 
         final var halfRotation = Matrices.multiply(rot180, start);
         final var fullRotation = Matrices.multiply(rot180, halfRotation);
 
-        Assertions.assertEquals(vec2(-10f, -10f), halfRotation);
+        // The opposite direction of a vector is its negated version, equivalent to a 180-degree turn.
+        Assertions.assertEquals(Vectors.negated(start), halfRotation);
         Assertions.assertEquals(start, fullRotation);
     }
 
     @Test
-    void testRotationV3() {
+    void rotation3D() {
 
         // I could rotate the vector directly with the quaternion, but I convert it to a matrix to have a wider testing area.
-        final var start = vec3(10f, 10f, 10f);
+        final var start = Vectors.vec3(10d, 10d, 10d);
         final var rotX180 = Matrices.fromRotation(Rotations.fromAxisAngle(X_AXIS, DEG_180));
         final var rotY180 = Matrices.fromRotation(Rotations.fromAxisAngle(Y_AXIS, DEG_180));
         final var rotZ180 = Matrices.fromRotation(Rotations.fromAxisAngle(Z_AXIS, DEG_180));
@@ -62,11 +61,11 @@ public value class MathTest {
         final var halfZ = Matrices.multiply(rotZ180, start);
         final var fullY = Matrices.multiply(rotY180, halfY);
 
-        Assertions.assertEquals(vec3(10f, -10f, -10f), halfX);
-        Assertions.assertEquals(vec3(-10f, 10f, -10f), halfY);
-        Assertions.assertEquals(vec3(-10f, -10f, 10f), halfZ);
-        Assertions.assertEquals(vec3(-10f, -10f, 10f), halfZ);
-        Assertions.assertEquals(vec3(-10f, -10f, 10f), halfZ);
+        Assertions.assertEquals(Vectors.vec3(10d, -10d, -10d), halfX);
+        Assertions.assertEquals(Vectors.vec3(-10d, 10d, -10d), halfY);
+        Assertions.assertEquals(Vectors.vec3(-10d, -10d, 10d), halfZ);
+        Assertions.assertEquals(Vectors.vec3(-10d, -10d, 10d), halfZ);
+        Assertions.assertEquals(Vectors.vec3(-10d, -10d, 10d), halfZ);
         Assertions.assertEquals(start, fullY);
     }
 }
