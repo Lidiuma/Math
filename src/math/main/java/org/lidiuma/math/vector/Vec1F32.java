@@ -39,7 +39,9 @@ public value record Vec1F32(@Override @NullRestricted Float x) implements Vector
         this(vec.x());
     }
 
-    public static final class Ops implements FloatingVector1Ops<Vec1F32, Float> {
+    public static final value class Ops implements FloatingVector1Ops<Vec1F32, Float> {
+
+        private Ops() {}
 
         @Override
         @AliasExclude

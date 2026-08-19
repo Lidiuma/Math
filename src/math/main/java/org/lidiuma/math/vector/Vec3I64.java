@@ -43,7 +43,9 @@ public value record Vec3I64(
         this(vec.x(), vec.y(), vec.z());
     }
 
-    public static final class Ops implements Vector3Ops<Vec3I64, Long> {
+    public static final value class Ops implements Vector3Ops<Vec3I64, Long> {
+
+        private Ops() {}
 
         @Override
         @AliasExclude

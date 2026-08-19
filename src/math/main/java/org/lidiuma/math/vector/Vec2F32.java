@@ -42,7 +42,9 @@ public value record Vec2F32(
         this(vec.x(), vec.y());
     }
 
-    public static final class Ops implements FloatingVector2Ops<Vec2F32, Float> {
+    public static final value class Ops implements FloatingVector2Ops<Vec2F32, Float> {
+
+        private Ops() {}
 
         @Override
         @AliasExclude

@@ -44,7 +44,9 @@ public value record Vec4F64(
         this(vec.x(), vec.y(), vec.z(), vec.w());
     }
 
-    public static final class Ops implements FloatingVector4Ops<Vec4F64, Double> {
+    public static final value class Ops implements FloatingVector4Ops<Vec4F64, Double> {
+
+        private Ops() {}
 
         @Override
         @AliasExclude

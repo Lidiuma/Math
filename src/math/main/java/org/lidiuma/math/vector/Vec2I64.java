@@ -42,7 +42,9 @@ public value record Vec2I64(
         this(vec.x(), vec.y());
     }
 
-    public static final class Ops implements Vector2Ops<Vec2I64, Long> {
+    public static final value class Ops implements Vector2Ops<Vec2I64, Long> {
+
+        private Ops() {}
 
         @Override
         @AliasExclude

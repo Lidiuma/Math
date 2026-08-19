@@ -43,7 +43,9 @@ public value record Vec3F64(
         this(vec.x(), vec.y(), vec.z());
     }
 
-    public static final class Ops implements FloatingVector3Ops<Vec3F64, Double> {
+    public static final value class Ops implements FloatingVector3Ops<Vec3F64, Double> {
+
+        private Ops() {}
 
         @Override
         @AliasExclude

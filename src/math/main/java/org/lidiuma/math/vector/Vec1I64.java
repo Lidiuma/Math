@@ -39,7 +39,9 @@ public value record Vec1I64(@Override @NullRestricted Long x) implements Vector1
         this(vec.x());
     }
 
-    public static final class Ops implements Vector1Ops<Vec1I64, Long> {
+    public static final value class Ops implements Vector1Ops<Vec1I64, Long> {
+
+        private Ops() {}
 
         @Override
         @AliasExclude

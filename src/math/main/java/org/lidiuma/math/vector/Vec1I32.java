@@ -39,7 +39,9 @@ public value record Vec1I32(@Override @NullRestricted Integer x) implements Vect
         this(vec.x());
     }
 
-    public static final class Ops implements Vector1Ops<Vec1I32, Integer> {
+    public static final value class Ops implements Vector1Ops<Vec1I32, Integer> {
+
+        private Ops() {}
 
         @Override
         @AliasExclude

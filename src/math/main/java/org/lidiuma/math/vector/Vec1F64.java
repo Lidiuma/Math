@@ -39,7 +39,9 @@ public value record Vec1F64(@Override @NullRestricted Double x) implements Vecto
         this(vec.x());
     }
 
-    public static final class Ops implements FloatingVector1Ops<Vec1F64, Double> {
+    public static final value class Ops implements FloatingVector1Ops<Vec1F64, Double> {
+
+        private Ops() {}
 
         @Override
         @AliasExclude

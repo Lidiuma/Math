@@ -42,7 +42,9 @@ public value record Vec2I32(
         this(vec.x(), vec.y());
     }
 
-    public static final class Ops implements Vector2Ops<Vec2I32, Integer> {
+    public static final value class Ops implements Vector2Ops<Vec2I32, Integer> {
+
+        private Ops() {}
 
         @Override
         @AliasExclude

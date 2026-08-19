@@ -44,7 +44,9 @@ public value record Vec4I64(
         this(vec.x(), vec.y(), vec.z(), vec.w());
     }
 
-    public static final class Ops implements Vector4Ops<Vec4I64, Long> {
+    public static final value class Ops implements Vector4Ops<Vec4I64, Long> {
+
+        private Ops() {}
 
         @Override
         @AliasExclude
