@@ -18,7 +18,7 @@ package org.lidiuma.math.numerics;
 
 import org.lidiuma.math.api.traits.numeric.OrderableFloatingNumerical;
 
-public final class FloatNumeric implements OrderableFloatingNumerical<Float> {
+public final value class FloatNumeric implements OrderableFloatingNumerical<Float> {
 
     public static final FloatNumeric OPS = new FloatNumeric();
 

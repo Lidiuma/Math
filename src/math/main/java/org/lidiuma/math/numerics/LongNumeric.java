@@ -18,7 +18,7 @@ package org.lidiuma.math.numerics;
 
 import org.lidiuma.math.api.traits.numeric.OrderableNumerical;
 
-public final class LongNumeric implements OrderableNumerical<Long> {
+public final value class LongNumeric implements OrderableNumerical<Long> {
 
     public static final LongNumeric OPS = new LongNumeric();
 

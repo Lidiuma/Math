@@ -18,7 +18,7 @@ package org.lidiuma.math.numerics;
 
 import org.lidiuma.math.api.traits.numeric.OrderableNumerical;
 
-public final class IntegerNumeric implements OrderableNumerical<Integer> {
+public final value class IntegerNumeric implements OrderableNumerical<Integer> {
 
     public static final IntegerNumeric OPS = new IntegerNumeric();
 
