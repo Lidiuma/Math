@@ -47,7 +47,9 @@ public value record QuaternionF64(
         this(v4.x(), v4.y(), v4.z(), v4.w());
     }
 
-    public static final class Ops implements QuaternionOps<QuaternionF64, Vec3F64, AngleF64, Double> {
+    public static final value class Ops implements QuaternionOps<QuaternionF64, Vec3F64, AngleF64, Double> {
+
+        private Ops() {}
 
         @Override
         @AliasExclude
