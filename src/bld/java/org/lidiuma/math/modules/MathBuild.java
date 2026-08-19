@@ -45,7 +45,7 @@ public final class MathBuild extends MathModule {
         name = "math";
         pkg = GROUP_ID + "." + name();
         module = "lidiuma.math";
-        version = version(0, 2, 0);
+        version = version(0, 3, 0);
         javaTool = javaToolPath(this);
         downloadSources = true;
         repositories = List.of(MAVEN_CENTRAL, CENTRAL_SNAPSHOTS, RIFE2_RELEASES);
