@@ -18,20 +18,20 @@ package org.lidiuma.math_benchmark;
 
 import org.jspecify.annotations.NullMarked;
 import org.lidiuma.math.matrix.Affine3F32;
+import org.lidiuma.math.matrix.Matrices;
 import org.lidiuma.math.rotation.AngleF32;
+import org.lidiuma.math.rotation.Rotations;
 import org.lidiuma.math.vector.Vec3F32;
 import org.openjdk.jmh.Main;
 import org.openjdk.jmh.annotations.*;
+import org.openjdk.jmh.infra.Blackhole;
 import java.util.Arrays;
 import java.util.Random;
-import static org.lidiuma.math.matrix.Matrices.*;
-import static org.lidiuma.math.matrix.Matrices.multiply;
-import static org.lidiuma.math.rotation.Rotations.*;
+import static org.lidiuma.math.matrix.Matrices.fromRotation;
+import static org.lidiuma.math.matrix.Matrices.identityAffine3F32;
+import static org.lidiuma.math.rotation.Rotations.fromAxisAngle;
+import static org.lidiuma.math.rotation.Rotations.radians;
 import static org.lidiuma.math.vector.Vectors.*;
-import static org.lidiuma.math.vector.Vectors.add;
-import static org.lidiuma.math.vector.Vectors.divide;
-import static org.lidiuma.math.vector.Vectors.multiply;
-import static org.lidiuma.math.vector.Vectors.subtract;
 
 @NullMarked
 @State(Scope.Thread)
@@ -63,50 +63,49 @@ public class BenchmarkMain {
     }
 
     @Benchmark
-    @Warmup(iterations = 5,  time = 1)
-    @Measurement(iterations = 2,  time = 2)
-    public Vec3F32 rotationCached() {
-        return multiply(matrix, vector);
+    @Warmup(iterations = 6,  time = 1)
+    @Measurement(iterations = 2,  time = 1)
+    @Fork(1)
+    public void rotationCached(Blackhole hole) {
+
+        final var r = Matrices.multiply(matrix, vector);
+
+        // Feeding the vector directly will force it to go onto the heap, killing performance.
+        hole.consume(r.x());
+        hole.consume(r.y());
+        hole.consume(r.z());
     }
 
     @Benchmark
-    @Warmup(iterations = 5,  time = 1)
-    @Measurement(iterations = 2,  time = 2)
-    public Vec3F32 rotation() {
+    @Warmup(iterations = 6,  time = 1)
+    @Measurement(iterations = 2,  time = 1)
+    @Fork(1)
+    public void rotation(Blackhole hole) {
+
         final var yAxis = vec3(0f, 1f, 0f);
         final var v3 = vec3(x, y, z);
-        return rotate(fromAxisAngle(yAxis, angle), v3); // I rotate v3 on the yAxis by angle.
+        final var r = Rotations.rotate(fromAxisAngle(yAxis, angle), v3); // I rotate v3 on the yAxis by angle.
+
+        // Feeding the vector directly will force it to go onto the heap, killing performance.
+        hole.consume(r.x());
+        hole.consume(r.y());
+        hole.consume(r.z());
     }
 
     @Benchmark
-    @CompilerControl(CompilerControl.Mode.DONT_INLINE)
-    @Warmup(iterations = 5,  time = 1)
-    @Measurement(iterations = 2,  time = 2)
-    public Vec3F32 rotationNoInline() {
-        // I don't understand why not inlining removes allocations in this case...
-        final var yAxis = vec3(0f, 1f, 0f);
-        final var v3 = vec3(x, y, z);
-        return rotate(fromAxisAngle(yAxis, angle), v3); // I rotate v3 on the yAxis by angle.
-    }
+    @Warmup(iterations = 6,  time = 1)
+    @Measurement(iterations = 2,  time = 1)
+    @Fork(1)
+    public void operations(Blackhole hole) {
 
-    @Benchmark
-    @Warmup(iterations = 5,  time = 1)
-    @Measurement(iterations = 2,  time = 2)
-    public Vec3F32 operations() {
         final var r1 = add(vec3(x, y, z), vec3(z, y, z));
         final var r2 = multiply(r1, z);
         final var r3 = divide(r2, vec3(1f, x + 1, 1f));
-        return subtract(r3, vec3(y - 2, z, x));
-    }
+        final var r = subtract(r3, vec3(y - 2, z, x));
 
-    @Benchmark
-    @CompilerControl(CompilerControl.Mode.DONT_INLINE)
-    @Warmup(iterations = 5,  time = 1)
-    @Measurement(iterations = 2,  time = 2)
-    public Vec3F32 operationsNoInline() {
-        final var r1 = add(vec3(x, y, z), vec3(z, y, z));
-        final var r2 = multiply(r1, z);
-        final var r3 = divide(r2, vec3(1f, x + 1, 1f));
-        return subtract(r3, vec3(y - 2, z, x));
+        // Feeding the vector directly will force it to go onto the heap, killing performance.
+        hole.consume(r.x());
+        hole.consume(r.y());
+        hole.consume(r.z());
     }
 }
