@@ -21,6 +21,7 @@ import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.rotation.Quaternion;
 import org.lidiuma.math.api.traits.rotation.QuaternionOps;
 import org.lidiuma.math.api.tuple.UnaryTuple4;
+import org.lidiuma.math.internal.Strict;
 import org.lidiuma.math.numerics.FloatNumeric;
 import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.FactoryAlias;
@@ -37,8 +38,6 @@ public value record QuaternionF32(
         @Override @NullRestricted Float z,
         @Override @NullRestricted Float w
 ) implements Quaternion<Float> {
-
-    private static final float EPSILON_F32 = 1e-6f;
 
     @FieldAlias(outputClass = ROTATION_OUT)
     public static final Ops OPS = new Ops();
@@ -59,8 +58,8 @@ public value record QuaternionF32(
         @Override
         public QuaternionF32 fromAxisAngle(Vec3F32 axis, AngleF32 angle) {
             final float half = angle.radian() * .5f;
-            final float sin = (float) Math.sin(half);
-            final float cos = (float) Math.cos(half);
+            final float sin = Strict.sin(half);
+            final float cos = Strict.cos(half);
             return of(
                     (axis.x() * sin),
                     (axis.y() * sin),
@@ -72,16 +71,16 @@ public value record QuaternionF32(
         @Override
         public QuaternionF32 fromEulerAngle(AngleF32 yaw, AngleF32 pitch, AngleF32 roll) {
             final float hr = roll.radian() * 0.5f;
-            final float shr = (float) Math.sin(hr);
-            final float chr = (float) Math.cos(hr);
+            final float shr = Strict.sin(hr);
+            final float chr = Strict.cos(hr);
 
             final float hp = pitch.radian() * 0.5f;
-            final float shp = (float) Math.sin(hp);
-            final float chp = (float) Math.cos(hp);
+            final float shp = Strict.sin(hp);
+            final float chp = Strict.cos(hp);
 
             final float hy = yaw.radian() * 0.5f;
-            final float shy = (float) Math.sin(hy);
-            final float chy = (float) Math.cos(hy);
+            final float shy = Strict.sin(hy);
+            final float chy = Strict.cos(hy);
 
             final float chyShp = chy * shp;
             final float shyChp = shy * chp;
@@ -131,10 +130,10 @@ public value record QuaternionF32(
             final var vectorQuat = new Vec3F32(quaternion.x(), quaternion.y(), quaternion.z());
             final float angle = witness.length(vectorQuat); // The math is the same.
 
-            if (angle < EPSILON_F32) return identity();
+            if (angle < Strict.EPSILON_F32) return identity();
 
-            final float sin = (float) Math.sin(angle);
-            final float cos = (float) Math.cos(angle);
+            final float sin = Strict.sin(angle);
+            final float cos = Strict.cos(angle);
 
             final float k = sin / angle;
             return of(
@@ -152,7 +151,7 @@ public value record QuaternionF32(
             final float angle = (float) Math.acos(w);
             final float sin = (float) Math.sqrt(Math.max(0f, 1f - w * w));
 
-            if (sin < EPSILON_F32) return of(quaternion.x(), quaternion.y(), quaternion.z(), 0f);
+            if (sin < Strict.EPSILON_F32) return of(quaternion.x(), quaternion.y(), quaternion.z(), 0f);
 
             final float k = angle / sin;
             return of(
@@ -179,10 +178,10 @@ public value record QuaternionF32(
             if (absDot > 0.9995f) return normalize(lerp(start, multiply(end, sign), alpha));
 
             final float angle = (float) Math.acos(absDot);
-            final float invSinTheta = (float) (1f / Math.sin(angle));
+            final float invSinTheta = (1f / Strict.sin(angle));
 
-            final float scale0 = (float) (Math.sin((1f - alpha) * angle) * invSinTheta);
-            final float scale1 = (float) (Math.sin((alpha * angle)) * invSinTheta);
+            final float scale0 = (Strict.sin((1f - alpha) * angle) * invSinTheta);
+            final float scale1 = (Strict.sin((alpha * angle)) * invSinTheta);
             return add(multiply(start, scale0), multiply(end, sign * scale1));
         }
 
