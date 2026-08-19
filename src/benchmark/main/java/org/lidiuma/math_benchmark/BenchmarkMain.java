@@ -17,10 +17,9 @@
 package org.lidiuma.math_benchmark;
 
 import org.jspecify.annotations.NullMarked;
-import org.lidiuma.math.matrix.Affine3F32;
-import org.lidiuma.math.matrix.Matrices;
 import org.lidiuma.math.rotation.AngleF32;
 import org.lidiuma.math.rotation.AngleF64;
+import org.lidiuma.math.rotation.QuaternionF32;
 import org.lidiuma.math.rotation.Rotations;
 import org.lidiuma.math.vector.Vec3F32;
 import org.lidiuma.math.vector.Vectors;
@@ -29,12 +28,6 @@ import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.infra.Blackhole;
 import java.util.Arrays;
 import java.util.Random;
-import static org.lidiuma.math.matrix.Matrices.fromRotation;
-import static org.lidiuma.math.matrix.Matrices.identityAffine3F32;
-import static org.lidiuma.math.rotation.Rotations.fromAxisAngle;
-import static org.lidiuma.math.rotation.Rotations.radians;
-import static org.lidiuma.math.vector.Vectors.vec3;
-import static org.lidiuma.math.vector.Vectors.zeroVec3F32;
 
 @NullMarked
 @State(Scope.Thread)
@@ -46,8 +39,8 @@ public class BenchmarkMain {
         Main.main(args);
     }
 
-    private AngleF32 angleF32 = radians(0f); // Default value, not actually used.
-    private AngleF64 angleF64 = radians(0d); // Default value, not actually used.
+    private AngleF32 angleF32 = Rotations.radians(0f); // Default value, not actually used.
+    private AngleF64 angleF64 = Rotations.radians(0d); // Default value, not actually used.
     private float xf;
     private float yf;
     private float zf;
@@ -57,23 +50,22 @@ public class BenchmarkMain {
     private double xd;
     private double yd;
     private double zd;
-    private Affine3F32 matrix = identityAffine3F32(); // Default value, not actually used.
-    private Vec3F32 vector = zeroVec3F32(); // Default value, not actually used.
+    private QuaternionF32 quat = Rotations.identityF32();
+    private Vec3F32 vector = Vectors.zeroVec3F32(); // Default value, not actually used.
 
     @Setup
     public void setup() {
 
         final var random = new Random();
-        angleF32 = radians(random.nextFloat());
-        angleF64 = radians(random.nextDouble());
+        angleF32 = Rotations.radians(random.nextFloat());
+        angleF64 = Rotations.radians(random.nextDouble());
 
         xf = random.nextFloat(); yf = random.nextFloat(); zf = random.nextFloat();
         xd = random.nextDouble(); yd = random.nextDouble(); zd = random.nextDouble();
         xwf = xf; ywf = yf; zwf = zf;
 
-        final var quat = fromAxisAngle(vec3(0f, 1f, 0f), angleF32);
-        matrix = fromRotation(quat);
-        vector = vec3(xf, yf, zf);
+        this.quat = Rotations.fromAxisAngle(Vectors.vec3(0f, 1f, 0f), angleF32);
+        vector = Vectors.vec3(xf, yf, zf);
     }
 
     @Benchmark
@@ -82,7 +74,7 @@ public class BenchmarkMain {
     @Fork(1)
     public void rotationCached(Blackhole hole) {
 
-        final var r = Matrices.multiply(matrix, vector);
+        final var r = Rotations.rotate(quat, vector);
 
         // Feeding the vector directly will force it to go onto the heap, killing performance.
         hole.consume(r.x());
@@ -130,10 +122,10 @@ public class BenchmarkMain {
     @Fork(1)
     public void operations(Blackhole hole) {
 
-        final var r1 = Vectors.add(vec3(xf, yf, zf), vec3(zf, yf, zf));
+        final var r1 = Vectors.add(Vectors.vec3(xf, yf, zf), Vectors.vec3(zf, yf, zf));
         final var r2 = Vectors.multiply(r1, zf);
-        final var r3 = Vectors.divide(r2, vec3(2f, xf + 1f, 2f));
-        final var r = Vectors.subtract(r3, vec3(yf - 2f, zf, xf));
+        final var r3 = Vectors.divide(r2, Vectors.vec3(2f, xf + 1f, 2f));
+        final var r = Vectors.subtract(r3, Vectors.vec3(yf - 2f, zf, xf));
 
         // Feeding the vector directly will force it to go onto the heap, killing performance.
         hole.consume(r.x());
