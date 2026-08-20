@@ -50,6 +50,17 @@ public value record AngleF32(@Override @NullRestricted Float radian) implements 
         return new AngleF32((float) (turns * Math.TAU));
     }
 
+    /// Normalizes an angle into the range `[0,2π)`.
+    /// Negative angles are wrapped into the positive range.
+    /// @param angle the angle to normalize.
+    /// @return the normalized angle.
+    @MethodAlias(outputClass = ROTATION_OUT)
+    public static AngleF32 normalize(AngleF32 angle) {
+        final float normalized = (float) (angle.radian() % Math.TAU);
+        final float radians = (float) (normalized + (normalized < 0f ? Math.TAU : 0f));
+        return new AngleF32(radians);
+    }
+
     @Override
     public Float degree() {
         return (float) Math.toDegrees(radian);

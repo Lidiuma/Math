@@ -50,6 +50,17 @@ public value record AngleF64(@Override @NullRestricted Double radian) implements
         return new AngleF64(turns * Math.TAU);
     }
 
+    /// Normalizes an angle into the range `[0,2π)`.
+    /// Negative angles are wrapped into the positive range.
+    /// @param angle the angle to normalize.
+    /// @return the normalized angle.
+    @MethodAlias(outputClass = ROTATION_OUT)
+    public static AngleF64 normalize(AngleF64 angle) {
+        final double normalized = angle.radian() % Math.TAU;
+        final double radians = normalized + (normalized < 0d ? Math.TAU : 0d);
+        return new AngleF64(radians);
+    }
+
     @Override
     public Double degree() {
         return Math.toDegrees(radian);
