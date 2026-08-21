@@ -45,12 +45,24 @@ public value record ColorF64(
         this(tuple.x(), tuple.y(), tuple.z(), tuple.w());
     }
 
+    /// Converts a hex string to a color.\
+    /// The hex can contain `#`, which will simply be ignored,
+    ///  and it must provide either `RRGGBB` or `RRGGBBAA` in hexadecimal format.
+    @MethodAlias(outputClass = COLOR_OUT)
+    @NamedAlias(methodName = COLOR_FACTORY + UPPER_HEX_FACTORY + F64)
+    public static ColorF64 colorHex(String hexColor) {
+        final String hex = hexColor.startsWith("#") ? hexColor.substring(1) : hexColor;
+        final int length = hex.length();
+        if (length != 6 && length != 8) throw new IllegalArgumentException("The hex length can either be 6 or 8, provided: " + hex + ".");
+        return rgba(Integer.parseUnsignedInt(hex + (length == 6 ? "FF" : ""), 16));
+    }
+
     /// Extracts the `R`, `G`, `B`, and `A` channels from a packed `0xRRGGBBAA` integer.
     /// @return the extracted colors.
     @MethodAlias(outputClass = COLOR_OUT)
-    @NamedAlias(methodName = COLOR_FACTORY + F64 + "Rgba")
-    public static ColorF64 colorRgba(int rgba) {
-        return colorRgba(
+    @NamedAlias(methodName = RGBA_FACTORY + F64)
+    public static ColorF64 rgba(int rgba) {
+        return rgba(
                 rgba >>> 24,
                 rgba >>> 16 & 0xFF,
                 rgba >>> 8 & 0xFF,
@@ -62,8 +74,8 @@ public value record ColorF64(
     /// Providing integers above `255` is allowed, but the resulting value will be above `1`.
     /// @return the color with the channels normalized by dividing each value by `255`.
     @MethodAlias(outputClass = COLOR_OUT)
-    @NamedAlias(methodName = COLOR_FACTORY + F64 + "Rgba")
-    public static ColorF64 colorRgba(int red, int green, int blue, int alpha) {
+    @NamedAlias(methodName = RGBA_FACTORY + F64)
+    public static ColorF64 rgba(int red, int green, int blue, int alpha) {
         return new ColorF64(
                 red / 255d,
                 green / 255d,
@@ -76,8 +88,8 @@ public value record ColorF64(
     /// Providing doubles above `255` is allowed, but the resulting value will be above `1`.
     /// @return the color with the channels normalized by dividing each value by `255`.
     @MethodAlias(outputClass = COLOR_OUT)
-    @NamedAlias(methodName = COLOR_FACTORY + F64 + "Rgba") // No collision, but consistency.
-    public static ColorF64 colorRgba(double red, double green, double blue, double alpha) {
+    @NamedAlias(methodName = RGBA_FACTORY + F64) // No collision, but consistency.
+    public static ColorF64 rgba(double red, double green, double blue, double alpha) {
         return new ColorF64(
                 red / 255d,
                 green / 255d,
@@ -86,26 +98,14 @@ public value record ColorF64(
         );
     }
 
-    /// Converts a hex string to a color.\
-    /// The hex can contain `#`, which will simply be ignored,
-    ///  and it must provide either `RRGGBB` or `RRGGBBAA` in hexadecimal format.
-    @MethodAlias(outputClass = COLOR_OUT)
-    @NamedAlias(methodName = COLOR_FACTORY + F64 + "Hex")
-    public static ColorF64 colorHex(String hexColor) {
-        final String hex = hexColor.startsWith("#") ? hexColor.substring(1) : hexColor;
-        final int length = hex.length();
-        if (length != 6 && length != 8) throw new IllegalArgumentException("The hex length can either be 6 or 8, provided: " + hex + ".");
-        return colorRgba(Integer.parseUnsignedInt(hex + (length == 6 ? "FF" : ""), 16));
-    }
-
     /// Converts the HSV to a color.
     /// @param hue the angle of the hue, any angle is allowed.
     /// @param saturation the saturation in the range [0,1].
     /// @param value the value in the range [0,1].
     /// @return the converted color.
     @MethodAlias(outputClass = COLOR_OUT)
-    @NamedAlias(methodName = COLOR_FACTORY + F64 + "Hsv")
-    public static ColorF64 colorHsv(AngleF64 hue, double saturation, double value) {
+    @NamedAlias(methodName = HSV_FACTORY + F64)
+    public static ColorF64 hsv(AngleF64 hue, double saturation, double value) {
 
         if (value == 0d) return new ColorF64(0d, 0d, 0d, 1d); // Black.
         if (saturation == 0d) return new ColorF64(value, value, value, 1d); // Grayscale.
@@ -136,8 +136,8 @@ public value record ColorF64(
     /// @param lightness the lightness in the range [0,1].
     /// @return the converted color.
     @MethodAlias(outputClass = COLOR_OUT)
-    @NamedAlias(methodName = COLOR_FACTORY + F64 + "Hsl")
-    public static ColorF64 colorHsl(AngleF64 hue, double saturation, double lightness) {
+    @NamedAlias(methodName = HSL_FACTORY + F64)
+    public static ColorF64 hsl(AngleF64 hue, double saturation, double lightness) {
 
         if (lightness == 0d) return new ColorF64(0d, 0d, 0d, 1d); // Black.
         if (saturation == 0d) return new ColorF64(lightness, lightness, lightness, 1d); // Grayscale.

@@ -45,12 +45,24 @@ public value record ColorF32(
         this(tuple.x(), tuple.y(), tuple.z(), tuple.w());
     }
 
+    /// Converts a hex string to a color.\
+    /// The hex can contain `#`, which will simply be ignored,
+    ///  and it must provide either `RRGGBB` or `RRGGBBAA` in hexadecimal format.
+    @MethodAlias(outputClass = COLOR_OUT)
+    @NamedAlias(methodName = COLOR_FACTORY + UPPER_HEX_FACTORY + F32)
+    public static ColorF32 colorHex(String hexColor) {
+        final String hex = hexColor.startsWith("#") ? hexColor.substring(1) : hexColor;
+        final int length = hex.length();
+        if (length != 6 && length != 8) throw new IllegalArgumentException("The hex length can either be 6 or 8, provided: " + hex + ".");
+        return rgba(Integer.parseUnsignedInt(hex + (length == 6 ? "FF" : ""), 16));
+    }
+
     /// Extracts the `R`, `G`, `B`, and `A` channels from a packed `0xRRGGBBAA` integer.
     /// @return the extracted colors.
     @MethodAlias(outputClass = COLOR_OUT)
-    @NamedAlias(methodName = COLOR_FACTORY + F32 + "Rgba")
-    public static ColorF32 colorRgba(int rgba) {
-        return colorRgba(
+    @NamedAlias(methodName = RGBA_FACTORY + F32)
+    public static ColorF32 rgba(int rgba) {
+        return rgba(
                 rgba >>> 24,
                 rgba >>> 16 & 0xFF,
                 rgba >>> 8 & 0xFF,
@@ -62,8 +74,8 @@ public value record ColorF32(
     /// Providing integers above `255` is allowed, but the resulting value will be above `1`.
     /// @return the color with the channels normalized by dividing each value by `255`.
     @MethodAlias(outputClass = COLOR_OUT)
-    @NamedAlias(methodName = COLOR_FACTORY + F32 + "Rgba")
-    public static ColorF32 colorRgba(int red, int green, int blue, int alpha) {
+    @NamedAlias(methodName = RGBA_FACTORY + F32)
+    public static ColorF32 rgba(int red, int green, int blue, int alpha) {
         return new ColorF32(
                   red / 255f,
                 green / 255f,
@@ -76,8 +88,8 @@ public value record ColorF32(
     /// Providing floats above `255` is allowed, but the resulting value will be above `1`.
     /// @return the color with the channels normalized by dividing each value by `255`.
     @MethodAlias(outputClass = COLOR_OUT)
-    @NamedAlias(methodName = COLOR_FACTORY + F32 + "Rgba") // No collision, but consistency.
-    public static ColorF32 colorRgba(float red, float green, float blue, float alpha) {
+    @NamedAlias(methodName = RGBA_FACTORY + F32) // No collision, but consistency.
+    public static ColorF32 rgba(float red, float green, float blue, float alpha) {
         return new ColorF32(
                 red / 255f,
                 green / 255f,
@@ -86,26 +98,14 @@ public value record ColorF32(
         );
     }
 
-    /// Converts a hex string to a color.\
-    /// The hex can contain `#`, which will simply be ignored,
-    ///  and it must provide either `RRGGBB` or `RRGGBBAA` in hexadecimal format.
-    @MethodAlias(outputClass = COLOR_OUT)
-    @NamedAlias(methodName = COLOR_FACTORY + F32 + "Hex")
-    public static ColorF32 colorHex(String hexColor) {
-        final String hex = hexColor.startsWith("#") ? hexColor.substring(1) : hexColor;
-        final int length = hex.length();
-        if (length != 6 && length != 8) throw new IllegalArgumentException("The hex length can either be 6 or 8, provided: " + hex + ".");
-        return colorRgba(Integer.parseUnsignedInt(hex + (length == 6 ? "FF" : ""), 16));
-    }
-
     /// Converts the HSV to a color.
     /// @param hue the angle of the hue, any angle is allowed.
     /// @param saturation the saturation in the range [0,1].
     /// @param value the value in the range [0,1].
     /// @return the converted color.
     @MethodAlias(outputClass = COLOR_OUT)
-    @NamedAlias(methodName = COLOR_FACTORY + F32 + "Hsv")
-    public static ColorF32 colorHsv(AngleF32 hue, float saturation, float value) {
+    @NamedAlias(methodName = HSV_FACTORY + F32)
+    public static ColorF32 hsv(AngleF32 hue, float saturation, float value) {
 
         if (value == 0f) return new ColorF32(0f, 0f, 0f, 1f); // Black.
         if (saturation == 0f) return new ColorF32(value, value, value, 1f); // Grayscale.
@@ -136,8 +136,8 @@ public value record ColorF32(
     /// @param lightness the lightness in the range [0,1].
     /// @return the converted color.
     @MethodAlias(outputClass = COLOR_OUT)
-    @NamedAlias(methodName = COLOR_FACTORY + F32 + "Hsl")
-    public static ColorF32 colorHsl(AngleF32 hue, float saturation, float lightness) {
+    @NamedAlias(methodName = HSL_FACTORY + F32)
+    public static ColorF32 hsl(AngleF32 hue, float saturation, float lightness) {
 
         if (lightness == 0f) return new ColorF32(0f, 0f, 0f, 1f); // Black.
         if (saturation == 0f) return new ColorF32(lightness, lightness, lightness, 1f); // Grayscale.
