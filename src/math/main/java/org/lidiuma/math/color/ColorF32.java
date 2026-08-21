@@ -72,6 +72,20 @@ public value record ColorF32(
         );
     }
 
+    /// Converts the color channels from a float value in the range `[0,255]` to a float value in the range `[0,1]`.\
+    /// Providing floats above `255` is allowed, but the resulting value will be above `1`.
+    /// @return the color with the channels normalized by dividing each value by `255`.
+    @MethodAlias(outputClass = COLOR_OUT)
+    @NamedAlias(methodName = COLOR_FACTORY + F32 + "Rgba") // No collision, but consistency.
+    public static ColorF32 colorRgba(float red, float green, float blue, float alpha) {
+        return new ColorF32(
+                red / 255f,
+                green / 255f,
+                blue / 255f,
+                alpha / 255f
+        );
+    }
+
     /// Converts a hex string to a color.\
     /// The hex can contain `#`, which will simply be ignored,
     ///  and it must provide either `RRGGBB` or `RRGGBBAA` in hexadecimal format.

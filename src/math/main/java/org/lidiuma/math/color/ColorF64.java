@@ -72,6 +72,20 @@ public value record ColorF64(
         );
     }
 
+    /// Converts the color channels from a double value in the range `[0,255]` to a double value in the range `[0,1]`.\
+    /// Providing doubles above `255` is allowed, but the resulting value will be above `1`.
+    /// @return the color with the channels normalized by dividing each value by `255`.
+    @MethodAlias(outputClass = COLOR_OUT)
+    @NamedAlias(methodName = COLOR_FACTORY + F64 + "Rgba") // No collision, but consistency.
+    public static ColorF64 colorRgba(double red, double green, double blue, double alpha) {
+        return new ColorF64(
+                red / 255d,
+                green / 255d,
+                blue / 255d,
+                alpha / 255d
+        );
+    }
+
     /// Converts a hex string to a color.\
     /// The hex can contain `#`, which will simply be ignored,
     ///  and it must provide either `RRGGBB` or `RRGGBBAA` in hexadecimal format.
