@@ -13,6 +13,7 @@ but in mostly all cases, these convenience classes are more than enough:
 - `Rotations`
 - `Tuples`
 - `Vectors`
+- `Shapes`
 
 # Features
 - JPMS support. (it's a top priority)
@@ -47,16 +48,12 @@ Either way, I had to abuse primitives to not kill the GC, making both of these t
 This is why I'm remaking some of the math classes by following modern standards, like immutability.
 My objective is to have these math classes be used in hot-paths without any worry, hence why I'm using Valhalla.
 
-###### Outdated, now this is provided by the MathAPI
-~~My dream/hope is that this becomes a standard for game related things to make library development easier between different frameworks,
-I'll try my best to make this a reality, but it will likely just be one of those nice dreams... we'll see with time!~~
-
 ## Backwards compatibility?
-No guarantees. I'm using an Early Access what do you expect?!\
-I'll try to be careful, document any breakage, and version appropriately.
-But there might be things out of my control, so this is something to keep in mind.\
-To make you a bit relieved, I'll be the primary person using this library, and I'm quite lazy,
-this means I won't have the motivation to change things (unless really needed), meaning breaking changes will probably be kept to a minimum.
+Since this is a `0.x` version, there might be some breaking changes. 
+The project is built on assumptions of future Java versions, and these can change, once they become stable, a `1.0` can be considered.
+
+Naturally I'll try my best to keep breaking changes at a minimum and document any,
+after all I'll be the main person using this library and I get how annoying breaking changes are.
 
 ## Special Thanks
 To [LibGDX](https://libgdx.com/), I used it as a reference, even though all the code has seen so much refactor that there's no longer trace of the original LibGDX code.
