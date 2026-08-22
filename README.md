@@ -94,3 +94,6 @@ Here are some useful commands to get started:
 - `./bld benchmark run` runs the benchmark.
 - `./bld math test` runs the tests.
 - `./bld math jar` creates the jar dist.
+
+## Contact
+If you want to contact me privately for any feedback or questions, you can write me at [contact@lidiuma.org]().
