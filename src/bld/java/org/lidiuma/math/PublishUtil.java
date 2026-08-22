@@ -69,7 +69,7 @@ public final class PublishUtil {
         final var projectInfo = ProjectInfo.github("Lidiuma", project.name());
         return new PublishInfo()
                 .groupId(GROUP_ID)
-                .artifactId("math")
+                .artifactId("lidiuma-math")
                 .version(project.version())
                 .name(project.name())
                 .description("Math Library using Project Valhalla")
