@@ -33,7 +33,6 @@ public final class BenchmarkBuild extends MathModule {
         name = "math-benchmark";
         pkg = GROUP_ID + "." + name();
         mainClass = GROUP_ID + "." + name.replace("-", "_") + ".BenchmarkMain";
-        javaTool = javaToolPath(this);
         downloadSources = true;
         repositories = List.of(MAVEN_CENTRAL, RIFE2_RELEASES);
         version = version(0, 2, 0);

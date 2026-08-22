@@ -34,11 +34,9 @@ public final class MathBuild extends MathModule {
         pkg = GROUP_ID + "." + name();
         module = "lidiuma.math";
         version = version(0, 3, 0);
-        javaTool = javaToolPath(this);
         downloadSources = true;
         repositories = List.of(MAVEN_CENTRAL, CENTRAL_SNAPSHOTS, RIFE2_RELEASES);
         assignModuleDirectories("math");
-
 
         includeDependencies();
 
@@ -53,6 +51,7 @@ public final class MathBuild extends MathModule {
     }
 
     private void includeDependencies() {
+
         scope(compile)
                 .include(module("org.jspecify", "jspecify", version(1, 0, 0)))
                 .include(module("org.lidiuma.math", "math-api", version(1, 0, 0, "rc1")))

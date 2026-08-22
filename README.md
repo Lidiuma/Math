@@ -63,9 +63,14 @@ To [LibGDX](https://libgdx.com/), I used it as a reference, even though all the 
 But I still like to thank it for allowing me to bootstrap and have a more or less clear direction to follow.
 
 ## Building the project
-**I'm using [bld](https://rife2.com/bld), a lightweight and easy-to-read build tool that compiles Java using Java.**
-The build tool is quite easy to use, the only thing is you need to create the `java-version.txt` file and provide the Java directory.
-Because of the lack of support, it's quite the pain to use with IntelliJ, hopefully with time this improves,
-the good thing is I'm actively discussing with bld creators to improve on this. 
+**I'm using [bld](https://rife2.com/bld), a lightweight and easy-to-read build tool that compiles Java using Java.**\
+The build tool is quite easy to use, for IntelliJ IDEA everything should come already configured (via the `.idea` directory).
 
-Said this, you can easily do (in the project root) `./bld download` to download the libraries and `./bld jar` to compile the jar.
+There are a few modules; `math`, `processor`, `benchmark`, that have different purposes, the main project is the `math` module.
+Here are some useful commands to get started:
+- `./bld math download`, `./bld benchmark download` Downloads all the dependencies of the module.
+- `./bld math purge`, `./bld benchmark purge` Deletes all the cached dependencies.
+- `./bld math clean compile`, `./bld benchmark clean compile` cleans the old build files and compiles new ones.
+- `./bld benchmark run` runs the benchmark.
+- `./bld math test` runs the tests.
+- `./bld math jar` creates the jar dist.

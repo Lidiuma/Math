@@ -21,17 +21,12 @@ import org.lidiuma.math.modules.MathBuild;
 import org.lidiuma.math.modules.ProcessorBuild;
 import rife.bld.Project;
 import rife.bld.operations.JavacOptions;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.util.Arrays;
 
 public interface Math {
 
-
     String AVAILABLE = "(Available: \"math\", \"benchmark\", \"processor\")";
     String GROUP_ID = "org.lidiuma"; // TODO Modify to org.lidiuma.math?
-    // Minor code re-use.
-    String JAVA_VERSION_NAME = "java-version.txt";
     // Must be declared in this order.
     ProcessorBuild PROCESSOR = new ProcessorBuild();
     MathBuild MATH = new MathBuild();
@@ -60,15 +55,6 @@ public interface Math {
         final String[] bldArgs = Arrays.copyOfRange(args, 1, args.length);
         System.out.println("== \"" + module + "\" module selected ==");
         project.start(bldArgs);
-    }
-
-    static String javaToolPath(Project project) {
-        try {
-            final var projectPath = project.workDirectory().toPath();
-            return Files.readString(projectPath.resolve(JAVA_VERSION_NAME)) + "/bin/java";
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     static void commonBuildOption(JavacOptions options, String mathModule) {
