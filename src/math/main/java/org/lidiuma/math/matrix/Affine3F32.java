@@ -30,6 +30,7 @@ import static org.lidiuma.math.internal.AnnotationConst.*;
 
 @FactoryAlias(methodName = AFFINE3_FACTORY, outputClass = MATRIX_OUT)
 public value record Affine3F32(
+        // I'm not using an array because it's an identity object, and this reads and feels better to work with.
         @NullRestricted Float m00, @NullRestricted Float m01, @NullRestricted Float m02, @NullRestricted Float m03,
         @NullRestricted Float m10, @NullRestricted Float m11, @NullRestricted Float m12, @NullRestricted Float m13,
         @NullRestricted Float m20, @NullRestricted Float m21, @NullRestricted Float m22, @NullRestricted Float m23

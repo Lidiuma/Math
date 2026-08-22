@@ -31,6 +31,7 @@ import static org.lidiuma.math.internal.AnnotationConst.*;
 @LooselyConsistentValue
 @FactoryAlias(methodName = MATRIX3_FACTORY, outputClass = MATRIX_OUT)
 public value record Matrix3F64(
+        // I'm not using an array because it's an identity object, and this reads and feels better to work with.
         @NullRestricted Double m00, @NullRestricted Double m01, @NullRestricted Double m02,
         @NullRestricted Double m10, @NullRestricted Double m11, @NullRestricted Double m12,
         @NullRestricted Double m20, @NullRestricted Double m21, @NullRestricted Double m22
