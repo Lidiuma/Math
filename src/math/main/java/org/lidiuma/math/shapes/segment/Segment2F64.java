@@ -19,8 +19,12 @@ package org.lidiuma.math.shapes.segment;
 import jdk.internal.vm.annotation.LooselyConsistentValue;
 import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.shapes.segment.Segment2;
+import org.lidiuma.math.processor.FactoryAlias;
 import org.lidiuma.math.vector.Vec2F64;
+import static org.lidiuma.math.internal.AnnotationConst.SEGMENT2_FACTORY;
+import static org.lidiuma.math.internal.AnnotationConst.SHAPES_OUT;
 
 @LooselyConsistentValue
+@FactoryAlias(methodName = SEGMENT2_FACTORY, outputClass = SHAPES_OUT, isPackageDefined = true)
 public value record Segment2F64(@NullRestricted Vec2F64 span) implements Segment2<Double> {
 }

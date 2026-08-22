@@ -20,7 +20,7 @@ package org.lidiuma.math.internal;
 /// Really useful to avoid mistakes that come from using strings directly.
 public final class AnnotationConst {
 
-    // Vector-related
+    /* == Vector-related == */
     public static final String VECTOR_OUT = "Vectors";
     public static final String VEC1_FACTORY = "vec1";
     public static final String VEC2_FACTORY = "vec2";
@@ -30,7 +30,7 @@ public final class AnnotationConst {
     public static final String UPPER_VEC2_FACTORY = "Vec2";
     public static final String UPPER_VEC3_FACTORY = "Vec3";
     public static final String UPPER_VEC4_FACTORY = "Vec4";
-    // Tuples-related
+    /* == Tuples-related == */
     public static final String TUPLES_OUT = "Tuples";
     public static final String DOUBLE1 = "double1";
     public static final String DOUBLE2 = "double2";
@@ -48,20 +48,20 @@ public final class AnnotationConst {
     public static final String LONG2 = "long2";
     public static final String LONG3 = "long3";
     public static final String LONG4 = "long4";
-    // Points-related
+    /* == Points-related == */
     public static final String POINT_OUT = "Points";
     public static final String POINT1_FACTORY = "point1";
     public static final String POINT2_FACTORY = "point2";
     public static final String POINT3_FACTORY = "point3";
     public static final String POINT4_FACTORY = "point4";
-    // Colors-related
+    /* == Colors-related == */
     public static final String COLOR_OUT = "Colors";
     public static final String COLOR_FACTORY = "color";
     public static final String RGBA_FACTORY = "rgba";
     public static final String HSV_FACTORY = "hsv";
     public static final String HSL_FACTORY = "hsl";
     public static final String UPPER_HEX_FACTORY = "Hex";
-    // Matrices-related
+    /* == Matrices-related == */
     public static final String MATRIX_OUT = "Matrices";
     public static final String AFFINE2_FACTORY = "affine2";
     public static final String AFFINE3_FACTORY = "affine3";
@@ -71,18 +71,33 @@ public final class AnnotationConst {
     public static final String UPPER_AFFINE3_FACTORY = "Affine3";
     public static final String UPPER_MATRIX3_FACTORY = "Matrix3";
     public static final String UPPER_MATRIX4_FACTORY = "Matrix4";
-    // Rotations-related
+    /* == Rotations-related == */
     public static final String ROTATION_OUT = "Rotations";
     public static final String QUATERNION_FACTORY = "quaternion";
     public static final String AXIS_ANGLE_FACTORY = "axisAngle";
     public static final String SWING_TWIST_FACTORY = "swingTwist";
     public static final String ANGLE_FACTORY = "angle";
-    // Re-used by multiple aliases.
+    /* == Shapes-related == */
+    // I cannot get this programmatically otherwise it's not const anymore.
+    public static final String SHAPES_OUT = "org.lidiuma.math.shapes.Shapes";
+    public static final String RECT2_FACTORY = "rect2";
+    public static final String RECT3_FACTORY = "rect3";
+    public static final String RECT4_FACTORY = "rect4";
+    public static final String SEGMENT1_FACTORY = "segment1";
+    public static final String SEGMENT2_FACTORY = "segment2";
+    public static final String SEGMENT3_FACTORY = "segment3";
+    public static final String SEGMENT4_FACTORY = "segment4";
+    public static final String RADIUS_FACTORY = "radius";
+    public static final String TRIANGLE2_FACTORY = "triangle2";
+    public static final String TRIANGLE3_FACTORY = "triangle3";
+    public static final String TRIANGLE4_FACTORY = "triangle4";
+
+    /* == Re-used by multiple aliases == */
     public static final String IDENTITY_FACTORY = "identity";
     public static final String ONE_FACTORY = "one";
     public static final String ZERO_FACTORY = "zero";
 
-    // Explicit numeric types for re-use.
+    /* == Explicit numeric types for re-use == */
     public static final String I32 = "I32";
     public static final String I64 = "I64";
     public static final String F32 = "F32";

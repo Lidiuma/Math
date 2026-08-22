@@ -19,7 +19,11 @@ package org.lidiuma.math.shapes.sphere;
 import jdk.internal.vm.annotation.LooselyConsistentValue;
 import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.shapes.sphere.Radius;
+import org.lidiuma.math.processor.FactoryAlias;
+import static org.lidiuma.math.internal.AnnotationConst.RADIUS_FACTORY;
+import static org.lidiuma.math.internal.AnnotationConst.SHAPES_OUT;
 
 @LooselyConsistentValue
+@FactoryAlias(methodName = RADIUS_FACTORY, outputClass = SHAPES_OUT, isPackageDefined = true)
 public value record RadiusF64(@NullRestricted Double radius) implements Radius<Double> {
 }

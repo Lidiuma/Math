@@ -19,9 +19,13 @@ package org.lidiuma.math.shapes.rectangle;
 import jdk.internal.vm.annotation.LooselyConsistentValue;
 import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.shapes.rectangle.Rectangle4;
+import org.lidiuma.math.processor.FactoryAlias;
 import org.lidiuma.math.vector.Vec4F64;
+import static org.lidiuma.math.internal.AnnotationConst.RECT4_FACTORY;
+import static org.lidiuma.math.internal.AnnotationConst.SHAPES_OUT;
 
 @LooselyConsistentValue
+@FactoryAlias(methodName = RECT4_FACTORY, outputClass = SHAPES_OUT, isPackageDefined = true)
 public value record Rect4F64(@NullRestricted Vec4F64 dimensions) implements Rectangle4<Double> {
 
     public Rect4F64(double width, double height, double length, double depth) {

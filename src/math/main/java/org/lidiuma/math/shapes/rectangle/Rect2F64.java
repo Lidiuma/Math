@@ -19,9 +19,13 @@ package org.lidiuma.math.shapes.rectangle;
 import jdk.internal.vm.annotation.LooselyConsistentValue;
 import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.shapes.rectangle.Rectangle2;
+import org.lidiuma.math.processor.FactoryAlias;
 import org.lidiuma.math.vector.Vec2F64;
+import static org.lidiuma.math.internal.AnnotationConst.RECT2_FACTORY;
+import static org.lidiuma.math.internal.AnnotationConst.SHAPES_OUT;
 
 @LooselyConsistentValue
+@FactoryAlias(methodName = RECT2_FACTORY, outputClass = SHAPES_OUT, isPackageDefined = true)
 public value record Rect2F64(@NullRestricted Vec2F64 dimensions) implements Rectangle2<Double> {
 
     public Rect2F64(double width, double height) {
