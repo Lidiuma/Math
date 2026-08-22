@@ -17,9 +17,7 @@
 package org.lidiuma.math.modules;
 
 import org.lidiuma.math.MathModule;
-import rife.bld.operations.CompileOperation;
 import rife.bld.operations.JavacOptions;
-import rife.bld.operations.RunOperation;
 import java.util.List;
 import static org.lidiuma.math.Math.*;
 import static rife.bld.dependencies.Repository.MAVEN_CENTRAL;
@@ -48,12 +46,16 @@ public final class BenchmarkBuild extends MathModule {
                 .include(dependency("org.jspecify", "jspecify", version(1, 0, 0)))
                 .include(dependency("org.openjdk.jmh", "jmh-core", JMH_VERSION))
                 .include(dependency("org.openjdk.jmh", "jmh-generator-annprocess", JMH_VERSION));
+
+        final var options = compileOperation().compileOptions();
+        options.process(JavacOptions.Processing.FULL);
+        commonBuildOption(options, MATH.module());
+        runConfiguration();
     }
 
-    @Override
-    public RunOperation runOperation() {
+    private void runConfiguration() {
 
-        final var operation = super.runOperation();
+        final var operation = runOperation();
         operation.javaOptions().enablePreview();
 //        operation.javaOptions().add("-XX:+UnlockDiagnosticVMOptions");
 //        operation.javaOptions().add("-XX:+PrintInlining");
@@ -63,16 +65,6 @@ public final class BenchmarkBuild extends MathModule {
         final var options = operation.runOptions();
         options.remove("-prof=gc"); // Remove to avoid doubles.
         options.add("-prof=gc"); // I want to see how much garbage collection occurs.
-        return operation;
-    }
-
-    @Override
-    public CompileOperation compileOperation() {
-        final var operation = super.compileOperation();
-        final var options = operation.compileOptions();
-        options.process(JavacOptions.Processing.FULL);
-        commonBuildOption(options, MATH.module());
-        return operation;
     }
 
     @Override

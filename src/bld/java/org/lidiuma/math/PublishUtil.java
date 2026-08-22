@@ -18,9 +18,13 @@ package org.lidiuma.math;
 
 import rife.bld.Project;
 import rife.bld.publish.PublishDeveloper;
+import rife.bld.publish.PublishInfo;
 import rife.bld.publish.PublishLicense;
 import java.util.ArrayList;
 import static java.lang.String.format;
+import static org.lidiuma.math.Math.GROUP_ID;
+import static rife.bld.dependencies.Repository.CENTRAL_RELEASES;
+import static rife.bld.dependencies.Repository.CENTRAL_SNAPSHOTS;
 import static rife.bld.dependencies.Scope.compile;
 
 public final class PublishUtil {
@@ -51,6 +55,30 @@ public final class PublishUtil {
             final var fixed = project.dependency(dependency.groupId(), dependency.artifactId(), dependency.version(), dependency.classifier(), null);
             project.scope(compile).include(fixed);
         }
+    }
+
+    public static void publishCentralConfiguration(Project project, boolean centralSnapshot) {
+        final var repository = centralSnapshot ? CENTRAL_SNAPSHOTS : CENTRAL_RELEASES;
+        project.publishOperation().repositories(repository.withCredentials(
+                project.property("sonatype.username"),
+                project.property("sonatype.password")
+        )).info(mathPublishInfo(project));
+    }
+
+    public static PublishInfo mathPublishInfo(Project project) {
+        final var projectInfo = ProjectInfo.github("Lidiuma", project.name());
+        return new PublishInfo()
+                .groupId(GROUP_ID)
+                .artifactId("math")
+                .version(project.version())
+                .name(project.name())
+                .description("Math Library using Project Valhalla")
+                .url(projectInfo.url())
+                .developer(XASMEDY_DEV)
+                .license(APACHE_V2_LICENSE)
+                .scm(projectInfo.scm())
+                .signKey(project.property("sign.key"))
+                .signPassphrase(project.property("sign.passphrase"));
     }
 
     private PublishUtil() {}
