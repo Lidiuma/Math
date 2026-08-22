@@ -54,8 +54,8 @@ public final class MathBuild extends MathModule {
 
         scope(compile)
                 .include(module("org.jspecify", "jspecify", version(1, 0, 0)))
-                .include(module("org.lidiuma.math", "math-api", version(1, 0, 0, "rc1")))
-                .include(module("org.lidiuma.math", "math-traits", version(0, 1, 0)));
+                .include(module("org.lidiuma.math", "math-api", version(1, 0, 0, "rc2")))
+                .include(module("org.lidiuma.math", "math-traits", version(0, 1, 1)));
 
         // Required for testing, otherwise the different bytecode version will make the test classes non-findable.
         testOperation().javaOptions().add("--enable-preview");
