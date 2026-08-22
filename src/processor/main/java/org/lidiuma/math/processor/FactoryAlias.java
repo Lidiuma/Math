@@ -29,4 +29,7 @@ public @interface FactoryAlias {
     String methodName();
 
     String outputClass();
+
+    /// Returns true in case [#outputClass()] also contains the destination package.
+    boolean isPackageDefined() default false;
 }

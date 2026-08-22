@@ -47,6 +47,17 @@ public final class AliasGenerator {
         this.class_ = Objects.requireNonNull(class_);
     }
 
+    /// @param fullClassName the fully qualified class name (package + class).
+    public AliasGenerator(Utility util, String fullClassName) {
+        this.util = Objects.requireNonNull(util);
+
+        final int index = Objects.requireNonNull(fullClassName).lastIndexOf('.');
+        if (index < 0) throw new IllegalArgumentException("The class name contains no package.");
+
+        this.package_ = fullClassName.substring(0, index);
+        this.class_ = fullClassName.substring(index + 1); // +1 to avoid including the dot.
+    }
+
     /// Retrieves the final method name in the generated class, but not the one used to make the method call to the original implementation.
     private static String methodName(ExecutableElement current, AliasType type) {
         final NamedAlias named = current.getAnnotation(NamedAlias.class);

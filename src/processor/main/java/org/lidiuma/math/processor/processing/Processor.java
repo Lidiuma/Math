@@ -77,7 +77,9 @@ public final class Processor extends AbstractProcessor {
         }
 
         final var modifiers = element.getModifiers();
-        if (modifiers.contains(Modifier.PRIVATE)) { // TODO Allow the method generator to use anything other than public.
+        // Might allow other modifiers than public,
+        // but right now the compiler threats them as separated packages, so package-private gives an error.
+        if (modifiers.contains(Modifier.PRIVATE)) {
             messager.printError("Cannot generate alias since '" + element.getSimpleName() + "' is private.", element);
             return true;
         }
@@ -99,11 +101,12 @@ public final class Processor extends AbstractProcessor {
         final var elements = util.processingEnv().getElementUtils();
 
         final FactoryAlias annotation = Objects.requireNonNull(element.getAnnotation(FactoryAlias.class));
+        // Ignored if the package is defined in the outputClass.
         final String package_ = elements.getPackageOf(element).toString();
-        final String class_ = annotation.outputClass();
-        final String signature = package_ + "." + class_;
+        final String class_ = annotation.outputClass(); // Might also contain the package.
+        final String signature = annotation.isPackageDefined() ? class_ : package_ + "." + class_;
 
-        aliases.computeIfAbsent(signature, _ -> new AliasGenerator(util, package_, class_))
+        aliases.computeIfAbsent(signature, _ -> new AliasGenerator(util, signature))
                 .addMethods(annotation, element);
     }
 
