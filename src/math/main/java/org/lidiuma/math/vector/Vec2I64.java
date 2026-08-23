@@ -63,19 +63,126 @@ public value record Vec2I64(
         @Override
         @NamedAlias(methodName = ZERO_FACTORY + UPPER_VEC2_FACTORY + I64)
         public Vec2I64 zero() {
-            return Vector2Ops.super.zero();
+            return of(0L, 0L);
         }
 
         @Override
         @NamedAlias(methodName = ONE_FACTORY + UPPER_VEC2_FACTORY + I64)
         public Vec2I64 one() {
-            return Vector2Ops.super.one();
+            return of(1L, 1L);
         }
 
         @Override
         @AliasExclude
         public LongNumeric scalarOps() {
             return LongNumeric.OPS;
+        }
+
+        /*
+        Handwritten to remove GC collections when used polymorphically (different generic parameters).
+        Speed is more or less the same, but without a rare case of the JIT failing giving x10 less performance.
+        This unfortunately creates code duplication, and I'm sure some methods are fine as-is,
+        but writing them anyway is faster than making sure with benchmarking.
+        */
+
+        @Override
+        public Vec2I64 abs(Vec2I64 vector) {
+            return of(
+                    Math.abs(vector.x()),
+                    Math.abs(vector.y())
+            );
+        }
+
+        @Override
+        public Long cross(Vec2I64 v1, Vec2I64 v2) {
+            return v1.x() * v2.y() - v1.y() * v2.x();
+        }
+
+        @Override
+        public Long sum(Vec2I64 vector) {
+            return vector.x() + vector.y();
+        }
+
+        @Override
+        public Vec2I64 multiply(Vec2I64 vector, Long scalar) {
+            return multiply(vector, of(scalar, scalar));
+        }
+
+        @Override
+        public Vec2I64 clamp(Vec2I64 vector, Long min, Long max) {
+            return clamp(vector, of(min, min), of(max, max));
+        }
+
+        @Override
+        public Vec2I64 clamp(Vec2I64 value, Vec2I64 min, Vec2I64 max) {
+            return of(
+                    Math.clamp(value.x(), min.x(), max.x()),
+                    Math.clamp(value.y(), min.y(), max.y())
+            );
+        }
+
+        @Override
+        public Vec2I64 add(Vec2I64 op1, Vec2I64 op2) {
+            return of(
+                    op1.x() + op2.x(),
+                    op1.y() + op2.y()
+            );
+        }
+
+        @Override
+        public Vec2I64 multiply(Vec2I64 op1, Vec2I64 op2) {
+            return of(
+                    op1.x() * op2.x(),
+                    op1.y() * op2.y()
+            );
+        }
+
+        @Override
+        public Vec2I64 divide(Vec2I64 op1, Vec2I64 op2) {
+            return of(
+                    op1.x() / op2.x(),
+                    op1.y() / op2.y()
+            );
+        }
+
+        @Override
+        public Vec2I64 remainder(Vec2I64 op1, Vec2I64 op2) {
+            return of(
+                    op1.x() % op2.x(),
+                    op1.y() % op2.y()
+            );
+        }
+
+        @Override
+        public Vec2I64 negated(Vec2I64 operand) {
+            return of(
+                    -operand.x(),
+                    -operand.y()
+            );
+        }
+
+        @Override
+        public Long distanceSquared(Vec2I64 a, Vec2I64 b) {
+            final var sub = subtract(a, b);
+            return sum(multiply(sub, sub));
+        }
+
+        @Override
+        public Long lengthSquared(Vec2I64 vector) {
+            return dot(vector, vector);
+        }
+
+        @Override
+        public Long dot(Vec2I64 v1, Vec2I64 v2) {
+            return sum(multiply(v1, v2));
+        }
+
+        @Override
+        public Vec2I64 subtract(Vec2I64 op1, Vec2I64 op2) {
+            return of(
+                    op1.x() - op2.x(),
+                    op1.y() - op2.y()
+            );
         }
     }
 }

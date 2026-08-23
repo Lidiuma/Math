@@ -65,19 +65,138 @@ public value record Vec3I64(
         @Override
         @NamedAlias(methodName = ZERO_FACTORY + UPPER_VEC3_FACTORY + I64)
         public Vec3I64 zero() {
-            return Vector3Ops.super.zero();
+            return of(0L, 0L, 0L);
         }
 
         @Override
         @NamedAlias(methodName = ONE_FACTORY + UPPER_VEC3_FACTORY + I64)
         public Vec3I64 one() {
-            return Vector3Ops.super.one();
+            return of(1L, 1L, 1L);
         }
 
         @Override
         @AliasExclude
         public LongNumeric scalarOps() {
             return LongNumeric.OPS;
+        }
+
+        /*
+        Handwritten to remove GC collections when used polymorphically (different generic parameters).
+        Speed is more or less the same, but without a rare case of the JIT failing giving x10 less performance.
+        This unfortunately creates code duplication, and I'm sure some methods are fine as-is,
+        but writing them anyway is faster than making sure with benchmarking.
+        */
+
+        @Override
+        public Vec3I64 abs(Vec3I64 vector) {
+            return of(
+                    Math.abs(vector.x()),
+                    Math.abs(vector.y()),
+                    Math.abs(vector.z())
+            );
+        }
+
+        @Override
+        public Vec3I64 cross(Vec3I64 v1, Vec3I64 v2) {
+            return of(
+                    v1.y() * v2.z() - v1.z() * v2.y(),
+                    v1.z() * v2.x() - v1.x() * v2.z(),
+                    v1.x() * v2.y() - v1.y() * v2.x()
+            );
+        }
+
+        @Override
+        public Long sum(Vec3I64 vector) {
+            return vector.x() + vector.y() + vector.z();
+        }
+
+        @Override
+        public Vec3I64 multiply(Vec3I64 vector, Long scalar) {
+            return multiply(vector, of(scalar, scalar, scalar));
+        }
+
+        @Override
+        public Vec3I64 clamp(Vec3I64 vector, Long min, Long max) {
+            return clamp(vector, of(min, min, min), of(max, max, max));
+        }
+
+        @Override
+        public Vec3I64 clamp(Vec3I64 value, Vec3I64 min, Vec3I64 max) {
+            return of(
+                    Math.clamp(value.x(), min.x(), max.x()),
+                    Math.clamp(value.y(), min.y(), max.y()),
+                    Math.clamp(value.z(), min.z(), max.z())
+            );
+        }
+
+        @Override
+        public Vec3I64 add(Vec3I64 op1, Vec3I64 op2) {
+            return of(
+                    op1.x() + op2.x(),
+                    op1.y() + op2.y(),
+                    op1.z() + op2.z()
+            );
+        }
+
+        @Override
+        public Vec3I64 multiply(Vec3I64 op1, Vec3I64 op2) {
+            return of(
+                    op1.x() * op2.x(),
+                    op1.y() * op2.y(),
+                    op1.z() * op2.z()
+            );
+        }
+
+        @Override
+        public Vec3I64 divide(Vec3I64 op1, Vec3I64 op2) {
+            return of(
+                    op1.x() / op2.x(),
+                    op1.y() / op2.y(),
+                    op1.z() / op2.z()
+            );
+        }
+
+        @Override
+        public Vec3I64 remainder(Vec3I64 op1, Vec3I64 op2) {
+            return of(
+                    op1.x() % op2.x(),
+                    op1.y() % op2.y(),
+                    op1.z() % op2.z()
+            );
+        }
+
+        @Override
+        public Vec3I64 negated(Vec3I64 operand) {
+            return of(
+                    -operand.x(),
+                    -operand.y(),
+                    -operand.z()
+            );
+        }
+
+        @Override
+        public Long distanceSquared(Vec3I64 a, Vec3I64 b) {
+            final var sub = subtract(a, b);
+            return sum(multiply(sub, sub));
+        }
+
+        @Override
+        public Long lengthSquared(Vec3I64 vector) {
+            return dot(vector, vector);
+        }
+
+        @Override
+        public Long dot(Vec3I64 v1, Vec3I64 v2) {
+            return sum(multiply(v1, v2));
+        }
+
+        @Override
+        public Vec3I64 subtract(Vec3I64 op1, Vec3I64 op2) {
+            return of(
+                    op1.x() - op2.x(),
+                    op1.y() - op2.y(),
+                    op1.z() - op2.z()
+            );
         }
     }
 }

@@ -65,19 +65,138 @@ public value record Vec3I32(
         @Override
         @NamedAlias(methodName = ZERO_FACTORY + UPPER_VEC3_FACTORY + I32)
         public Vec3I32 zero() {
-            return Vector3Ops.super.zero();
+            return of(0, 0, 0);
         }
 
         @Override
         @NamedAlias(methodName = ONE_FACTORY + UPPER_VEC3_FACTORY + I32)
         public Vec3I32 one() {
-            return Vector3Ops.super.one();
+            return of(1, 1, 1);
         }
 
         @Override
         @AliasExclude
         public IntegerNumeric scalarOps() {
             return IntegerNumeric.OPS;
+        }
+
+        /*
+        Handwritten to remove GC collections when used polymorphically (different generic parameters).
+        Speed is more or less the same, but without a rare case of the JIT failing giving x10 less performance.
+        This unfortunately creates code duplication, and I'm sure some methods are fine as-is,
+        but writing them anyway is faster than making sure with benchmarking.
+        */
+
+        @Override
+        public Vec3I32 abs(Vec3I32 vector) {
+            return of(
+                    Math.abs(vector.x()),
+                    Math.abs(vector.y()),
+                    Math.abs(vector.z())
+            );
+        }
+
+        @Override
+        public Vec3I32 cross(Vec3I32 v1, Vec3I32 v2) {
+            return of(
+                    v1.y() * v2.z() - v1.z() * v2.y(),
+                    v1.z() * v2.x() - v1.x() * v2.z(),
+                    v1.x() * v2.y() - v1.y() * v2.x()
+            );
+        }
+
+        @Override
+        public Integer sum(Vec3I32 vector) {
+            return vector.x() + vector.y() + vector.z();
+        }
+
+        @Override
+        public Vec3I32 multiply(Vec3I32 vector, Integer scalar) {
+            return multiply(vector, of(scalar, scalar, scalar));
+        }
+
+        @Override
+        public Vec3I32 clamp(Vec3I32 vector, Integer min, Integer max) {
+            return clamp(vector, of(min, min, min), of(max, max, max));
+        }
+
+        @Override
+        public Vec3I32 clamp(Vec3I32 value, Vec3I32 min, Vec3I32 max) {
+            return of(
+                    Math.clamp(value.x(), min.x(), max.x()),
+                    Math.clamp(value.y(), min.y(), max.y()),
+                    Math.clamp(value.z(), min.z(), max.z())
+            );
+        }
+
+        @Override
+        public Vec3I32 add(Vec3I32 op1, Vec3I32 op2) {
+            return of(
+                    op1.x() + op2.x(),
+                    op1.y() + op2.y(),
+                    op1.z() + op2.z()
+            );
+        }
+
+        @Override
+        public Vec3I32 multiply(Vec3I32 op1, Vec3I32 op2) {
+            return of(
+                    op1.x() * op2.x(),
+                    op1.y() * op2.y(),
+                    op1.z() * op2.z()
+            );
+        }
+
+        @Override
+        public Vec3I32 divide(Vec3I32 op1, Vec3I32 op2) {
+            return of(
+                    op1.x() / op2.x(),
+                    op1.y() / op2.y(),
+                    op1.z() / op2.z()
+            );
+        }
+
+        @Override
+        public Vec3I32 remainder(Vec3I32 op1, Vec3I32 op2) {
+            return of(
+                    op1.x() % op2.x(),
+                    op1.y() % op2.y(),
+                    op1.z() % op2.z()
+            );
+        }
+
+        @Override
+        public Vec3I32 negated(Vec3I32 operand) {
+            return of(
+                    -operand.x(),
+                    -operand.y(),
+                    -operand.z()
+            );
+        }
+
+        @Override
+        public Integer distanceSquared(Vec3I32 a, Vec3I32 b) {
+            final var sub = subtract(a, b);
+            return sum(multiply(sub, sub));
+        }
+
+        @Override
+        public Integer lengthSquared(Vec3I32 vector) {
+            return dot(vector, vector);
+        }
+
+        @Override
+        public Integer dot(Vec3I32 v1, Vec3I32 v2) {
+            return sum(multiply(v1, v2));
+        }
+
+        @Override
+        public Vec3I32 subtract(Vec3I32 op1, Vec3I32 op2) {
+            return of(
+                    op1.x() - op2.x(),
+                    op1.y() - op2.y(),
+                    op1.z() - op2.z()
+            );
         }
     }
 }

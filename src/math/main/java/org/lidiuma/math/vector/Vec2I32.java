@@ -63,19 +63,126 @@ public value record Vec2I32(
         @Override
         @NamedAlias(methodName = ZERO_FACTORY + UPPER_VEC2_FACTORY + I32)
         public Vec2I32 zero() {
-            return Vector2Ops.super.zero();
+            return of(0, 0);
         }
 
         @Override
         @NamedAlias(methodName = ONE_FACTORY + UPPER_VEC2_FACTORY + I32)
         public Vec2I32 one() {
-            return Vector2Ops.super.one();
+            return of(1, 1);
         }
 
         @Override
         @AliasExclude
         public IntegerNumeric scalarOps() {
             return IntegerNumeric.OPS;
+        }
+
+        /*
+        Handwritten to remove GC collections when used polymorphically (different generic parameters).
+        Speed is more or less the same, but without a rare case of the JIT failing giving x10 less performance.
+        This unfortunately creates code duplication, and I'm sure some methods are fine as-is,
+        but writing them anyway is faster than making sure with benchmarking.
+        */
+
+        @Override
+        public Vec2I32 abs(Vec2I32 vector) {
+            return of(
+                    Math.abs(vector.x()),
+                    Math.abs(vector.y())
+            );
+        }
+
+        @Override
+        public Integer cross(Vec2I32 v1, Vec2I32 v2) {
+            return v1.x() * v2.y() - v1.y() * v2.x();
+        }
+
+        @Override
+        public Integer sum(Vec2I32 vector) {
+            return vector.x() + vector.y();
+        }
+
+        @Override
+        public Vec2I32 multiply(Vec2I32 vector, Integer scalar) {
+            return multiply(vector, of(scalar, scalar));
+        }
+
+        @Override
+        public Vec2I32 clamp(Vec2I32 vector, Integer min, Integer max) {
+            return clamp(vector, of(min, min), of(max, max));
+        }
+
+        @Override
+        public Vec2I32 clamp(Vec2I32 value, Vec2I32 min, Vec2I32 max) {
+            return of(
+                    Math.clamp(value.x(), min.x(), max.x()),
+                    Math.clamp(value.y(), min.y(), max.y())
+            );
+        }
+
+        @Override
+        public Vec2I32 add(Vec2I32 op1, Vec2I32 op2) {
+            return of(
+                    op1.x() + op2.x(),
+                    op1.y() + op2.y()
+            );
+        }
+
+        @Override
+        public Vec2I32 multiply(Vec2I32 op1, Vec2I32 op2) {
+            return of(
+                    op1.x() * op2.x(),
+                    op1.y() * op2.y()
+            );
+        }
+
+        @Override
+        public Vec2I32 divide(Vec2I32 op1, Vec2I32 op2) {
+            return of(
+                    op1.x() / op2.x(),
+                    op1.y() / op2.y()
+            );
+        }
+
+        @Override
+        public Vec2I32 remainder(Vec2I32 op1, Vec2I32 op2) {
+            return of(
+                    op1.x() % op2.x(),
+                    op1.y() % op2.y()
+            );
+        }
+
+        @Override
+        public Vec2I32 negated(Vec2I32 operand) {
+            return of(
+                    -operand.x(),
+                    -operand.y()
+            );
+        }
+
+        @Override
+        public Integer distanceSquared(Vec2I32 a, Vec2I32 b) {
+            final var sub = subtract(a, b);
+            return sum(multiply(sub, sub));
+        }
+
+        @Override
+        public Integer lengthSquared(Vec2I32 vector) {
+            return dot(vector, vector);
+        }
+
+        @Override
+        public Integer dot(Vec2I32 v1, Vec2I32 v2) {
+            return sum(multiply(v1, v2));
+        }
+
+        @Override
+        public Vec2I32 subtract(Vec2I32 op1, Vec2I32 op2) {
+            return of(
+                    op1.x() - op2.x(),
+                    op1.y() - op2.y()
+            );
         }
     }
 }
