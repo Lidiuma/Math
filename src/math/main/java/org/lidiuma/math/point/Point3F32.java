@@ -24,10 +24,10 @@ import org.lidiuma.math.api.tuple.UnaryTuple3;
 import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.FactoryAlias;
 import org.lidiuma.math.processor.FieldAlias;
-import org.lidiuma.math.processor.NamedAlias;
 import org.lidiuma.math.vector.Vec3F32;
 import java.util.function.UnaryOperator;
-import static org.lidiuma.math.internal.AnnotationConst.*;
+import static org.lidiuma.math.internal.AnnotationConst.POINT3_FACTORY;
+import static org.lidiuma.math.internal.AnnotationConst.POINT_OUT;
 
 @LooselyConsistentValue
 @FactoryAlias(methodName = POINT3_FACTORY, outputClass = POINT_OUT)
@@ -40,7 +40,8 @@ public value record Point3F32(
     @FieldAlias(outputClass = POINT_OUT)
     public static final Ops OPS = new Ops();
 
-    @NamedAlias(methodName = POINT3_FACTORY + F32)
+    /// A constructor creating a specialized point from a generic tuple.
+    @AliasExclude // This method can be a performance sink if used inappropriately, so I exclude it from the alias.
     public Point3F32(UnaryTuple3<Float> tuple) {
         this(tuple.x(), tuple.y(), tuple.z());
     }

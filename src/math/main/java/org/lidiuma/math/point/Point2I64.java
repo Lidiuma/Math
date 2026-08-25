@@ -24,9 +24,9 @@ import org.lidiuma.math.api.tuple.UnaryTuple2;
 import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.FactoryAlias;
 import org.lidiuma.math.processor.FieldAlias;
-import org.lidiuma.math.processor.NamedAlias;
 import org.lidiuma.math.vector.Vec2I64;
-import static org.lidiuma.math.internal.AnnotationConst.*;
+import static org.lidiuma.math.internal.AnnotationConst.POINT2_FACTORY;
+import static org.lidiuma.math.internal.AnnotationConst.POINT_OUT;
 
 @LooselyConsistentValue
 @FactoryAlias(methodName = POINT2_FACTORY, outputClass = POINT_OUT)
@@ -38,7 +38,8 @@ public value record Point2I64(
     @FieldAlias(outputClass = POINT_OUT)
     public static final Ops OPS = new Ops();
 
-    @NamedAlias(methodName = POINT2_FACTORY + I64)
+    /// A constructor creating a specialized point from a generic tuple.
+    @AliasExclude // This method can be a performance sink if used inappropriately, so I exclude it from the alias.
     public Point2I64(UnaryTuple2<Long> tuple) {
         this(tuple.x(), tuple.y());
     }
