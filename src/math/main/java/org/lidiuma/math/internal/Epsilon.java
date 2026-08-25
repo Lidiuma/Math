@@ -16,32 +16,16 @@
 
 package org.lidiuma.math.internal;
 
-public final class Strict {
+public final class Epsilon {
 
     public static final float EPSILON_F32 = 1e-6f;
-    public static final float EPSILON_F64 = 1e-12f;
+    public static final double EPSILON_F64 = 1e-12d;
 
-    public static float fix(float value) {
+    public static float clamp(float value) {
         return Math.abs(value) < EPSILON_F32 ? 0f : value;
     }
 
-    public static double fix(double value) {
+    public static double clamp(double value) {
         return Math.abs(value) < EPSILON_F64 ? 0d : value;
-    }
-
-    public static double cos(double value) {
-        return fix(Math.cos(value));
-    }
-
-    public static double sin(double value) {
-        return fix(Math.sin(value));
-    }
-
-    public static float cos(float value) {
-        return fix((float) Math.cos(value)); // If I cast after the cos(), the cast loses precision and goes bellow epsilon.
-    }
-
-    public static float sin(float value) {
-        return fix((float) Math.sin(value)); // If I cast after the sin(), the cast loses precision and goes bellow epsilon.
     }
 }
