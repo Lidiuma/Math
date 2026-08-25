@@ -20,10 +20,7 @@ import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.color.Color;
 import org.lidiuma.math.api.traits.color.ColorOps;
 import org.lidiuma.math.api.tuple.UnaryTuple4;
-import org.lidiuma.math.processor.FactoryAlias;
-import org.lidiuma.math.processor.FieldAlias;
-import org.lidiuma.math.processor.MethodAlias;
-import org.lidiuma.math.processor.NamedAlias;
+import org.lidiuma.math.processor.*;
 import org.lidiuma.math.rotation.AngleF32;
 import org.lidiuma.math.rotation.Rotations;
 import org.lidiuma.math.vector.Vec4F32;
@@ -41,7 +38,8 @@ public value record ColorF32(
     @FieldAlias(outputClass = COLOR_OUT)
     public static final Ops OPS = new ColorF32.Ops();
 
-    @NamedAlias(methodName = COLOR_FACTORY + F32)
+    /// A constructor creating a specialized color from a generic tuple.
+    @AliasExclude // This method can be a performance sink if used inappropriately, so I exclude it from the alias.
     public ColorF32(UnaryTuple4<Float> tuple) {
         this(tuple.x(), tuple.y(), tuple.z(), tuple.w());
     }
