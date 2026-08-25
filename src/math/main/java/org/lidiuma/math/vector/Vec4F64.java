@@ -182,6 +182,11 @@ public value record Vec4F64(
         }
 
         @Override
+        public Vec4F64 lerp(Vec4F64 start, Vec4F64 end, Double alpha) {
+            return interpolate(start, end, alpha, UnaryOperator.identity());
+        }
+
+        @Override
         public Double sum(Vec4F64 vector) {
             return vector.x() + vector.y() + vector.z() + vector.w();
         }

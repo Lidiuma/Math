@@ -148,6 +148,11 @@ public value record Vec1F32(@Override @NullRestricted Float x) implements Vector
         }
 
         @Override
+        public Vec1F32 lerp(Vec1F32 start, Vec1F32 end, Float alpha) {
+            return interpolate(start, end, alpha, UnaryOperator.identity());
+        }
+
+        @Override
         public Float sum(Vec1F32 vector) {
             return vector.x();
         }

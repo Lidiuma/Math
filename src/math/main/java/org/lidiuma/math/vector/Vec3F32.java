@@ -177,6 +177,11 @@ public value record Vec3F32(
         }
 
         @Override
+        public Vec3F32 lerp(Vec3F32 start, Vec3F32 end, Float alpha) {
+            return interpolate(start, end, alpha, UnaryOperator.identity());
+        }
+
+        @Override
         public Vec3F32 cross(Vec3F32 v1, Vec3F32 v2) {
             return of(
                     v1.y() * v2.z() - v1.z() * v2.y(),

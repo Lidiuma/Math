@@ -168,6 +168,11 @@ public value record Vec2F64(
         }
 
         @Override
+        public Vec2F64 lerp(Vec2F64 start, Vec2F64 end, Double alpha) {
+            return interpolate(start, end, alpha, UnaryOperator.identity());
+        }
+
+        @Override
         public Double cross(Vec2F64 v1, Vec2F64 v2) {
             return v1.x() * v2.y() - v1.y() * v2.x();
         }

@@ -168,6 +168,11 @@ public value record Vec2F32(
         }
 
         @Override
+        public Vec2F32 lerp(Vec2F32 start, Vec2F32 end, Float alpha) {
+            return interpolate(start, end, alpha, UnaryOperator.identity());
+        }
+
+        @Override
         public Float cross(Vec2F32 v1, Vec2F32 v2) {
             return v1.x() * v2.y() - v1.y() * v2.x();
         }

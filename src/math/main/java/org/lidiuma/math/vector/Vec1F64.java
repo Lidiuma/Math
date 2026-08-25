@@ -148,6 +148,11 @@ public value record Vec1F64(@Override @NullRestricted Double x) implements Vecto
         }
 
         @Override
+        public Vec1F64 lerp(Vec1F64 start, Vec1F64 end, Double alpha) {
+            return interpolate(start, end, alpha, UnaryOperator.identity());
+        }
+
+        @Override
         public Double sum(Vec1F64 vector) {
             return vector.x();
         }
