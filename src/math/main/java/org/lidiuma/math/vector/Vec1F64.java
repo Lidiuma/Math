@@ -34,8 +34,8 @@ public value record Vec1F64(@Override @NullRestricted Double x) implements Vecto
     @FieldAlias(outputClass = VECTOR_OUT)
     public static final Ops OPS = new Ops();
 
-    /// A constructor creating a specialized vector from a generic vector.
-    @NamedAlias(methodName = VEC1_FACTORY + F64)
+    /// A constructor creating a specialized vector from a generic tuple.
+    @AliasExclude // This method can be a performance sink if used inappropriately, so I exclude it from the alias.
     public Vec1F64(UnaryTuple1<Double> vec) {
         this(vec.x());
     }

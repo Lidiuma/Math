@@ -37,8 +37,8 @@ public value record Vec3I32(
     @FieldAlias(outputClass = VECTOR_OUT)
     public static final Ops OPS = new Ops();
 
-    /// A constructor creating a specialized vector from a generic vector.
-    @NamedAlias(methodName = VEC3_FACTORY + I32)
+    /// A constructor creating a specialized vector from a generic tuple.
+    @AliasExclude // This method can be a performance sink if used inappropriately, so I exclude it from the alias.
     public Vec3I32(UnaryTuple3<Integer> vec) {
         this(vec.x(), vec.y(), vec.z());
     }

@@ -37,8 +37,8 @@ public value record Vec2F64(
     @FieldAlias(outputClass = VECTOR_OUT)
     public static final Ops OPS = new Ops();
 
-    /// A constructor creating a specialized vector from a generic vector.
-    @NamedAlias(methodName = VEC2_FACTORY + F64)
+    /// A constructor creating a specialized vector from a generic tuple.
+    @AliasExclude // This method can be a performance sink if used inappropriately, so I exclude it from the alias.
     public Vec2F64(UnaryTuple2<Double> vec) {
         this(vec.x(), vec.y());
     }
