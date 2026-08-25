@@ -55,5 +55,45 @@ public value record Point1I32(@NullRestricted Integer x) implements Point1<Integ
         public Vec1I32.Ops vectorOps() {
             return Vec1I32.OPS;
         }
+        
+        /*
+        Handwritten to remove GC collections when used polymorphically (different generic parameters).
+        Speed is more or less the same, but without a rare case of the JIT failing giving x10 less performance.
+        This unfortunately creates code duplication, and I'm sure some methods are fine as-is,
+        but writing them anyway is faster than making sure with benchmarking.
+        */
+
+        @Override
+        public Integer distance(Point1I32 first, Point1I32 second) {
+            return vectorOps().distance(vec(first), vec(second));
+        }
+
+        @Override
+        public Point1I32 add(Point1I32 point, Vec1I32 vector) {
+            return point(vectorOps().add(vec(point), vector));
+        }
+
+        @Override
+        public Vec1I32 subtract(Point1I32 minuend, Point1I32 subtrahend) {
+            return vectorOps().subtract(vec(minuend), vec(subtrahend));
+        }
+
+        @Override
+        public Integer distanceSquared(Point1I32 first, Point1I32 second) {
+            return vectorOps().distanceSquared(vec(first), vec(second));
+        }
+
+        @Override
+        public Point1I32 clamp(Point1I32 point, Integer min, Integer max) {
+            return point(vectorOps().clamp(vec(point), min, max));
+        }
+
+        private Vec1I32 vec(Point1I32 point) {
+            return new Vec1I32(point.x());
+        }
+
+        private Point1I32 point(Vec1I32 vec) {
+            return new Point1I32(vec.x());
+        }
     }
 }

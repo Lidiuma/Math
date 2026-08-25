@@ -26,6 +26,7 @@ import org.lidiuma.math.processor.FactoryAlias;
 import org.lidiuma.math.processor.FieldAlias;
 import org.lidiuma.math.processor.NamedAlias;
 import org.lidiuma.math.vector.Vec4F64;
+import java.util.function.UnaryOperator;
 import static org.lidiuma.math.internal.AnnotationConst.*;
 
 @LooselyConsistentValue
@@ -59,6 +60,56 @@ public value record Point4F64(
         @AliasExclude
         public Vec4F64.Ops vectorOps() {
             return Vec4F64.OPS;
+        }
+
+        /*
+        Handwritten to remove GC collections when used polymorphically (different generic parameters).
+        Speed is more or less the same, but without a rare case of the JIT failing giving x10 less performance.
+        This unfortunately creates code duplication, and I'm sure some methods are fine as-is,
+        but writing them anyway is faster than making sure with benchmarking.
+        */
+
+        @Override
+        public Double distance(Point4F64 first, Point4F64 second) {
+            return vectorOps().distance(vec(first), vec(second));
+        }
+
+        @Override
+        public Point4F64 interpolate(Point4F64 start, Point4F64 end, Double alpha, UnaryOperator<Double> easing) {
+            return point(vectorOps().interpolate(vec(start), vec(end), alpha, easing));
+        }
+
+        @Override
+        public Point4F64 lerp(Point4F64 start, Point4F64 end, Double alpha) {
+            return interpolate(start, end, alpha, UnaryOperator.identity());
+        }
+
+        @Override
+        public Point4F64 add(Point4F64 point, Vec4F64 vector) {
+            return point(vectorOps().add(vec(point), vector));
+        }
+
+        @Override
+        public Vec4F64 subtract(Point4F64 minuend, Point4F64 subtrahend) {
+            return vectorOps().subtract(vec(minuend), vec(subtrahend));
+        }
+
+        @Override
+        public Double distanceSquared(Point4F64 first, Point4F64 second) {
+            return vectorOps().distanceSquared(vec(first), vec(second));
+        }
+
+        @Override
+        public Point4F64 clamp(Point4F64 point, Double min, Double max) {
+            return point(vectorOps().clamp(vec(point), min, max));
+        }
+
+        private Vec4F64 vec(Point4F64 point) {
+            return new Vec4F64(point.x(), point.y(), point.z(), point.w());
+        }
+
+        private Point4F64 point(Vec4F64 vec) {
+            return new Point4F64(vec.x(), vec.y(), vec.z(), vec.w());
         }
     }
 }

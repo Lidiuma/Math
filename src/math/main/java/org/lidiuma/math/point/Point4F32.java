@@ -26,6 +26,7 @@ import org.lidiuma.math.processor.FactoryAlias;
 import org.lidiuma.math.processor.FieldAlias;
 import org.lidiuma.math.processor.NamedAlias;
 import org.lidiuma.math.vector.Vec4F32;
+import java.util.function.UnaryOperator;
 import static org.lidiuma.math.internal.AnnotationConst.*;
 
 @LooselyConsistentValue
@@ -59,6 +60,56 @@ public value record Point4F32(
         @AliasExclude
         public Vec4F32.Ops vectorOps() {
             return Vec4F32.OPS;
+        }
+                        
+        /*
+        Handwritten to remove GC collections when used polymorphically (different generic parameters).
+        Speed is more or less the same, but without a rare case of the JIT failing giving x10 less performance.
+        This unfortunately creates code duplication, and I'm sure some methods are fine as-is,
+        but writing them anyway is faster than making sure with benchmarking.
+        */
+
+        @Override
+        public Float distance(Point4F32 first, Point4F32 second) {
+            return vectorOps().distance(vec(first), vec(second));
+        }
+
+        @Override
+        public Point4F32 interpolate(Point4F32 start, Point4F32 end, Float alpha, UnaryOperator<Float> easing) {
+            return point(vectorOps().interpolate(vec(start), vec(end), alpha, easing));
+        }
+
+        @Override
+        public Point4F32 lerp(Point4F32 start, Point4F32 end, Float alpha) {
+            return interpolate(start, end, alpha, UnaryOperator.identity());
+        }
+
+        @Override
+        public Point4F32 add(Point4F32 point, Vec4F32 vector) {
+            return point(vectorOps().add(vec(point), vector));
+        }
+
+        @Override
+        public Vec4F32 subtract(Point4F32 minuend, Point4F32 subtrahend) {
+            return vectorOps().subtract(vec(minuend), vec(subtrahend));
+        }
+
+        @Override
+        public Float distanceSquared(Point4F32 first, Point4F32 second) {
+            return vectorOps().distanceSquared(vec(first), vec(second));
+        }
+
+        @Override
+        public Point4F32 clamp(Point4F32 point, Float min, Float max) {
+            return point(vectorOps().clamp(vec(point), min, max));
+        }
+
+        private Vec4F32 vec(Point4F32 point) {
+            return new Vec4F32(point.x(), point.y(), point.z(), point.w());
+        }
+
+        private Point4F32 point(Vec4F32 vec) {
+            return new Point4F32(vec.x(), vec.y(), vec.z(), vec.w());
         }
     }
 }

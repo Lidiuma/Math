@@ -59,5 +59,40 @@ public value record Point3I64(
         public Vec3I64.Ops vectorOps() {
             return Vec3I64.OPS;
         }
+                                
+        /*
+        Handwritten to remove GC collections when used polymorphically (different generic parameters).
+        Speed is more or less the same, but without a rare case of the JIT failing giving x10 less performance.
+        This unfortunately creates code duplication, and I'm sure some methods are fine as-is,
+        but writing them anyway is faster than making sure with benchmarking.
+        */
+
+        @Override
+        public Point3I64 add(Point3I64 point, Vec3I64 vector) {
+            return point(vectorOps().add(vec(point), vector));
+        }
+
+        @Override
+        public Vec3I64 subtract(Point3I64 minuend, Point3I64 subtrahend) {
+            return vectorOps().subtract(vec(minuend), vec(subtrahend));
+        }
+
+        @Override
+        public Long distanceSquared(Point3I64 first, Point3I64 second) {
+            return vectorOps().distanceSquared(vec(first), vec(second));
+        }
+
+        @Override
+        public Point3I64 clamp(Point3I64 point, Long min, Long max) {
+            return point(vectorOps().clamp(vec(point), min, max));
+        }
+
+        private Vec3I64 vec(Point3I64 point) {
+            return new Vec3I64(point.x(), point.y(), point.z());
+        }
+
+        private Point3I64 point(Vec3I64 vec) {
+            return new Point3I64(vec.x(), vec.y(), vec.z());
+        }
     }
 }

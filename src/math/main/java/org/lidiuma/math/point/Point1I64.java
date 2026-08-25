@@ -55,5 +55,45 @@ public value record Point1I64(@NullRestricted Long x) implements Point1<Long> {
         public Vec1I64.Ops vectorOps() {
             return Vec1I64.OPS;
         }
+                
+        /*
+        Handwritten to remove GC collections when used polymorphically (different generic parameters).
+        Speed is more or less the same, but without a rare case of the JIT failing giving x10 less performance.
+        This unfortunately creates code duplication, and I'm sure some methods are fine as-is,
+        but writing them anyway is faster than making sure with benchmarking.
+        */
+
+        @Override
+        public Long distance(Point1I64 first, Point1I64 second) {
+            return vectorOps().distance(vec(first), vec(second));
+        }
+
+        @Override
+        public Point1I64 add(Point1I64 point, Vec1I64 vector) {
+            return point(vectorOps().add(vec(point), vector));
+        }
+
+        @Override
+        public Vec1I64 subtract(Point1I64 minuend, Point1I64 subtrahend) {
+            return vectorOps().subtract(vec(minuend), vec(subtrahend));
+        }
+
+        @Override
+        public Long distanceSquared(Point1I64 first, Point1I64 second) {
+            return vectorOps().distanceSquared(vec(first), vec(second));
+        }
+
+        @Override
+        public Point1I64 clamp(Point1I64 point, Long min, Long max) {
+            return point(vectorOps().clamp(vec(point), min, max));
+        }
+
+        private Vec1I64 vec(Point1I64 point) {
+            return new Vec1I64(point.x());
+        }
+
+        private Point1I64 point(Vec1I64 vec) {
+            return new Point1I64(vec.x());
+        }
     }
 }
