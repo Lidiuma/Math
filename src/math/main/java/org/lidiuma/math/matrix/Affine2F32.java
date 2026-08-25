@@ -39,7 +39,8 @@ public value record Affine2F32(
     @FieldAlias(outputClass = MATRIX_OUT)
     public static final Ops OPS = new Ops();
 
-    @NamedAlias(methodName = AFFINE2_FACTORY + F32)
+    /// A constructor creating a specialized affine-matrix from a generic affine-matrix.
+    @AliasExclude // This method can be a performance sink if used inappropriately, so I exclude it from the alias.
     public Affine2F32(Affine2<Float> affine2) {
         this(
                 affine2.m00(), affine2.m01(), affine2.m02(),

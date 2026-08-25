@@ -41,7 +41,8 @@ public value record Matrix4F64(
     @FieldAlias(outputClass = MATRIX_OUT)
     public static final Ops OPS = new Ops();
 
-    @NamedAlias(methodName = MATRIX4_FACTORY + F64)
+    /// A constructor creating a specialized matrix from a generic matrix.
+    @AliasExclude // This method can be a performance sink if used inappropriately, so I exclude it from the alias.
     public Matrix4F64(Matrix4<Double> matrix4) {
         this(
                 matrix4.m00(), matrix4.m01(), matrix4.m02(), matrix4.m03(),
