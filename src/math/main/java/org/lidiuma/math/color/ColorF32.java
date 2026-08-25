@@ -25,6 +25,7 @@ import org.lidiuma.math.processor.FieldAlias;
 import org.lidiuma.math.processor.MethodAlias;
 import org.lidiuma.math.processor.NamedAlias;
 import org.lidiuma.math.rotation.AngleF32;
+import org.lidiuma.math.rotation.Rotations;
 import org.lidiuma.math.vector.Vec4F32;
 import java.util.function.UnaryOperator;
 import static org.lidiuma.math.internal.AnnotationConst.*;
@@ -111,7 +112,7 @@ public value record ColorF32(
         if (saturation == 0f) return new ColorF32(value, value, value, 1f); // Grayscale.
 
         // Normalizes hue into one of 6 zones.
-        final float x = (float) (AngleF32.normalize(hue).radian() / (Math.TAU / 6f));
+        final float x = Rotations.normalize(hue).turns() * 6f;
         final int zone = (int) x;
         final float remainder = x - zone;
 
@@ -143,7 +144,7 @@ public value record ColorF32(
         if (saturation == 0f) return new ColorF32(lightness, lightness, lightness, 1f); // Grayscale.
 
         // Normalizes hue into one of 6 zones.
-        final float x = (float) (AngleF32.normalize(hue).radian() / (Math.TAU / 6f));
+        final float x = Rotations.normalize(hue).turns() * 6f;
         final int zone = (int) x;
         final float remainder = x - zone;
 

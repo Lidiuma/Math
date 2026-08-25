@@ -25,6 +25,7 @@ import org.lidiuma.math.processor.FieldAlias;
 import org.lidiuma.math.processor.MethodAlias;
 import org.lidiuma.math.processor.NamedAlias;
 import org.lidiuma.math.rotation.AngleF64;
+import org.lidiuma.math.rotation.Rotations;
 import org.lidiuma.math.vector.Vec4F64;
 import java.util.function.UnaryOperator;
 import static org.lidiuma.math.internal.AnnotationConst.*;
@@ -111,7 +112,7 @@ public value record ColorF64(
         if (saturation == 0d) return new ColorF64(value, value, value, 1d); // Grayscale.
 
         // Normalizes hue into one of 6 zones.
-        final double x = AngleF64.normalize(hue).radian() / (Math.TAU / 6d);
+        final double x = Rotations.normalize(hue).turns() * 6d;
         final int zone = (int) x;
         final double remainder = x - zone;
 
@@ -143,7 +144,7 @@ public value record ColorF64(
         if (saturation == 0d) return new ColorF64(lightness, lightness, lightness, 1d); // Grayscale.
 
         // Normalizes hue into one of 6 zones.
-        final double x = AngleF64.normalize(hue).radian() / (Math.TAU / 6d);
+        final double x = Rotations.normalize(hue).turns() * 6d;
         final int zone = (int) x;
         final double remainder = x - zone;
 
