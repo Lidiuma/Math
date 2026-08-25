@@ -31,7 +31,7 @@ public value class MathF32Test {
     public static final Vec3F32 X_AXIS = Vectors.vec3(1f, 0f, 0f);
     public static final Vec3F32 Y_AXIS = Vectors.vec3(0f, 1f, 0f);
     public static final Vec3F32 Z_AXIS = Vectors.vec3(0f, 0f, 1f);
-    public static final AngleF32 DEG_180 = AngleF32.degrees(180);
+    public static final AngleF32 DEG_180 = Rotations.degrees(180f);
 
     @Test
     void rotation2D() {
