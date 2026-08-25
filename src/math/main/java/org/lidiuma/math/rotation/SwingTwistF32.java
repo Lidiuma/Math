@@ -19,9 +19,10 @@ package org.lidiuma.math.rotation;
 import jdk.internal.vm.annotation.LooselyConsistentValue;
 import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.rotation.SwingTwist;
+import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.FactoryAlias;
-import org.lidiuma.math.processor.NamedAlias;
-import static org.lidiuma.math.internal.AnnotationConst.*;
+import static org.lidiuma.math.internal.AnnotationConst.ROTATION_OUT;
+import static org.lidiuma.math.internal.AnnotationConst.SWING_TWIST_FACTORY;
 
 @FactoryAlias(methodName = SWING_TWIST_FACTORY, outputClass = ROTATION_OUT)
 @LooselyConsistentValue
@@ -30,7 +31,8 @@ public value record SwingTwistF32(
         @Override @NullRestricted QuaternionF32 twist
 ) implements SwingTwist<QuaternionF32, Float> {
 
-    @NamedAlias(methodName = SWING_TWIST_FACTORY + F32)
+    /// A constructor creating a specialized swing-twist from a generic swing-twist.
+    @AliasExclude // This method can be a performance sink if used inappropriately, so I exclude it from the alias.
     public SwingTwistF32(SwingTwist<QuaternionF32, Float> swingTwist) {
         this(swingTwist.swing(), swingTwist.twist());
     }

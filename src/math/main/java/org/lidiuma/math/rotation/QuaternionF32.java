@@ -42,7 +42,8 @@ public value record QuaternionF32(
     @FieldAlias(outputClass = ROTATION_OUT)
     public static final Ops OPS = new Ops();
 
-    @NamedAlias(methodName = QUATERNION_FACTORY + F32)
+    /// A constructor creating a specialized quaternion from a generic quaternion.
+    @AliasExclude // This method can be a performance sink if used inappropriately, so I exclude it from the alias.
     public QuaternionF32(UnaryTuple4<Float> v4) {
         this(v4.x(), v4.y(), v4.z(), v4.w());
     }

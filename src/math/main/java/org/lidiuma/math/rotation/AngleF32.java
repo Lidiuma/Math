@@ -20,14 +20,12 @@ import jdk.internal.vm.annotation.LooselyConsistentValue;
 import org.lidiuma.math.api.rotation.Angle;
 import org.lidiuma.math.api.traits.rotation.AngleOps;
 import org.lidiuma.math.internal.Epsilon;
-import org.lidiuma.math.processor.FactoryAlias;
 import org.lidiuma.math.processor.FieldAlias;
 import org.lidiuma.math.processor.NamedAlias;
 import org.lidiuma.math.vector.Vec2F32;
 import java.util.function.UnaryOperator;
-import static org.lidiuma.math.internal.AnnotationConst.*;
+import static org.lidiuma.math.internal.AnnotationConst.ROTATION_OUT;
 
-@FactoryAlias(methodName = ANGLE_FACTORY + F32, outputClass = ROTATION_OUT)
 @LooselyConsistentValue
 public value class AngleF32 implements Angle<Float> {
 
@@ -41,6 +39,8 @@ public value class AngleF32 implements Angle<Float> {
         this.radians = radians;
     }
 
+    /// A constructor creating a specialized angle from a generic angle.
+    // This method can be a performance sink if used inappropriately, so I exclude it from the alias.
     public AngleF32(Angle<Float> angle) {
         this(angle.radians());
     }

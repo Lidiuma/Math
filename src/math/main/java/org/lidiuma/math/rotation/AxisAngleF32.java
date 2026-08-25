@@ -19,10 +19,11 @@ package org.lidiuma.math.rotation;
 import jdk.internal.vm.annotation.LooselyConsistentValue;
 import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.rotation.AxisAngle;
+import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.FactoryAlias;
-import org.lidiuma.math.processor.NamedAlias;
 import org.lidiuma.math.vector.Vec3F32;
-import static org.lidiuma.math.internal.AnnotationConst.*;
+import static org.lidiuma.math.internal.AnnotationConst.AXIS_ANGLE_FACTORY;
+import static org.lidiuma.math.internal.AnnotationConst.ROTATION_OUT;
 
 @FactoryAlias(methodName = AXIS_ANGLE_FACTORY, outputClass = ROTATION_OUT)
 @LooselyConsistentValue
@@ -31,7 +32,8 @@ public value record AxisAngleF32(
         @Override @NullRestricted AngleF32 angle
 ) implements AxisAngle<Vec3F32, AngleF32, Float> {
 
-    @NamedAlias(methodName = AXIS_ANGLE_FACTORY + F32)
+    /// A constructor creating a specialized axis-angle from a generic axis-angle.
+    @AliasExclude // This method can be a performance sink if used inappropriately, so I exclude it from the alias.
     public AxisAngleF32(AxisAngle<Vec3F32, AngleF32, Float> axisAngle) {
         this(axisAngle.axis(), axisAngle.angle());
     }
