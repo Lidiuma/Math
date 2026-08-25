@@ -21,7 +21,7 @@ import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.rotation.Quaternion;
 import org.lidiuma.math.api.traits.rotation.QuaternionOps;
 import org.lidiuma.math.api.tuple.UnaryTuple4;
-import org.lidiuma.math.internal.Strict;
+import org.lidiuma.math.internal.Epsilon;
 import org.lidiuma.math.numerics.FloatNumeric;
 import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.FactoryAlias;
@@ -59,9 +59,9 @@ public value record QuaternionF32(
 
         @Override
         public QuaternionF32 fromAxisAngle(Vec3F32 axis, AngleF32 angle) {
-            final float half = angle.radian() * .5f;
-            final float sin = Strict.sin(half);
-            final float cos = Strict.cos(half);
+            final AngleF32 half = Rotations.multiply(angle, .5f);
+            final float sin = Rotations.sin(half);
+            final float cos = Rotations.cos(half);
             return of(
                     (axis.x() * sin),
                     (axis.y() * sin),
@@ -72,17 +72,18 @@ public value record QuaternionF32(
 
         @Override
         public QuaternionF32 fromEulerAngle(AngleF32 yaw, AngleF32 pitch, AngleF32 roll) {
-            final float hr = roll.radian() * 0.5f;
-            final float shr = Strict.sin(hr);
-            final float chr = Strict.cos(hr);
 
-            final float hp = pitch.radian() * 0.5f;
-            final float shp = Strict.sin(hp);
-            final float chp = Strict.cos(hp);
+            final AngleF32 hr = Rotations.multiply(roll, .5f);
+            final float shr = Rotations.sin(hr);
+            final float chr = Rotations.cos(hr);
 
-            final float hy = yaw.radian() * 0.5f;
-            final float shy = Strict.sin(hy);
-            final float chy = Strict.cos(hy);
+            final AngleF32 hp = Rotations.multiply(pitch, .5f);
+            final float shp = Rotations.sin(hp);
+            final float chp = Rotations.cos(hp);
+
+            final AngleF32 hy = Rotations.multiply(yaw, .5f);
+            final float shy = Rotations.sin(hy);
+            final float chy = Rotations.cos(hy);
 
             final float chyShp = chy * shp;
             final float shyChp = shy * chp;
@@ -130,14 +131,15 @@ public value record QuaternionF32(
 
             final var witness = Vec3F32.OPS;
             final var vectorQuat = new Vec3F32(quaternion.x(), quaternion.y(), quaternion.z());
-            final float angle = witness.length(vectorQuat); // The math is the same.
+            final float radians = witness.length(vectorQuat); // The math is the same.
 
-            if (angle < Strict.EPSILON_F32) return identity();
+            if (radians < Epsilon.EPSILON_F32) return identity();
 
-            final float sin = Strict.sin(angle);
-            final float cos = Strict.cos(angle);
+            final AngleF32 angle = Rotations.radians(radians);
+            final float sin = Rotations.sin(angle);
+            final float cos = Rotations.cos(angle);
 
-            final float k = sin / angle;
+            final float k = sin / radians;
             return of(
                     quaternion.x() * k,
                     quaternion.y() * k,
@@ -150,12 +152,12 @@ public value record QuaternionF32(
         public QuaternionF32 log(QuaternionF32 quaternion) {
 
             final float w = Math.clamp(quaternion.w(), -1f, 1f);
-            final float angle = (float) Math.acos(w);
+            final float radians = (float) Math.acos(w);
             final float sin = (float) Math.sqrt(Math.max(0f, 1f - w * w));
 
-            if (sin < Strict.EPSILON_F32) return of(quaternion.x(), quaternion.y(), quaternion.z(), 0f);
+            if (sin < Epsilon.EPSILON_F32) return of(quaternion.x(), quaternion.y(), quaternion.z(), 0f);
 
-            final float k = angle / sin;
+            final float k = radians / sin;
             return of(
                     quaternion.x() * k,
                     quaternion.y() * k,
@@ -179,11 +181,11 @@ public value record QuaternionF32(
             // To avoid numerical instability at low angles, I use nlerp.
             if (absDot > 0.9995f) return normalize(lerp(start, multiply(end, sign), alpha));
 
-            final float angle = (float) Math.acos(absDot);
-            final float invSinTheta = (1f / Strict.sin(angle));
+            final AngleF32 angle = Rotations.radians((float) Math.acos(absDot));
+            final float invSinTheta = 1f / Rotations.sin(angle);
 
-            final float scale0 = (Strict.sin((1f - alpha) * angle) * invSinTheta);
-            final float scale1 = (Strict.sin((alpha * angle)) * invSinTheta);
+            final float scale0 = Rotations.sin(Rotations.multiply(angle, 1f - alpha)) * invSinTheta;
+            final float scale1 = Rotations.sin(Rotations.multiply(angle, alpha)) * invSinTheta;
             return add(multiply(start, scale0), multiply(end, sign * scale1));
         }
 
@@ -228,7 +230,7 @@ public value record QuaternionF32(
         @Override
         public AngleF32 angle(QuaternionF32 quaternion) {
             final float w = Math.clamp(quaternion.w(), -1f, 1f);
-            return AngleF32.radians((float) (2f * Math.acos(w)));
+            return Rotations.radians((float) (2f * Math.acos(w)));
         }
 
         @Override

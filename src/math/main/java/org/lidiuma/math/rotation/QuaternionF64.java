@@ -21,7 +21,7 @@ import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.rotation.Quaternion;
 import org.lidiuma.math.api.traits.rotation.QuaternionOps;
 import org.lidiuma.math.api.tuple.UnaryTuple4;
-import org.lidiuma.math.internal.Strict;
+import org.lidiuma.math.internal.Epsilon;
 import org.lidiuma.math.numerics.DoubleNumeric;
 import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.FactoryAlias;
@@ -59,9 +59,9 @@ public value record QuaternionF64(
 
         @Override
         public QuaternionF64 fromAxisAngle(Vec3F64 axis, AngleF64 angle) {
-            final double half = angle.radian() * .5d;
-            final double sin = Strict.sin(half);
-            final double cos = Strict.cos(half);
+            final AngleF64 half = Rotations.multiply(angle, .5d);
+            final double sin = Rotations.sin(half);
+            final double cos = Rotations.cos(half);
             return of(
                     (axis.x() * sin),
                     (axis.y() * sin),
@@ -72,17 +72,18 @@ public value record QuaternionF64(
 
         @Override
         public QuaternionF64 fromEulerAngle(AngleF64 yaw, AngleF64 pitch, AngleF64 roll) {
-            final double hr = roll.radian() * 0.5d;
-            final double shr = Strict.sin(hr);
-            final double chr = Strict.cos(hr);
 
-            final double hp = pitch.radian() * 0.5d;
-            final double shp = Strict.sin(hp);
-            final double chp = Strict.cos(hp);
+            final AngleF64 hr = Rotations.multiply(roll, .5d);
+            final double shr = Rotations.sin(hr);
+            final double chr = Rotations.cos(hr);
 
-            final double hy = yaw.radian() * 0.5d;
-            final double shy = Strict.sin(hy);
-            final double chy = Strict.cos(hy);
+            final AngleF64 hp = Rotations.multiply(pitch, .5d);
+            final double shp = Rotations.sin(hp);
+            final double chp = Rotations.cos(hp);
+
+            final AngleF64 hy = Rotations.multiply(yaw, .5d);
+            final double shy = Rotations.sin(hy);
+            final double chy = Rotations.cos(hy);
 
             final double chyShp = chy * shp;
             final double shyChp = shy * chp;
@@ -130,14 +131,15 @@ public value record QuaternionF64(
 
             final var witness = Vec3F64.OPS;
             final var vectorQuat = new Vec3F64(quaternion.x(), quaternion.y(), quaternion.z());
-            final double angle = witness.length(vectorQuat); // The math is the same.
+            final double radians = witness.length(vectorQuat); // The math is the same.
 
-            if (angle < Strict.EPSILON_F64) return identity();
+            if (radians < Epsilon.EPSILON_F64) return identity();
 
-            final double sin = Strict.sin(angle);
-            final double cos = Strict.cos(angle);
+            final AngleF64 angle = Rotations.radians(radians);
+            final double sin = Rotations.sin(angle);
+            final double cos = Rotations.cos(angle);
 
-            final double k = sin / angle;
+            final double k = sin / radians;
             return of(
                     quaternion.x() * k,
                     quaternion.y() * k,
@@ -150,12 +152,12 @@ public value record QuaternionF64(
         public QuaternionF64 log(QuaternionF64 quaternion) {
 
             final double w = Math.clamp(quaternion.w(), -1d, 1d);
-            final double angle = Math.acos(w);
+            final double radians = Math.acos(w);
             final double sin = Math.sqrt(Math.max(0d, 1d - w * w));
 
-            if (sin < Strict.EPSILON_F64) return of(quaternion.x(), quaternion.y(), quaternion.z(), 0d);
+            if (sin < Epsilon.EPSILON_F64) return of(quaternion.x(), quaternion.y(), quaternion.z(), 0d);
 
-            final double k = angle / sin;
+            final double k = radians / sin;
             return of(
                     quaternion.x() * k,
                     quaternion.y() * k,
@@ -177,13 +179,13 @@ public value record QuaternionF64(
             final double sign = dot < 0d ? -1d : 1d;
 
             // To avoid numerical instability at low angles, I use nlerp.
-            if (absDot > 0.9995f) return normalize(lerp(start, multiply(end, sign), alpha));
+            if (absDot > 0.9995d) return normalize(lerp(start, multiply(end, sign), alpha));
 
-            final double angle = Math.acos(absDot);
-            final double invSinTheta = 1d / Strict.sin(angle);
+            final AngleF64 angle = Rotations.radians(Math.acos(absDot));
+            final double invSinTheta = 1d / Rotations.sin(angle);
 
-            final double scale0 = Strict.sin((1d - alpha) * angle) * invSinTheta;
-            final double scale1 = Strict.sin((alpha * angle)) * invSinTheta;
+            final double scale0 = Rotations.sin(Rotations.multiply(angle, 1d - alpha)) * invSinTheta;
+            final double scale1 = Rotations.sin(Rotations.multiply(angle, alpha)) * invSinTheta;
             return add(multiply(start, scale0), multiply(end, sign * scale1));
         }
 
@@ -228,7 +230,7 @@ public value record QuaternionF64(
         @Override
         public AngleF64 angle(QuaternionF64 quaternion) {
             final double w = Math.clamp(quaternion.w(), -1d, 1d);
-            return AngleF64.radians(2d * Math.acos(w));
+            return Rotations.radians(2d * Math.acos(w));
         }
 
         @Override
