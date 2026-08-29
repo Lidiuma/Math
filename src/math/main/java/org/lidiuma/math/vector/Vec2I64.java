@@ -27,7 +27,7 @@ import org.lidiuma.math.processor.NamedAlias;
 import static org.lidiuma.math.internal.AnnotationConst.*;
 
 @FactoryAlias(methodName = VEC2_FACTORY, outputClass = VECTOR_OUT)
-public value record Vec2I64(
+public record Vec2I64(
         @Override Long x,
         @Override Long y
 ) implements Vector2<Long> {
@@ -41,7 +41,7 @@ public value record Vec2I64(
         this(vec.x(), vec.y());
     }
 
-    public static final value class Ops implements Vector2Ops<Vec2I64, Long> {
+    public static final class Ops implements Vector2Ops<Vec2I64, Long> {
 
         private Ops() {}
 

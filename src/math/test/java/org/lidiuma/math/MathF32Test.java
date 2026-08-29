@@ -26,7 +26,7 @@ import org.lidiuma.math.vector.Vec3F32;
 import org.lidiuma.math.vector.Vectors;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public value class MathF32Test {
+public class MathF32Test {
 
     public static final Vec3F32 X_AXIS = Vectors.vec3(1f, 0f, 0f);
     public static final Vec3F32 Y_AXIS = Vectors.vec3(0f, 1f, 0f);

@@ -28,7 +28,7 @@ import java.util.function.UnaryOperator;
 import static org.lidiuma.math.internal.AnnotationConst.*;
 
 @FactoryAlias(methodName = VEC3_FACTORY, outputClass = VECTOR_OUT)
-public value record Vec3F64(
+public record Vec3F64(
         @Override Double x,
         @Override Double y,
         @Override Double z
@@ -43,7 +43,7 @@ public value record Vec3F64(
         this(vec.x(), vec.y(), vec.z());
     }
 
-    public static final value class Ops implements FloatingVector3Ops<Vec3F64, Double> {
+    public static final class Ops implements FloatingVector3Ops<Vec3F64, Double> {
 
         private Ops() {}
 

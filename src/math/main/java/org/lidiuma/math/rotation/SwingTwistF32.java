@@ -23,7 +23,7 @@ import static org.lidiuma.math.internal.AnnotationConst.ROTATION_OUT;
 import static org.lidiuma.math.internal.AnnotationConst.SWING_TWIST_FACTORY;
 
 @FactoryAlias(methodName = SWING_TWIST_FACTORY, outputClass = ROTATION_OUT)
-public value record SwingTwistF32(
+public record SwingTwistF32(
         @Override QuaternionF32 swing,
         @Override QuaternionF32 twist
 ) implements SwingTwist<QuaternionF32, Float> {

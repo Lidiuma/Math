@@ -27,7 +27,7 @@ import org.lidiuma.math.processor.NamedAlias;
 import static org.lidiuma.math.internal.AnnotationConst.*;
 
 @FactoryAlias(methodName = VEC1_FACTORY, outputClass = VECTOR_OUT)
-public value record Vec1I64(@Override Long x) implements Vector1<Long> {
+public record Vec1I64(@Override Long x) implements Vector1<Long> {
 
     @FieldAlias(outputClass = VECTOR_OUT)
     public static final Ops OPS = new Ops();
@@ -38,7 +38,7 @@ public value record Vec1I64(@Override Long x) implements Vector1<Long> {
         this(vec.x());
     }
 
-    public static final value class Ops implements Vector1Ops<Vec1I64, Long> {
+    public static final class Ops implements Vector1Ops<Vec1I64, Long> {
 
         private Ops() {}
 

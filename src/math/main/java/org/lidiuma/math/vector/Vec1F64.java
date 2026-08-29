@@ -28,7 +28,7 @@ import java.util.function.UnaryOperator;
 import static org.lidiuma.math.internal.AnnotationConst.*;
 
 @FactoryAlias(methodName = VEC1_FACTORY, outputClass = VECTOR_OUT)
-public value record Vec1F64(@Override Double x) implements Vector1<Double> {
+public record Vec1F64(@Override Double x) implements Vector1<Double> {
 
     @FieldAlias(outputClass = VECTOR_OUT)
     public static final Ops OPS = new Ops();
@@ -39,7 +39,7 @@ public value record Vec1F64(@Override Double x) implements Vector1<Double> {
         this(vec.x());
     }
 
-    public static final value class Ops implements FloatingVector1Ops<Vec1F64, Double> {
+    public static final class Ops implements FloatingVector1Ops<Vec1F64, Double> {
 
         private Ops() {}
 

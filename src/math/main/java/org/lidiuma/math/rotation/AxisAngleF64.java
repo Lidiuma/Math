@@ -24,7 +24,7 @@ import static org.lidiuma.math.internal.AnnotationConst.AXIS_ANGLE_FACTORY;
 import static org.lidiuma.math.internal.AnnotationConst.ROTATION_OUT;
 
 @FactoryAlias(methodName = AXIS_ANGLE_FACTORY, outputClass = ROTATION_OUT)
-public value record AxisAngleF64(
+public record AxisAngleF64(
         @Override Vec3F64 axis,
         @Override AngleF64 angle
 ) implements AxisAngle<Vec3F64, AngleF64, Double> {

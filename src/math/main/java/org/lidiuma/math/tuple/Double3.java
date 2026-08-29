@@ -25,7 +25,7 @@ import static org.lidiuma.math.internal.AnnotationConst.DOUBLE3;
 import static org.lidiuma.math.internal.AnnotationConst.TUPLES_OUT;
 
 @FactoryAlias(methodName = DOUBLE3, outputClass = TUPLES_OUT)
-public value record Double3(
+public record Double3(
         @Override Double x,
         @Override Double y,
         @Override Double z

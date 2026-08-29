@@ -25,7 +25,7 @@ import static org.lidiuma.math.internal.AnnotationConst.LONG1;
 import static org.lidiuma.math.internal.AnnotationConst.TUPLES_OUT;
 
 @FactoryAlias(methodName = LONG1, outputClass = TUPLES_OUT)
-public value record Long1(
+public record Long1(
         @Override Long x
 ) implements UnaryTuple1<Long> {
 

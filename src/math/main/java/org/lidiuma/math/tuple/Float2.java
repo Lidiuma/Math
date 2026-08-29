@@ -25,7 +25,7 @@ import static org.lidiuma.math.internal.AnnotationConst.FLOAT2;
 import static org.lidiuma.math.internal.AnnotationConst.TUPLES_OUT;
 
 @FactoryAlias(methodName = FLOAT2, outputClass = TUPLES_OUT)
-public value record Float2(
+public record Float2(
         @Override Float x,
         @Override Float y
 ) implements UnaryTuple2<Float> {

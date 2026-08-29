@@ -23,7 +23,7 @@ import static org.lidiuma.math.internal.AnnotationConst.RECT4_FACTORY;
 import static org.lidiuma.math.internal.AnnotationConst.SHAPES_OUT;
 
 @FactoryAlias(methodName = RECT4_FACTORY, outputClass = SHAPES_OUT, isPackageDefined = true)
-public value record Rect4F64(@Override Vec4F64 dimensions) implements Rectangle4<Double> {
+public record Rect4F64(@Override Vec4F64 dimensions) implements Rectangle4<Double> {
 
     public Rect4F64(double width, double height, double length, double depth) {
         this(new Vec4F64(width, height, length, depth));

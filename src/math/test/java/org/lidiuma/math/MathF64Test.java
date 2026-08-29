@@ -26,7 +26,7 @@ import org.lidiuma.math.vector.Vec3F64;
 import org.lidiuma.math.vector.Vectors;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public value class MathF64Test {
+public class MathF64Test {
 
     public static final Vec3F64 X_AXIS = Vectors.vec3(1d, 0d, 0d);
     public static final Vec3F64 Y_AXIS = Vectors.vec3(0d, 1d, 0d);

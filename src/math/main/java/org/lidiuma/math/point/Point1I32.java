@@ -27,7 +27,7 @@ import static org.lidiuma.math.internal.AnnotationConst.POINT1_FACTORY;
 import static org.lidiuma.math.internal.AnnotationConst.POINT_OUT;
 
 @FactoryAlias(methodName = POINT1_FACTORY, outputClass = POINT_OUT)
-public value record Point1I32(@Override Integer x) implements Point1<Integer> {
+public record Point1I32(@Override Integer x) implements Point1<Integer> {
 
     @FieldAlias(outputClass = POINT_OUT)
     public static final Ops OPS = new Ops();
@@ -38,7 +38,7 @@ public value record Point1I32(@Override Integer x) implements Point1<Integer> {
         this(tuple.x());
     }
 
-    public static final value class Ops implements Point1Ops<Point1I32, Vec1I32, Integer> {
+    public static final class Ops implements Point1Ops<Point1I32, Vec1I32, Integer> {
 
         private Ops() {}
 

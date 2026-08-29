@@ -26,7 +26,7 @@ import java.util.function.UnaryOperator;
 import static org.lidiuma.math.internal.AnnotationConst.*;
 
 @FactoryAlias(methodName = COLOR_FACTORY, outputClass = COLOR_OUT)
-public value record ColorF32(
+public record ColorF32(
         @Override Float red,
         @Override Float green,
         @Override Float blue,
@@ -161,7 +161,7 @@ public value record ColorF32(
         };
     }
 
-    public static final value class Ops implements ColorOps<ColorF32, Float> {
+    public static final class Ops implements ColorOps<ColorF32, Float> {
 
         // I use Vec4.Ops to avoid re-doing the math, which is error-prone.
 

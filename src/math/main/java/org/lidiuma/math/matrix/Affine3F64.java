@@ -28,7 +28,7 @@ import org.lidiuma.math.vector.Vec3F64;
 import static org.lidiuma.math.internal.AnnotationConst.*;
 
 @FactoryAlias(methodName = AFFINE3_FACTORY, outputClass = MATRIX_OUT)
-public value record Affine3F64(
+public record Affine3F64(
         // I'm not using an array because it's an identity object, and this reads and feels better to work with.
         @Override Double m00, @Override Double m01, @Override Double m02, @Override Double m03,
         @Override Double m10, @Override Double m11, @Override Double m12, @Override Double m13,
@@ -68,7 +68,7 @@ public value record Affine3F64(
         return 1d;
     }
 
-    public static final value class Ops implements Affine3Ops<Affine3F64, Vec3F64, Double>, FloatingAffineOps<Affine3F64, Vec3F64, QuaternionF64, Double> {
+    public static final class Ops implements Affine3Ops<Affine3F64, Vec3F64, Double>, FloatingAffineOps<Affine3F64, Vec3F64, QuaternionF64, Double> {
 
         private Ops() {}
 

@@ -28,7 +28,7 @@ import static org.lidiuma.math.internal.AnnotationConst.POINT3_FACTORY;
 import static org.lidiuma.math.internal.AnnotationConst.POINT_OUT;
 
 @FactoryAlias(methodName = POINT3_FACTORY, outputClass = POINT_OUT)
-public value record Point3F32(
+public record Point3F32(
         @Override Float x,
         @Override Float y,
         @Override Float z
@@ -43,7 +43,7 @@ public value record Point3F32(
         this(tuple.x(), tuple.y(), tuple.z());
     }
 
-    public static final value class Ops implements FloatingPoint3Ops<Point3F32, Vec3F32, Float> {
+    public static final class Ops implements FloatingPoint3Ops<Point3F32, Vec3F32, Float> {
 
         private Ops() {}
 

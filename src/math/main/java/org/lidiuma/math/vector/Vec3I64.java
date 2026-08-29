@@ -27,7 +27,7 @@ import org.lidiuma.math.processor.NamedAlias;
 import static org.lidiuma.math.internal.AnnotationConst.*;
 
 @FactoryAlias(methodName = VEC3_FACTORY, outputClass = VECTOR_OUT)
-public value record Vec3I64(
+public record Vec3I64(
         @Override Long x,
         @Override Long y,
         @Override Long z
@@ -42,7 +42,7 @@ public value record Vec3I64(
         this(vec.x(), vec.y(), vec.z());
     }
 
-    public static final value class Ops implements Vector3Ops<Vec3I64, Long> {
+    public static final class Ops implements Vector3Ops<Vec3I64, Long> {
 
         private Ops() {}
 

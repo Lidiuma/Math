@@ -23,7 +23,7 @@ import static org.lidiuma.math.internal.AnnotationConst.RECT3_FACTORY;
 import static org.lidiuma.math.internal.AnnotationConst.SHAPES_OUT;
 
 @FactoryAlias(methodName = RECT3_FACTORY, outputClass = SHAPES_OUT, isPackageDefined = true)
-public value record Rect3F32(@Override Vec3F32 dimensions) implements Rectangle3<Float> {
+public record Rect3F32(@Override Vec3F32 dimensions) implements Rectangle3<Float> {
 
     public Rect3F32(float width, float height, float length) {
         this(new Vec3F32(width, height, length));

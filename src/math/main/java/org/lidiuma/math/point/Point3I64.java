@@ -27,7 +27,7 @@ import static org.lidiuma.math.internal.AnnotationConst.POINT3_FACTORY;
 import static org.lidiuma.math.internal.AnnotationConst.POINT_OUT;
 
 @FactoryAlias(methodName = POINT3_FACTORY, outputClass = POINT_OUT)
-public value record Point3I64(
+public record Point3I64(
         @Override Long x,
         @Override Long y,
         @Override Long z
@@ -42,7 +42,7 @@ public value record Point3I64(
         this(tuple.x(), tuple.y(), tuple.z());
     }
 
-    public static final value class Ops implements Point3Ops<Point3I64, Vec3I64, Long> {
+    public static final class Ops implements Point3Ops<Point3I64, Vec3I64, Long> {
 
         private Ops() {}
 

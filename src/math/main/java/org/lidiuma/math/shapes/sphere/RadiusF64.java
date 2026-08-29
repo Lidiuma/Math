@@ -22,5 +22,5 @@ import static org.lidiuma.math.internal.AnnotationConst.RADIUS_FACTORY;
 import static org.lidiuma.math.internal.AnnotationConst.SHAPES_OUT;
 
 @FactoryAlias(methodName = RADIUS_FACTORY, outputClass = SHAPES_OUT, isPackageDefined = true)
-public value record RadiusF64(@Override Double radius) implements Radius<Double> {
+public record RadiusF64(@Override Double radius) implements Radius<Double> {
 }

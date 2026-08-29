@@ -25,7 +25,7 @@ import org.lidiuma.math.vector.Vec2F32;
 import java.util.function.UnaryOperator;
 import static org.lidiuma.math.internal.AnnotationConst.ROTATION_OUT;
 
-public value class AngleF32 implements Angle<Float> {
+public class AngleF32 implements Angle<Float> {
 
     @FieldAlias(outputClass = ROTATION_OUT)
     public static final Ops OPS = new Ops();
@@ -66,7 +66,7 @@ public value class AngleF32 implements Angle<Float> {
         );
     }
 
-    public static final value class Ops implements AngleOps<AngleF32, Vec2F32, Float> {
+    public static final class Ops implements AngleOps<AngleF32, Vec2F32, Float> {
 
         @Override
         @NamedAlias(methodName = "radians")

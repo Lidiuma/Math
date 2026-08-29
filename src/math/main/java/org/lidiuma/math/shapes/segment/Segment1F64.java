@@ -23,5 +23,5 @@ import static org.lidiuma.math.internal.AnnotationConst.SEGMENT1_FACTORY;
 import static org.lidiuma.math.internal.AnnotationConst.SHAPES_OUT;
 
 @FactoryAlias(methodName = SEGMENT1_FACTORY, outputClass = SHAPES_OUT, isPackageDefined = true)
-public value record Segment1F64(@Override Vec1F64 span) implements Segment1<Double> {
+public record Segment1F64(@Override Vec1F64 span) implements Segment1<Double> {
 }

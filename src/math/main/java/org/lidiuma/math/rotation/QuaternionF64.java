@@ -29,7 +29,7 @@ import org.lidiuma.math.vector.Vec3F64;
 import static org.lidiuma.math.internal.AnnotationConst.*;
 
 @FactoryAlias(methodName = QUATERNION_FACTORY, outputClass = ROTATION_OUT)
-public value record QuaternionF64(
+public record QuaternionF64(
         @Override Double x,
         @Override Double y,
         @Override Double z,
@@ -45,7 +45,7 @@ public value record QuaternionF64(
         this(v4.x(), v4.y(), v4.z(), v4.w());
     }
 
-    public static final value class Ops implements QuaternionOps<QuaternionF64, Vec3F64, AngleF64, Double> {
+    public static final class Ops implements QuaternionOps<QuaternionF64, Vec3F64, AngleF64, Double> {
 
         private Ops() {}
 

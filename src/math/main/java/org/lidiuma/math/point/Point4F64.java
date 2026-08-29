@@ -28,7 +28,7 @@ import static org.lidiuma.math.internal.AnnotationConst.POINT4_FACTORY;
 import static org.lidiuma.math.internal.AnnotationConst.POINT_OUT;
 
 @FactoryAlias(methodName = POINT4_FACTORY, outputClass = POINT_OUT)
-public value record Point4F64(
+public record Point4F64(
         @Override Double x,
         @Override Double y,
         @Override Double z,
@@ -44,7 +44,7 @@ public value record Point4F64(
         this(tuple.x(), tuple.y(), tuple.z(), tuple.w());
     }
 
-    public static final value class Ops implements FloatingPoint4Ops<Point4F64, Vec4F64, Double> {
+    public static final class Ops implements FloatingPoint4Ops<Point4F64, Vec4F64, Double> {
 
         private Ops() {}
 

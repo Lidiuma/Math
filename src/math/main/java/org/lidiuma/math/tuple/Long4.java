@@ -25,7 +25,7 @@ import static org.lidiuma.math.internal.AnnotationConst.LONG4;
 import static org.lidiuma.math.internal.AnnotationConst.TUPLES_OUT;
 
 @FactoryAlias(methodName = LONG4, outputClass = TUPLES_OUT)
-public value record Long4(
+public record Long4(
         @Override Long x,
         @Override Long y,
         @Override Long z,

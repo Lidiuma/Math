@@ -23,5 +23,5 @@ import static org.lidiuma.math.internal.AnnotationConst.SHAPES_OUT;
 import static org.lidiuma.math.internal.AnnotationConst.TRIANGLE4_FACTORY;
 
 @FactoryAlias(methodName = TRIANGLE4_FACTORY, outputClass = SHAPES_OUT, isPackageDefined = true)
-public value record Triangle4F32(@Override Vec4F32 ab, @Override Vec4F32 ac) implements Triangle4<Float> {
+public record Triangle4F32(@Override Vec4F32 ab, @Override Vec4F32 ac) implements Triangle4<Float> {
 }

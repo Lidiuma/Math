@@ -25,7 +25,7 @@ import static org.lidiuma.math.internal.AnnotationConst.INT3;
 import static org.lidiuma.math.internal.AnnotationConst.TUPLES_OUT;
 
 @FactoryAlias(methodName = INT3, outputClass = TUPLES_OUT)
-public value record Integer3(
+public record Integer3(
         @Override Integer x,
         @Override Integer y,
         @Override Integer z

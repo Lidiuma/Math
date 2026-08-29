@@ -26,7 +26,7 @@ import org.lidiuma.math.vector.Vec3F32;
 import static org.lidiuma.math.internal.AnnotationConst.*;
 
 @FactoryAlias(methodName = MATRIX3_FACTORY, outputClass = MATRIX_OUT)
-public value record Matrix3F32(
+public record Matrix3F32(
         // I'm not using an array because it's an identity object, and this reads and feels better to work with.
         @Override Float m00, @Override Float m01, @Override Float m02,
         @Override Float m10, @Override Float m11, @Override Float m12,
@@ -46,7 +46,7 @@ public value record Matrix3F32(
         );
     }
 
-    public static final value class Ops implements Matrix3Ops<Matrix3F32, Vec3F32, Float> {
+    public static final class Ops implements Matrix3Ops<Matrix3F32, Vec3F32, Float> {
 
         private Ops() {}
 

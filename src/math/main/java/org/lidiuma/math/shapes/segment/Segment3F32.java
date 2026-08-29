@@ -23,5 +23,5 @@ import static org.lidiuma.math.internal.AnnotationConst.SEGMENT3_FACTORY;
 import static org.lidiuma.math.internal.AnnotationConst.SHAPES_OUT;
 
 @FactoryAlias(methodName = SEGMENT3_FACTORY, outputClass = SHAPES_OUT, isPackageDefined = true)
-public value record Segment3F32(@Override Vec3F32 span) implements Segment3<Float> {
+public record Segment3F32(@Override Vec3F32 span) implements Segment3<Float> {
 }
