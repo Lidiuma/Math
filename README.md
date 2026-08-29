@@ -52,9 +52,9 @@ To compile/run you need to provide a few flags, since I'm using internal APIs.
 - `--add-exports=java.base/jdk.internal.vm.annotation=lidiuma.math`
 
 **Gradle**\
-```implementation("org.lidiuma:lidiuma-math:0.3.0-jea")```\
+```implementation("org.lidiuma:lidiuma-math:0.3.0-j28exp")```\
 **Bld**\
-```module("org.lidiuma", "math", "0.3.0-jea")```
+```module("org.lidiuma", "math", "0.3.0-j28exp")```
 
 ## Why?
 I was not satisfied with LibGDX APIs, since quite messy and outdated; they started with Java 6,
