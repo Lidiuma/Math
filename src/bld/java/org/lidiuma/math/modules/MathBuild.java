@@ -34,15 +34,13 @@ public final class MathBuild extends MathModule {
         name = "Math";
         pkg = GROUP_ID + "." + name();
         module = "lidiuma.math";
-        version = version(0, 3, 0);
-        javaRelease = 28;
+        version = version(0, 3, 0, "j17");
+        javaRelease = 17;
         downloadSources = true;
         repositories = List.of(MAVEN_CENTRAL, CENTRAL_SNAPSHOTS, RIFE2_RELEASES);
         assignModuleDirectories("math");
 
         includeDependencies();
-
-        compileOperation().compileOptions().enablePreview();
         addCodeGenerator();
 
         Util.addAttributesToJar(jarOperation(), version());
@@ -84,7 +82,6 @@ public final class MathBuild extends MathModule {
 
     private void modifyJavadocOperations() {
         final var options = javadocOperation().javadocOptions();
-        options.add("--enable-preview");
         options.tag("apiNote", "a", "API Note:");
         options.tag("implNote", "a", "Implementation Note:");
     }
