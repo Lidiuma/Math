@@ -50,7 +50,7 @@ public value record ColorF32(
     ///  and it must provide either `RRGGBB` or `RRGGBBAA` in hexadecimal format.
     @MethodAlias(outputClass = COLOR_OUT)
     @NamedAlias(methodName = HEX_FACTORY + F32)
-    public static ColorF32 colorHex(String hexColor) {
+    public static ColorF32 hex(String hexColor) {
         final String hex = hexColor.startsWith("#") ? hexColor.substring(1) : hexColor;
         final int length = hex.length();
         if (length != 6 && length != 8) throw new IllegalArgumentException("The hex length can either be 6 or 8, provided: " + hex + ".");
