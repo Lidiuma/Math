@@ -24,7 +24,6 @@ import org.lidiuma.math.processor.FactoryAlias;
 import org.lidiuma.math.processor.FieldAlias;
 import org.lidiuma.math.processor.NamedAlias;
 import org.lidiuma.math.rotation.AngleF32;
-import org.lidiuma.math.rotation.Rotations;
 import org.lidiuma.math.vector.Vec2F32;
 import static org.lidiuma.math.internal.AnnotationConst.*;
 
@@ -81,8 +80,8 @@ public value record Affine2F32(
 
         @Override
         public Affine2F32 fromRotation(AngleF32 angle) {
-            final float cos = Rotations.cos(angle);
-            final float sin = Rotations.sin(angle);
+            final float cos = AngleF32.OPS.cos(angle);
+            final float sin = AngleF32.OPS.sin(angle);
             return new Affine2F32(
                     cos, -sin, 0f,
                     sin, cos, 0f
