@@ -124,4 +124,4 @@ Here are some useful commands to get started:
 - `./bld math jar` creates the jar dist.
 
 ## Contact
-If you want to contact me privately for any feedback or questions, you can write me at [contact@lidiuma.org]().
+If you want to contact me privately for any feedback or questions, you can write me at [contact@lidiuma.org](mailto:contact@lidiuma.org).
