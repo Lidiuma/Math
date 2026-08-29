@@ -47,7 +47,7 @@ public value record ColorF64(
     ///  and it must provide either `RRGGBB` or `RRGGBBAA` in hexadecimal format.
     @MethodAlias(outputClass = COLOR_OUT)
     @NamedAlias(methodName = HEX_FACTORY + F64)
-    public static ColorF64 colorHex(String hexColor) {
+    public static ColorF64 hex(String hexColor) {
         final String hex = hexColor.startsWith("#") ? hexColor.substring(1) : hexColor;
         final int length = hex.length();
         if (length != 6 && length != 8) throw new IllegalArgumentException("The hex length can either be 6 or 8, provided: " + hex + ".");
