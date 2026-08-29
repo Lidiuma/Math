@@ -23,7 +23,7 @@ import org.lidiuma.math.processor.FactoryAlias;
 import static org.lidiuma.math.internal.AnnotationConst.RADIUS_FACTORY;
 import static org.lidiuma.math.internal.AnnotationConst.SHAPES_OUT;
 
-@LooselyConsistentValue
 @FactoryAlias(methodName = RADIUS_FACTORY, outputClass = SHAPES_OUT, isPackageDefined = true)
-public value record RadiusF32(@NullRestricted Float radius) implements Radius<Float> {
+@LooselyConsistentValue
+public value record RadiusF32(@Override @NullRestricted Float radius) implements Radius<Float> {
 }

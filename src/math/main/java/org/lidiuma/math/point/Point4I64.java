@@ -28,13 +28,13 @@ import org.lidiuma.math.vector.Vec4I64;
 import static org.lidiuma.math.internal.AnnotationConst.POINT4_FACTORY;
 import static org.lidiuma.math.internal.AnnotationConst.POINT_OUT;
 
-@LooselyConsistentValue
 @FactoryAlias(methodName = POINT4_FACTORY, outputClass = POINT_OUT)
+@LooselyConsistentValue
 public value record Point4I64(
-        @NullRestricted Long x,
-        @NullRestricted Long y,
-        @NullRestricted Long z,
-        @NullRestricted Long w
+        @Override @NullRestricted Long x,
+        @Override @NullRestricted Long y,
+        @Override @NullRestricted Long z,
+        @Override @NullRestricted Long w
 ) implements Point4<Long> {
 
     @FieldAlias(outputClass = POINT_OUT)

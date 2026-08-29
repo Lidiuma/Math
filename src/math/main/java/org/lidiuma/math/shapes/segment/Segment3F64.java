@@ -24,7 +24,7 @@ import org.lidiuma.math.vector.Vec3F64;
 import static org.lidiuma.math.internal.AnnotationConst.SEGMENT3_FACTORY;
 import static org.lidiuma.math.internal.AnnotationConst.SHAPES_OUT;
 
-@LooselyConsistentValue
 @FactoryAlias(methodName = SEGMENT3_FACTORY, outputClass = SHAPES_OUT, isPackageDefined = true)
-public value record Segment3F64(@NullRestricted Vec3F64 span) implements Segment3<Double> {
+@LooselyConsistentValue
+public value record Segment3F64(@Override @NullRestricted Vec3F64 span) implements Segment3<Double> {
 }

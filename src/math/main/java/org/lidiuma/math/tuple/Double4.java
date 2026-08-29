@@ -26,8 +26,8 @@ import org.lidiuma.math.processor.FactoryAlias;
 import static org.lidiuma.math.internal.AnnotationConst.DOUBLE4;
 import static org.lidiuma.math.internal.AnnotationConst.TUPLES_OUT;
 
-@LooselyConsistentValue
 @FactoryAlias(methodName = DOUBLE4, outputClass = TUPLES_OUT)
+@LooselyConsistentValue
 public value record Double4(
         @Override @NullRestricted Double x,
         @Override @NullRestricted Double y,

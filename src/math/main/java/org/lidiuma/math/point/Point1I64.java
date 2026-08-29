@@ -28,9 +28,9 @@ import org.lidiuma.math.vector.Vec1I64;
 import static org.lidiuma.math.internal.AnnotationConst.POINT1_FACTORY;
 import static org.lidiuma.math.internal.AnnotationConst.POINT_OUT;
 
-@LooselyConsistentValue
 @FactoryAlias(methodName = POINT1_FACTORY, outputClass = POINT_OUT)
-public value record Point1I64(@NullRestricted Long x) implements Point1<Long> {
+@LooselyConsistentValue
+public value record Point1I64(@Override @NullRestricted Long x) implements Point1<Long> {
 
     @FieldAlias(outputClass = POINT_OUT)
     public static final Ops OPS = new Ops();

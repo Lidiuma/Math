@@ -16,6 +16,7 @@
 
 package org.lidiuma.math.vector;
 
+import jdk.internal.vm.annotation.LooselyConsistentValue;
 import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.traits.vector.FloatingVector4Ops;
 import org.lidiuma.math.api.tuple.UnaryTuple4;
@@ -29,6 +30,7 @@ import java.util.function.UnaryOperator;
 import static org.lidiuma.math.internal.AnnotationConst.*;
 
 @FactoryAlias(methodName = VEC4_FACTORY, outputClass = VECTOR_OUT)
+@LooselyConsistentValue
 public value record Vec4F64(
         @Override @NullRestricted Double x,
         @Override @NullRestricted Double y,

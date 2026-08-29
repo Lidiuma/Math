@@ -24,8 +24,8 @@ import org.lidiuma.math.vector.Vec4F64;
 import static org.lidiuma.math.internal.AnnotationConst.SEGMENT4_FACTORY;
 import static org.lidiuma.math.internal.AnnotationConst.SHAPES_OUT;
 
-@LooselyConsistentValue
 @FactoryAlias(methodName = SEGMENT4_FACTORY, outputClass = SHAPES_OUT, isPackageDefined = true)
-public value record Segment4F64(@NullRestricted Vec4F64 span) implements Segment4<Double> {
+@LooselyConsistentValue
+public value record Segment4F64(@Override @NullRestricted Vec4F64 span) implements Segment4<Double> {
 }
 

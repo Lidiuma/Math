@@ -26,8 +26,8 @@ import org.lidiuma.math.processor.FactoryAlias;
 import static org.lidiuma.math.internal.AnnotationConst.FLOAT3;
 import static org.lidiuma.math.internal.AnnotationConst.TUPLES_OUT;
 
-@LooselyConsistentValue
 @FactoryAlias(methodName = FLOAT3, outputClass = TUPLES_OUT)
+@LooselyConsistentValue
 public value record Float3(
         @Override @NullRestricted Float x,
         @Override @NullRestricted Float y,

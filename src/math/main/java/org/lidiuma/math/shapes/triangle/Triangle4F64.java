@@ -24,7 +24,7 @@ import org.lidiuma.math.vector.Vec4F64;
 import static org.lidiuma.math.internal.AnnotationConst.SHAPES_OUT;
 import static org.lidiuma.math.internal.AnnotationConst.TRIANGLE4_FACTORY;
 
-@LooselyConsistentValue
 @FactoryAlias(methodName = TRIANGLE4_FACTORY, outputClass = SHAPES_OUT, isPackageDefined = true)
+@LooselyConsistentValue
 public value record Triangle4F64(@Override @NullRestricted Vec4F64 ab, @Override @NullRestricted Vec4F64 ac) implements Triangle4<Double> {
 }

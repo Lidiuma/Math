@@ -24,7 +24,7 @@ import org.lidiuma.math.vector.Vec2F32;
 import static org.lidiuma.math.internal.AnnotationConst.SEGMENT2_FACTORY;
 import static org.lidiuma.math.internal.AnnotationConst.SHAPES_OUT;
 
-@LooselyConsistentValue
 @FactoryAlias(methodName = SEGMENT2_FACTORY, outputClass = SHAPES_OUT, isPackageDefined = true)
-public value record Segment2F32(@NullRestricted Vec2F32 span) implements Segment2<Float> {
+@LooselyConsistentValue
+public value record Segment2F32(@Override @NullRestricted Vec2F32 span) implements Segment2<Float> {
 }

@@ -29,9 +29,9 @@ import java.util.function.UnaryOperator;
 import static org.lidiuma.math.internal.AnnotationConst.POINT1_FACTORY;
 import static org.lidiuma.math.internal.AnnotationConst.POINT_OUT;
 
-@LooselyConsistentValue
 @FactoryAlias(methodName = POINT1_FACTORY, outputClass = POINT_OUT)
-public value record Point1F32(@NullRestricted Float x) implements Point1<Float> {
+@LooselyConsistentValue
+public value record Point1F32(@Override @NullRestricted Float x) implements Point1<Float> {
 
     @FieldAlias(outputClass = POINT_OUT)
     public static final Ops OPS = new Ops();

@@ -27,14 +27,13 @@ import org.lidiuma.math.processor.NamedAlias;
 import org.lidiuma.math.vector.Vec3F64;
 import static org.lidiuma.math.internal.AnnotationConst.*;
 
-/// @see Matrix3
-@LooselyConsistentValue
 @FactoryAlias(methodName = MATRIX3_FACTORY, outputClass = MATRIX_OUT)
+@LooselyConsistentValue
 public value record Matrix3F64(
         // I'm not using an array because it's an identity object, and this reads and feels better to work with.
-        @NullRestricted Double m00, @NullRestricted Double m01, @NullRestricted Double m02,
-        @NullRestricted Double m10, @NullRestricted Double m11, @NullRestricted Double m12,
-        @NullRestricted Double m20, @NullRestricted Double m21, @NullRestricted Double m22
+        @Override @NullRestricted Double m00, @Override @NullRestricted Double m01, @Override @NullRestricted Double m02,
+        @Override @NullRestricted Double m10, @Override @NullRestricted Double m11, @Override @NullRestricted Double m12,
+        @Override @NullRestricted Double m20, @Override @NullRestricted Double m21, @Override @NullRestricted Double m22
 ) implements Matrix3<Double> {
 
     @FieldAlias(outputClass = MATRIX_OUT)

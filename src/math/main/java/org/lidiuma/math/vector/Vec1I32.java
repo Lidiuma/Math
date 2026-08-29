@@ -16,6 +16,7 @@
 
 package org.lidiuma.math.vector;
 
+import jdk.internal.vm.annotation.LooselyConsistentValue;
 import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.traits.vector.Vector1Ops;
 import org.lidiuma.math.api.tuple.UnaryTuple1;
@@ -28,6 +29,7 @@ import org.lidiuma.math.processor.NamedAlias;
 import static org.lidiuma.math.internal.AnnotationConst.*;
 
 @FactoryAlias(methodName = VEC1_FACTORY, outputClass = VECTOR_OUT)
+@LooselyConsistentValue
 public value record Vec1I32(@Override @NullRestricted Integer x) implements Vector1<Integer> {
 
     @FieldAlias(outputClass = VECTOR_OUT)

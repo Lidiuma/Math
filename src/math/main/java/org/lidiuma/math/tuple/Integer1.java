@@ -26,8 +26,8 @@ import org.lidiuma.math.processor.FactoryAlias;
 import static org.lidiuma.math.internal.AnnotationConst.INT1;
 import static org.lidiuma.math.internal.AnnotationConst.TUPLES_OUT;
 
-@LooselyConsistentValue
 @FactoryAlias(methodName = INT1, outputClass = TUPLES_OUT)
+@LooselyConsistentValue
 public value record Integer1(
         @Override @NullRestricted Integer x
 ) implements UnaryTuple1<Integer> {

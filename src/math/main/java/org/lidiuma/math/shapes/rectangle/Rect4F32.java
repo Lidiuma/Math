@@ -24,9 +24,9 @@ import org.lidiuma.math.vector.Vec4F32;
 import static org.lidiuma.math.internal.AnnotationConst.RECT4_FACTORY;
 import static org.lidiuma.math.internal.AnnotationConst.SHAPES_OUT;
 
-@LooselyConsistentValue
 @FactoryAlias(methodName = RECT4_FACTORY, outputClass = SHAPES_OUT, isPackageDefined = true)
-public value record Rect4F32(@NullRestricted Vec4F32 dimensions) implements Rectangle4<Float> {
+@LooselyConsistentValue
+public value record Rect4F32(@Override @NullRestricted Vec4F32 dimensions) implements Rectangle4<Float> {
 
     public Rect4F32(float width, float height, float length, float depth) {
         this(new Vec4F32(width, height, length, depth));

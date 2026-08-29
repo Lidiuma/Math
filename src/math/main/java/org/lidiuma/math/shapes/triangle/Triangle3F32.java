@@ -24,7 +24,7 @@ import org.lidiuma.math.vector.Vec3F32;
 import static org.lidiuma.math.internal.AnnotationConst.SHAPES_OUT;
 import static org.lidiuma.math.internal.AnnotationConst.TRIANGLE3_FACTORY;
 
-@LooselyConsistentValue
 @FactoryAlias(methodName = TRIANGLE3_FACTORY, outputClass = SHAPES_OUT, isPackageDefined = true)
+@LooselyConsistentValue
 public value record Triangle3F32(@Override @NullRestricted Vec3F32 ab, @Override @NullRestricted Vec3F32 ac) implements Triangle3<Float> {
 }

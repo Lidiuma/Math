@@ -29,11 +29,11 @@ import java.util.function.UnaryOperator;
 import static org.lidiuma.math.internal.AnnotationConst.POINT2_FACTORY;
 import static org.lidiuma.math.internal.AnnotationConst.POINT_OUT;
 
-@LooselyConsistentValue
 @FactoryAlias(methodName = POINT2_FACTORY, outputClass = POINT_OUT)
+@LooselyConsistentValue
 public value record Point2F64(
-        @NullRestricted Double x,
-        @NullRestricted Double y
+        @Override @NullRestricted Double x,
+        @Override @NullRestricted Double y
 ) implements Point2<Double> {
 
     @FieldAlias(outputClass = POINT_OUT)

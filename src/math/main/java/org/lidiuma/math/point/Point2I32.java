@@ -28,11 +28,11 @@ import org.lidiuma.math.vector.Vec2I32;
 import static org.lidiuma.math.internal.AnnotationConst.POINT2_FACTORY;
 import static org.lidiuma.math.internal.AnnotationConst.POINT_OUT;
 
-@LooselyConsistentValue
 @FactoryAlias(methodName = POINT2_FACTORY, outputClass = POINT_OUT)
+@LooselyConsistentValue
 public value record Point2I32(
-        @NullRestricted Integer x,
-        @NullRestricted Integer y
+        @Override @NullRestricted Integer x,
+        @Override @NullRestricted Integer y
 ) implements Point2<Integer> {
 
     @FieldAlias(outputClass = POINT_OUT)

@@ -26,8 +26,8 @@ import org.lidiuma.math.processor.FactoryAlias;
 import static org.lidiuma.math.internal.AnnotationConst.LONG2;
 import static org.lidiuma.math.internal.AnnotationConst.TUPLES_OUT;
 
-@LooselyConsistentValue
 @FactoryAlias(methodName = LONG2, outputClass = TUPLES_OUT)
+@LooselyConsistentValue
 public value record Long2(
         @Override @NullRestricted Long x,
         @Override @NullRestricted Long y

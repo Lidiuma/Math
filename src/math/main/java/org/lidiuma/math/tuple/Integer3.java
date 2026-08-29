@@ -26,8 +26,8 @@ import org.lidiuma.math.processor.FactoryAlias;
 import static org.lidiuma.math.internal.AnnotationConst.INT3;
 import static org.lidiuma.math.internal.AnnotationConst.TUPLES_OUT;
 
-@LooselyConsistentValue
 @FactoryAlias(methodName = INT3, outputClass = TUPLES_OUT)
+@LooselyConsistentValue
 public value record Integer3(
         @Override @NullRestricted Integer x,
         @Override @NullRestricted Integer y,

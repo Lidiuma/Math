@@ -24,9 +24,9 @@ import org.lidiuma.math.vector.Vec3F64;
 import static org.lidiuma.math.internal.AnnotationConst.RECT3_FACTORY;
 import static org.lidiuma.math.internal.AnnotationConst.SHAPES_OUT;
 
-@LooselyConsistentValue
 @FactoryAlias(methodName = RECT3_FACTORY, outputClass = SHAPES_OUT, isPackageDefined = true)
-public value record Rect3F64(@NullRestricted Vec3F64 dimensions) implements Rectangle3<Double> {
+@LooselyConsistentValue
+public value record Rect3F64(@Override @NullRestricted Vec3F64 dimensions) implements Rectangle3<Double> {
 
     public Rect3F64(double width, double height, double length) {
         this(new Vec3F64(width, height, length));

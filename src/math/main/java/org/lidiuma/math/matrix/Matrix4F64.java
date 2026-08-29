@@ -27,15 +27,14 @@ import org.lidiuma.math.processor.NamedAlias;
 import org.lidiuma.math.vector.Vec4F64;
 import static org.lidiuma.math.internal.AnnotationConst.*;
 
-/// @see Matrix4
-@LooselyConsistentValue
 @FactoryAlias(methodName = MATRIX4_FACTORY, outputClass = MATRIX_OUT)
+@LooselyConsistentValue
 public value record Matrix4F64(
         // I'm not using an array because it's an identity object, and this reads and feels better to work with.
-        @NullRestricted Double m00, @NullRestricted Double m01, @NullRestricted Double m02, @NullRestricted Double m03,
-        @NullRestricted Double m10, @NullRestricted Double m11, @NullRestricted Double m12, @NullRestricted Double m13,
-        @NullRestricted Double m20, @NullRestricted Double m21, @NullRestricted Double m22, @NullRestricted Double m23,
-        @NullRestricted Double m30, @NullRestricted Double m31, @NullRestricted Double m32, @NullRestricted Double m33
+        @Override @NullRestricted Double m00, @Override @NullRestricted Double m01, @Override @NullRestricted Double m02, @Override @NullRestricted Double m03,
+        @Override @NullRestricted Double m10, @Override @NullRestricted Double m11, @Override @NullRestricted Double m12, @Override @NullRestricted Double m13,
+        @Override @NullRestricted Double m20, @Override @NullRestricted Double m21, @Override @NullRestricted Double m22, @Override @NullRestricted Double m23,
+        @Override @NullRestricted Double m30, @Override @NullRestricted Double m31, @Override @NullRestricted Double m32, @Override @NullRestricted Double m33
 ) implements Matrix4<Double> {
 
     @FieldAlias(outputClass = MATRIX_OUT)
