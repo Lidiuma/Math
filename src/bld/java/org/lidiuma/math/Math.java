@@ -57,11 +57,9 @@ public interface Math {
         project.start(bldArgs);
     }
 
-    static void commonBuildOption(JavacOptions options, String mathModule) {
+    static void commonBuildOption(JavacOptions options) {
         options.target(28);
         options.source(28);
         options.enablePreview();
-        options.add("--add-exports=java.base/jdk.internal.value=" + mathModule);
-        options.add("--add-exports=java.base/jdk.internal.vm.annotation=" + mathModule);
     }
 }

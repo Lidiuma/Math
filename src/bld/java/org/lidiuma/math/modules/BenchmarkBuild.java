@@ -48,7 +48,7 @@ public final class BenchmarkBuild extends MathModule {
 
         final var options = compileOperation().compileOptions();
         options.process(JavacOptions.Processing.FULL);
-        commonBuildOption(options, MATH.module());
+        commonBuildOption(options);
         runConfiguration();
     }
 

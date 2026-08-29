@@ -16,8 +16,6 @@
 
 package org.lidiuma.math.vector;
 
-import jdk.internal.vm.annotation.LooselyConsistentValue;
-import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.traits.vector.FloatingVector3Ops;
 import org.lidiuma.math.api.tuple.UnaryTuple3;
 import org.lidiuma.math.api.vector.Vector3;
@@ -30,11 +28,10 @@ import java.util.function.UnaryOperator;
 import static org.lidiuma.math.internal.AnnotationConst.*;
 
 @FactoryAlias(methodName = VEC3_FACTORY, outputClass = VECTOR_OUT)
-@LooselyConsistentValue
 public value record Vec3F32(
-        @Override @NullRestricted Float x,
-        @Override @NullRestricted Float y,
-        @Override @NullRestricted Float z
+        @Override Float x,
+        @Override Float y,
+        @Override Float z
 ) implements Vector3<Float> {
 
     @FieldAlias(outputClass = VECTOR_OUT)

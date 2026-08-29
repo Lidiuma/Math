@@ -16,8 +16,6 @@
 
 package org.lidiuma.math.matrix;
 
-import jdk.internal.vm.annotation.LooselyConsistentValue;
-import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.matrix.Affine3;
 import org.lidiuma.math.api.traits.matrix.Affine3Ops;
 import org.lidiuma.math.api.traits.matrix.FloatingAffineOps;
@@ -30,12 +28,11 @@ import org.lidiuma.math.vector.Vec3F64;
 import static org.lidiuma.math.internal.AnnotationConst.*;
 
 @FactoryAlias(methodName = AFFINE3_FACTORY, outputClass = MATRIX_OUT)
-@LooselyConsistentValue
 public value record Affine3F64(
         // I'm not using an array because it's an identity object, and this reads and feels better to work with.
-        @Override @NullRestricted Double m00, @Override @NullRestricted Double m01, @Override @NullRestricted Double m02, @Override @NullRestricted Double m03,
-        @Override @NullRestricted Double m10, @Override @NullRestricted Double m11, @Override @NullRestricted Double m12, @Override @NullRestricted Double m13,
-        @Override @NullRestricted Double m20, @Override @NullRestricted Double m21, @Override @NullRestricted Double m22, @Override @NullRestricted Double m23
+        @Override Double m00, @Override Double m01, @Override Double m02, @Override Double m03,
+        @Override Double m10, @Override Double m11, @Override Double m12, @Override Double m13,
+        @Override Double m20, @Override Double m21, @Override Double m22, @Override Double m23
 ) implements Affine3<Double> {
 
     @FieldAlias(outputClass = MATRIX_OUT)

@@ -16,8 +16,6 @@
 
 package org.lidiuma.math.color;
 
-import jdk.internal.vm.annotation.LooselyConsistentValue;
-import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.color.Color;
 import org.lidiuma.math.api.traits.color.ColorOps;
 import org.lidiuma.math.api.tuple.UnaryTuple4;
@@ -29,12 +27,11 @@ import java.util.function.UnaryOperator;
 import static org.lidiuma.math.internal.AnnotationConst.*;
 
 @FactoryAlias(methodName = COLOR_FACTORY, outputClass = COLOR_OUT)
-@LooselyConsistentValue
 public value record ColorF32(
-        @Override @NullRestricted Float red,
-        @Override @NullRestricted Float green,
-        @Override @NullRestricted Float blue,
-        @Override @NullRestricted Float alpha
+        @Override Float red,
+        @Override Float green,
+        @Override Float blue,
+        @Override Float alpha
 ) implements Color<Float> {
 
     @FieldAlias(outputClass = COLOR_OUT)

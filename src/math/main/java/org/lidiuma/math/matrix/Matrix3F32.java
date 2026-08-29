@@ -16,8 +16,6 @@
 
 package org.lidiuma.math.matrix;
 
-import jdk.internal.vm.annotation.LooselyConsistentValue;
-import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.matrix.Matrix3;
 import org.lidiuma.math.api.traits.matrix.Matrix3Ops;
 import org.lidiuma.math.processor.AliasExclude;
@@ -28,12 +26,11 @@ import org.lidiuma.math.vector.Vec3F32;
 import static org.lidiuma.math.internal.AnnotationConst.*;
 
 @FactoryAlias(methodName = MATRIX3_FACTORY, outputClass = MATRIX_OUT)
-@LooselyConsistentValue
 public value record Matrix3F32(
         // I'm not using an array because it's an identity object, and this reads and feels better to work with.
-        @Override @NullRestricted Float m00, @Override @NullRestricted Float m01, @Override @NullRestricted Float m02,
-        @Override @NullRestricted Float m10, @Override @NullRestricted Float m11, @Override @NullRestricted Float m12,
-        @Override @NullRestricted Float m20, @Override @NullRestricted Float m21, @Override @NullRestricted Float m22
+        @Override Float m00, @Override Float m01, @Override Float m02,
+        @Override Float m10, @Override Float m11, @Override Float m12,
+        @Override Float m20, @Override Float m21, @Override Float m22
 ) implements Matrix3<Float> {
 
     @FieldAlias(outputClass = MATRIX_OUT)

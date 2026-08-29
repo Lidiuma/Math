@@ -16,8 +16,6 @@
 
 package org.lidiuma.math.matrix;
 
-import jdk.internal.vm.annotation.LooselyConsistentValue;
-import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.matrix.Affine3;
 import org.lidiuma.math.api.traits.matrix.Affine3Ops;
 import org.lidiuma.math.api.traits.matrix.FloatingAffineOps;
@@ -30,12 +28,11 @@ import org.lidiuma.math.vector.Vec3F32;
 import static org.lidiuma.math.internal.AnnotationConst.*;
 
 @FactoryAlias(methodName = AFFINE3_FACTORY, outputClass = MATRIX_OUT)
-@LooselyConsistentValue
 public value record Affine3F32(
         // I'm not using an array because it's an identity object, and this reads and feels better to work with.
-        @Override @NullRestricted Float m00, @Override @NullRestricted Float m01, @Override @NullRestricted Float m02, @Override @NullRestricted Float m03,
-        @Override @NullRestricted Float m10, @Override @NullRestricted Float m11, @Override @NullRestricted Float m12, @Override @NullRestricted Float m13,
-        @Override @NullRestricted Float m20, @Override @NullRestricted Float m21, @Override @NullRestricted Float m22, @Override @NullRestricted Float m23
+        @Override Float m00, @Override Float m01, @Override Float m02, @Override Float m03,
+        @Override Float m10, @Override Float m11, @Override Float m12, @Override Float m13,
+        @Override Float m20, @Override Float m21, @Override Float m22, @Override Float m23
 ) implements Affine3<Float> {
 
     @FieldAlias(outputClass = MATRIX_OUT)

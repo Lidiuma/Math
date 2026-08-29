@@ -16,8 +16,6 @@
 
 package org.lidiuma.math.point;
 
-import jdk.internal.vm.annotation.LooselyConsistentValue;
-import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.point.Point3;
 import org.lidiuma.math.api.traits.point.Point3Ops;
 import org.lidiuma.math.api.tuple.UnaryTuple3;
@@ -29,11 +27,10 @@ import static org.lidiuma.math.internal.AnnotationConst.POINT3_FACTORY;
 import static org.lidiuma.math.internal.AnnotationConst.POINT_OUT;
 
 @FactoryAlias(methodName = POINT3_FACTORY, outputClass = POINT_OUT)
-@LooselyConsistentValue
 public value record Point3I64(
-        @Override @NullRestricted Long x,
-        @Override @NullRestricted Long y,
-        @Override @NullRestricted Long z
+        @Override Long x,
+        @Override Long y,
+        @Override Long z
 ) implements Point3<Long> {
 
     @FieldAlias(outputClass = POINT_OUT)

@@ -16,7 +16,6 @@
 
 package org.lidiuma.math.rotation;
 
-import jdk.internal.vm.annotation.LooselyConsistentValue;
 import org.lidiuma.math.api.rotation.Angle;
 import org.lidiuma.math.api.traits.rotation.AngleOps;
 import org.lidiuma.math.internal.Epsilon;
@@ -26,7 +25,6 @@ import org.lidiuma.math.vector.Vec2F64;
 import java.util.function.UnaryOperator;
 import static org.lidiuma.math.internal.AnnotationConst.ROTATION_OUT;
 
-@LooselyConsistentValue
 public value class AngleF64 implements Angle<Double> {
 
     @FieldAlias(outputClass = ROTATION_OUT)

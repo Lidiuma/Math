@@ -16,8 +16,6 @@
 
 package org.lidiuma.math.tuple;
 
-import jdk.internal.vm.annotation.LooselyConsistentValue;
-import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.tuple.UnaryTuple1;
 import org.lidiuma.math.api.tuple.UnaryTuple2;
 import org.lidiuma.math.api.tuple.UnaryTuple3;
@@ -27,9 +25,8 @@ import static org.lidiuma.math.internal.AnnotationConst.INT1;
 import static org.lidiuma.math.internal.AnnotationConst.TUPLES_OUT;
 
 @FactoryAlias(methodName = INT1, outputClass = TUPLES_OUT)
-@LooselyConsistentValue
 public value record Integer1(
-        @Override @NullRestricted Integer x
+        @Override Integer x
 ) implements UnaryTuple1<Integer> {
 
     public Integer1(UnaryTuple1<Integer> tuple) {

@@ -16,8 +16,6 @@
 
 package org.lidiuma.math.rotation;
 
-import jdk.internal.vm.annotation.LooselyConsistentValue;
-import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.rotation.Quaternion;
 import org.lidiuma.math.api.traits.rotation.QuaternionOps;
 import org.lidiuma.math.api.tuple.UnaryTuple4;
@@ -31,12 +29,11 @@ import org.lidiuma.math.vector.Vec3F64;
 import static org.lidiuma.math.internal.AnnotationConst.*;
 
 @FactoryAlias(methodName = QUATERNION_FACTORY, outputClass = ROTATION_OUT)
-@LooselyConsistentValue
 public value record QuaternionF64(
-        @Override @NullRestricted Double x,
-        @Override @NullRestricted Double y,
-        @Override @NullRestricted Double z,
-        @Override @NullRestricted Double w
+        @Override Double x,
+        @Override Double y,
+        @Override Double z,
+        @Override Double w
 ) implements Quaternion<Double> {
 
     @FieldAlias(outputClass = ROTATION_OUT)

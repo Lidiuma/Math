@@ -40,7 +40,7 @@ public final class MathBuild extends MathModule {
 
         includeDependencies();
 
-        commonBuildOption(compileOperation().compileOptions(), module());
+        commonBuildOption(compileOperation().compileOptions());
         addCodeGenerator();
 
         Util.addAttributesToJar(jarOperation(), version());
@@ -84,8 +84,6 @@ public final class MathBuild extends MathModule {
         final var options = javadocOperation().javadocOptions();
         options.add("--source=28");
         options.add("--enable-preview");
-        options.add("--add-exports=java.base/jdk.internal.value=" + module());
-        options.add("--add-exports=java.base/jdk.internal.vm.annotation=" + module());
         options.tag("apiNote", "a", "API Note:");
         options.tag("implNote", "a", "Implementation Note:");
     }

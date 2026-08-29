@@ -16,8 +16,6 @@
 
 package org.lidiuma.math.matrix;
 
-import jdk.internal.vm.annotation.LooselyConsistentValue;
-import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.matrix.Affine2;
 import org.lidiuma.math.api.traits.matrix.Affine2Ops;
 import org.lidiuma.math.api.traits.matrix.FloatingAffineOps;
@@ -31,11 +29,10 @@ import org.lidiuma.math.vector.Vec2F32;
 import static org.lidiuma.math.internal.AnnotationConst.*;
 
 @FactoryAlias(methodName = AFFINE2_FACTORY, outputClass = MATRIX_OUT)
-@LooselyConsistentValue
 public value record Affine2F32(
         // I'm not using an array because it's an identity object, and this reads and feels better to work with.
-        @Override @NullRestricted Float m00, @Override @NullRestricted Float m01, @Override @NullRestricted Float m02,
-        @Override @NullRestricted Float m10, @Override @NullRestricted Float m11, @Override @NullRestricted Float m12
+        @Override Float m00, @Override Float m01, @Override Float m02,
+        @Override Float m10, @Override Float m11, @Override Float m12
 ) implements Affine2<Float> {
 
     @FieldAlias(outputClass = MATRIX_OUT)

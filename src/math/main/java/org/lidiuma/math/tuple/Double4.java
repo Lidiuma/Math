@@ -16,8 +16,6 @@
 
 package org.lidiuma.math.tuple;
 
-import jdk.internal.vm.annotation.LooselyConsistentValue;
-import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.tuple.UnaryTuple1;
 import org.lidiuma.math.api.tuple.UnaryTuple2;
 import org.lidiuma.math.api.tuple.UnaryTuple3;
@@ -27,12 +25,11 @@ import static org.lidiuma.math.internal.AnnotationConst.DOUBLE4;
 import static org.lidiuma.math.internal.AnnotationConst.TUPLES_OUT;
 
 @FactoryAlias(methodName = DOUBLE4, outputClass = TUPLES_OUT)
-@LooselyConsistentValue
 public value record Double4(
-        @Override @NullRestricted Double x,
-        @Override @NullRestricted Double y,
-        @Override @NullRestricted Double z,
-        @Override @NullRestricted Double w
+        @Override Double x,
+        @Override Double y,
+        @Override Double z,
+        @Override Double w
 ) implements UnaryTuple4<Double> {
 
     public Double4(UnaryTuple1<Double> tuple, double y, double z, double w) {

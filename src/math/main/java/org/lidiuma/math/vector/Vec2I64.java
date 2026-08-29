@@ -16,8 +16,6 @@
 
 package org.lidiuma.math.vector;
 
-import jdk.internal.vm.annotation.LooselyConsistentValue;
-import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.traits.vector.Vector2Ops;
 import org.lidiuma.math.api.tuple.UnaryTuple2;
 import org.lidiuma.math.api.vector.Vector2;
@@ -29,10 +27,9 @@ import org.lidiuma.math.processor.NamedAlias;
 import static org.lidiuma.math.internal.AnnotationConst.*;
 
 @FactoryAlias(methodName = VEC2_FACTORY, outputClass = VECTOR_OUT)
-@LooselyConsistentValue
 public value record Vec2I64(
-        @Override @NullRestricted Long x,
-        @Override @NullRestricted Long y
+        @Override Long x,
+        @Override Long y
 ) implements Vector2<Long> {
 
     @FieldAlias(outputClass = VECTOR_OUT)

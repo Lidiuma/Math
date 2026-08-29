@@ -16,8 +16,6 @@
 
 package org.lidiuma.math.rotation;
 
-import jdk.internal.vm.annotation.LooselyConsistentValue;
-import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.rotation.AxisAngle;
 import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.FactoryAlias;
@@ -26,10 +24,9 @@ import static org.lidiuma.math.internal.AnnotationConst.AXIS_ANGLE_FACTORY;
 import static org.lidiuma.math.internal.AnnotationConst.ROTATION_OUT;
 
 @FactoryAlias(methodName = AXIS_ANGLE_FACTORY, outputClass = ROTATION_OUT)
-@LooselyConsistentValue
 public value record AxisAngleF32(
-        @Override @NullRestricted Vec3F32 axis,
-        @Override @NullRestricted AngleF32 angle
+        @Override Vec3F32 axis,
+        @Override AngleF32 angle
 ) implements AxisAngle<Vec3F32, AngleF32, Float> {
 
     /// A constructor creating a specialized axis-angle from a generic axis-angle.

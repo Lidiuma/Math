@@ -16,8 +16,6 @@
 
 package org.lidiuma.math.matrix;
 
-import jdk.internal.vm.annotation.LooselyConsistentValue;
-import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.matrix.Matrix4;
 import org.lidiuma.math.api.traits.matrix.Matrix4Ops;
 import org.lidiuma.math.processor.AliasExclude;
@@ -28,13 +26,12 @@ import org.lidiuma.math.vector.Vec4F32;
 import static org.lidiuma.math.internal.AnnotationConst.*;
 
 @FactoryAlias(methodName = MATRIX4_FACTORY, outputClass = MATRIX_OUT)
-@LooselyConsistentValue
 public value record Matrix4F32(
         // I'm not using an array because it's an identity object, and this reads and feels better to work with.
-        @Override @NullRestricted Float m00, @Override @NullRestricted Float m01, @Override @NullRestricted Float m02, @Override @NullRestricted Float m03,
-        @Override @NullRestricted Float m10, @Override @NullRestricted Float m11, @Override @NullRestricted Float m12, @Override @NullRestricted Float m13,
-        @Override @NullRestricted Float m20, @Override @NullRestricted Float m21, @Override @NullRestricted Float m22, @Override @NullRestricted Float m23,
-        @Override @NullRestricted Float m30, @Override @NullRestricted Float m31, @Override @NullRestricted Float m32, @Override @NullRestricted Float m33
+        @Override Float m00, @Override Float m01, @Override Float m02, @Override Float m03,
+        @Override Float m10, @Override Float m11, @Override Float m12, @Override Float m13,
+        @Override Float m20, @Override Float m21, @Override Float m22, @Override Float m23,
+        @Override Float m30, @Override Float m31, @Override Float m32, @Override Float m33
 ) implements Matrix4<Float> {
 
     @FieldAlias(outputClass = MATRIX_OUT)

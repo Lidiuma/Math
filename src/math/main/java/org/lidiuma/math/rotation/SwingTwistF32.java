@@ -16,8 +16,6 @@
 
 package org.lidiuma.math.rotation;
 
-import jdk.internal.vm.annotation.LooselyConsistentValue;
-import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.rotation.SwingTwist;
 import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.FactoryAlias;
@@ -25,10 +23,9 @@ import static org.lidiuma.math.internal.AnnotationConst.ROTATION_OUT;
 import static org.lidiuma.math.internal.AnnotationConst.SWING_TWIST_FACTORY;
 
 @FactoryAlias(methodName = SWING_TWIST_FACTORY, outputClass = ROTATION_OUT)
-@LooselyConsistentValue
 public value record SwingTwistF32(
-        @Override @NullRestricted QuaternionF32 swing,
-        @Override @NullRestricted QuaternionF32 twist
+        @Override QuaternionF32 swing,
+        @Override QuaternionF32 twist
 ) implements SwingTwist<QuaternionF32, Float> {
 
     /// A constructor creating a specialized swing-twist from a generic swing-twist.

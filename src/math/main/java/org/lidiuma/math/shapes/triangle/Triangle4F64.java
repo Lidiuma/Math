@@ -16,8 +16,6 @@
 
 package org.lidiuma.math.shapes.triangle;
 
-import jdk.internal.vm.annotation.LooselyConsistentValue;
-import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.shapes.triangle.Triangle4;
 import org.lidiuma.math.processor.FactoryAlias;
 import org.lidiuma.math.vector.Vec4F64;
@@ -25,6 +23,5 @@ import static org.lidiuma.math.internal.AnnotationConst.SHAPES_OUT;
 import static org.lidiuma.math.internal.AnnotationConst.TRIANGLE4_FACTORY;
 
 @FactoryAlias(methodName = TRIANGLE4_FACTORY, outputClass = SHAPES_OUT, isPackageDefined = true)
-@LooselyConsistentValue
-public value record Triangle4F64(@Override @NullRestricted Vec4F64 ab, @Override @NullRestricted Vec4F64 ac) implements Triangle4<Double> {
+public value record Triangle4F64(@Override Vec4F64 ab, @Override Vec4F64 ac) implements Triangle4<Double> {
 }

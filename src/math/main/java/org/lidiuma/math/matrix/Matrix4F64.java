@@ -16,8 +16,6 @@
 
 package org.lidiuma.math.matrix;
 
-import jdk.internal.vm.annotation.LooselyConsistentValue;
-import jdk.internal.vm.annotation.NullRestricted;
 import org.lidiuma.math.api.matrix.Matrix4;
 import org.lidiuma.math.api.traits.matrix.Matrix4Ops;
 import org.lidiuma.math.processor.AliasExclude;
@@ -28,13 +26,12 @@ import org.lidiuma.math.vector.Vec4F64;
 import static org.lidiuma.math.internal.AnnotationConst.*;
 
 @FactoryAlias(methodName = MATRIX4_FACTORY, outputClass = MATRIX_OUT)
-@LooselyConsistentValue
 public value record Matrix4F64(
         // I'm not using an array because it's an identity object, and this reads and feels better to work with.
-        @Override @NullRestricted Double m00, @Override @NullRestricted Double m01, @Override @NullRestricted Double m02, @Override @NullRestricted Double m03,
-        @Override @NullRestricted Double m10, @Override @NullRestricted Double m11, @Override @NullRestricted Double m12, @Override @NullRestricted Double m13,
-        @Override @NullRestricted Double m20, @Override @NullRestricted Double m21, @Override @NullRestricted Double m22, @Override @NullRestricted Double m23,
-        @Override @NullRestricted Double m30, @Override @NullRestricted Double m31, @Override @NullRestricted Double m32, @Override @NullRestricted Double m33
+        @Override Double m00, @Override Double m01, @Override Double m02, @Override Double m03,
+        @Override Double m10, @Override Double m11, @Override Double m12, @Override Double m13,
+        @Override Double m20, @Override Double m21, @Override Double m22, @Override Double m23,
+        @Override Double m30, @Override Double m31, @Override Double m32, @Override Double m33
 ) implements Matrix4<Double> {
 
     @FieldAlias(outputClass = MATRIX_OUT)
