@@ -19,6 +19,7 @@ package org.lidiuma.math.vector;
 import org.lidiuma.math.api.traits.vector.Vector3Ops;
 import org.lidiuma.math.api.tuple.UnaryTuple3;
 import org.lidiuma.math.api.vector.Vector3;
+import org.lidiuma.math.internal.Math28;
 import org.lidiuma.math.numerics.IntegerNumeric;
 import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.FactoryAlias;
@@ -122,9 +123,9 @@ public record Vec3I32(
         @Override
         public Vec3I32 clamp(Vec3I32 value, Vec3I32 min, Vec3I32 max) {
             return of(
-                    Math.clamp(value.x(), min.x(), max.x()),
-                    Math.clamp(value.y(), min.y(), max.y()),
-                    Math.clamp(value.z(), min.z(), max.z())
+                    Math28.clamp(value.x(), min.x(), max.x()),
+                    Math28.clamp(value.y(), min.y(), max.y()),
+                    Math28.clamp(value.z(), min.z(), max.z())
             );
         }
 

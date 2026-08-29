@@ -20,6 +20,7 @@ import org.lidiuma.math.api.rotation.Quaternion;
 import org.lidiuma.math.api.traits.rotation.QuaternionOps;
 import org.lidiuma.math.api.tuple.UnaryTuple4;
 import org.lidiuma.math.internal.Epsilon;
+import org.lidiuma.math.internal.Math28;
 import org.lidiuma.math.numerics.DoubleNumeric;
 import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.FactoryAlias;
@@ -99,7 +100,7 @@ public record QuaternionF64(
         public QuaternionF64 fromRotationBetween(Vec3F64 vector1, Vec3F64 vector2) {
 
             final var vOps = Vec3F64.OPS;
-            final double dot = Math.clamp(vOps.dot(vector1, vector2), -1d, 1d);
+            final double dot = Math28.clamp(vOps.dot(vector1, vector2), -1d, 1d);
 
             // When the vectors are parallel.
             if (dot >= 1d) return identity();
@@ -149,7 +150,7 @@ public record QuaternionF64(
         @Override
         public QuaternionF64 log(QuaternionF64 quaternion) {
 
-            final double w = Math.clamp(quaternion.w(), -1d, 1d);
+            final double w = Math28.clamp(quaternion.w(), -1d, 1d);
             final double radians = Math.acos(w);
             final double sin = Math.sqrt(Math.max(0d, 1d - w * w));
 
@@ -227,7 +228,7 @@ public record QuaternionF64(
 
         @Override
         public AngleF64 angle(QuaternionF64 quaternion) {
-            final double w = Math.clamp(quaternion.w(), -1d, 1d);
+            final double w = Math28.clamp(quaternion.w(), -1d, 1d);
             return Rotations.radians(2d * Math.acos(w));
         }
 

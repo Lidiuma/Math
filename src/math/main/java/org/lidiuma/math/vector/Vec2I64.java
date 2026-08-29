@@ -19,6 +19,7 @@ package org.lidiuma.math.vector;
 import org.lidiuma.math.api.traits.vector.Vector2Ops;
 import org.lidiuma.math.api.tuple.UnaryTuple2;
 import org.lidiuma.math.api.vector.Vector2;
+import org.lidiuma.math.internal.Math28;
 import org.lidiuma.math.numerics.LongNumeric;
 import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.FactoryAlias;
@@ -115,8 +116,8 @@ public record Vec2I64(
         @Override
         public Vec2I64 clamp(Vec2I64 value, Vec2I64 min, Vec2I64 max) {
             return of(
-                    Math.clamp(value.x(), min.x(), max.x()),
-                    Math.clamp(value.y(), min.y(), max.y())
+                    Math28.clamp(value.x(), min.x(), max.x()),
+                    Math28.clamp(value.y(), min.y(), max.y())
             );
         }
 

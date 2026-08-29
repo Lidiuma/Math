@@ -19,6 +19,7 @@ package org.lidiuma.math.vector;
 import org.lidiuma.math.api.traits.vector.FloatingVector4Ops;
 import org.lidiuma.math.api.tuple.UnaryTuple4;
 import org.lidiuma.math.api.vector.Vector4;
+import org.lidiuma.math.internal.Math28;
 import org.lidiuma.math.numerics.DoubleNumeric;
 import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.FactoryAlias;
@@ -203,10 +204,10 @@ public record Vec4F64(
         @Override
         public Vec4F64 clamp(Vec4F64 value, Vec4F64 min, Vec4F64 max) {
             return of(
-                    Math.clamp(value.x(), min.x(), max.x()),
-                    Math.clamp(value.y(), min.y(), max.y()),
-                    Math.clamp(value.z(), min.z(), max.z()),
-                    Math.clamp(value.w(), min.w(), max.w())
+                    Math28.clamp(value.x(), min.x(), max.x()),
+                    Math28.clamp(value.y(), min.y(), max.y()),
+                    Math28.clamp(value.z(), min.z(), max.z()),
+                    Math28.clamp(value.w(), min.w(), max.w())
             );
         }
 

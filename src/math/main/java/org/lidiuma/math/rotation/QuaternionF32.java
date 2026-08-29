@@ -20,6 +20,7 @@ import org.lidiuma.math.api.rotation.Quaternion;
 import org.lidiuma.math.api.traits.rotation.QuaternionOps;
 import org.lidiuma.math.api.tuple.UnaryTuple4;
 import org.lidiuma.math.internal.Epsilon;
+import org.lidiuma.math.internal.Math28;
 import org.lidiuma.math.numerics.FloatNumeric;
 import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.FactoryAlias;
@@ -99,7 +100,7 @@ public record QuaternionF32(
         public QuaternionF32 fromRotationBetween(Vec3F32 vector1, Vec3F32 vector2) {
 
             final var vOps = Vec3F32.OPS;
-            final float dot = Math.clamp(vOps.dot(vector1, vector2), -1f, 1f);
+            final float dot = Math28.clamp(vOps.dot(vector1, vector2), -1f, 1f);
 
             // When the vectors are parallel.
             if (dot >= 1f) return identity();
@@ -149,7 +150,7 @@ public record QuaternionF32(
         @Override
         public QuaternionF32 log(QuaternionF32 quaternion) {
 
-            final float w = Math.clamp(quaternion.w(), -1f, 1f);
+            final float w = Math28.clamp(quaternion.w(), -1f, 1f);
             final float radians = (float) Math.acos(w);
             final float sin = (float) Math.sqrt(Math.max(0f, 1f - w * w));
 
@@ -227,7 +228,7 @@ public record QuaternionF32(
 
         @Override
         public AngleF32 angle(QuaternionF32 quaternion) {
-            final float w = Math.clamp(quaternion.w(), -1f, 1f);
+            final float w = Math28.clamp(quaternion.w(), -1f, 1f);
             return Rotations.radians((float) (2f * Math.acos(w)));
         }
 

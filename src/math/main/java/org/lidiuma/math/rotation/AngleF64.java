@@ -19,19 +19,20 @@ package org.lidiuma.math.rotation;
 import org.lidiuma.math.api.rotation.Angle;
 import org.lidiuma.math.api.traits.rotation.AngleOps;
 import org.lidiuma.math.internal.Epsilon;
+import org.lidiuma.math.internal.Math28;
 import org.lidiuma.math.processor.FieldAlias;
 import org.lidiuma.math.processor.NamedAlias;
 import org.lidiuma.math.vector.Vec2F64;
 import java.util.function.UnaryOperator;
 import static org.lidiuma.math.internal.AnnotationConst.ROTATION_OUT;
 
-public class AngleF64 implements Angle<Double> {
+public final class AngleF64 implements Angle<Double> {
 
     @FieldAlias(outputClass = ROTATION_OUT)
     public static final Ops OPS = new Ops();
 
     // Hidden representation since this class represent a generic angle and not what it's made of.
-    private double radians;
+    private final double radians;
 
     private AngleF64(double radians) {
         this.radians = radians;
@@ -55,7 +56,7 @@ public class AngleF64 implements Angle<Double> {
 
     @Override
     public Double turns() {
-        return radians() / Math.TAU;
+        return radians() / Math28.TAU;
     }
 
     @Override
@@ -83,14 +84,14 @@ public class AngleF64 implements Angle<Double> {
         @Override
         @NamedAlias(methodName = "turns")
         public AngleF64 fromTurns(Double turns) {
-            return fromRadians((turns * Math.TAU));
+            return fromRadians((turns * Math28.TAU));
         }
 
         @Override
         @NamedAlias(methodName = "vectorAngle")
         public AngleF64 fromVector(Vec2F64 vector) {
             final var angle = Math.atan2(vector.y(), vector.x());
-            return fromRadians(angle < 0d ? (angle + Math.TAU) : angle);
+            return fromRadians(angle < 0d ? (angle + Math28.TAU) : angle);
         }
 
         @Override
@@ -110,8 +111,8 @@ public class AngleF64 implements Angle<Double> {
 
         @Override
         public AngleF64 normalize(AngleF64 angle) {
-            final double normalized = angle.radians() % Math.TAU;
-            return fromRadians(normalized + (normalized < 0d ? Math.TAU : 0d));
+            final double normalized = angle.radians() % Math28.TAU;
+            return fromRadians(normalized + (normalized < 0d ? Math28.TAU : 0d));
         }
 
         @Override
@@ -147,7 +148,7 @@ public class AngleF64 implements Angle<Double> {
 
             // Compute the shortest angular difference
             final double delta = end.radians() - startRadian;
-            final double shortestDelta = delta - Math.TAU * Math.floor((delta + Math.PI) / Math.TAU);
+            final double shortestDelta = delta - Math28.TAU * Math.floor((delta + Math.PI) / Math28.TAU);
 
             return normalize(fromRadians(startRadian + shortestDelta * easedAlpha));
         }

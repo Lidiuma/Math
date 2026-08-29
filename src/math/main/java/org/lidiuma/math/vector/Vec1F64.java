@@ -19,6 +19,7 @@ package org.lidiuma.math.vector;
 import org.lidiuma.math.api.traits.vector.FloatingVector1Ops;
 import org.lidiuma.math.api.tuple.UnaryTuple1;
 import org.lidiuma.math.api.vector.Vector1;
+import org.lidiuma.math.internal.Math28;
 import org.lidiuma.math.numerics.DoubleNumeric;
 import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.FactoryAlias;
@@ -168,7 +169,7 @@ public record Vec1F64(@Override Double x) implements Vector1<Double> {
 
         @Override
         public Vec1F64 clamp(Vec1F64 value, Vec1F64 min, Vec1F64 max) {
-            return of(Math.clamp(value.x(), min.x(), max.x()));
+            return of(Math28.clamp(value.x(), min.x(), max.x()));
         }
 
         @Override

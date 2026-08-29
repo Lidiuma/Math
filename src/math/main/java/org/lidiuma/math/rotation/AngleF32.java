@@ -19,19 +19,20 @@ package org.lidiuma.math.rotation;
 import org.lidiuma.math.api.rotation.Angle;
 import org.lidiuma.math.api.traits.rotation.AngleOps;
 import org.lidiuma.math.internal.Epsilon;
+import org.lidiuma.math.internal.Math28;
 import org.lidiuma.math.processor.FieldAlias;
 import org.lidiuma.math.processor.NamedAlias;
 import org.lidiuma.math.vector.Vec2F32;
 import java.util.function.UnaryOperator;
 import static org.lidiuma.math.internal.AnnotationConst.ROTATION_OUT;
 
-public class AngleF32 implements Angle<Float> {
+public final class AngleF32 implements Angle<Float> {
 
     @FieldAlias(outputClass = ROTATION_OUT)
     public static final Ops OPS = new Ops();
 
     // Hidden representation since this class represent a generic angle and not what it's made of.
-    private float radians;
+    private final float radians;
 
     private AngleF32(float radians) {
         this.radians = radians;
@@ -55,7 +56,7 @@ public class AngleF32 implements Angle<Float> {
 
     @Override
     public Float turns() {
-        return (float) (radians() / Math.TAU);
+        return (float) (radians() / Math28.TAU);
     }
 
     @Override
@@ -83,14 +84,14 @@ public class AngleF32 implements Angle<Float> {
         @Override
         @NamedAlias(methodName = "turns")
         public AngleF32 fromTurns(Float turns) {
-            return fromRadians((float) (turns * Math.TAU));
+            return fromRadians((float) (turns * Math28.TAU));
         }
 
         @Override
         @NamedAlias(methodName = "vectorAngle")
         public AngleF32 fromVector(Vec2F32 vector) {
             final var angle = (float) Math.atan2(vector.y(), vector.x());
-            return fromRadians(angle < 0f ? (float) (angle + Math.TAU) : angle);
+            return fromRadians(angle < 0f ? (float) (angle + Math28.TAU) : angle);
         }
 
         @Override
@@ -112,8 +113,8 @@ public class AngleF32 implements Angle<Float> {
 
         @Override
         public AngleF32 normalize(AngleF32 angle) {
-            final float normalized = (float) (angle.radians() % Math.TAU);
-            return fromRadians((float) (normalized + (normalized < 0f ? Math.TAU : 0f)));
+            final float normalized = (float) (angle.radians() % Math28.TAU);
+            return fromRadians((float) (normalized + (normalized < 0f ? Math28.TAU : 0f)));
         }
 
         @Override
@@ -149,7 +150,7 @@ public class AngleF32 implements Angle<Float> {
 
             // Compute the shortest angular difference
             final float delta = end.radians() - startRadian;
-            final float shortestDelta = (float) (delta - Math.TAU * Math.floor((delta + Math.PI) / Math.TAU));
+            final float shortestDelta = (float) (delta - Math28.TAU * Math.floor((delta + Math.PI) / Math28.TAU));
 
             return normalize(fromRadians(startRadian + shortestDelta * easedAlpha));
         }

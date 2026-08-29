@@ -19,6 +19,7 @@ package org.lidiuma.math.vector;
 import org.lidiuma.math.api.traits.vector.FloatingVector2Ops;
 import org.lidiuma.math.api.tuple.UnaryTuple2;
 import org.lidiuma.math.api.vector.Vector2;
+import org.lidiuma.math.internal.Math28;
 import org.lidiuma.math.numerics.FloatNumeric;
 import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.FactoryAlias;
@@ -194,8 +195,8 @@ public record Vec2F32(
         @Override
         public Vec2F32 clamp(Vec2F32 value, Vec2F32 min, Vec2F32 max) {
             return of(
-                    Math.clamp(value.x(), min.x(), max.x()),
-                    Math.clamp(value.y(), min.y(), max.y())
+                    Math28.clamp(value.x(), min.x(), max.x()),
+                    Math28.clamp(value.y(), min.y(), max.y())
             );
         }
 

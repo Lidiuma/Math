@@ -19,6 +19,7 @@ package org.lidiuma.math.vector;
 import org.lidiuma.math.api.traits.vector.Vector1Ops;
 import org.lidiuma.math.api.tuple.UnaryTuple1;
 import org.lidiuma.math.api.vector.Vector1;
+import org.lidiuma.math.internal.Math28;
 import org.lidiuma.math.numerics.IntegerNumeric;
 import org.lidiuma.math.processor.AliasExclude;
 import org.lidiuma.math.processor.FactoryAlias;
@@ -110,7 +111,7 @@ public record Vec1I32(@Override Integer x) implements Vector1<Integer> {
 
         @Override
         public Vec1I32 clamp(Vec1I32 value, Vec1I32 min, Vec1I32 max) {
-            return of(Math.clamp(value.x(), min.x(), max.x()));
+            return of(Math28.clamp(value.x(), min.x(), max.x()));
         }
 
         @Override
