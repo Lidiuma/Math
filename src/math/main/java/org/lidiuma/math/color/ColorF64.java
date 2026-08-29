@@ -48,7 +48,7 @@ public value record ColorF64(
     /// The hex can contain `#`, which will simply be ignored,
     ///  and it must provide either `RRGGBB` or `RRGGBBAA` in hexadecimal format.
     @MethodAlias(outputClass = COLOR_OUT)
-    @NamedAlias(methodName = COLOR_FACTORY + UPPER_HEX_FACTORY + F64)
+    @NamedAlias(methodName = HEX_FACTORY + F64)
     public static ColorF64 colorHex(String hexColor) {
         final String hex = hexColor.startsWith("#") ? hexColor.substring(1) : hexColor;
         final int length = hex.length();

@@ -60,7 +60,7 @@ public final class AnnotationConst {
     public static final String RGBA_FACTORY = "rgba";
     public static final String HSV_FACTORY = "hsv";
     public static final String HSL_FACTORY = "hsl";
-    public static final String UPPER_HEX_FACTORY = "Hex";
+    public static final String HEX_FACTORY = "hex";
     /* == Matrices-related == */
     public static final String MATRIX_OUT = "Matrices";
     public static final String AFFINE2_FACTORY = "affine2";
