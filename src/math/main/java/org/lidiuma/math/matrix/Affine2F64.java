@@ -26,7 +26,6 @@ import org.lidiuma.math.processor.FactoryAlias;
 import org.lidiuma.math.processor.FieldAlias;
 import org.lidiuma.math.processor.NamedAlias;
 import org.lidiuma.math.rotation.AngleF64;
-import org.lidiuma.math.rotation.Rotations;
 import org.lidiuma.math.vector.Vec2F64;
 import static org.lidiuma.math.internal.AnnotationConst.*;
 
@@ -84,8 +83,8 @@ public value record Affine2F64(
 
         @Override
         public Affine2F64 fromRotation(AngleF64 angle) {
-            final double cos = Rotations.cos(angle);
-            final double sin = Rotations.sin(angle);
+            final double cos = AngleF64.OPS.cos(angle);
+            final double sin = AngleF64.OPS.sin(angle);
             return new Affine2F64(
                     cos, -sin, 0d,
                     sin, cos, 0d
