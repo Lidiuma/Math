@@ -36,7 +36,7 @@ public value record ColorF32(
 ) implements Color<Float> {
 
     @FieldAlias(outputClass = COLOR_OUT)
-    public static final Ops OPS = new ColorF32.Ops();
+    public static final Ops OPS = new Ops();
 
     /// A constructor creating a specialized color from a generic tuple.
     @AliasExclude // This method can be a performance sink if used inappropriately, so I exclude it from the alias.
