@@ -20,7 +20,6 @@ import org.lidiuma.math.modules.BenchmarkBuild;
 import org.lidiuma.math.modules.MathBuild;
 import org.lidiuma.math.modules.ProcessorBuild;
 import rife.bld.Project;
-import rife.bld.operations.JavacOptions;
 import java.util.Arrays;
 
 public interface Math {
@@ -55,11 +54,5 @@ public interface Math {
         final String[] bldArgs = Arrays.copyOfRange(args, 1, args.length);
         System.out.println("== \"" + module + "\" module selected ==");
         project.start(bldArgs);
-    }
-
-    static void commonBuildOption(JavacOptions options) {
-        options.target(28);
-        options.source(28);
-        options.enablePreview();
     }
 }

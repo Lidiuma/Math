@@ -19,7 +19,8 @@ package org.lidiuma.math.modules;
 import org.lidiuma.math.MathModule;
 import rife.bld.operations.JavacOptions;
 import java.util.List;
-import static org.lidiuma.math.Math.*;
+import static org.lidiuma.math.Math.GROUP_ID;
+import static org.lidiuma.math.Math.MATH;
 import static rife.bld.dependencies.Repository.MAVEN_CENTRAL;
 import static rife.bld.dependencies.Repository.RIFE2_RELEASES;
 import static rife.bld.dependencies.Scope.compile;
@@ -48,7 +49,7 @@ public final class BenchmarkBuild extends MathModule {
 
         final var options = compileOperation().compileOptions();
         options.process(JavacOptions.Processing.FULL);
-        commonBuildOption(options);
+        options.enablePreview();
         runConfiguration();
     }
 

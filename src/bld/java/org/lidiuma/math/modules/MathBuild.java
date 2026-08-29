@@ -20,7 +20,8 @@ import org.lidiuma.math.MathModule;
 import org.lidiuma.math.Util;
 import rife.bld.operations.JavacOptions;
 import java.util.List;
-import static org.lidiuma.math.Math.*;
+import static org.lidiuma.math.Math.GROUP_ID;
+import static org.lidiuma.math.Math.PROCESSOR;
 import static org.lidiuma.math.PublishUtil.patchDependencies;
 import static org.lidiuma.math.PublishUtil.publishCentralConfiguration;
 import static rife.bld.dependencies.Repository.*;
@@ -34,13 +35,14 @@ public final class MathBuild extends MathModule {
         pkg = GROUP_ID + "." + name();
         module = "lidiuma.math";
         version = version(0, 3, 0);
+        javaRelease = 28;
         downloadSources = true;
         repositories = List.of(MAVEN_CENTRAL, CENTRAL_SNAPSHOTS, RIFE2_RELEASES);
         assignModuleDirectories("math");
 
         includeDependencies();
 
-        commonBuildOption(compileOperation().compileOptions());
+        compileOperation().compileOptions().enablePreview();
         addCodeGenerator();
 
         Util.addAttributesToJar(jarOperation(), version());
@@ -82,7 +84,6 @@ public final class MathBuild extends MathModule {
 
     private void modifyJavadocOperations() {
         final var options = javadocOperation().javadocOptions();
-        options.add("--source=28");
         options.add("--enable-preview");
         options.tag("apiNote", "a", "API Note:");
         options.tag("implNote", "a", "Implementation Note:");
