@@ -1,4 +1,4 @@
-[![Maven](https://maven-badges.sml.io/sonatype-central/org.lidiuma/math/badge.svg?style=flat&subject=Maven&color=blue)](https://maven-badges.sml.io/sonatype-central/org.lidiuma/math/)
+[![Maven](https://maven-badges.sml.io/sonatype-central/org.lidiuma/lidiuma-math/badge.svg?style=flat&subject=Maven&color=blue)](https://maven-badges.sml.io/sonatype-central/org.lidiuma/lidiuma-math/)
 # Math Library
 Welcome!\
 This is a math library meant for Modern Java; the library does not use the classic [OOP](https://en.wikipedia.org/wiki/Object-oriented_programming) paradigm, but instead uses mainly [FP](https://en.wikipedia.org/wiki/Functional_programming) paradigms; immutability for data, and type-classes/traits for behavior.
@@ -33,7 +33,7 @@ To compile/run `--enable-preview` needs to be provided, since JEP 401 is in prev
 **Gradle**\
 ```implementation("org.lidiuma:lidiuma-math:0.3.0")```\
 **Bld**\
-```module("org.lidiuma", "math", "0.3.0")```
+```module("org.lidiuma", "lidiuma-math", "0.3.0")```
 
 ### Java 17
 Modified library to be compiled with Java 17, naturally all Valhalla features are striped out.
@@ -41,7 +41,7 @@ Modified library to be compiled with Java 17, naturally all Valhalla features ar
 **Gradle**\
 ```implementation("org.lidiuma:lidiuma-math:0.3.0-j17")```\
 **Bld**\
-```module("org.lidiuma", "math", "0.3.0-j17")```
+```module("org.lidiuma", "lidiuma-math", "0.3.0-j17")```
 
 ### Java Early Access
 Special library version to embrace the latest you can get Valhalla, pocking at JVM internal to have Null-Restricted types, Loosely-Consistent Values, and more when available.
@@ -54,7 +54,7 @@ To compile/run you need to provide a few flags, since I'm using internal APIs.
 **Gradle**\
 ```implementation("org.lidiuma:lidiuma-math:0.3.0-j28exp")```\
 **Bld**\
-```module("org.lidiuma", "math", "0.3.0-j28exp")```
+```module("org.lidiuma", "lidiuma-math", "0.3.0-j28exp")```
 
 ## Why?
 I was not satisfied with LibGDX APIs, since quite messy and outdated; they started with Java 6,
