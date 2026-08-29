@@ -74,9 +74,37 @@ after all I'll be the main person using this library and I get how annoying brea
 ## Performance
 This is the question everybody wants to know, especially considering this library uses generics and all the abstraction to use self-made type-classes.\
 I unfortunately have done the minimum amount of benchmark, all I can say is:
-- Primitive code performs only ~14% faster.
-- Generics, this one worries me the most, it's not an issue if code is kept monomorphic, but it's a hard thing to do. The library API should be monomorphic, so in case of issues I should be able to do something about it.
-- All the abstraction code gets inlined AGGRESSIVELY, I'm sure there are a few methods having issues to inline, but I can easily write hand-specialized code to fix those cases. (please let me know if you find such cases, so I can fix them) 
+- Primitive code shows ~14% faster execution, though the difference falls within error, so it may not be statistically relevant.
+- All the abstraction code gets inlined AGGRESSIVELY, I'm sure there are a few methods having issues to inline, but I can easily write hand-specialized code to fix those cases. (please let me know if you find such cases, so I can fix them)
+
+## Generic Performance
+This deserves its own section since it's a complicated "it depends".
+
+### Vector, Point, and Color
+These classes are coded in a way that are monomorphic, so you can use `Vec2I32`, `Vec2F64`, `Vec3F32` together without worry of a performance regression.
+
+### Matrix, Quaternion, Angle, and everything else
+These classes are not monomorphic since how much overhead that adds, but they only have 2 generic types, so the JIT should be able to handle it well.\
+But in case it gives poor performance, you can write me, and I'll make sure to fix it by making that code monomorphic as well.
+
+### Interface usage
+If you decide to use the interfaces directly (`e.g, Vector2<T>`) in a polymorphic way, then the performance is going to suck.\
+**Bad Usage:**
+```java
+<T> void method(Vector2<T> vec2) { /* ... */ }
+
+method(new Vec2F32(x, y));
+method(new Vector2f(x, y)); // using two different libraries at the same time.
+method(new Vec2I32(x, y));
+```
+**Good Usage:**
+```java
+void methodF32(Vector2<Float> vec2) { /* ... */ }
+void methodI32(Vector2<Integer> vec2) { /* ... */ }
+
+methodF32(new Vec2F32(x, y));
+methodI32(new Vec2I32(x, y));
+```
 
 ## Special Thanks
 To [LibGDX](https://libgdx.com/), I used it as a reference, even though all the code has seen so much refactor that there's no longer trace of the original LibGDX code.
