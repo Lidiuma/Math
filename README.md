@@ -4,24 +4,20 @@ Welcome!\
 This is a math library meant for Modern Java; the library does not use the classic [OOP](https://en.wikipedia.org/wiki/Object-oriented_programming) paradigm, but instead uses mainly [FP](https://en.wikipedia.org/wiki/Functional_programming) paradigms; immutability for data, and type-classes/traits for behavior.
 
 For example, to calculate a dot product of a `Vector3`, I can get an instance of `Vector3Ops` (ops stands for operations) and call `ops.dot(Vector3, Vector3)`, or I could use the alias class and call `Vectors.dot(Vector3, Vector3)`.\
-Since using instances to call methods is annoying, there are static-aliases classes that are more than enough in most cases:
-- `Vectors`
-- `Points`
-- `Rotations`
-- `Matrices`
-- `Shapes`
-- `Colors`
-- `Tuples`
+As shown above, there are static-alias classes to avoid having to call the `ops` instance that are more than enough in most cases:\
+`Vectors`, `Points`, `Rotations`, `Matrices`, `Shapes`, `Colors`, `Tuples`
 
 # Features
 - JPMS support. (it's a top priority)
 - Zero `null` usage and safe nullability API thanks to [Jspecify](https://jspecify.dev/)
 - `Point1`, `Point2`, `Point3`, `Point4` (versions: `float`, `double`, `int`, `long`)
 - `Vector1`, `Vector2`, `Vector3`, `Vector4` (versions: `float`, `double`, `int`, `long`)
-- `Quaternion`, `Angle`, `AxisAngle`, `SwingTwist` for rotation. (versions: `float`, `double`)
-- `Rectangle`, `Segment`, `Radius`, and `Triangle`. (versions: `float`, `double`)
-- `Affine2`, `Affine3`, `Matrix3`, and `Matrix4`. (versions: `float`, `double`)
+- `Quaternion`, `Angle`, `AxisAngle`, `SwingTwist`. (versions: `float`, `double`)
+- `Rectangle`, `Segment`, `Radius`, and `Triangle` (versions: `float`, `double`)
+- `Affine2`, `Affine3`, `Matrix3`, and `Matrix4` (versions: `float`, `double`)
+- `Color` (versions: `float`, `double`)
 - Implementation of [math-api and math-traits](https://github.com/Lidiuma/MathAPI/).
+- The above alias classes.
 
 # How to Use
 There are 3 different version of this library available on Maven Central, one for each java version.
@@ -30,18 +26,14 @@ There are 3 different version of this library available on Maven Central, one fo
 This is the default version of the library, it provides all classes with the JEP 401 `value` modifier.\
 To compile/run `--enable-preview` needs to be provided, since JEP 401 is in preview.
 
-**Gradle**\
-```implementation("org.lidiuma:lidiuma-math:0.3.0")```\
-**Bld**\
-```module("org.lidiuma", "lidiuma-math", "0.3.0")```
+**Gradle**: ```implementation("org.lidiuma:lidiuma-math:0.3.0")```\
+**Bld**: ```module("org.lidiuma", "lidiuma-math", "0.3.0")```
 
 ### Java 17
 Modified library to be compiled with Java 17, naturally all Valhalla features are striped out.
 
-**Gradle**\
-```implementation("org.lidiuma:lidiuma-math:0.3.0-j17")```\
-**Bld**\
-```module("org.lidiuma", "lidiuma-math", "0.3.0-j17")```
+**Gradle**: ```implementation("org.lidiuma:lidiuma-math:0.3.0-j17")```\
+**Bld**: ```module("org.lidiuma", "lidiuma-math", "0.3.0-j17")```
 
 ### Java Early Access
 Special library version to embrace the latest you can get Valhalla, pocking at JVM internal to have Null-Restricted types, Loosely-Consistent Values, and more when available.
@@ -51,18 +43,16 @@ To compile/run you need to provide a few flags, since I'm using internal APIs.
 - `--add-exports=java.base/jdk.internal.value=lidiuma.math`
 - `--add-exports=java.base/jdk.internal.vm.annotation=lidiuma.math`
 
-**Gradle**\
-```implementation("org.lidiuma:lidiuma-math:0.3.0-j28exp")```\
-**Bld**\
-```module("org.lidiuma", "lidiuma-math", "0.3.0-j28exp")```
+**Gradle**: ```implementation("org.lidiuma:lidiuma-math:0.3.0-j28exp")```\
+**Bld**: ```module("org.lidiuma", "lidiuma-math", "0.3.0-j28exp")```
 
 ## Why?
-I was not satisfied with LibGDX APIs, since quite messy and outdated; they started with Java 6,
+I was not satisfied with the LibGDX math APIs, it is quite messy (lot of desync between APIs) and outdated; they started with Java 6,
 it has almost been 2 decades since this version was released!\
-Either way, I had to abuse primitives to not kill the GC, making both of these things a *bad* coding experience.
+Either way, its library design is to abuse primitives and avoid at all cost allocations to avoid stressing the GC, making both of those things a *bad* coding experience.
 
-This is why I'm remaking some of the math classes by following modern standards, like immutability.
-My objective is to have these math classes be used in hot-paths without any worry, hence why I'm using Valhalla.
+This is why I'm making my own version following modern standards, like immutability.\
+Naturally my objective with this library is to be a good replacement, so it must perform well in hot-paths, hence why I'm using Valhalla.
 
 ## Backwards compatibility?
 Since this is a `0.x` version, there might be some breaking changes. 
@@ -75,7 +65,7 @@ after all I'll be the main person using this library and I get how annoying brea
 This is the question everybody wants to know, especially considering this library uses generics and all the abstraction to use self-made type-classes.\
 I unfortunately have done the minimum amount of benchmark, all I can say is:
 - Primitive code shows ~14% faster execution, though the difference falls within error, so it may not be statistically relevant.
-- All the abstraction code gets inlined AGGRESSIVELY, I'm sure there are a few methods having issues to inline, but I can easily write hand-specialized code to fix those cases. (please let me know if you find such cases, so I can fix them)
+- All the abstraction code gets inlined AGGRESSIVELY. I'm sure there are a few methods having issues to inline, but I can easily write hand-specialized code to fix those cases. (please let me know if you find such cases, so I can fix them)
 
 ## Generic Performance
 This deserves its own section since it's a complicated "it depends".
