@@ -17,174 +17,41 @@
 package org.lidiuma.math_benchmark;
 
 import org.jspecify.annotations.NullMarked;
-import org.lidiuma.math.rotation.AngleF32;
-import org.lidiuma.math.rotation.AngleF64;
-import org.lidiuma.math.rotation.QuaternionF32;
-import org.lidiuma.math.rotation.Rotations;
+import org.lidiuma.math.matrix.Affine3F32;
 import org.lidiuma.math.vector.Vec3F32;
-import org.lidiuma.math.vector.Vectors;
 import org.openjdk.jmh.Main;
-import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.infra.Blackhole;
 import java.util.Arrays;
-import java.util.Random;
 
 @NullMarked
-@State(Scope.Thread)
-@SuppressWarnings("unused")
-public class BenchmarkMain {
+public final class BenchmarkMain {
 
     static void main(String... args) throws Exception {
-        System.out.println(Arrays.toString(args));
+        IO.println(Arrays.toString(args));
         Main.main(args);
     }
 
-    private AngleF32 angleF32 = Rotations.radians(0f); // Default value, not actually used.
-    private AngleF64 angleF64 = Rotations.radians(0d); // Default value, not actually used.
-    private float xf;
-    private float yf;
-    private float zf;
-    private Float xwf;
-    private Float ywf;
-    private Float zwf;
-    private double xd;
-    private double yd;
-    private double zd;
-    private QuaternionF32 quat = Rotations.identityF32();
-    private Vec3F32 vector = Vectors.zeroVec3F32(); // Default value, not actually used.
+    public static void consume(Blackhole hole, Affine3F32 affine) {
 
-    @Setup
-    public void setup() {
+        hole.consume(affine.m00());
+        hole.consume(affine.m01());
+        hole.consume(affine.m02());
+        hole.consume(affine.m03());
 
-        final var random = new Random();
-        angleF32 = Rotations.radians(random.nextFloat());
-        angleF64 = Rotations.radians(random.nextDouble());
+        hole.consume(affine.m10());
+        hole.consume(affine.m11());
+        hole.consume(affine.m12());
+        hole.consume(affine.m13());
 
-        xf = random.nextFloat(); yf = random.nextFloat(); zf = random.nextFloat();
-        xd = random.nextDouble(); yd = random.nextDouble(); zd = random.nextDouble();
-        xwf = xf; ywf = yf; zwf = zf;
-
-        this.quat = Rotations.fromAxisAngle(Vectors.vec3(0f, 1f, 0f), angleF32);
-        vector = Vectors.vec3(xf, yf, zf);
+        hole.consume(affine.m20());
+        hole.consume(affine.m21());
+        hole.consume(affine.m22());
+        hole.consume(affine.m23());
     }
 
-    @Benchmark
-    @Warmup(iterations = 1,  time = 20)
-    @Measurement(iterations = 1,  time = 20)
-    @Fork(1)
-    public void rotationCached(Blackhole hole) {
-
-        final var r = Rotations.rotate(quat, vector);
-
-        // Feeding the vector directly will force it to go onto the heap, killing performance.
-        hole.consume(r.x());
-        hole.consume(r.y());
-        hole.consume(r.z());
-    }
-
-    @Benchmark
-    @Warmup(iterations = 1,  time = 20)
-    @Measurement(iterations = 1,  time = 30)
-    @Fork(1)
-    public void rotationF32(Blackhole hole) {
-
-        final var yAxis = Vectors.vec3(0f, 1f, 0f);
-        final var v3 = Vectors.vec3(xf, yf, zf);
-        final var quat = Rotations.fromAxisAngle(yAxis, angleF32);
-        final var r = Rotations.rotate(quat, v3); // I rotate v3 on the yAxis by angle.
-
-        // Feeding the vector directly will force it to go onto the heap, killing performance.
-        hole.consume(r.x());
-        hole.consume(r.y());
-        hole.consume(r.z());
-    }
-
-    @Benchmark
-    @Warmup(iterations = 1,  time = 20)
-    @Measurement(iterations = 1,  time = 30)
-    @Fork(1)
-    public void rotationF64(Blackhole hole) {
-
-        final var yAxis = Vectors.vec3(0d, 1d, 0d);
-        final var v3 = Vectors.vec3(xd, yd, zd);
-        final var quat = Rotations.fromAxisAngle(yAxis, angleF64);
-        final var r = Rotations.rotate(quat, v3); // I rotate v3 on the yAxis by angle.
-
-        // Feeding the vector directly will force it to go onto the heap, killing performance.
-        hole.consume(r.x());
-        hole.consume(r.y());
-        hole.consume(r.z());
-    }
-
-    @Benchmark
-    @Warmup(iterations = 1,  time = 20)
-    @Measurement(iterations = 1,  time = 20)
-    @Fork(1)
-    public void operations(Blackhole hole) {
-
-        final var r1 = Vectors.add(Vectors.vec3(xf, yf, zf), Vectors.vec3(zf, yf, zf));
-        final var r2 = Vectors.multiply(r1, zf);
-        final var r3 = Vectors.divide(r2, Vectors.vec3(2f, xf + 1f, 2f));
-        final var r = Vectors.subtract(r3, Vectors.vec3(yf - 2f, zf, xf));
-
-        // Feeding the vector directly will force it to go onto the heap, killing performance.
-        hole.consume(r.x());
-        hole.consume(r.y());
-        hole.consume(r.z());
-    }
-
-    @Benchmark
-    @Warmup(iterations = 1,  time = 20)
-    @Measurement(iterations = 1,  time = 20)
-    @Fork(1)
-    public void operationsPrimitives(Blackhole hole) {
-
-        final float r1x = xf + zf;
-        final float r1y = yf + yf;
-        final float r1z = zf + zf;
-
-        final float r2x = r1x * zf;
-        final float r2y = r1y * zf;
-        final float r2z = r1z * zf;
-
-        final float r3x = r2x / 2f;
-        final float r3y = r2y / xf + 1f;
-        final float r3z = r2z / 2f;
-
-        final float rx = r3x - yf - 2f;
-        final float ry = r3y - zf;
-        final float rz = r3z - xf;
-
-        hole.consume(rx);
-        hole.consume(ry);
-        hole.consume(rz);
-    }
-
-    @Benchmark
-    @Warmup(iterations = 1,  time = 20)
-    @Measurement(iterations = 1,  time = 20)
-    @Fork(1)
-    @SuppressWarnings("")
-    public void operationsWrapper(Blackhole hole) {
-
-        final Float r1x = xwf + zwf;
-        final Float r1y = ywf + ywf;
-        final Float r1z = zwf + zwf;
-
-        final Float r2x = r1x * zwf;
-        final Float r2y = r1y * zwf;
-        final Float r2z = r1z * zwf;
-
-        final Float r3x = r2x / 2f;
-        final Float r3y = r2y / xwf + 1f;
-        final Float r3z = r2z / 2f;
-
-        final Float rx = r3x - ywf - 2f;
-        final Float ry = r3y - zwf;
-        final Float rz = r3z - xwf;
-
-        hole.consume(rx);
-        hole.consume(ry);
-        hole.consume(rz);
+    public static void consume(Blackhole hole, Vec3F32 vec) {
+        hole.consume(vec.x());
+        hole.consume(vec.y());
+        hole.consume(vec.z());
     }
 }

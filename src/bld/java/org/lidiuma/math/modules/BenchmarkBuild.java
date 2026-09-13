@@ -63,8 +63,7 @@ public final class BenchmarkBuild extends MathModule {
 //        operation.javaOptions().add("-XX:+UseEpsilonGC");
 
         final var options = operation.runOptions();
-        options.remove("-prof=gc"); // Remove to avoid doubles.
-        options.add("-prof=gc"); // I want to see how much garbage collection occurs.
+//        options.add("-prof=gc"); // I want to see how much garbage collection occurs.
     }
 
     @Override
