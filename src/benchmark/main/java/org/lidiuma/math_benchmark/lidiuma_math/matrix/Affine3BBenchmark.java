@@ -21,6 +21,7 @@ import org.lidiuma.math.rotation.AngleF32;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.infra.Blackhole;
 import java.util.concurrent.TimeUnit;
+import java.util.random.RandomGeneratorFactory;
 import static org.lidiuma.math.matrix.Matrices.*;
 import static org.lidiuma.math.rotation.Rotations.fromAxisAngle;
 import static org.lidiuma.math.rotation.Rotations.radians;
@@ -36,10 +37,11 @@ import static org.lidiuma.math_benchmark.BenchmarkMain.consume;
 @Fork(1)
 @Threads(1)
 @OperationsPerInvocation(5)
-public class Matrix4fBenchmarks { // Cannot do rotations with full Matrix4 classes. (it's equivalent to Matrix4x3)
+public final class Affine3BBenchmark {
+
 	private static final AngleF32 ROTATION = radians(32f);
 	private Affine3F32 matrix;
-	
+
 	@Setup(Level.Iteration)
 	public void setupMatrix() {
 		final var translation = vec3(32F, 0.5F, 1F);
@@ -65,5 +67,25 @@ public class Matrix4fBenchmarks { // Cannot do rotations with full Matrix4 class
 	public void testMatrixTransform(Blackhole hole) {
 		// TODO In a future release use Point3F32.
 		consume(hole, multiply(matrix, vec3(1f, 3f, 6f)));
+	}
+	
+	@Benchmark
+	@OperationsPerInvocation(100)
+	public void testBoneAnimation(Blackhole hole, AnimationContainer container) {
+		final var processed = container.animation.process();
+		for (Affine3F32 a : processed) consume(hole, a);
+	}
+
+	@State(Scope.Benchmark)
+	public static class AnimationContainer {
+		private BoneAnimation animation;
+		
+		@Param("100")
+		public int operationMultiplier;
+
+		@Setup(Level.Iteration)
+		public void setupContainer() {
+			animation = new BoneAnimation(operationMultiplier, RandomGeneratorFactory.getDefault().create(32231212134522L));
+		}
 	}
 }

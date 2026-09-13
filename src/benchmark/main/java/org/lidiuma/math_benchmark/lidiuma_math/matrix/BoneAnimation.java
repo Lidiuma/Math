@@ -28,7 +28,8 @@ import static org.lidiuma.math.rotation.Rotations.normalize;
 import static org.lidiuma.math.vector.Vectors.*;
 import static org.lidiuma.math.vector.Vectors.multiply;
 
-public class BoneAnimation {
+public final class BoneAnimation {
+
 	int size;
 	Vec3F32[] translationStart;
 	QuaternionF32[] rotationStart;
