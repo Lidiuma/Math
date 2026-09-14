@@ -26,6 +26,8 @@ import org.lidiuma.math.processor.FactoryAlias;
 import org.lidiuma.math.processor.FieldAlias;
 import org.lidiuma.math.processor.NamedAlias;
 import org.lidiuma.math.vector.Vec3F64;
+import java.util.function.UnaryOperator;
+import static java.lang.Math.fma;
 import static org.lidiuma.math.internal.AnnotationConst.*;
 
 @FactoryAlias(methodName = QUATERNION_FACTORY, outputClass = ROTATION_OUT)
@@ -281,18 +283,223 @@ public value record QuaternionF64(
             return DoubleNumeric.OPS;
         }
 
-        /* ==== Handcrafted Optimizations ==== */
+        @Override
+        public Double sum(QuaternionF64 quaternion) {
+            return quaternion.x() + quaternion.y() + quaternion.z() + quaternion.w();
+        }
 
-        // Removes GC allocations, giving a ~+58.42% speed boost.
-        // The original method was too large for inlining.
+        @Override
+        public QuaternionF64 conjugate(QuaternionF64 quaternion) {
+            return of(
+                    -quaternion.x(),
+                    -quaternion.y(),
+                    -quaternion.z(),
+                    quaternion.w()
+            );
+        }
+
+        @Override
+        public QuaternionF64 invert(QuaternionF64 quaternion) {
+            return multiply(conjugate(quaternion), 1d / lengthSquared(quaternion));
+        }
+
+        @Override
+        public Double length(QuaternionF64 quaternion) {
+            return Math.sqrt(lengthSquared(quaternion));
+        }
+
+        @Override
+        public Double lengthSquared(QuaternionF64 quaternion) {
+            return dot(quaternion, quaternion);
+        }
+
+        @Override
+        public QuaternionF64 withLength(QuaternionF64 quaternion, Double length) {
+            return withMagnitude(quaternion, length, length(quaternion));
+        }
+
+        @Override
+        public QuaternionF64 withLimit(QuaternionF64 quaternion, Double limit) {
+            final Double length = length(quaternion);
+            return length <= limit ? quaternion : withMagnitude(quaternion, limit, length);
+        }
+
+        @Override
+        public Double dot(QuaternionF64 q1, QuaternionF64 q2) {
+            return sum(multiplyHadamard(q1, q2));
+        }
+
+        @Override
+        public QuaternionF64 normalize(QuaternionF64 quaternion) {
+            return withLength(quaternion, 1d);
+        }
+
+        @Override
+        public QuaternionF64 normalize(QuaternionF64 quaternion, Double epsilon, QuaternionF64 fallback) {
+            return epsilonEquals(quaternion, zero(), epsilon) ? fallback : normalize(quaternion);
+        }
+
+        @Override
+        public QuaternionF64 nlerp(QuaternionF64 start, QuaternionF64 end, Double alpha) {
+            return normalize(lerp(
+                    start,
+                    dot(start, end) < 0d ? negated(end) : end,
+                    alpha
+            ));
+        }
+
+        @Override
+        public QuaternionF64 interpolate(QuaternionF64 start, QuaternionF64 end, Double alpha, UnaryOperator<Double> easing) {
+            final Double eased = easing.apply(alpha);
+            return add(multiply(start, 1d - eased), multiply(end, eased));
+        }
+
+        @Override
+        public boolean epsilonEquals(QuaternionF64 q1, QuaternionF64 q2, Double epsilon) {
+            final var vec = abs(subtract(q1, q2));
+            if (vec.x() > epsilon) return false;
+            if (vec.y() > epsilon) return false;
+            if (vec.z() > epsilon) return false;
+            return vec.w() <= epsilon;
+        }
+
+        @Override
+        public QuaternionF64 multiply(QuaternionF64 quaternion, Double scalar) {
+            return multiplyHadamard(quaternion, of(scalar, scalar, scalar, scalar));
+        }
+
+        @Override
+        public QuaternionF64 multiplyHadamard(QuaternionF64 op1, QuaternionF64 op2) {
+            return of(
+                    op1.x() * op2.x(),
+                    op1.y() * op2.y(),
+                    op1.z() * op2.z(),
+                    op1.w() * op2.w()
+            );
+        }
+
+        @Override
+        public QuaternionF64 divideHadamard(QuaternionF64 op1, QuaternionF64 op2) {
+            return of(
+                    op1.x() / op2.x(),
+                    op1.y() / op2.y(),
+                    op1.z() / op2.z(),
+                    op1.w() / op2.w()
+            );
+        }
+
+        @Override
+        public QuaternionF64 add(QuaternionF64 op1, QuaternionF64 op2) {
+            return of(
+                    op1.x() + op2.x(),
+                    op1.y() + op2.y(),
+                    op1.z() + op2.z(),
+                    op1.w() + op2.w()
+            );
+        }
+
+        @Override
+        public QuaternionF64 subtract(QuaternionF64 op1, QuaternionF64 op2) {
+            return of(
+                    op1.x() - op2.x(),
+                    op1.y() - op2.y(),
+                    op1.z() - op2.z(),
+                    op1.w() - op2.w()
+            );
+        }
+
         @Override
         public QuaternionF64 multiply(QuaternionF64 op1, QuaternionF64 op2) {
-            return new QuaternionF64(
-                    op1.w() * op2.x() + op1.x() * op2.w() + op1.y() * op2.z() - op1.z() * op2.y(),
-                    op1.w() * op2.y() + op1.y() * op2.w() + op1.z() * op2.x() - op1.x() * op2.z(),
-                    op1.w() * op2.z() + op1.z() * op2.w() + op1.x() * op2.y() - op1.y() * op2.x(),
-                    op1.w() * op2.w() - op1.x() * op2.x() - op1.y() * op2.y() + op1.z() * op2.z()
+            return of(
+                    fma(op1.w(), op2.x(), fma(op1.x(), op2.w(), fma(op1.y(), op2.z(), -op1.z() * op2.y()))),
+                    fma(op1.w(), op2.y(), fma(op1.y(), op2.w(), fma(op1.z(), op2.x(), -op1.x() * op2.z()))),
+                    fma(op1.w(), op2.z(), fma(op1.z(), op2.w(), fma(op1.x(), op2.y(), -op1.y() * op2.x()))),
+                    fma(op1.w(), op2.w(),-fma(op1.x(), op2.x(),-fma(op1.y(), op2.y(),  op1.z() * op2.z())))
             );
+        }
+
+        @Override
+        public QuaternionF64 divide(QuaternionF64 op1, QuaternionF64 op2) {
+            return multiply(op1, invert(op2));
+        }
+
+        @Override
+        public QuaternionF64 remainder(QuaternionF64 op1, QuaternionF64 op2) {
+            return of(
+                    op1.x() % op2.x(),
+                    op1.y() % op2.y(),
+                    op1.z() % op2.z(),
+                    op1.w() % op2.w()
+            );
+        }
+
+        @Override
+        public QuaternionF64 negated(QuaternionF64 quaternion) {
+            return of(
+                    -quaternion.x(),
+                    -quaternion.y(),
+                    -quaternion.z(),
+                    -quaternion.w()
+            );
+        }
+
+        @Override
+        public QuaternionF64 signum(QuaternionF64 quaternion) {
+            return of(
+                    Math.signum(quaternion.x()),
+                    Math.signum(quaternion.y()),
+                    Math.signum(quaternion.z()),
+                    Math.signum(quaternion.w())
+            );
+        }
+
+        @Override
+        public QuaternionF64 sqrt(QuaternionF64 quaternion) {
+            return of(
+                    Math.sqrt(quaternion.x()),
+                    Math.sqrt(quaternion.y()),
+                    Math.sqrt(quaternion.z()),
+                    Math.sqrt(quaternion.w())
+            );
+        }
+
+        @Override
+        public QuaternionF64 ceil(QuaternionF64 quaternion) {
+            return of(
+                    Math.ceil(quaternion.x()),
+                    Math.ceil(quaternion.y()),
+                    Math.ceil(quaternion.z()),
+                    Math.ceil(quaternion.w())
+            );
+        }
+
+        @Override
+        public QuaternionF64 floor(QuaternionF64 quaternion) {
+            return of(
+                    Math.floor(quaternion.x()),
+                    Math.floor(quaternion.y()),
+                    Math.floor(quaternion.z()),
+                    Math.floor(quaternion.w())
+            );
+        }
+
+        @Override
+        public QuaternionF64 lerp(QuaternionF64 start, QuaternionF64 end, Double alpha) {
+            return interpolate(start, end, alpha, UnaryOperator.identity());
+        }
+
+        @Override
+        public QuaternionF64 abs(QuaternionF64 quaternion) {
+            return of(
+                    Math.abs(quaternion.x()),
+                    Math.abs(quaternion.y()),
+                    Math.abs(quaternion.z()),
+                    Math.abs(quaternion.w())
+            );
+        }
+
+        private QuaternionF64 withMagnitude(QuaternionF64 quat, Double wanted, Double current) {
+            return multiply(quat, wanted / current);
         }
     }
 }

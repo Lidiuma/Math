@@ -26,6 +26,8 @@ import org.lidiuma.math.processor.FactoryAlias;
 import org.lidiuma.math.processor.FieldAlias;
 import org.lidiuma.math.processor.NamedAlias;
 import org.lidiuma.math.vector.Vec3F32;
+import java.util.function.UnaryOperator;
+import static java.lang.Math.fma;
 import static org.lidiuma.math.internal.AnnotationConst.*;
 
 @FactoryAlias(methodName = QUATERNION_FACTORY, outputClass = ROTATION_OUT)
@@ -281,18 +283,223 @@ public value record QuaternionF32(
             return FloatNumeric.OPS;
         }
 
-        /* ==== Handcrafted Optimizations ==== */
+        @Override
+        public Float sum(QuaternionF32 quaternion) {
+            return quaternion.x() + quaternion.y() + quaternion.z() + quaternion.w();
+        }
 
-        // Removes GC allocations, giving a ~+34.67% speed boost.
-        // The original method was too large for inlining.
+        @Override
+        public QuaternionF32 conjugate(QuaternionF32 quaternion) {
+            return of(
+                    -quaternion.x(),
+                    -quaternion.y(),
+                    -quaternion.z(),
+                    quaternion.w()
+            );
+        }
+
+        @Override
+        public QuaternionF32 invert(QuaternionF32 quaternion) {
+            return multiply(conjugate(quaternion), 1f / lengthSquared(quaternion));
+        }
+
+        @Override
+        public Float length(QuaternionF32 quaternion) {
+            return (float) Math.sqrt(lengthSquared(quaternion));
+        }
+
+        @Override
+        public Float lengthSquared(QuaternionF32 quaternion) {
+            return dot(quaternion, quaternion);
+        }
+
+        @Override
+        public QuaternionF32 withLength(QuaternionF32 quaternion, Float length) {
+            return withMagnitude(quaternion, length, length(quaternion));
+        }
+
+        @Override
+        public QuaternionF32 withLimit(QuaternionF32 quaternion, Float limit) {
+            final float length = length(quaternion);
+            return length <= limit ? quaternion : withMagnitude(quaternion, limit, length);
+        }
+
+        @Override
+        public Float dot(QuaternionF32 q1, QuaternionF32 q2) {
+            return sum(multiplyHadamard(q1, q2));
+        }
+
+        @Override
+        public QuaternionF32 normalize(QuaternionF32 quaternion) {
+            return withLength(quaternion, 1f);
+        }
+
+        @Override
+        public QuaternionF32 normalize(QuaternionF32 quaternion, Float epsilon, QuaternionF32 fallback) {
+            return epsilonEquals(quaternion, zero(), epsilon) ? fallback : normalize(quaternion);
+        }
+
+        @Override
+        public QuaternionF32 nlerp(QuaternionF32 start, QuaternionF32 end, Float alpha) {
+            return normalize(lerp(
+                    start,
+                    dot(start, end) < 0f ? negated(end) : end,
+                    alpha
+            ));
+        }
+
+        @Override
+        public QuaternionF32 interpolate(QuaternionF32 start, QuaternionF32 end, Float alpha, UnaryOperator<Float> easing) {
+            final float eased = easing.apply(alpha);
+            return add(multiply(start, 1f - eased), multiply(end, eased));
+        }
+
+        @Override
+        public boolean epsilonEquals(QuaternionF32 q1, QuaternionF32 q2, Float epsilon) {
+            final var vec = abs(subtract(q1, q2));
+            if (vec.x() > epsilon) return false;
+            if (vec.y() > epsilon) return false;
+            if (vec.z() > epsilon) return false;
+            return vec.w() <= epsilon;
+        }
+
+        @Override
+        public QuaternionF32 multiply(QuaternionF32 quaternion, Float scalar) {
+            return multiplyHadamard(quaternion, of(scalar, scalar, scalar, scalar));
+        }
+
+        @Override
+        public QuaternionF32 multiplyHadamard(QuaternionF32 op1, QuaternionF32 op2) {
+            return of(
+                    op1.x() * op2.x(),
+                    op1.y() * op2.y(),
+                    op1.z() * op2.z(),
+                    op1.w() * op2.w()
+            );
+        }
+
+        @Override
+        public QuaternionF32 divideHadamard(QuaternionF32 op1, QuaternionF32 op2) {
+            return of(
+                    op1.x() / op2.x(),
+                    op1.y() / op2.y(),
+                    op1.z() / op2.z(),
+                    op1.w() / op2.w()
+            );
+        }
+
+        @Override
+        public QuaternionF32 add(QuaternionF32 op1, QuaternionF32 op2) {
+            return of(
+                    op1.x() + op2.x(),
+                    op1.y() + op2.y(),
+                    op1.z() + op2.z(),
+                    op1.w() + op2.w()
+            );
+        }
+
+        @Override
+        public QuaternionF32 subtract(QuaternionF32 op1, QuaternionF32 op2) {
+            return of(
+                    op1.x() - op2.x(),
+                    op1.y() - op2.y(),
+                    op1.z() - op2.z(),
+                    op1.w() - op2.w()
+            );
+        }
+
         @Override
         public QuaternionF32 multiply(QuaternionF32 op1, QuaternionF32 op2) {
-            return new QuaternionF32(
-                    op1.w() * op2.x() + op1.x() * op2.w() + op1.y() * op2.z() - op1.z() * op2.y(),
-                    op1.w() * op2.y() + op1.y() * op2.w() + op1.z() * op2.x() - op1.x() * op2.z(),
-                    op1.w() * op2.z() + op1.z() * op2.w() + op1.x() * op2.y() - op1.y() * op2.x(),
-                    op1.w() * op2.w() - op1.x() * op2.x() - op1.y() * op2.y() + op1.z() * op2.z()
+            return of(
+                    fma(op1.w(), op2.x(), fma(op1.x(), op2.w(), fma(op1.y(), op2.z(), -op1.z() * op2.y()))),
+                    fma(op1.w(), op2.y(), fma(op1.y(), op2.w(), fma(op1.z(), op2.x(), -op1.x() * op2.z()))),
+                    fma(op1.w(), op2.z(), fma(op1.z(), op2.w(), fma(op1.x(), op2.y(), -op1.y() * op2.x()))),
+                    fma(op1.w(), op2.w(),-fma(op1.x(), op2.x(),-fma(op1.y(), op2.y(),  op1.z() * op2.z())))
             );
+        }
+
+        @Override
+        public QuaternionF32 divide(QuaternionF32 op1, QuaternionF32 op2) {
+            return multiply(op1, invert(op2));
+        }
+
+        @Override
+        public QuaternionF32 remainder(QuaternionF32 op1, QuaternionF32 op2) {
+            return of(
+                    op1.x() % op2.x(),
+                    op1.y() % op2.y(),
+                    op1.z() % op2.z(),
+                    op1.w() % op2.w()
+            );
+        }
+
+        @Override
+        public QuaternionF32 negated(QuaternionF32 quaternion) {
+            return of(
+                    -quaternion.x(),
+                    -quaternion.y(),
+                    -quaternion.z(),
+                    -quaternion.w()
+            );
+        }
+
+        @Override
+        public QuaternionF32 signum(QuaternionF32 quaternion) {
+            return of(
+                    Math.signum(quaternion.x()),
+                    Math.signum(quaternion.y()),
+                    Math.signum(quaternion.z()),
+                    Math.signum(quaternion.w())
+            );
+        }
+
+        @Override
+        public QuaternionF32 sqrt(QuaternionF32 quaternion) {
+            return of(
+                    (float) Math.sqrt(quaternion.x()),
+                    (float) Math.sqrt(quaternion.y()),
+                    (float) Math.sqrt(quaternion.z()),
+                    (float) Math.sqrt(quaternion.w())
+            );
+        }
+
+        @Override
+        public QuaternionF32 ceil(QuaternionF32 quaternion) {
+            return of(
+                    (float) Math.ceil(quaternion.x()),
+                    (float) Math.ceil(quaternion.y()),
+                    (float) Math.ceil(quaternion.z()),
+                    (float) Math.ceil(quaternion.w())
+            );
+        }
+
+        @Override
+        public QuaternionF32 floor(QuaternionF32 quaternion) {
+            return of(
+                    (float) Math.floor(quaternion.x()),
+                    (float) Math.floor(quaternion.y()),
+                    (float) Math.floor(quaternion.z()),
+                    (float) Math.floor(quaternion.w())
+            );
+        }
+
+        @Override
+        public QuaternionF32 lerp(QuaternionF32 start, QuaternionF32 end, Float alpha) {
+            return interpolate(start, end, alpha, UnaryOperator.identity());
+        }
+
+        @Override
+        public QuaternionF32 abs(QuaternionF32 quaternion) {
+            return of(
+                    Math.abs(quaternion.x()),
+                    Math.abs(quaternion.y()),
+                    Math.abs(quaternion.z()),
+                    Math.abs(quaternion.w())
+            );
+        }
+
+        private QuaternionF32 withMagnitude(QuaternionF32 quat, float wanted, float current) {
+            return multiply(quat, wanted / current);
         }
     }
 }
