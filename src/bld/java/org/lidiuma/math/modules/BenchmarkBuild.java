@@ -37,6 +37,7 @@ public final class BenchmarkBuild extends MathModule {
         downloadSources = true;
         repositories = List.of(MAVEN_CENTRAL, RIFE2_RELEASES);
         version = version(0, 2, 0);
+        javaRelease = 28;
         assignModuleDirectories("benchmark");
 
         // I use the relative path because bld does not yet support full paths.
