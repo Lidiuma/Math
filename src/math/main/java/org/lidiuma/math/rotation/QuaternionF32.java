@@ -61,12 +61,11 @@ public value record QuaternionF32(
         public QuaternionF32 fromAxisAngle(Vec3F32 axis, AngleF32 angle) {
             final AngleF32 half = Rotations.multiply(angle, .5f);
             final float sin = Rotations.sin(half);
-            final float cos = Rotations.cos(half);
             return of(
                     (axis.x() * sin),
                     (axis.y() * sin),
                     (axis.z() * sin),
-                    cos
+                    Rotations.cos(half)
             );
         }
 
@@ -326,7 +325,7 @@ public value record QuaternionF32(
 
         @Override
         public Float dot(QuaternionF32 q1, QuaternionF32 q2) {
-            return sum(multiplyHadamard(q1, q2));
+            return fma(q1.x(), q2.x(), fma(q1.y(), q2.y(), fma(q1.z(), q2.z(), q1.w() * q2.w())));
         }
 
         @Override

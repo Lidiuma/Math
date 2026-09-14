@@ -61,12 +61,11 @@ public value record QuaternionF64(
         public QuaternionF64 fromAxisAngle(Vec3F64 axis, AngleF64 angle) {
             final AngleF64 half = Rotations.multiply(angle, .5d);
             final double sin = Rotations.sin(half);
-            final double cos = Rotations.cos(half);
             return of(
                     (axis.x() * sin),
                     (axis.y() * sin),
                     (axis.z() * sin),
-                    cos
+                    Rotations.cos(half)
             );
         }
 
@@ -326,7 +325,7 @@ public value record QuaternionF64(
 
         @Override
         public Double dot(QuaternionF64 q1, QuaternionF64 q2) {
-            return sum(multiplyHadamard(q1, q2));
+            return fma(q1.x(), q2.x(), fma(q1.y(), q2.y(), fma(q1.z(), q2.z(), q1.w() * q2.w())));
         }
 
         @Override
