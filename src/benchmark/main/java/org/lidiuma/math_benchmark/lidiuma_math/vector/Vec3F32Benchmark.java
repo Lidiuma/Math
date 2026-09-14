@@ -32,7 +32,7 @@ import static org.lidiuma.math_benchmark.BenchmarkMain.consume;
 @Fork(1)
 @Threads(1)
 @OperationsPerInvocation(5)
-public final class Vec3F32Benchmark {
+public class Vec3F32Benchmark {
 
 	Vec3F32 a;
 	Vec3F32 b;	

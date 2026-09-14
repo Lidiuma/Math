@@ -37,7 +37,7 @@ import static org.lidiuma.math_benchmark.BenchmarkMain.consume;
 @Fork(1)
 @Threads(1)
 @OperationsPerInvocation(5)
-public final class Affine3BBenchmark {
+public class Affine3BBenchmark {
 
 	private static final AngleF32 ROTATION = radians(32f);
 	private Affine3F32 matrix;
