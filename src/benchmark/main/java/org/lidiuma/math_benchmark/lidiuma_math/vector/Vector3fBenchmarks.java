@@ -17,11 +17,10 @@
 package org.lidiuma.math_benchmark.lidiuma_math.vector;
 
 import org.lidiuma.math.vector.Vec3F32;
+import org.lidiuma.math_benchmark.base.vector.Vector3fData;
 import org.openjdk.jmh.annotations.*;
-import org.openjdk.jmh.infra.Blackhole;
 import java.util.concurrent.TimeUnit;
 import static org.lidiuma.math.vector.Vectors.*;
-import static org.lidiuma.math_benchmark.BenchmarkMain.consume;
 
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.NANOSECONDS)
@@ -32,28 +31,28 @@ import static org.lidiuma.math_benchmark.BenchmarkMain.consume;
 @Fork(1)
 @Threads(1)
 @OperationsPerInvocation(5)
-public class Vec3F32Benchmark {
-
+public class Vector3fBenchmarks extends Vector3fData {
 	Vec3F32 a;
 	Vec3F32 b;	
 	
 	@Setup(Level.Iteration)
-	public void setupMatrix() {
-		a = new Vec3F32(0.0f, 1.0f, 0.0f);
-		b = new Vec3F32(1.0f, 0.0f, 0.0f);
+	public void setupVectors() {
+		setupVectorData();
+		a = new Vec3F32(sx, sy, sz);
+		b = new Vec3F32(ex, ey, ez);
 	}
 	
 	@Benchmark
-	public void testCreation(Blackhole hole) {
-		consume(hole, new Vec3F32(1F, 0F, 0F));
+	public Vec3F32 testCreation() {
+		return new Vec3F32(sx, sy, sz);
 	}
 
 	@Benchmark
-	public void testExampleCase(Blackhole hole) {
+	public Vec3F32 testExampleCase() {
 		Vec3F32 c = add(a, b);
-		consume(hole, normalize(cross(c, a)));
+		return normalize(cross(b, c));
 	}
-	
+
 	@Benchmark
 	public float testAngle() {
 		final double dot = dot(a, b);
