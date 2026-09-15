@@ -25,6 +25,7 @@ import org.lidiuma.math.processor.FactoryAlias;
 import org.lidiuma.math.processor.FieldAlias;
 import org.lidiuma.math.processor.NamedAlias;
 import java.util.function.UnaryOperator;
+import static java.lang.Math.fma;
 import static org.lidiuma.math.internal.AnnotationConst.*;
 
 @FactoryAlias(methodName = VEC3_FACTORY, outputClass = VECTOR_OUT)
@@ -166,11 +167,13 @@ public value record Vec3F64(
 
         @Override
         public Vec3F64 interpolate(Vec3F64 start, Vec3F64 end, Double alpha, UnaryOperator<Double> easing) {
-            final var eased = easing.apply(alpha);
-            final var invAlpha = 1d - eased;
-            final var invStart = multiply(start, invAlpha);
-            final var invEnd = multiply(end, eased);
-            return add(invStart, invEnd);
+            final double eased = easing.apply(alpha);
+            final double inv = 1d - eased;
+            return of(
+                    fma(start.x(), inv, end.x() * eased),
+                    fma(start.y(), inv, end.y() * eased),
+                    fma(start.z(), inv, end.z() * eased)
+            );
         }
 
         @Override
