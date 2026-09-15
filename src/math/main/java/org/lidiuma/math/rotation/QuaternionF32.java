@@ -350,7 +350,13 @@ public value record QuaternionF32(
         @Override
         public QuaternionF32 interpolate(QuaternionF32 start, QuaternionF32 end, Float alpha, UnaryOperator<Float> easing) {
             final float eased = easing.apply(alpha);
-            return add(multiply(start, 1f - eased), multiply(end, eased));
+            final float inv = 1f - eased;
+            return new QuaternionF32(
+                    fma(start.x(), inv, end.x() * eased),
+                    fma(start.y(), inv, end.y() * eased),
+                    fma(start.z(), inv, end.z() * eased),
+                    fma(start.w(), inv, end.w() * eased)
+            );
         }
 
         @Override

@@ -349,8 +349,14 @@ public value record QuaternionF64(
 
         @Override
         public QuaternionF64 interpolate(QuaternionF64 start, QuaternionF64 end, Double alpha, UnaryOperator<Double> easing) {
-            final Double eased = easing.apply(alpha);
-            return add(multiply(start, 1d - eased), multiply(end, eased));
+            final double eased = easing.apply(alpha);
+            final double inv = 1f - eased;
+            return new QuaternionF64(
+                    fma(start.x(), inv, end.x() * eased),
+                    fma(start.y(), inv, end.y() * eased),
+                    fma(start.z(), inv, end.z() * eased),
+                    fma(start.w(), inv, end.w() * eased)
+            );
         }
 
         @Override
