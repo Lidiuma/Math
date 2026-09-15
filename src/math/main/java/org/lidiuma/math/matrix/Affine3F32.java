@@ -155,9 +155,9 @@ public value record Affine3F32(
         @Override
         public Affine3F32 fromAxes(Vec3F32 xAxis, Vec3F32 yAxis, Vec3F32 zAxis, Vec3F32 translation) {
             return of(
-                    xAxis.x(), xAxis.y(), xAxis.z(), translation.x(),
-                    yAxis.x(), yAxis.y(), yAxis.z(), translation.y(),
-                    zAxis.x(), zAxis.y(), zAxis.z(), translation.z()
+                    xAxis.x(), yAxis.x(), zAxis.x(), translation.x(),
+                    xAxis.y(), yAxis.y(), zAxis.y(), translation.y(),
+                    xAxis.z(), yAxis.z(), zAxis.z(), translation.z()
             );
         }
 
