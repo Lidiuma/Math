@@ -21,7 +21,6 @@ import org.lidiuma.math.rotation.QuaternionF32;
 import org.lidiuma.math.vector.Vec3F32;
 import java.util.random.RandomGenerator;
 import static org.lidiuma.math.matrix.Matrices.*;
-import static org.lidiuma.math.matrix.Matrices.multiply;
 import static org.lidiuma.math.rotation.Rotations.nlerp;
 import static org.lidiuma.math.rotation.Rotations.normalize;
 import static org.lidiuma.math.vector.Vectors.*;
@@ -76,7 +75,7 @@ public class BoneAnimation {
 			Vec3F32 translation = lerp(translationStart[i], translationEnd[i], t);
 			QuaternionF32 rotation = nlerp(rotationStart[i], rotationEnd[i], t);
 			Vec3F32 scale = lerp(scaleStart[i], scaleEnd[i], t);
-			results[i] = multiply(fromTRS(translation, rotation, scale), inverseMatrices[i]);
+			results[i] = fromTRSMultiply(translation, rotation, scale, inverseMatrices[i]);
 		}
 		return results;
 	}
