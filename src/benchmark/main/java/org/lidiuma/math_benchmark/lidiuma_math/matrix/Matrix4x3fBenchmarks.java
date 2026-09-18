@@ -17,6 +17,7 @@
 package org.lidiuma.math_benchmark.lidiuma_math.matrix;
 
 import org.lidiuma.math.matrix.Affine3F32;
+import org.lidiuma.math.matrix.Matrices;
 import org.lidiuma.math.rotation.QuaternionF32;
 import org.lidiuma.math.vector.Vec3F32;
 import org.lidiuma.math_benchmark.base.matrix.Matrix4x3fData;
@@ -54,13 +55,15 @@ public class Matrix4x3fBenchmarks extends Matrix4x3fData {
 
 	@Benchmark
 	public Affine3F32 testStandardOperation(Blackhole hole) {
-		return multiply(
-				fromTranslation(vec3(tx, ty, tz)),
-				multiply(
-						fromRotation(fromAxisAngle(vec3(ax, ay, az), radians(angle))),
-						fromScale(vec3(sx, sy, sz))
-				)
-		);
+		final var translation = fromTranslation(vec3(tx, ty, tz));
+		final var rotation = fromRotation(fromAxisAngle(vec3(ax, ay, az), radians(angle)));
+		final var scale = fromScale(vec3(sx, sy, sz));
+		return multiply(translation, multiply(rotation, scale));
+	}
+
+	@Benchmark
+	public Affine3F32 testStandardOperationOptimized(Blackhole hole) {
+		return Matrices.fromTRS(vec3(tx, ty, tz), fromRotation(fromAxisAngle(vec3(ax, ay, az), radians(angle))), vec3(sx, sy, sz));
 	}
 
 	@Benchmark
