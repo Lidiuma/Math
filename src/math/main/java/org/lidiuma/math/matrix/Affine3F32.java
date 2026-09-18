@@ -74,21 +74,17 @@ public value record Affine3F32(
         private Ops() {}
 
         /// Creates a transformation matrix from translation, rotation, and scale.
-        public Affine3F32 fromTRS(Affine3F32 translation, Affine3F32 rotation, Affine3F32 scale) {
-            return multiply(translation, multiply(rotation, scale));
+        public Affine3F32 fromTRS(Vec3F32 translation, Affine3F32 rotation, Vec3F32 scale) {
+            return new Affine3F32(
+                    rotation.m00() * scale.x(), rotation.m01() * scale.y(), rotation.m02() * scale.z(), translation.x(),
+                    rotation.m10() * scale.x(), rotation.m11() * scale.y(), rotation.m12() * scale.z(), translation.y(),
+                    rotation.m20() * scale.x(), rotation.m21() * scale.y(), rotation.m22() * scale.z(), translation.z()
+            );
         }
 
         /// Creates a transformation matrix from translation, rotation, and scale.
         public Affine3F32 fromTRS(Vec3F32 translation, QuaternionF32 rotation, Vec3F32 scale) {
-            final float xs = rotation.x() * 2f, ys = rotation.y() * 2f, zs = rotation.z() * 2f;
-            final float wx = rotation.w() * xs, wy = rotation.w() * ys, wz = rotation.w() * zs;
-            final float xx = rotation.x() * xs, xy = rotation.x() * ys, xz = rotation.x() * zs;
-            final float yy = rotation.y() * ys, yz = rotation.y() * zs, zz = rotation.z() * zs;
-            return new Affine3F32(
-                    (1f - (yy + zz)) * scale.x(), (xy - wz) * scale.y()       , (xz + wy) * scale.z(), translation.x(),
-                    (xy + wz) * scale.x()       , (1f - (xx + zz)) * scale.y(), (yz - wx) * scale.z(), translation.y(),
-                    (xz - wy) * scale.x()       , (yz + wx) * scale.y()       , (1f - (xx + yy)) * scale.z(), translation.z()
-            );
+            return fromTRS(translation, fromRotation(rotation), scale);
         }
 
         @Override
