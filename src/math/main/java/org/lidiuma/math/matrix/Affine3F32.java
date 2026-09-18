@@ -3,13 +3,13 @@
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * You may obtain a copy new Affine3F32 the License at
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * WITHOUT WARRANTIES OR CONDITIONS new Affine3F32 ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
@@ -87,6 +87,30 @@ public value record Affine3F32(
             return fromTRS(translation, fromRotation(rotation), scale);
         }
 
+        public Affine3F32 fromTRSMultiply(Vec3F32 translation, Affine3F32 rotation, Vec3F32 scale, Affine3F32 affine) {
+            final var op1 = fromTRS(translation, rotation, scale);
+            final var v1 = rowMul(op1.m00(), op1.m01(), op1.m02(), affine);
+            final var v2 = rowMul(op1.m10(), op1.m11(), op1.m12(), affine);
+            final var v3 = rowMul(op1.m20(), op1.m21(), op1.m22(), affine);
+            return of(
+                    v1.x(), v1.y(), v1.z(), op1.m03(),
+                    v2.x(), v2.y(), v2.z(), op1.m13(),
+                    v3.x(), v3.y(), v3.z(), op1.m23()
+            );
+        }
+
+        public Affine3F32 fromTRSMultiply(Vec3F32 translation, QuaternionF32 rotation, Vec3F32 scale, Affine3F32 affine) {
+            return fromTRSMultiply(translation, fromRotation(rotation), scale, affine);
+        }
+
+        private static Vec3F32 rowMul(float x, float y, float z, Affine3F32 op2) {
+            return new Vec3F32(
+                    fma(x, op2.m00(), fma(y, op2.m10(), z * op2.m20())),
+                    fma(x, op2.m01(), fma(y, op2.m11(), z * op2.m21())),
+                    fma(x, op2.m02(), fma(y, op2.m12(), z * op2.m22()))
+            );
+        }
+
         @Override
         public Affine3F32 fromRotation(QuaternionF32 quaternion) {
             final float xs = quaternion.x() * 2f, ys = quaternion.y() * 2f, zs = quaternion.z() * 2f;
@@ -115,7 +139,7 @@ public value record Affine3F32(
         @Override
         @NamedAlias(methodName = ZERO_FACTORY + UPPER_AFFINE3_FACTORY + F32)
         public Affine3F32 zero() {
-            return of(
+            return new Affine3F32(
                     0f, 0f, 0f, 0f,
                     0f, 0f, 0f, 0f,
                     0f, 0f, 0f, 0f
@@ -125,7 +149,7 @@ public value record Affine3F32(
         @Override
         @NamedAlias(methodName = ONE_FACTORY + UPPER_AFFINE3_FACTORY + F32)
         public Affine3F32 one() {
-            return of(
+            return new Affine3F32(
                     1f, 1f, 1f, 1f,
                     1f, 1f, 1f, 1f,
                     1f, 1f, 1f, 1f
@@ -135,7 +159,7 @@ public value record Affine3F32(
         @Override
         @NamedAlias(methodName = IDENTITY_FACTORY + UPPER_AFFINE3_FACTORY + F32)
         public Affine3F32 identity() {
-            return of(
+            return new Affine3F32(
                     1f, 0f, 0f, 0f,
                     0f, 1f, 0f, 0f,
                     0f, 0f, 1f, 0f
@@ -150,7 +174,7 @@ public value record Affine3F32(
 
         @Override
         public Affine3F32 fromAxes(Vec3F32 xAxis, Vec3F32 yAxis, Vec3F32 zAxis, Vec3F32 translation) {
-            return of(
+            return new Affine3F32(
                     xAxis.x(), yAxis.x(), zAxis.x(), translation.x(),
                     xAxis.y(), yAxis.y(), zAxis.y(), translation.y(),
                     xAxis.z(), yAxis.z(), zAxis.z(), translation.z()
@@ -159,7 +183,7 @@ public value record Affine3F32(
 
         @Override
         public Affine3F32 fromTranslation(Vec3F32 translation) {
-            return of(
+            return new Affine3F32(
                     1f, 0f, 0f, translation.x(),
                     0f, 1f, 0f, translation.y(),
                     0f, 0f, 1f, translation.z());
@@ -167,7 +191,7 @@ public value record Affine3F32(
 
         @Override
         public Affine3F32 fromScale(Vec3F32 scale) {
-            return of(
+            return new Affine3F32(
                     scale.x(), 0f, 0f, 0f,
                     0f, scale.y(), 0f, 0f,
                     0f, 0f, scale.z(), 0f
@@ -176,7 +200,7 @@ public value record Affine3F32(
 
         @Override
         public Affine3F32 transpose(Affine3F32 affine) {
-            return of(
+            return new Affine3F32(
                     affine.m00(), affine.m10(), affine.m20(), affine.m03(),
                     affine.m01(), affine.m11(), affine.m21(), affine.m13(),
                     affine.m02(), affine.m12(), affine.m22(), affine.m23()
@@ -209,7 +233,7 @@ public value record Affine3F32(
             final float m21 = fma(matrix.m01(), matrix.m20(), -matrix.m00() * matrix.m21()) * inv;
             final float m22 = fma(matrix.m00(), matrix.m11(), -matrix.m01() * matrix.m10()) * inv;
 
-            return of(
+            return new Affine3F32(
                     m00, m01, m02, -fma(m00, matrix.m03(), fma(m01, matrix.m13(), m02 * matrix.m23())),
                     m10, m11, m12, -fma(m10, matrix.m03(), fma(m11, matrix.m13(), m12 * matrix.m23())),
                     m20, m21, m22, -fma(m20, matrix.m03(), fma(m21, matrix.m13(), m22 * matrix.m23()))
@@ -227,7 +251,7 @@ public value record Affine3F32(
 
         @Override
         public Affine3F32 multiply(Affine3F32 matrix, Float scalar) {
-            return of(
+            return new Affine3F32(
                     matrix.m00() * scalar,
                     matrix.m01() * scalar,
                     matrix.m02() * scalar,
@@ -245,7 +269,7 @@ public value record Affine3F32(
 
         @Override
         public Affine3F32 add(Affine3F32 op1, Affine3F32 op2) {
-            return of(
+            return new Affine3F32(
                     op1.m00() + op2.m00(),
                     op1.m01() + op2.m01(),
                     op1.m02() + op2.m02(),
@@ -263,7 +287,7 @@ public value record Affine3F32(
 
         @Override
         public Affine3F32 subtract(Affine3F32 op1, Affine3F32 op2) {
-            return of(
+            return new Affine3F32(
                     op1.m00() - op2.m00(),
                     op1.m01() - op2.m01(),
                     op1.m02() - op2.m02(),
@@ -301,7 +325,7 @@ public value record Affine3F32(
 
         @Override
         public Affine3F32 remainder(Affine3F32 op1, Affine3F32 op2) {
-            return of(
+            return new Affine3F32(
                     op1.m00() % op2.m00(),
                     op1.m01() % op2.m01(),
                     op1.m02() % op2.m02(),
@@ -319,7 +343,7 @@ public value record Affine3F32(
 
         @Override
         public Affine3F32 negated(Affine3F32 operand) {
-            return of(
+            return new Affine3F32(
                     -operand.m00(), -operand.m01(), -operand.m02(), -operand.m03(),
                     -operand.m10(), -operand.m11(), -operand.m12(), -operand.m13(),
                     -operand.m20(), -operand.m21(), -operand.m22(), -operand.m23()
@@ -329,7 +353,7 @@ public value record Affine3F32(
         @Override
         public Affine3F32 normalMatrix(Affine3F32 matrix) throws ArithmeticException {
             final var transposed = transpose(inverse(matrix));
-            return of(
+            return new Affine3F32(
                     transposed.m00(), transposed.m01(), transposed.m02(), 0f,
                     transposed.m10(), transposed.m11(), transposed.m12(), 0f,
                     transposed.m20(), transposed.m21(), transposed.m22(), 0f
